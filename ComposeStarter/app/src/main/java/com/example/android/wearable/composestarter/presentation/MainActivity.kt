@@ -23,11 +23,8 @@ import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.rotary.onRotaryScrollEvent
 import androidx.compose.ui.res.stringResource
@@ -134,10 +131,6 @@ fun WearApp(greetingName: String) {
                 item { TextItem("Cosmo") }
                 item { TextItem("Chadwick") }
                 item { TextItem("Clayton") }
-            }
-
-            LaunchedEffect(Unit) {
-                focusRequester.requestFocus()
             }
         }
     }
