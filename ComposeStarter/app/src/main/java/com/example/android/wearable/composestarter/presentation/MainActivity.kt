@@ -18,22 +18,35 @@ package com.example.android.wearable.composestarter.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.focusable
+import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.input.rotary.onRotaryScrollEvent
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.wear.compose.foundation.ExperimentalWearFoundationApi
+import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
+import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
+import androidx.wear.compose.foundation.rememberActiveFocusRequester
 import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material.PositionIndicator
+import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
 import com.example.android.wearable.composestarter.R
 import com.example.android.wearable.composestarter.presentation.theme.WearAppTheme
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import kotlinx.coroutines.launch
 
 /**
  * Simple "Hello, World" app meant as a starting point for a new project using Compose for Wear OS.
@@ -56,6 +69,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalHorologistApi::class, ExperimentalWearFoundationApi::class)
 @Composable
 fun WearApp(greetingName: String) {
     WearAppTheme {
@@ -63,16 +77,86 @@ fun WearApp(greetingName: String) {
          * version of LazyColumn for wear devices with some added features. For more information,
          * see d.android.com/wear/compose.
          */
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colors.background)
-                .selectableGroup(),
-            verticalArrangement = Arrangement.Center
+
+        val listState = rememberScalingLazyListState()
+
+        Scaffold(
+            positionIndicator = {
+                PositionIndicator(scalingLazyListState = listState)
+            }
         ) {
-            Greeting(greetingName = greetingName)
+
+            val focusRequester = rememberActiveFocusRequester()
+            val coroutineScope = rememberCoroutineScope()
+
+            ScalingLazyColumn(
+                modifier = Modifier
+                    .onRotaryScrollEvent {
+                        coroutineScope.launch {
+
+                            // Option #1 (broken in 1.2.0, works in 1.3.0-alpha07)
+                            listState.scrollBy(it.verticalScrollPixels)
+
+                            // Option #2 (broken in 1.2.0 w/o animate9), works in 1.3.0-alpha07)
+//                            listState.scroll(MutatePriority.UserInput) {
+//                                scrollBy(it.verticalScrollPixels)
+//                                animate(0f, 0f) { _, _ -> } // <- needed in compose 1.2.0
+//                            }
+                        }
+                        true
+                    }
+                    .focusRequester(focusRequester)
+                    .focusable(),
+                state = listState
+            ) {
+                item { TextItem("Cedric") }
+                item { TextItem("Clarence") }
+                item { TextItem("Chester") }
+                item { TextItem("Clifford") }
+                item { TextItem("Cornelius") }
+                item { TextItem("Clement") }
+                item { TextItem("Cyril") }
+                item { TextItem("Claude") }
+                item { TextItem("Cuthbert") }
+                item { TextItem("Calvin") }
+                item { TextItem("Cecil") }
+                item { TextItem("Clive") }
+                item { TextItem("Chip") }
+                item { TextItem("Colin") }
+                item { TextItem("Carlton") }
+                item { TextItem("Cletus") }
+                item { TextItem("Cyrus") }
+                item { TextItem("Caius") }
+                item { TextItem("Chauncey") }
+                item { TextItem("Clancy") }
+                item { TextItem("Crispin") }
+                item { TextItem("Corbin") }
+                item { TextItem("Carmine") }
+                item { TextItem("Cosmo") }
+                item { TextItem("Chadwick") }
+                item { TextItem("Clayton") }
+            }
+
+            LaunchedEffect(Unit) {
+                focusRequester.requestFocus()
+            }
         }
     }
+}
+
+private val contentModifier by lazy {
+    Modifier
+        .fillMaxWidth()
+        .padding(bottom = 8.dp)
+}
+
+@Composable
+fun TextItem(contents: String) {
+    Text(
+        modifier = contentModifier,
+        textAlign = TextAlign.Center,
+        text = contents
+    )
 }
 
 @Composable
