@@ -69,7 +69,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalHorologistApi::class, ExperimentalWearFoundationApi::class)
+@OptIn(ExperimentalWearFoundationApi::class)
 @Composable
 fun WearApp(greetingName: String) {
     WearAppTheme {
