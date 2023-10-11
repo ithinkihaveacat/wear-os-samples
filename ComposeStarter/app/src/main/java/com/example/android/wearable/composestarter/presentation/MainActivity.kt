@@ -19,6 +19,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -42,6 +43,8 @@ import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
 import com.example.android.wearable.composestarter.R
 import com.example.android.wearable.composestarter.presentation.theme.WearAppTheme
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import com.google.android.horologist.compose.rotaryinput.rotaryWithScroll
 import kotlinx.coroutines.launch
 
 /**
@@ -65,7 +68,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalWearFoundationApi::class)
+@OptIn(ExperimentalWearFoundationApi::class, ExperimentalHorologistApi::class)
 @Composable
 fun WearApp(greetingName: String) {
     WearAppTheme {
@@ -87,17 +90,14 @@ fun WearApp(greetingName: String) {
 
             ScalingLazyColumn(
                 modifier = Modifier
+                    // works with all versions
+//                    .rotaryWithScroll(listState)
                     .onRotaryScrollEvent {
                         coroutineScope.launch {
 
-                            // Option #1 (broken in 1.2.0, works in 1.3.0-alpha07)
                             listState.scrollBy(it.verticalScrollPixels)
-
-                            // Option #2 (broken in 1.2.0 w/o animate9), works in 1.3.0-alpha07)
-//                            listState.scroll(MutatePriority.UserInput) {
-//                                scrollBy(it.verticalScrollPixels)
-//                                animate(0f, 0f) { _, _ -> } // <- needed in compose 1.2.0
-//                            }
+                            // this workaround required for 1.2.0 and 1.2.1-SNAPSHOT (but not 1.3.1-alpha07)
+//                            listState.animateScrollBy(0f)
                         }
                         true
                     }
