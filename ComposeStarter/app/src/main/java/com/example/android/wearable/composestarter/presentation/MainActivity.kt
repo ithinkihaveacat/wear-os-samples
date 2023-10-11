@@ -43,8 +43,8 @@ import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
 import com.example.android.wearable.composestarter.R
 import com.example.android.wearable.composestarter.presentation.theme.WearAppTheme
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import com.google.android.horologist.compose.rotaryinput.rotaryWithScroll
+//import com.google.android.horologist.annotations.ExperimentalHorologistApi
+//import com.google.android.horologist.compose.rotaryinput.rotaryWithScroll
 import kotlinx.coroutines.launch
 
 /**
