@@ -79,6 +79,8 @@ dependencies {
 
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
+    implementation("androidx.concurrent:concurrent-futures:1.2.0")
+
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.tiles.tooling.preview)
     debugImplementation(libs.androidx.tiles.tooling)
