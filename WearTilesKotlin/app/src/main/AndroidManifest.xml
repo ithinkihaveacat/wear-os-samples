@@ -42,5 +42,32 @@
                 android:name="androidx.wear.tiles.PREVIEW"
                 android:resource="@drawable/tile_messaging" />
         </service>
+
+        <service
+            android:name="com.example.wear.tiles.counter.CounterTileService"
+            android:exported="true"
+            android:label="@string/tile_counter_label"
+            android:description="@string/tile_counter_description"
+            android:icon="@drawable/ic_message_24"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_messaging" />
+        </service>
+
+        <activity
+            android:name=".counter.CounterActivity"
+            android:exported="true"
+            android:taskAffinity="">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
     </application>
 </manifest>

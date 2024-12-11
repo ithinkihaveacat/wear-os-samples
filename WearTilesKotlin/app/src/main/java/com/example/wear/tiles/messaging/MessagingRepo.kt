@@ -26,10 +26,10 @@ import com.example.wear.tiles.messaging.Contact.Companion.toContact
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "contacts")
+private val Context.contactsDataStore: DataStore<Preferences> by preferencesDataStore(name = "contacts")
 
 class MessagingRepo(private val context: Context) {
-    fun getFavoriteContacts(): Flow<List<Contact>> = context.dataStore.data.map { preferences ->
+    fun getFavoriteContacts(): Flow<List<Contact>> = context.contactsDataStore.data.map { preferences ->
         val count = preferences[intPreferencesKey("contact.count")] ?: 0
 
         (0 until count).mapNotNull {
@@ -38,7 +38,7 @@ class MessagingRepo(private val context: Context) {
     }
 
     suspend fun updateContacts(contacts: List<Contact>) {
-        context.dataStore.edit {
+        context.contactsDataStore.edit {
             it.clear()
             contacts.forEachIndexed { index, contact ->
                 it[stringPreferencesKey("contact.$index")] = contact.toPreferenceString()
