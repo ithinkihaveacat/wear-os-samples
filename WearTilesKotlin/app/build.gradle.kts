@@ -63,7 +63,7 @@ android {
 dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.datastore.preferences)
 
     implementation(libs.androidx.wear.tiles.material)
 
@@ -71,13 +71,19 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.guava)
 
+    implementation(libs.androidx.activity.compose)
+
     implementation(libs.horologist.compose.tools)
     implementation(libs.horologist.tiles)
 
     implementation(libs.androidx.wear.tooling.preview)
     implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.androidx.animation.core.android)
+    implementation(libs.androidx.activity.ktx)
 
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+
+    implementation("androidx.concurrent:concurrent-futures:1.2.0")
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.tiles.tooling.preview)
