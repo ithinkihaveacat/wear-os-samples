@@ -60,15 +60,18 @@ object Workout {
             .setContent(
                 MultiButtonLayout.Builder()
                     .addButtonContent(
-                        Button.Builder(context, button1Clickable).setIconContent(BUTTON_1_ICON_ID)
+                        Button.Builder(context, button1Clickable)
+                            .setIconContent(BUTTON_1_ICON_ID)
                             .build()
                     )
                     .addButtonContent(
-                        Button.Builder(context, button2Clickable).setIconContent(BUTTON_2_ICON_ID)
+                        Button.Builder(context, button2Clickable)
+                            .setIconContent(BUTTON_2_ICON_ID)
                             .build()
                     )
                     .addButtonContent(
-                        Button.Builder(context, button3Clickable).setIconContent(BUTTON_3_ICON_ID)
+                        Button.Builder(context, button3Clickable)
+                            .setIconContent(BUTTON_3_ICON_ID)
                             .build()
                     )
                     .build()
@@ -92,53 +95,59 @@ object Workout {
         deviceParameters: DeviceParametersBuilders.DeviceParameters,
         clickable: ModifiersBuilders.Clickable,
         lastWorkoutSummary: String
-    ) = PrimaryLayout.Builder(deviceParameters)
-        .setResponsiveContentInsetEnabled(true)
-        .setPrimaryLabelTextContent(
-            Text.Builder(context, "Power Yoga")
-                .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-                .setColor(ColorBuilders.argb(GoldenTilesColors.Yellow))
-                .build()
-        )
-        .setContent(
-            TitleChip.Builder(context, "Start", clickable, deviceParameters)
-                // TitleChip/Chip's default width == device width minus some padding
-                // Since PrimaryLayout's content slot already has margin, this leads to clipping
-                // unless we override the width to use the available space
-                .setWidth(DimensionBuilders.ExpandedDimensionProp.Builder().build())
-                .setChipColors(
-                    ChipColors(
-                        /*backgroundColor=*/
-                        ColorBuilders.argb(GoldenTilesColors.Yellow),
-                        /*contentColor=*/
-                        ColorBuilders.argb(GoldenTilesColors.Black)
+    ) =
+        PrimaryLayout.Builder(deviceParameters)
+            .setResponsiveContentInsetEnabled(true)
+            .setPrimaryLabelTextContent(
+                Text.Builder(context, "Power Yoga")
+                    .setTypography(Typography.TYPOGRAPHY_CAPTION1)
+                    .setColor(ColorBuilders.argb(GoldenTilesColors.Yellow))
+                    .build()
+            )
+            .setContent(
+                TitleChip.Builder(context, "Start", clickable, deviceParameters)
+                    // TitleChip/Chip's default width == device width minus some padding
+                    // Since PrimaryLayout's content slot already has margin, this leads to clipping
+                    // unless we override the width to use the available space
+                    .setWidth(DimensionBuilders.ExpandedDimensionProp.Builder().build())
+                    .setChipColors(
+                        ChipColors(
+                            /*backgroundColor=*/
+                            ColorBuilders.argb(GoldenTilesColors.Yellow),
+                            /*contentColor=*/
+                            ColorBuilders.argb(GoldenTilesColors.Black)
+                        )
                     )
-                )
-                .build()
-        )
-        .setSecondaryLabelTextContent(
-            Text.Builder(context, lastWorkoutSummary)
-                .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-                .setColor(ColorBuilders.argb(GoldenTilesColors.White))
-                .build()
-        )
-        .build()
+                    .build()
+            )
+            .setSecondaryLabelTextContent(
+                Text.Builder(context, lastWorkoutSummary)
+                    .setTypography(Typography.TYPOGRAPHY_CAPTION1)
+                    .setColor(ColorBuilders.argb(GoldenTilesColors.White))
+                    .build()
+            )
+            .build()
 }
-
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun workoutButtonsPreview(context: Context) =
-    TilePreviewData(onTileResourceRequest = resources {
-        addIdToImageMapping(
-            Workout.BUTTON_1_ICON_ID, drawableResToImageResource(R.drawable.ic_run_24)
-        )
-        addIdToImageMapping(
-            Workout.BUTTON_2_ICON_ID, drawableResToImageResource(R.drawable.ic_yoga_24)
-        )
-        addIdToImageMapping(
-            Workout.BUTTON_3_ICON_ID, drawableResToImageResource(R.drawable.ic_cycling_24)
-        )
-    }) {
+    TilePreviewData(
+        onTileResourceRequest =
+        resources {
+            addIdToImageMapping(
+                Workout.BUTTON_1_ICON_ID,
+                drawableResToImageResource(R.drawable.ic_run_24)
+            )
+            addIdToImageMapping(
+                Workout.BUTTON_2_ICON_ID,
+                drawableResToImageResource(R.drawable.ic_yoga_24)
+            )
+            addIdToImageMapping(
+                Workout.BUTTON_3_ICON_ID,
+                drawableResToImageResource(R.drawable.ic_cycling_24)
+            )
+        }
+    ) {
         singleTimelineEntryTileBuilder(
             Workout.buttonsLayout(
                 context,
@@ -149,7 +158,8 @@ internal fun workoutButtonsPreview(context: Context) =
                 button3Clickable = emptyClickable,
                 chipClickable = emptyClickable
             )
-        ).build()
+        )
+            .build()
     }
 
 @MultiRoundDevicesWithFontScalePreviews
@@ -161,5 +171,6 @@ internal fun workoutLargeChipPreview(context: Context) = TilePreviewData {
             clickable = emptyClickable,
             lastWorkoutSummary = "Last session 45m"
         )
-    ).build()
+    )
+        .build()
 }

@@ -57,29 +57,29 @@ class MessagingTileService : SuspendingTileService() {
         repo = MessagingRepo(this)
         imageLoader = Coil.imageLoader(this)
 
-        tileStateFlow = repo.getFavoriteContacts()
-            .map { contacts -> MessagingTileState(contacts) }
-            .stateIn(
-                lifecycleScope,
-                started = SharingStarted.WhileSubscribed(5000),
-                initialValue = null
-            )
+        tileStateFlow =
+            repo
+                .getFavoriteContacts()
+                .map { contacts -> MessagingTileState(contacts) }
+                .stateIn(
+                    lifecycleScope,
+                    started = SharingStarted.WhileSubscribed(5000),
+                    initialValue = null
+                )
     }
 
-    /**
-     * Read the latest data, and create a layout to which it binds the state.
-     */
+    /** Read the latest data, and create a layout to which it binds the state. */
     override suspend fun tileRequest(requestParams: TileRequest): Tile {
-        val layoutElement = messagingTileLayout(latestTileState(), this, requestParams.deviceConfiguration)
+        val layoutElement =
+            messagingTileLayout(latestTileState(), this, requestParams.deviceConfiguration)
         val resourcesVersion = if (DEBUG_RESOURCES) UUID.randomUUID().toString() else "0"
-        return Tile.Builder().setResourcesVersion(resourcesVersion).setTileTimeline(
-            Timeline.fromLayoutElement(layoutElement)
-        ).build()
+        return Tile.Builder()
+            .setResourcesVersion(resourcesVersion)
+            .setTileTimeline(Timeline.fromLayoutElement(layoutElement))
+            .build()
     }
 
-    /**
-     * Reads the latest state from the flow, and updates the data if there isn't any.
-     */
+    /** Reads the latest state from the flow, and updates the data if there isn't any. */
     private suspend fun latestTileState(): MessagingTileState {
         var tileState = tileStateFlow.filterNotNull().first()
 
@@ -96,21 +96,19 @@ class MessagingTileService : SuspendingTileService() {
      * an update. For this sample, we're updating the repository with fake data
      * ([MessagingRepo.knownContacts]).
      *
-     * In a more complete example, tiles, complications and the main app (/overlay) would
-     * share a common data source so it's less likely that an initial data refresh triggered by the
-     * tile would be necessary.
+     * In a more complete example, tiles, complications and the main app (/overlay) would share a
+     * common data source so it's less likely that an initial data refresh triggered by the tile
+     * would be necessary.
      */
     private suspend fun refreshData() {
         repo.updateContacts(MessagingRepo.knownContacts)
     }
 
     /**
-     * Downloads bitmaps from the network and adds them to the Resources object
-     * (alongside any local resources).
+     * Downloads bitmaps from the network and adds them to the Resources object (alongside any local
+     * resources).
      */
-    override suspend fun resourcesRequest(
-        requestParams: ResourcesRequest
-    ): Resources {
+    override suspend fun resourcesRequest(requestParams: ResourcesRequest): Resources {
         val avatars = fetchAvatarsFromNetwork(requestParams)
         val resourceState = avatars
         val resourceIds = requestParams.resourceIds
@@ -118,20 +116,16 @@ class MessagingTileService : SuspendingTileService() {
             .setVersion(requestParams.version)
             .apply {
                 if (resourceIds.isEmpty() || resourceIds.contains(ID_IC_SEARCH)) {
-                    addIdToImageMapping(
-                        ID_IC_SEARCH,
-                        R.drawable.ic_search_24
-                    )
+                    addIdToImageMapping(ID_IC_SEARCH, R.drawable.ic_search_24)
                 }
 
-                // We already checked `resourceIds` in `MessagingTileService` because we needed to know
-                // which avatars needed to be fetched from the network; `resourceResults` was already
+                // We already checked `resourceIds` in `MessagingTileService` because we needed to
+                // know
+                // which avatars needed to be fetched from the network; `resourceResults` was
+                // already
                 // filtered so it only contains bitmaps for the requested resources.
                 resourceState.forEach { (contact, bitmap) ->
-                    addIdToImageMapping(
-                        "$ID_CONTACT_PREFIX${contact.id}",
-                        bitmap
-                    )
+                    addIdToImageMapping("$ID_CONTACT_PREFIX${contact.id}", bitmap)
                 }
             }
             .build()
@@ -145,22 +139,29 @@ class MessagingTileService : SuspendingTileService() {
         requestParams: ResourcesRequest
     ): Map<Contact, Bitmap> {
         val tileState: MessagingTileState = latestTileState()
-        val requestedAvatars: List<Contact> = if (requestParams.resourceIds.isEmpty()) {
-            tileState.contacts
-        } else {
-            tileState.contacts.filter {
-                requestParams.resourceIds.contains(MessagingTileService.ID_CONTACT_PREFIX + it.id)
-            }
-        }
-
-        val images = coroutineScope {
-            requestedAvatars.map { contact ->
-                async {
-                    val image = imageLoader.loadAvatar(this@MessagingTileService, contact)
-                    image?.let { contact to it }
+        val requestedAvatars: List<Contact> =
+            if (requestParams.resourceIds.isEmpty()) {
+                tileState.contacts
+            } else {
+                tileState.contacts.filter {
+                    requestParams.resourceIds.contains(
+                        MessagingTileService.ID_CONTACT_PREFIX + it.id
+                    )
                 }
             }
-        }.awaitAll().filterNotNull().toMap()
+
+        val images =
+            coroutineScope {
+                requestedAvatars.map { contact ->
+                    async {
+                        val image = imageLoader.loadAvatar(this@MessagingTileService, contact)
+                        image?.let { contact to it }
+                    }
+                }
+            }
+                .awaitAll()
+                .filterNotNull()
+                .toMap()
 
         return images
     }
@@ -169,7 +170,6 @@ class MessagingTileService : SuspendingTileService() {
         internal const val ID_IC_SEARCH = "ic_search"
         internal const val ID_CONTACT_PREFIX = "contact:"
     }
-
 }
 
 const val DEBUG_RESOURCES = true
