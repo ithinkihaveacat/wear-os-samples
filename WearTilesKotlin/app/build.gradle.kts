@@ -17,6 +17,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -26,8 +27,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.wear.tiles"
-        minSdk = 26
-        targetSdk = 34
+        minSdk = 30
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
     }
@@ -61,25 +62,31 @@ android {
 }
 
 dependencies {
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.guava)
+
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.datastore)
+    implementation(libs.androidx.concurrent.futures)
 
-    implementation(libs.androidx.wear.tiles.material)
-
-    implementation(libs.coil)
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.guava)
+    implementation(libs.compose.ui.tooling.preview)
 
     implementation(libs.horologist.compose.tools)
     implementation(libs.horologist.tiles)
 
-    implementation(libs.androidx.wear.tooling.preview)
-    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.coil)
 
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     debugImplementation(libs.androidx.ui.tooling)
+
+    implementation(libs.androidx.tiles)
+    implementation(libs.androidx.tiles.renderer)
+    implementation(libs.androidx.protolayout.material3)
     debugImplementation(libs.androidx.tiles.tooling.preview)
     debugImplementation(libs.androidx.tiles.tooling)
+
+    implementation("androidx.wear:wear-tooling-preview:1.0.0")
+
 }
