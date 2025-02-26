@@ -230,8 +230,7 @@ fun State.Builder.mergeMap(map: Map<String, Any>) = apply {
 
 fun Clickable.Builder.setIdAndState(id: String, state: State) = apply {
   setId(id)
-//  setOnClick(ActionBuilders.LoadAction.Builder().setRequestState(state).build())
-//    setOnClick(ActionBuilders.LaunchAction.Builder().setAndroidActivity(CounterActivity).build())
+  setOnClick(ActionBuilders.LoadAction.Builder().setRequestState(state).build())
 }
 
 fun buildClickable(id: String, state: State): Clickable {
