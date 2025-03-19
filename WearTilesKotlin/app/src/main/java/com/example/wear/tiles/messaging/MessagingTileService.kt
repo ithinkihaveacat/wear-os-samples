@@ -16,6 +16,7 @@
 package com.example.wear.tiles.messaging
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import androidx.wear.protolayout.ResourceBuilders.Resources
 import androidx.wear.protolayout.TimelineBuilders.Timeline
@@ -71,6 +72,7 @@ class MessagingTileService : SuspendingTileService() {
      * Read the latest data, and create a layout to which it binds the state.
      */
     override suspend fun tileRequest(requestParams: TileRequest): Tile {
+        val rv = requestParams.deviceConfiguration.rendererSchemaVersion
         val layoutElement = messagingTileLayout(latestTileState(), this, requestParams.deviceConfiguration)
         val resourcesVersion = if (DEBUG_RESOURCES) UUID.randomUUID().toString() else "0"
         return Tile.Builder().setResourcesVersion(resourcesVersion).setTileTimeline(
@@ -112,6 +114,7 @@ class MessagingTileService : SuspendingTileService() {
     override suspend fun resourcesRequest(
         requestParams: ResourcesRequest
     ): Resources {
+        Log.d("qqqqqq", "messaging resources request")
         val avatars = fetchAvatarsFromNetwork(requestParams)
         val resourceState = avatars
         val resourceIds = requestParams.resourceIds

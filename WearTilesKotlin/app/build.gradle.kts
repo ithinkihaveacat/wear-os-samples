@@ -77,6 +77,8 @@ dependencies {
 
     implementation(libs.coil)
 
+    implementation(libs.androidx.annotation)
+
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     debugImplementation(libs.androidx.ui.tooling)

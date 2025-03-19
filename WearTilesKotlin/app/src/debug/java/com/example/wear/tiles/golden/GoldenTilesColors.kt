@@ -1,3 +1,5 @@
+@file:SuppressLint("RestrictedApi")
+
 /*
  * Copyright 2022 The Android Open Source Project
  *
@@ -15,8 +17,12 @@
  */
 package com.example.wear.tiles.golden
 
+import android.annotation.SuppressLint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.wear.protolayout.material3.ColorScheme
+import androidx.wear.protolayout.material3.tokens.PaletteTokens
+import androidx.wear.protolayout.types.LayoutColor
 
 object GoldenTilesColors {
     val Black = Color.Black.toArgb()
@@ -39,3 +45,11 @@ object GoldenTilesColors {
     val White10Pc = Color(1f, 1f, 1f, 0.1f).toArgb()
     val Yellow = android.graphics.Color.parseColor("#FDE293")
 }
+
+val GoldenTilesColorScheme =
+    ColorScheme(
+        primary = LayoutColor(PaletteTokens.PRIMARY30), // bg of buttons
+        onPrimary = LayoutColor(PaletteTokens.PRIMARY95), // fg of buttons
+        tertiary = LayoutColor(PaletteTokens.TERTIARY80), // bg of edge button
+        onTertiary = LayoutColor(PaletteTokens.TERTIARY10), // fg of edge button
+    )

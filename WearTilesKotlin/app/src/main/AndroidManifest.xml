@@ -32,6 +32,38 @@
             android:exported="true"
             android:label="@string/tile_messaging_label"
             android:description="@string/tile_messaging_description"
+            android:icon="@mipmap/message"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_messaging" />
+        </service>
+
+        <service
+            android:name="com.example.wear.tiles.PreviewTileService"
+            android:exported="true"
+            android:label="@string/tile_messaging_label"
+            android:description="@string/tile_messaging_description"
+            android:icon="@mipmap/bolt"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/message_foreground" />
+        </service>
+
+                <service
+            android:name="com.example.wear.tiles.TestTileService"
+            android:exported="true"
+            android:label="@string/tile_messaging_label"
+            android:description="@string/tile_messaging_description"
             android:icon="@drawable/ic_message_24"
             android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
             <intent-filter>
