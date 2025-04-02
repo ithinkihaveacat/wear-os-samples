@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.wear.protolayout.material3.ColorScheme
 import androidx.wear.protolayout.material3.tokens.PaletteTokens
 import androidx.wear.protolayout.types.LayoutColor
+import androidx.wear.protolayout.types.argb
 
 object GoldenTilesColors {
     val Black = Color.Black.toArgb()
@@ -46,10 +47,14 @@ object GoldenTilesColors {
     val Yellow = android.graphics.Color.parseColor("#FDE293")
 }
 
+val f: androidx.compose.ui.graphics.Color = Color(255, 255, 255, 255)
+
 val GoldenTilesColorScheme =
     ColorScheme(
-        primary = LayoutColor(PaletteTokens.PRIMARY30), // bg of buttons
-        onPrimary = LayoutColor(PaletteTokens.PRIMARY95), // fg of buttons
+//        primary = LayoutColor(PaletteTokens.PRIMARY30), // bg of buttons
+        primary = f.toArgb().argb,
+//        onPrimary = LayoutColor(PaletteTokens.PRIMARY95), // fg of buttons
+        onPrimary = PaletteTokens.PRIMARY95.argb, // fg of buttons
         tertiary = LayoutColor(PaletteTokens.TERTIARY80), // bg of edge button
         onTertiary = LayoutColor(PaletteTokens.TERTIARY10), // fg of edge button
     )

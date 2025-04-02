@@ -21,7 +21,7 @@ import androidx.wear.tiles.RequestBuilders.ResourcesRequest
 import androidx.wear.tiles.RequestBuilders.TileRequest
 import androidx.wear.tiles.TileBuilders.Tile
 import com.example.wear.tiles.golden.GoldenTilesColors
-import com.example.wear.tiles.golden.Social.Contact
+import com.example.wear.tiles.golden.Contact
 import com.example.wear.tiles.tools.emptyClickable
 import com.google.android.horologist.tiles.SuspendingTileService
 import java.util.UUID
@@ -72,19 +72,3 @@ class TestTileService : SuspendingTileService() {
         .build()
   }
 }
-
-
-private fun button(context: Context, contact: Contact) =
-    Button.Builder(context, contact.clickable)
-        .apply {
-          if (contact.avatarId != null) {
-            setImageContent(contact.avatarId)
-          } else {
-            setTextContent(contact.initials, Typography.TYPOGRAPHY_TITLE3)
-          }
-        }
-        .setButtonColors(
-            ButtonColors(
-                /* backgroundColor = */ ColorBuilders.argb(contact.color),
-                /* contentColor = */ ColorBuilders.argb(GoldenTilesColors.DarkerGray)))
-        .build()

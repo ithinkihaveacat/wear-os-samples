@@ -25,6 +25,7 @@ import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders
 import androidx.wear.protolayout.DimensionBuilders.dp
 import androidx.wear.protolayout.DimensionBuilders.expand
+import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.LayoutElementBuilders.Column
 import androidx.wear.protolayout.LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER
 import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
@@ -65,10 +66,13 @@ import com.google.android.horologist.tiles.images.drawableResToImageResource
 
 fun column(builder: Column.Builder.() -> Unit) = Column.Builder().apply(builder).build()
 
+fun row(builder: LayoutElementBuilders.Row.Builder.() -> Unit) = LayoutElementBuilders.Row.Builder().apply(builder).build()
+
 fun MaterialScope.timerButton(firstLine: String?, secondLine: String? = null) =
   timerButton2(firstLine, secondLine)
 
 fun MaterialScope.timerButton1(firstLine: String?, secondLine: String? = null) =
+    // in beta, spacing between labelContent and secondaryLabelContent should be 0dp
   button(
     onClick = emptyClickable,
     width = expand(),

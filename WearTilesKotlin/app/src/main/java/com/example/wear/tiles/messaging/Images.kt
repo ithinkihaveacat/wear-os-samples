@@ -49,10 +49,6 @@ suspend fun ImageLoader.loadAvatar(context: Context, contact: Contact, size: Int
             Log.d("ImageLoader", "Error loading image ${contact.avatarUrl}: ${response.throwable.message}")
             null
         }
-        else -> {
-            Log.d("ImageLoader", "Error loading image ${contact.avatarUrl}: Unknown error")
-            null
-        }
     }
 }
 

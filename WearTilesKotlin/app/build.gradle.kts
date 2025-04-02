@@ -70,6 +70,8 @@ dependencies {
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.concurrent.futures)
 
+    implementation("androidx.wear.compose:compose-material3:1.0.0-alpha35")
+
     implementation(libs.compose.ui.tooling.preview)
 
     implementation(libs.horologist.compose.tools)
