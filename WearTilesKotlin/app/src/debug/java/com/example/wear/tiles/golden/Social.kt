@@ -18,24 +18,24 @@ package com.example.wear.tiles.golden
 import android.content.Context
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
+import androidx.annotation.OptIn
 import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders
 import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
-import androidx.wear.protolayout.LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER
+import androidx.wear.protolayout.LayoutElementBuilders.FontSetting
 import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
-import androidx.wear.protolayout.LayoutElementBuilders.TEXT_OVERFLOW_TRUNCATE
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
+import androidx.wear.protolayout.expression.ProtoLayoutExperimental
+import androidx.wear.protolayout.layout.basicText
 import androidx.wear.protolayout.material.Button
 import androidx.wear.protolayout.material.ButtonColors
 import androidx.wear.protolayout.material.Typography as MaterialTypography
 import androidx.wear.protolayout.material.layouts.MultiButtonLayout
 import androidx.wear.protolayout.material.layouts.PrimaryLayout
 import androidx.wear.protolayout.material3.ButtonDefaults.filledButtonColors
-import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColors
-import androidx.wear.protolayout.material3.ButtonDefaults.filledVariantButtonColors
 import androidx.wear.protolayout.material3.ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS
 import androidx.wear.protolayout.material3.CardDefaults.filledCardColors
 import androidx.wear.protolayout.material3.CardDefaults.filledTonalCardColors
@@ -57,6 +57,7 @@ import androidx.wear.protolayout.modifiers.clickable
 import androidx.wear.protolayout.modifiers.clip
 import androidx.wear.protolayout.modifiers.padding
 import androidx.wear.protolayout.modifiers.toProtoLayoutModifiers
+import androidx.wear.protolayout.types.LayoutString
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
@@ -64,6 +65,7 @@ import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.addIdToImageMapping
 import com.example.wear.tiles.tools.emptyClickable
+import com.example.wear.tiles.tools.fontStyle
 import com.example.wear.tiles.tools.image
 import com.example.wear.tiles.tools.isLargeScreen
 
@@ -71,34 +73,22 @@ fun Context.mockContacts(): List<Contact> {
   return listOf(
     Contact(
       initials = "MS",
-      avatarId = resources.getResourceName(R.drawable.avatar_bg_2),
-      avatarResource = R.drawable.avatar_bg_2,
+      avatarId = resources.getResourceName(R.drawable.resized),
+      avatarResource = R.drawable.resized,
     ),
-    Contact(
-      initials = "AB",
-      avatarId = null,
-      avatarResource = null,
-    ),
+    Contact(initials = "AB", avatarId = null, avatarResource = null),
     Contact(
       initials = "WW",
       avatarId = resources.getResourceName(R.drawable.avatar_bg_3),
       avatarResource = R.drawable.avatar_bg_3,
     ),
-    Contact(
-      initials = "CD",
-      avatarId = null,
-      avatarResource = null,
-    ),
+    Contact(initials = "CD", avatarId = null, avatarResource = null),
     Contact(
       initials = "AD",
-      avatarId = resources.getResourceName(R.drawable.resized),
-      avatarResource = R.drawable.resized,
+      avatarId = resources.getResourceName(R.drawable.avatar_bg_2),
+      avatarResource = R.drawable.avatar_bg_2,
     ),
-    Contact(
-      initials = "EF",
-      avatarId = null,
-      avatarResource = null,
-    ),
+    Contact(initials = "EF", avatarId = null, avatarResource = null),
   )
 }
 
@@ -164,10 +154,6 @@ fun MaterialScope.contactCardImage3(resource: String): LayoutElement {
   )
 }
 
-// A lot of issues getting the text to fit nicely. The 1P contacts app doesn't face this problem
-// in the same way since it uses more text:
-// https://source.corp.google.com/piper///depot/google3/javatests/com/google/android/wearable/contacts/tiles/scuba_goldens/FavoriteContactsTileM3ScreenshotTest/robolectric/
-
 fun MaterialScope.contactCardText(s: String, resource: String = ""): LayoutElement {
   val colors =
     listOf(filledVariantCardColors(), filledTonalCardColors(), filledCardColors())[s.hashCode() % 3]
@@ -179,10 +165,8 @@ fun MaterialScope.contactCardText(s: String, resource: String = ""): LayoutEleme
   )
 }
 
-fun MaterialScope.contactButton(
-  contact: Contact,
-  typography: Int = Typography.LABEL_LARGE,
-): LayoutElement {
+@OptIn(ProtoLayoutExperimental::class)
+fun MaterialScope.contactButton(contact: Contact): LayoutElement {
   if (contact.avatarId != null) {
     return image {
       setHeight(expand())
@@ -193,17 +177,25 @@ fun MaterialScope.contactButton(
     }
   } else {
     val colors =
-      listOf(filledVariantButtonColors(), filledTonalButtonColors(), filledButtonColors())[
-        contact.initials.hashCode() % 3]
+      listOf(
+        filledButtonColors()
+          .copy(labelColor = colorScheme.onPrimary, containerColor = colorScheme.primaryDim),
+        filledButtonColors()
+          .copy(labelColor = colorScheme.onSecondary, containerColor = colorScheme.secondaryDim),
+        filledButtonColors()
+          .copy(labelColor = colorScheme.onTertiary, containerColor = colorScheme.tertiaryDim),
+      )[contact.initials.hashCode() % 3]
     return textButton(
       onClick = clickable(),
       labelContent = {
-        text(
+        basicText(
           text = contact.initials.layoutString,
-          typography = typography,
-          maxLines = 1,
-          overflow = TEXT_OVERFLOW_TRUNCATE,
-          alignment = HORIZONTAL_ALIGN_CENTER,
+          fontStyle = fontStyle {
+            setColor(colors.labelColor.prop)
+            setSettings(FontSetting.width(60F))
+            setSize(DimensionBuilders.sp(26F))
+            setWeight(LayoutElementBuilders.FONT_WEIGHT_MEDIUM)
+          }
         )
       },
       width = expand(),
@@ -225,7 +217,6 @@ object Social1 {
       context = context,
       deviceConfiguration = deviceParameters,
       allowDynamicTheme = true,
-      //      defaultColorScheme = myColorScheme,
     ) {
       val displayedContacts = contacts.take(6).take(if (deviceParameters.isLargeScreen()) 6 else 4)
 
@@ -245,41 +236,15 @@ object Social1 {
           }
         }
 
-      val typography =
-        if (deviceParameters.isLargeScreen()) Typography.TITLE_LARGE else Typography.TITLE_LARGE
-
       primaryLayout(
         mainSlot = {
           column {
             setWidth(expand())
             setHeight(expand())
-            addContent(
-              buttonGroup {
-                row1.forEach { buttonGroupItem { contactButton(it, typography) } }
-                //                buttonGroupItem { contactCardImage1(Social.AVATAR_BG_1) }
-                //                buttonGroupItem { contactCardImage2(Social.AVATAR_BG_2) }
-                //                buttonGroupItem { contactCardImage3(Social.AVATAR_BG_3) }
-                //                buttonGroupItem { contactCardText("PW") }
-                //                buttonGroupItem { contactCardText("IL") }
-                //                buttonGroupItem { contactCardText("JM") }
-                //                buttonGroupItem { contactButton("JM") }
-                //                buttonGroupItem { contactButton("PQ") }
-                //                buttonGroupItem { contactButton("MM") }
-              }
-            )
+            addContent(buttonGroup { row1.forEach { buttonGroupItem { contactButton(it) } } })
             if (!row2.isNullOrEmpty()) {
               addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
-              addContent(
-                buttonGroup {
-                  row2.forEach { buttonGroupItem { contactButton(it, typography) } }
-                  //                buttonGroupItem { contactCardText("WW") }
-                  //                buttonGroupItem { contactCardText("IS") }
-                  //                buttonGroupItem { contactCardText("RW") }
-                  //                buttonGroupItem { contactButton("WW") }
-                  //                buttonGroupItem { contactButton("IS") }
-                  //                buttonGroupItem { contactButton("PN") }
-                }
-              )
+              addContent(buttonGroup { row2.forEach { buttonGroupItem { contactButton(it) } } })
             }
           }
         },
@@ -289,9 +254,10 @@ object Social1 {
             labelContent = { text("More".layoutString) },
             colors =
               filledButtonColors()
-                .copy(containerColor = colorScheme.tertiary, labelColor = colorScheme.onTertiary),
-            //              filledButtonColors().copy(containerColor = LayoutColor(Color.rgb(255, 0,
-            // 0)), labelColor = LayoutColor(Color.rgb(255, 255, 0)))
+                .copy(
+                  containerColor = colorScheme.surfaceContainer,
+                  labelColor = colorScheme.onSurface,
+                ),
           )
         },
       )

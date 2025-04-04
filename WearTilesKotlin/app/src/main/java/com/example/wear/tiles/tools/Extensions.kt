@@ -4,17 +4,18 @@ import android.graphics.Bitmap
 import androidx.annotation.DrawableRes
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.wear.compose.material3.ColorScheme as ComposeColorScheme
-import androidx.wear.protolayout.DeviceParametersBuilders
+import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.LayoutElementBuilders.Column
 import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.ResourceBuilders.ImageResource
 import androidx.wear.protolayout.ResourceBuilders.Resources
-import androidx.wear.protolayout.material3.ColorScheme as ProtoColorScheme
 import androidx.wear.protolayout.types.argb
 import com.example.wear.tiles.messaging.bitmapToImageResource
-import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
+import androidx.wear.compose.material3.ColorScheme as ComposeColorScheme
+import androidx.wear.protolayout.material3.ColorScheme as ProtoColorScheme
+
+// Resources extensions
 
 fun Resources.Builder.addIdToImageMapping(id: String, @DrawableRes resId: Int): Resources.Builder =
   addIdToImageMapping(
@@ -29,10 +30,23 @@ fun Resources.Builder.addIdToImageMapping(id: String, @DrawableRes resId: Int): 
 fun Resources.Builder.addIdToImageMapping(id: String, bitmap: Bitmap): Resources.Builder =
   addIdToImageMapping(id, bitmapToImageResource(bitmap))
 
+// DeviceParameters extensions
+
+fun DeviceParameters.isLargeScreen() = screenWidthDp >= 225
+
+// Column extensions
+
 fun column(builder: Column.Builder.() -> Unit) = Column.Builder().apply(builder).build()
+
+// LayoutElementBuilders extensions
+
+fun fontStyle(builder: LayoutElementBuilders.FontStyle.Builder.() -> Unit) =
+  LayoutElementBuilders.FontStyle.Builder().apply(builder).build()
 
 fun image(builder: LayoutElementBuilders.Image.Builder.() -> Unit) =
   LayoutElementBuilders.Image.Builder().apply(builder).build()
+
+// Color scheme conversions functions
 
 fun ComposeColorScheme.toProtoColorScheme(): ProtoColorScheme {
   return ProtoColorScheme(
@@ -102,4 +116,3 @@ fun ProtoColorScheme.toComposeColorScheme(): ComposeColorScheme {
   )
 }
 
-fun DeviceParameters.isLargeScreen() = screenWidthDp >= 225
