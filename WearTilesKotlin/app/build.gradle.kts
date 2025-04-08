@@ -70,9 +70,9 @@ dependencies {
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.concurrent.futures)
 
-    implementation(libs.androidx.compose.material3)
-
     implementation(libs.compose.ui.tooling.preview)
+
+    implementation(libs.androidx.compose.material3)
 
     implementation(libs.horologist.compose.tools)
     implementation(libs.horologist.tiles)

@@ -17,6 +17,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     alias(libs.plugins.roborazzi)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -61,7 +62,9 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+        kotlinCompilerExtensionVersion =
+            libs.versions.compose.compiler
+                .get()
     }
     packaging {
         resources {
@@ -89,6 +92,8 @@ dependencies {
     // Foundation is additive, so you can use the mobile version in your Wear OS app.
     implementation(libs.wear.compose.foundation)
     implementation(libs.androidx.material.icons.core)
+
+    implementation(libs.horologist.compose.layout)
 
     // Preview Tooling
     implementation(libs.compose.ui.tooling.preview)
