@@ -25,53 +25,53 @@ import coil.ImageLoader
 import coil.request.ErrorResult
 import coil.request.ImageRequest
 import coil.request.SuccessResult
-import coil.transform.CircleCropTransformation
 import java.nio.ByteBuffer
 
-suspend fun ImageLoader.loadAvatar(context: Context, contact: Contact, size: Int? = 64): Bitmap? {
-    val request = ImageRequest.Builder(context)
-        .data(contact.avatarUrl)
-        .apply {
-            if (size != null) {
-                size(size)
+suspend fun ImageLoader.loadAvatar(context: Context, contact: Contact): ImageResource? {
+    return when (val source = contact.avatarSource) {
+        is AvatarSource.Network -> {
+            val request = ImageRequest.Builder(context).data(source.url).size(300).allowRgb565(true).build()
+            val response = execute(request)
+            return when (response) {
+                is SuccessResult -> {
+                    (response.drawable as? BitmapDrawable)?.bitmap?.toImageResource()
+                }
+                is ErrorResult -> {
+                    Log.d(
+                        "ImageLoader",
+                        "Error loading image ${source}: ${response.throwable.message}",
+                    )
+                    null
+                }
             }
         }
-        .allowRgb565(true)
-        .transformations(CircleCropTransformation())
-        .allowHardware(false)
-        .build()
-    val response = execute(request)
-    return when (response) {
-        is SuccessResult -> {
-            (response.drawable as? BitmapDrawable)?.bitmap
-        }
-        is ErrorResult -> {
-            Log.d("ImageLoader", "Error loading image ${contact.avatarUrl}: ${response.throwable.message}")
-            null
-        }
+        is AvatarSource.Resource ->
+            ImageResource.Builder()
+                .setAndroidResourceByResId(
+                    ResourceBuilders.AndroidImageResourceByResId.Builder()
+                        .setResourceId(source.resourceId)
+                        .build()
+                )
+                .build()
+        is AvatarSource.None -> null
     }
 }
 
-fun bitmapToImageResource(bitmap: Bitmap): ImageResource {
-    // TODO check if needed
-    val safeBitmap = bitmap.toRgb565()
+fun Bitmap.toImageResource(): ImageResource {
+    val safeBitmap = this.copy(Bitmap.Config.RGB_565, false)
 
     val byteBuffer = ByteBuffer.allocate(safeBitmap.byteCount)
     safeBitmap.copyPixelsToBuffer(byteBuffer)
     val bytes: ByteArray = byteBuffer.array()
 
-    return ImageResource.Builder().setInlineResource(
-        ResourceBuilders.InlineImageResource.Builder()
-            .setData(bytes)
-            .setWidthPx(bitmap.width)
-            .setHeightPx(bitmap.height)
-            .setFormat(ResourceBuilders.IMAGE_FORMAT_RGB_565)
-            .build()
-    )
+    return ImageResource.Builder()
+        .setInlineResource(
+            ResourceBuilders.InlineImageResource.Builder()
+                .setData(bytes)
+                .setWidthPx(this.width)
+                .setHeightPx(this.height)
+                .setFormat(ResourceBuilders.IMAGE_FORMAT_RGB_565)
+                .build()
+        )
         .build()
-}
-
-private fun Bitmap.toRgb565(): Bitmap {
-    // TODO avoid copy
-    return this.copy(Bitmap.Config.RGB_565, false)
 }

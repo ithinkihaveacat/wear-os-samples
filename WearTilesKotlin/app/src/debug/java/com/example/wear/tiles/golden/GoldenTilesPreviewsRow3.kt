@@ -36,8 +36,8 @@ private fun news(context: Context) = newsPreview(context)
 @MultiRoundDevicesPreviews
 private fun calendar(context: Context) = calendarPreview(context)
 
-@MultiRoundDevicesPreviews
-private fun social(context: Context) = socialPreview(context)
+//@MultiRoundDevicesPreviews
+//private fun social(context: Context) = socialPreview(context)
 
 @MultiRoundDevicesPreviews
 private fun media(context: Context) = mediaPreview(context)

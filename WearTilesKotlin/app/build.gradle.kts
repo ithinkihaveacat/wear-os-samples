@@ -70,7 +70,7 @@ dependencies {
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.concurrent.futures)
 
-    implementation("androidx.wear.compose:compose-material3:1.0.0-alpha35")
+    implementation(libs.androidx.compose.material3)
 
     implementation(libs.compose.ui.tooling.preview)
 
@@ -91,6 +91,6 @@ dependencies {
     debugImplementation(libs.androidx.tiles.tooling.preview)
     debugImplementation(libs.androidx.tiles.tooling)
 
-    implementation("androidx.wear:wear-tooling-preview:1.0.0")
+    implementation(libs.androidx.wear.tooling.preview)
 
 }
