@@ -63,7 +63,7 @@ class PreviewTileService : SuspendingTileService() {
                 contacts = mockContacts(),
             )
         val helloLayoutElement = helloLayout(this, requestParams.deviceConfiguration)
-        val layoutElement = socialLayoutElement
+        val layoutElement = meditationLayoutElement
         val resourcesVersion = UUID.randomUUID().toString() // random to force resource request
         return Tile.Builder()
             .setResourcesVersion(resourcesVersion)
@@ -76,6 +76,7 @@ class PreviewTileService : SuspendingTileService() {
         return Resources.Builder()
             .setVersion(requestParams.version)
             .apply {
+              addIdToImageMapping("news_image", R.drawable.news)
                 mockContacts().forEach {
                     if (it.avatarId != null && it.avatarResource != null) {
                         addIdToImageMapping(it.avatarId, it.avatarResource)
