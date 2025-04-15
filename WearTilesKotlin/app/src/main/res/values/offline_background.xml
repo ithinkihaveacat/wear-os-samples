@@ -12,5 +12,5 @@
      limitations under the License.
 -->
 <resources>
-    <color name="message_background">#FFFFFF</color>
+    <color name="offline_background">#FFFFFF</color>
 </resources>

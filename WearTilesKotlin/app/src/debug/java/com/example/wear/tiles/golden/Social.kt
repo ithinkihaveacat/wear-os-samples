@@ -23,12 +23,14 @@ import androidx.wear.protolayout.DimensionBuilders
 import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
+import androidx.wear.protolayout.LayoutElementBuilders.FONT_WEIGHT_MEDIUM
 import androidx.wear.protolayout.LayoutElementBuilders.FontSetting
 import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
 import androidx.wear.protolayout.LayoutElementBuilders.TEXT_ALIGN_CENTER
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
 import androidx.wear.protolayout.expression.ProtoLayoutExperimental
 import androidx.wear.protolayout.layout.basicText
+import androidx.wear.protolayout.layout.fontStyle
 import androidx.wear.protolayout.material3.ButtonColors
 import androidx.wear.protolayout.material3.ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS
 import androidx.wear.protolayout.material3.MaterialScope
@@ -52,7 +54,6 @@ import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.addIdToImageMapping
-import com.example.wear.tiles.tools.fontStyle
 import com.example.wear.tiles.tools.image
 import com.example.wear.tiles.tools.isLargeScreen
 
@@ -117,13 +118,12 @@ fun MaterialScope.contactButton(contact: Contact): LayoutElement {
             labelContent = {
                 basicText(
                     text = contact.initials.layoutString,
-                    fontStyle =
-                        fontStyle {
-                            setColor(colors.labelColor.prop)
-                            setSettings(FontSetting.width(60F))
-                            setSize(DimensionBuilders.sp(26F))
-                            setWeight(LayoutElementBuilders.FONT_WEIGHT_MEDIUM)
-                        },
+                    fontStyle = fontStyle(
+                      color = colors.labelColor,
+                      settings = listOf(FontSetting.width(60F)),
+                      size = 26F,
+                      weight = FONT_WEIGHT_MEDIUM
+                    ),
                     modifier = LayoutModifier.background(colors.containerColor).clip(shapes.full),
                 )
             },
@@ -173,7 +173,7 @@ object Social {
                                 typography = TITLE_SMALL,
                                 maxLines = 2,
                                 alignment = TEXT_ALIGN_CENTER,
-                                modifiers = LayoutModifier.contentDescription("Contacts"),
+                                modifier = LayoutModifier.contentDescription("Contacts"),
                             )
                         }
                     } else {

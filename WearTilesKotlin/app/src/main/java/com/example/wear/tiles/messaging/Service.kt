@@ -15,14 +15,15 @@
  */
 package com.example.wear.tiles.messaging
 
-import android.util.Log
 import androidx.wear.protolayout.ResourceBuilders.Resources
 import androidx.wear.protolayout.TimelineBuilders.Timeline
 import androidx.wear.tiles.RequestBuilders.ResourcesRequest
 import androidx.wear.tiles.RequestBuilders.TileRequest
 import androidx.wear.tiles.TileBuilders.Tile
-import coil.Coil
-import coil.ImageLoader
+import coil3.ImageLoader
+import coil3.SingletonImageLoader
+import com.example.wear.tiles.R
+import com.example.wear.tiles.tools.toImageResource
 import com.google.android.horologist.tiles.SuspendingTileService
 import java.util.UUID
 import kotlinx.coroutines.async
@@ -30,7 +31,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 
 /**
- * Creates a Messaging tile, showing up to 6 contacts, an icon button and compact chip.
+ * Creates a Messaging tile, showing up to 6 contacts, an icon button and an edge button.
  *
  * It extends [SuspendingTileService], a Coroutine-friendly wrapper around
  * [androidx.wear.tiles.TileService], and implements [tileRequest] and [resourcesRequest].
@@ -49,18 +50,28 @@ class MessagingTileService : SuspendingTileService() {
         // from an injected repository.
         contacts = getMockNetworkContacts()
 
-        imageLoader = Coil.imageLoader(this)
+        // For this sample, make Coil dumb by disabling all caching features.
+        SingletonImageLoader.setSafe { context ->
+            ImageLoader.Builder(context).memoryCache(null).diskCache(null).build()
+        }
+
+        imageLoader = SingletonImageLoader.get(this)
     }
 
     /** This method returns a Tile object, which describes the layout of the Tile. */
     override suspend fun tileRequest(requestParams: TileRequest): Tile {
-
         val layoutElement = tileLayout(this, requestParams.deviceConfiguration, contacts)
 
         // Resources are cached and keyed on resourcesVersion. If a Resources object with the same
-        // resourcesVersion is already available, resourcesRequest() is not called. To ensure it is
-        // *always* called (e.g. for debugging), set the version to a random string.
-        val resourcesVersion = if (DEBUG_RESOURCES) UUID.randomUUID().toString() else "0"
+        // resourcesVersion is present in the cache, resourcesRequest() is not called, and the
+        // cached version is used instead. To ensure it is *always* called (e.g. for debugging), set
+        // the version to a random string.
+        val resourcesVersion =
+            if (DEBUG_RESOURCES) {
+                UUID.randomUUID().toString()
+            } else {
+                contacts.map { it.id }.toSortedSet().joinToString()
+            }
 
         return Tile.Builder()
             .setResourcesVersion(resourcesVersion)
@@ -96,11 +107,10 @@ class MessagingTileService : SuspendingTileService() {
                                     image ->
                                     id to image
                                 }
-                            }
+                            } ?: (id to R.mipmap.offline.toImageResource())
                     }
                 }
                 .awaitAll()
-                .filterNotNull()
                 .toMap()
         }
 

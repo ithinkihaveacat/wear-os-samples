@@ -13,25 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.example.wear.tiles.messaging
 
 import android.content.Context
 import androidx.annotation.OptIn
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
-import androidx.wear.protolayout.DimensionBuilders
 import androidx.wear.protolayout.DimensionBuilders.expand
-import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
 import androidx.wear.protolayout.LayoutElementBuilders.FontSetting
 import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
-import androidx.wear.protolayout.LayoutElementBuilders.TEXT_ALIGN_CENTER
 import androidx.wear.protolayout.expression.ProtoLayoutExperimental
-import androidx.wear.protolayout.layout.basicText
 import androidx.wear.protolayout.material3.ButtonColors
+import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColors
 import androidx.wear.protolayout.material3.ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS
 import androidx.wear.protolayout.material3.MaterialScope
-import androidx.wear.protolayout.material3.Typography.TITLE_SMALL
 import androidx.wear.protolayout.material3.buttonGroup
 import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
@@ -39,20 +34,17 @@ import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textButton
 import androidx.wear.protolayout.material3.textEdgeButton
 import androidx.wear.protolayout.modifiers.LayoutModifier
-import androidx.wear.protolayout.modifiers.background
 import androidx.wear.protolayout.modifiers.clickable
 import androidx.wear.protolayout.modifiers.clip
-import androidx.wear.protolayout.modifiers.contentDescription
 import androidx.wear.protolayout.modifiers.padding
 import androidx.wear.protolayout.modifiers.toProtoLayoutModifiers
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
-import com.example.wear.tiles.golden.column
 import com.example.wear.tiles.golden.resources
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.addIdToImageMapping
-import com.example.wear.tiles.tools.fontStyle
+import com.example.wear.tiles.tools.column
 import com.example.wear.tiles.tools.image
 import com.example.wear.tiles.tools.isLargeScreen
 
@@ -67,35 +59,16 @@ fun MaterialScope.contactButton(contact: Contact): LayoutElement {
             setContentScaleMode(CONTENT_SCALE_MODE_CROP)
         }
     } else {
-        // Generate "random" foreground/background colours for a Contact.
-        val colors =
-            listOf(
-                ButtonColors(
-                    labelColor = colorScheme.onPrimary,
-                    containerColor = colorScheme.primaryDim,
-                ),
-                ButtonColors(
-                    labelColor = colorScheme.onSecondary,
-                    containerColor = colorScheme.secondaryDim,
-                ),
-                ButtonColors(
-                    labelColor = colorScheme.onTertiary,
-                    containerColor = colorScheme.tertiaryDim,
-                ),
-            )[contact.initials.hashCode() % 3]
+        // Simple function to return one of a set of themed button colors
+        val colors = buttonColorsByIndex(contact.initials.hashCode())
+
         return textButton(
             onClick = clickable(),
             labelContent = {
-                basicText(
+                text(
                     text = contact.initials.layoutString,
-                    fontStyle =
-                        fontStyle {
-                            setColor(colors.labelColor.prop)
-                            setSettings(FontSetting.width(60F))
-                            setSize(DimensionBuilders.sp(26F))
-                            setWeight(LayoutElementBuilders.FONT_WEIGHT_MEDIUM)
-                        },
-                    modifier = LayoutModifier.background(colors.containerColor).clip(shapes.full),
+                    color = colors.labelColor,
+                    settings = listOf(FontSetting.width(60F), FontSetting.weight(500)),
                 )
             },
             width = expand(),
@@ -119,34 +92,20 @@ fun tileLayout(
         val visibleContacts = contacts.take(if (deviceParameters.isLargeScreen()) 6 else 4)
 
         val (row1, row2) =
-            visibleContacts.run {
-                when (count()) {
-                    1 -> Pair(subList(0, 1), emptyList()) // 1 | 0 split
-                    2 -> Pair(subList(0, 2), emptyList()) // 2 | 0 split
-                    3 -> Pair(subList(0, 2), subList(2, 3)) // 2 | 1 split
-                    4 -> Pair(subList(0, 2), subList(2, 4)) // 2 | 2 split
-                    5 -> Pair(subList(0, 3), subList(3, 5)) // 3 | 2 split
-                    6 -> Pair(subList(0, 3), subList(3, 6)) // 3 | 3 split
-                    else ->
-                        throw IllegalArgumentException(
-                            "Unsupported contact count: ${count()}. Expected 1 to 6."
-                        )
-                }
+            visibleContacts.chunked(if (visibleContacts.size > 4) 3 else 2).let { chunkedList ->
+                Pair(
+                    chunkedList.getOrElse(0) { emptyList() },
+                    chunkedList.getOrElse(1) { emptyList() },
+                )
             }
 
         primaryLayout(
             titleSlot =
+                // Only display the title if there's one row, otherwise the touch targets become
+                // too small (less than 48dp). See
+                // https://developer.android.com/training/wearables/accessibility#set-minimum
                 if (row2.isEmpty()) {
-                    {
-                        text(
-                            text = "Contacts".layoutString,
-                            color = colorScheme.onBackground,
-                            typography = TITLE_SMALL,
-                            maxLines = 2,
-                            alignment = TEXT_ALIGN_CENTER,
-                            modifiers = LayoutModifier.contentDescription("Contacts"),
-                        )
-                    }
+                    { text(text = "Contacts".layoutString) }
                 } else {
                     null
                 },
@@ -169,16 +128,30 @@ fun tileLayout(
                 textEdgeButton(
                     onClick = clickable(),
                     labelContent = { text("More".layoutString) },
-                    colors =
-                        ButtonColors(
-                            labelColor = colorScheme.onSurface,
-                            containerColor = colorScheme.surfaceContainer,
-                        ),
+                    colors = filledTonalButtonColors(),
                 )
             },
         )
     }
 }
+
+/** Returns a set of [ButtonColors] based on the provided index [n]. */
+private fun MaterialScope.buttonColorsByIndex(n: Int): ButtonColors =
+    listOf(
+            ButtonColors(
+                labelColor = colorScheme.onPrimary,
+                containerColor = colorScheme.primaryDim,
+            ),
+            ButtonColors(
+                labelColor = colorScheme.onSecondary,
+                containerColor = colorScheme.secondaryDim,
+            ),
+            ButtonColors(
+                labelColor = colorScheme.onTertiary,
+                containerColor = colorScheme.tertiaryDim,
+            ),
+        )
+        .let { it[n.mod(it.size)] }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun socialPreview1(context: Context) = socialPreviewN(context, 1)
@@ -203,8 +176,9 @@ internal fun socialPreviewN(context: Context, n: Int): TilePreviewData {
     return TilePreviewData(
         resources {
             contacts.forEach {
-                if (it.avatarSource is AvatarSource.Resource)
+                if (it.avatarSource is AvatarSource.Resource) {
                     addIdToImageMapping(it.imageResourceId(), it.avatarSource.resourceId)
+                }
             }
         }
     ) {

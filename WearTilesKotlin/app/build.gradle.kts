@@ -62,35 +62,22 @@ android {
 }
 
 dependencies {
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.guava)
-
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.datastore)
-    implementation(libs.androidx.concurrent.futures)
-
-    implementation(libs.compose.ui.tooling.preview)
-
-    implementation(libs.androidx.compose.material3)
-
-    implementation(libs.horologist.compose.tools)
     implementation(libs.horologist.tiles)
 
-    implementation(libs.coil)
+    implementation(libs.coil3.coil)
+    implementation(libs.coil3.network.okhttp)
 
-    implementation(libs.androidx.annotation)
+    implementation(libs.androidx.concurrent.futures)
 
     coreLibraryDesugaring(libs.desugar.jdk.libs)
-
-    debugImplementation(libs.androidx.ui.tooling)
 
     implementation(libs.androidx.tiles)
     implementation(libs.androidx.tiles.renderer)
     implementation(libs.androidx.protolayout.material3)
+    implementation(libs.androidx.protolayout.material)
+
     debugImplementation(libs.androidx.tiles.tooling.preview)
     debugImplementation(libs.androidx.tiles.tooling)
-
-    implementation(libs.androidx.wear.tooling.preview)
-
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.wear.tooling.preview)
 }
