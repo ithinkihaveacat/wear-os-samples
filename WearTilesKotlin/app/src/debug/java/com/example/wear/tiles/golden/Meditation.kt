@@ -19,7 +19,6 @@ package com.example.wear.tiles.golden
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders
@@ -32,7 +31,6 @@ import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
 import androidx.wear.protolayout.LayoutElementBuilders.Spacer
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
 import androidx.wear.protolayout.material.Button
-import androidx.wear.protolayout.material.ButtonColors
 import androidx.wear.protolayout.material.Chip
 import androidx.wear.protolayout.material.ChipColors
 import androidx.wear.protolayout.material.CompactChip
@@ -42,7 +40,6 @@ import androidx.wear.protolayout.material.layouts.MultiButtonLayout
 import androidx.wear.protolayout.material.layouts.PrimaryLayout
 import androidx.wear.protolayout.material3.ButtonDefaults.filledButtonColors
 import androidx.wear.protolayout.material3.ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS
-import androidx.wear.protolayout.material3.ButtonStyle
 import androidx.wear.protolayout.material3.ButtonStyle.Companion.smallButtonStyle
 import androidx.wear.protolayout.material3.ColorScheme
 import androidx.wear.protolayout.material3.MaterialScope
@@ -119,6 +116,8 @@ val myColorScheme =
     onPrimary = LayoutColor(PaletteTokens.PRIMARY95), // fg of buttons
     tertiary = LayoutColor(PaletteTokens.TERTIARY80), // bg of edge button
     onTertiary = LayoutColor(PaletteTokens.TERTIARY10), // fg of edge button
+//    secondary = android.graphics.Color.RED.argb,
+//    onSecondary = LayoutColor(Color(0xFFFFFF00).toArgb())
   )
 
 object Meditation {
@@ -287,7 +286,7 @@ object Meditation {
     Button.Builder(context, timer.clickable)
       .setTextContent(timer.minutes.toString(), Typography.TYPOGRAPHY_TITLE3)
       .setButtonColors(
-        ButtonColors(
+        androidx.wear.protolayout.material.ButtonColors(
           /*backgroundColor=*/ ColorBuilders.argb(GoldenTilesColors.LightPurple),
           /*contentColor=*/ ColorBuilders.argb(GoldenTilesColors.DarkerGray),
         )

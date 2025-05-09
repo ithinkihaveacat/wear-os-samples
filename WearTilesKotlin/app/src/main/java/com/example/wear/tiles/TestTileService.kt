@@ -2,22 +2,37 @@ package com.example.wear.tiles
 
 import android.content.Context
 import android.util.Log
+import androidx.annotation.OptIn
 import androidx.wear.protolayout.ActionBuilders.LoadAction
 import androidx.wear.protolayout.ColorBuilders.argb
 import androidx.wear.protolayout.DeviceParametersBuilders
+import androidx.wear.protolayout.DimensionBuilders.expand
+import androidx.wear.protolayout.ModifiersBuilders
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
 import androidx.wear.protolayout.ResourceBuilders.Resources
 import androidx.wear.protolayout.TimelineBuilders.Timeline
+import androidx.wear.protolayout.TypeBuilders
+import androidx.wear.protolayout.expression.ProtoLayoutExperimental
 import androidx.wear.protolayout.material.Button
 import androidx.wear.protolayout.material.CompactChip
 import androidx.wear.protolayout.material.Text
 import androidx.wear.protolayout.material.Typography
 import androidx.wear.protolayout.material.layouts.MultiButtonLayout
 import androidx.wear.protolayout.material.layouts.PrimaryLayout
+import androidx.wear.protolayout.material3.ButtonColors
+import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.Typography.BODY_LARGE
+import androidx.wear.protolayout.material3.button
+import androidx.wear.protolayout.material3.buttonGroup
 import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
+import androidx.wear.protolayout.material3.textButton
+import androidx.wear.protolayout.material3.textEdgeButton
+import androidx.wear.protolayout.modifiers.LayoutModifier
+import androidx.wear.protolayout.modifiers.clickable
+import androidx.wear.protolayout.modifiers.enterTransition
+import androidx.wear.protolayout.modifiers.opacity
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.RequestBuilders.ResourcesRequest
@@ -42,28 +57,111 @@ class TestTileService : TileService() {
                 //                .setResourcesVersion(RESOURCES_VERSION)
                 .setTileTimeline(
                     Timeline.fromLayoutElement(
-                        if (USE_M3_LAYOUT) {
-                            layoutM3(this, requestParams.deviceConfiguration)
-                        } else {
-                            layoutM2(this, requestParams.deviceConfiguration)
-                        }
+                        layoutSimple(this, requestParams.deviceConfiguration)
                     )
                 )
                 .build()
         )
 
+    @OptIn(ProtoLayoutExperimental::class)
     fun layoutM2(context: Context, deviceConfiguration: DeviceParametersBuilders.DeviceParameters) =
-        Text.Builder(this, "Hello World!")
-            .setTypography(Typography.TYPOGRAPHY_BODY1)
-            .setColor(argb(0xFFFFFFFF.toInt()))
+        PrimaryLayout.Builder(deviceConfiguration)
+            .setResponsiveContentInsetEnabled(true)
+            .setContent(
+                Text.Builder(this, "M2 Hello, World!")
+                    .setTypography(Typography.TYPOGRAPHY_BODY1)
+                    .setColor(argb(0xFFFFFFFF.toInt()))
+                    .setModifiers(modifierM2())
+                    .build()
+            )
             .build()
 
+    @OptIn(ProtoLayoutExperimental::class)
+    fun modifierM2(): ModifiersBuilders.Modifiers =
+        ModifiersBuilders.Modifiers.Builder()
+            .setOpacity(TypeBuilders.FloatProp.Builder(0.9F).build())
+            /*
+            .setContentUpdateAnimation(
+                ModifiersBuilders.AnimatedVisibility.Builder()
+                    .setEnterTransition(
+                        ModifiersBuilders.DefaultContentTransitions.slideIn(
+                            SLIDE_DIRECTION_LEFT_TO_RIGHT
+                        )
+                    )
+                    .setExitTransition(ModifiersBuilders.DefaultContentTransitions.fadeOut())
+                    .build()
+            )
+            */
+            .build()
+
+    fun MaterialScope.simpleButton() =
+        button(onClick = clickable(), labelContent = { text("Q".layoutString) })
+
+    fun layoutSimple(
+        context: Context,
+        deviceConfiguration: DeviceParametersBuilders.DeviceParameters,
+    ) =
+        materialScope(context, deviceConfiguration) {
+            primaryLayout(
+                titleSlot = { text("titleSlot".layoutString) },
+                mainSlot = {
+                    textButton(
+                        height = expand(),
+                        width = expand(),
+                        onClick = emptyClickable,
+//                        shape = shapes.small,
+                        colors =
+                            // Distinguish from the edge button
+                            ButtonColors(
+                                containerColor = colorScheme.secondaryContainer,
+                                labelColor = colorScheme.onSecondaryContainer,
+                            ),
+                        labelContent = { text("mainSlot".layoutString) },
+                    )
+                },
+                bottomSlot = {
+                    textEdgeButton(
+                        onClick = clickable(),
+                        labelContent = { text("bottomSlot".layoutString) },
+                    )
+                },
+            )
+        }
+
+    fun layoutConditional(
+        context: Context,
+        deviceConfiguration: DeviceParametersBuilders.DeviceParameters,
+    ) =
+        materialScope(context, deviceConfiguration) {
+            primaryLayout(
+                mainSlot = {
+                    buttonGroup {
+                        buttonGroupItem { simpleButton() }
+                        buttonGroupItem { simpleButton() }
+                        if (deviceConfiguration.screenHeightDp >= 225) {
+                            buttonGroupItem { simpleButton() }
+                        }
+                    }
+                }
+            )
+        }
+
+    @OptIn(ProtoLayoutExperimental::class)
     fun layoutM3(context: Context, deviceConfiguration: DeviceParametersBuilders.DeviceParameters) =
         materialScope(context, deviceConfiguration) {
             primaryLayout(
-                mainSlot = { text(text = "Hello, World!".layoutString, typography = BODY_LARGE) }
+                mainSlot = {
+                    text(
+                        text = "M3 Hello, World!".layoutString,
+                        typography = BODY_LARGE,
+                        // Can't get these transitions to work
+                        modifier = modifierM3(),
+                    )
+                }
             )
         }
+
+    fun modifierM3(): LayoutModifier = LayoutModifier.opacity(0.2F)
 
     override fun onTileResourcesRequest(requestParams: ResourcesRequest) =
         Futures.immediateFuture(Resources.Builder().setVersion(RESOURCES_VERSION).build())
@@ -175,3 +273,14 @@ class TestTileService2 : SuspendingTileService() {
             .build()
     }
 }
+
+@OptIn(ProtoLayoutExperimental::class)
+fun myModifier() =
+    //    ModifiersBuilders.DefaultContentTransitions.fadeIn()
+    LayoutModifier.enterTransition(ModifiersBuilders.DefaultContentTransitions.fadeIn())
+/*
+    LayoutModifier.transition(
+        enter = DefaultContentTransitions.fadeIn(),
+        exit = DefaultContentTransitions.fadeOut()
+    )
+*/

@@ -1,6 +1,7 @@
 package com.example.wear.tiles
 
 import android.content.Context
+import android.graphics.Color
 import android.util.Log
 import androidx.wear.protolayout.DeviceParametersBuilders
 import androidx.wear.protolayout.DimensionBuilders.expand
@@ -13,6 +14,8 @@ import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textButton
 import androidx.wear.protolayout.material3.textEdgeButton
+import androidx.wear.protolayout.types.LayoutColor
+import androidx.wear.protolayout.types.argb
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.RequestBuilders.ResourcesRequest
 import androidx.wear.tiles.RequestBuilders.TileRequest
@@ -105,8 +108,10 @@ fun helloLayout(context: Context, deviceConfiguration: DeviceParametersBuilders.
                     colors =
                         // Distinguish from the edge button
                         ButtonColors(
-                            containerColor = colorScheme.secondaryContainer,
-                            labelColor = colorScheme.onSecondaryContainer,
+                          containerColor = android.graphics.Color.RED.argb,
+                          labelColor = LayoutColor(Color.RED)
+//                            containerColor = colorScheme.secondaryContainer,
+//                            labelColor = colorScheme.onSecondaryContainer,
                         ),
                     labelContent = { text("Max Margin".layoutString) },
                 )
