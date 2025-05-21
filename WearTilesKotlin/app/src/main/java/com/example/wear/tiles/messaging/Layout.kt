@@ -116,7 +116,7 @@ fun tileLayout(
                     addContent(
                         buttonGroup { row1.forEach { buttonGroupItem { contactButton(it) } } }
                     )
-                    if (!row2.isEmpty()) {
+                    if (row2.isNotEmpty()) {
                         addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
                         addContent(
                             buttonGroup { row2.forEach { buttonGroupItem { contactButton(it) } } }

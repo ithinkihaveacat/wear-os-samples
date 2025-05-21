@@ -7,12 +7,18 @@ import androidx.wear.protolayout.ActionBuilders.LoadAction
 import androidx.wear.protolayout.ColorBuilders.argb
 import androidx.wear.protolayout.DeviceParametersBuilders
 import androidx.wear.protolayout.DimensionBuilders.expand
+import androidx.wear.protolayout.LayoutElementBuilders
+import androidx.wear.protolayout.LayoutElementBuilders.FontSetting.roundness
+import androidx.wear.protolayout.LayoutElementBuilders.FontSetting.weight
+import androidx.wear.protolayout.LayoutElementBuilders.FontSetting.width
 import androidx.wear.protolayout.ModifiersBuilders
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
 import androidx.wear.protolayout.ResourceBuilders.Resources
 import androidx.wear.protolayout.TimelineBuilders.Timeline
 import androidx.wear.protolayout.TypeBuilders
 import androidx.wear.protolayout.expression.ProtoLayoutExperimental
+import androidx.wear.protolayout.layout.basicText
+import androidx.wear.protolayout.layout.fontStyle
 import androidx.wear.protolayout.material.Button
 import androidx.wear.protolayout.material.CompactChip
 import androidx.wear.protolayout.material.Text
@@ -21,6 +27,7 @@ import androidx.wear.protolayout.material.layouts.MultiButtonLayout
 import androidx.wear.protolayout.material.layouts.PrimaryLayout
 import androidx.wear.protolayout.material3.ButtonColors
 import androidx.wear.protolayout.material3.MaterialScope
+import androidx.wear.protolayout.material3.PrimaryLayoutMargins.Companion.MIN_PRIMARY_LAYOUT_MARGIN
 import androidx.wear.protolayout.material3.Typography.BODY_LARGE
 import androidx.wear.protolayout.material3.button
 import androidx.wear.protolayout.material3.buttonGroup
@@ -97,28 +104,52 @@ class TestTileService : TileService() {
     fun MaterialScope.simpleButton() =
         button(onClick = clickable(), labelContent = { text("Q".layoutString) })
 
+    @OptIn(ProtoLayoutExperimental::class)
     fun layoutSimple(
         context: Context,
         deviceConfiguration: DeviceParametersBuilders.DeviceParameters,
     ) =
         materialScope(context, deviceConfiguration) {
             primaryLayout(
-                titleSlot = { text("titleSlot".layoutString) },
+                titleSlot = {
+                    basicText(
+                        text = "Hello, World!".layoutString,
+                        fontStyle(
+                            size = 44F,
+                            settings =
+                                listOf(
+                                    LayoutElementBuilders.FontSetting.weight(500),
+                                    LayoutElementBuilders.FontSetting.roundness(100),
+                                    LayoutElementBuilders.FontSetting.width(100F),
+                                ),
+                            weight = LayoutElementBuilders.FONT_WEIGHT_MEDIUM,
+                            letterSpacingEm = 0F,
+                        ),
+                    )
+                },
                 mainSlot = {
                     textButton(
                         height = expand(),
                         width = expand(),
                         onClick = emptyClickable,
-//                        shape = shapes.small,
+                        shape = shapes.extraSmall,
                         colors =
                             // Distinguish from the edge button
                             ButtonColors(
                                 containerColor = colorScheme.secondaryContainer,
                                 labelColor = colorScheme.onSecondaryContainer,
                             ),
-                        labelContent = { text("mainSlot".layoutString) },
+                        labelContent = {
+                            text(
+                                "mainSlot".layoutString,
+                                italic = true,
+                              // Defined in e.g. androidx.wear.protolayout.LayoutElementBuilders.FontSetting.weight
+                                settings = listOf(weight(500), width(100F), roundness(100)),
+                            )
+                        },
                     )
                 },
+              margins = MIN_PRIMARY_LAYOUT_MARGIN,
                 bottomSlot = {
                     textEdgeButton(
                         onClick = clickable(),

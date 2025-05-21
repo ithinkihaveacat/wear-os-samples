@@ -109,7 +109,8 @@ fun helloLayout(context: Context, deviceConfiguration: DeviceParametersBuilders.
                         // Distinguish from the edge button
                         ButtonColors(
                           containerColor = android.graphics.Color.RED.argb,
-                          labelColor = LayoutColor(Color.RED)
+                          labelColor = LayoutColor(Color.RED),
+                          iconColor = 0xFFFFFF00.argb
 //                            containerColor = colorScheme.secondaryContainer,
 //                            labelColor = colorScheme.onSecondaryContainer,
                         ),
