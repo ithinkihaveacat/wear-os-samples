@@ -41,12 +41,12 @@ import androidx.wear.protolayout.modifiers.toProtoLayoutModifiers
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
-import com.example.wear.tiles.golden.resources
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.addIdToImageMapping
 import com.example.wear.tiles.tools.column
 import com.example.wear.tiles.tools.image
 import com.example.wear.tiles.tools.isLargeScreen
+import com.example.wear.tiles.tools.resources
 
 @OptIn(ProtoLayoutExperimental::class)
 fun MaterialScope.contactButton(contact: Contact): LayoutElement {

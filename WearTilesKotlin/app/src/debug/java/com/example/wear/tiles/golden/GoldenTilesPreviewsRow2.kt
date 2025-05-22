@@ -21,6 +21,7 @@ import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesPreviews
 import com.example.wear.tiles.tools.emptyClickable
+import com.example.wear.tiles.tools.resources
 import com.google.android.horologist.tiles.images.drawableResToImageResource
 
 /** b/238548541 (internal bug - the spacing doesn't match Figma) */

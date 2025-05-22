@@ -37,6 +37,7 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 
@@ -74,7 +75,7 @@ dependencies {
     implementation(libs.androidx.protolayout.material3)
     implementation(libs.androidx.protolayout.material)
 
-    debugImplementation(libs.androidx.tiles.tooling.preview)
+    implementation(libs.androidx.tiles.tooling.preview)
     debugImplementation(libs.androidx.tiles.tooling)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.wear.tooling.preview)
