@@ -36,7 +36,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+            )
         }
     }
 
@@ -78,6 +81,7 @@ dependencies {
     implementation(libs.androidx.tiles.tooling)
     implementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.wear.tooling.preview)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     implementation("androidx.wear.compose:compose-material3:1.5.0-beta02")
     implementation("androidx.activity:activity-compose:1.10.1")
@@ -88,3 +92,4 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.wear.tooling.preview)
 }
+

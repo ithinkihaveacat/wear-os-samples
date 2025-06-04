@@ -8,14 +8,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState // New import
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,6 +24,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel // New import
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.CompactButton
@@ -33,7 +34,6 @@ import androidx.wear.compose.material3.ShapeDefaults
 import androidx.wear.compose.material3.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class CounterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,30 +42,31 @@ class CounterActivity : ComponentActivity() {
         setTheme(android.R.style.Theme_DeviceDefault)
 
         setContent {
+            val viewModel: CounterViewModel = viewModel()
+            val uiState by viewModel.uiState.collectAsState()
+
             WearApp(
-                onInteractive = { runBlocking { getCounterState() } },
-                onStateChange = { counterState -> runBlocking { setCounterState(counterState) } },
+                uiState = uiState,
+                onIncrement = viewModel::increment,
+                onDecrement = viewModel::decrement,
+                onRefresh = viewModel::refreshCount,
             )
         }
     }
 }
 
 @Composable
-fun WearApp(onStateChange: (CounterState) -> Unit, onInteractive: () -> CounterState) {
-
-    var count by remember { mutableIntStateOf(onInteractive().count) }
-
-    // Persist changes to count
-    LaunchedEffect(count) { onStateChange(CounterState(count)) }
-
+fun WearApp(
+    uiState: CounterUiState,
+    onIncrement: () -> Unit,
+    onDecrement: () -> Unit,
+    onRefresh: () -> Unit,
+) {
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    // Reload CounterState when resuming, in case it was changed by the Tile
     LaunchedEffect(lifecycleOwner) {
         lifecycleOwner.lifecycleScope.launch {
-            lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                count = onInteractive().count
-            }
+            lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) { onRefresh() }
         }
     }
 
@@ -75,7 +76,7 @@ fun WearApp(onStateChange: (CounterState) -> Unit, onInteractive: () -> CounterS
             contentAlignment = Alignment.Center,
         ) {
             CircularProgressIndicator(
-                progress = { count / 10F },
+                progress = { uiState.count / 10F },
                 modifier = Modifier.fillMaxSize(),
                 colors =
                     ProgressIndicatorDefaults.colors(
@@ -92,20 +93,20 @@ fun WearApp(onStateChange: (CounterState) -> Unit, onInteractive: () -> CounterS
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     CounterCompactButton(
-                        onClick = { count-- },
+                        onClick = onDecrement,
                         label = {
                             Text(text = "-1", style = MaterialTheme.typography.displayMedium)
                         },
                     )
-                    Box(modifier = Modifier.size(10.dp))
+                    Spacer(Modifier.width(10.dp))
                     Text(
-                        text = count.toString(),
+                        text = uiState.count.toString(),
                         style = MaterialTheme.typography.displayLarge,
                         color = MaterialTheme.colorScheme.primary,
                     )
-                    Box(modifier = Modifier.size(10.dp))
+                    Spacer(Modifier.width(10.dp))
                     CounterCompactButton(
-                        onClick = { count++ },
+                        onClick = onIncrement,
                         label = {
                             Text(text = "+1", style = MaterialTheme.typography.displayMedium)
                         },
@@ -134,5 +135,10 @@ fun CounterCompactButton(onClick: () -> Unit, label: @Composable RowScope.() -> 
 @Preview(device = WearDevices.SMALL_ROUND, showSystemUi = true)
 @Composable
 fun DefaultPreview() {
-    WearApp(onStateChange = {}, onInteractive = { CounterState(9) })
+    WearApp(
+        uiState = CounterUiState(count = 9, isLoading = false),
+        onIncrement = {},
+        onDecrement = {},
+        onRefresh = {},
+    )
 }
