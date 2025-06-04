@@ -47,7 +47,7 @@
             android:exported="true"
             android:label="@string/tile_counter_label"
             android:description="@string/tile_counter_description"
-            android:icon="@drawable/ic_message_24"
+            android:icon="@mipmap/bolt"
             android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />

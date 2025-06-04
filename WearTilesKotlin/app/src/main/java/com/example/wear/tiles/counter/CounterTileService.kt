@@ -23,6 +23,10 @@ import androidx.wear.protolayout.expression.DynamicBuilders
 import androidx.wear.protolayout.expression.DynamicBuilders.DynamicString
 import androidx.wear.protolayout.expression.DynamicDataBuilders
 import androidx.wear.protolayout.expression.ProtoLayoutExperimental
+import androidx.wear.protolayout.expression.dynamicDataMapOf
+import androidx.wear.protolayout.expression.floatAppDataKey
+import androidx.wear.protolayout.expression.mapTo
+import androidx.wear.protolayout.expression.stringAppDataKey
 import androidx.wear.protolayout.material.Button
 import androidx.wear.protolayout.material.ButtonColors
 import androidx.wear.protolayout.material.CircularProgressIndicator
@@ -48,35 +52,38 @@ private val Context.counterDataStore: DataStore<Preferences> by
     preferencesDataStore(name = "counter")
 
 suspend fun Context.getCounterState(): CounterState {
-  return CounterState(
-      counterDataStore.data
-          .map { preferences -> preferences[intPreferencesKey(COUNT_ID)] ?: 0 }
-          .first())
+    return CounterState(
+        counterDataStore.data
+            .map { preferences -> preferences[intPreferencesKey(COUNT_ID)] ?: 0 }
+            .first()
+    )
 }
 
 suspend fun Context.setCounterState(state: CounterState) {
-  counterDataStore.edit { preferences -> preferences[intPreferencesKey(COUNT_ID)] = state.count }
+    counterDataStore.edit { preferences -> preferences[intPreferencesKey(COUNT_ID)] = state.count }
 }
 
 data class CounterState(var count: Int)
 
 class CounterTileService : SuspendingTileService() {
 
-  override suspend fun resourcesRequest(requestParams: RequestBuilders.ResourcesRequest) =
-      resources(requestParams)
+    override suspend fun resourcesRequest(requestParams: RequestBuilders.ResourcesRequest) =
+        resources(requestParams)
 
-  override suspend fun tileRequest(requestParams: RequestBuilders.TileRequest): TileBuilders.Tile {
-    return tile(
-        requestParams = requestParams,
-        context = this,
-        onInteractive = { runBlocking { getCounterState() } },
-        onStateChange = { counterState -> runBlocking { setCounterState(counterState) } },
-    )
-  }
+    override suspend fun tileRequest(
+        requestParams: RequestBuilders.TileRequest
+    ): TileBuilders.Tile {
+        return tile(
+            requestParams = requestParams,
+            context = this,
+            onInteractive = { runBlocking { getCounterState() } },
+            onStateChange = { counterState -> runBlocking { setCounterState(counterState) } },
+        )
+    }
 }
 
 private fun resources(requestParams: RequestBuilders.ResourcesRequest): ResourceBuilders.Resources {
-  return ResourceBuilders.Resources.Builder().setVersion(requestParams.version).build()
+    return ResourceBuilders.Resources.Builder().setVersion(requestParams.version).build()
 }
 
 private fun tile(
@@ -85,38 +92,40 @@ private fun tile(
     onInteractive: () -> CounterState,
     onStateChange: (CounterState) -> Unit,
 ): TileBuilders.Tile {
-  val operation = requestParams.currentState.lastClickableId
+    val operation = requestParams.currentState.lastClickableId
 
-  val prevCount =
-      requestParams.currentState.keyToValueMapping[AppDataKey<DynamicString>(COUNT_ID)]
-          ?.stringValue
-          ?.toIntOrNull() ?: onInteractive().count
-  val nextCount =
-      when (operation) {
-        ADD_ONE_ID -> prevCount + 1
-        SUB_ONE_ID -> prevCount - 1
-        else -> prevCount
-      }
+    val prevCount =
+        requestParams.currentState.keyToValueMapping[AppDataKey<DynamicString>(COUNT_ID)]
+            ?.stringValue
+            ?.toIntOrNull() ?: onInteractive().count
+    val nextCount =
+        when (operation) {
+            ADD_ONE_ID -> prevCount + 1
+            SUB_ONE_ID -> prevCount - 1
+            else -> prevCount
+        }
 
-  val displayCount = nextCount.toString()
-  val displayProgress = nextCount * 10 / 100F
+    val displayCount = nextCount.toString()
+    val displayProgress = nextCount * 10 / 100F
 
-  if (prevCount != nextCount) {
-    onStateChange(CounterState(nextCount))
-  }
+    // Persist change in state
+    if (prevCount != nextCount) {
+        onStateChange(CounterState(nextCount))
+    }
 
-  val newState =
-      State.Builder()
-          .mergeMap(mapOf(COUNT_ID to displayCount, PROGRESS_ID to displayProgress))
-          .build()
+    val newState =
+        State.Builder()
+            .setStateMap(dynamicDataMapOf(stringAppDataKey(COUNT_ID) mapTo displayCount, floatAppDataKey(PROGRESS_ID) mapTo displayProgress))
+//            .mergeMap(mapOf(COUNT_ID to displayCount, PROGRESS_ID to displayProgress))
+            .build()
 
-  return TileBuilders.Tile.Builder()
-      //        .setResourcesVersion(UUID.randomUUID().toString())
-      .setResourcesVersion(RESOURCES_VERSION)
-      .setState(newState)
-      .setTileTimeline(Timeline.fromLayoutElement(tileLayout(requestParams, context, newState)))
-      .setFreshnessIntervalMillis(1000)
-      .build()
+    return TileBuilders.Tile.Builder()
+        //        .setResourcesVersion(UUID.randomUUID().toString())
+        .setResourcesVersion(RESOURCES_VERSION)
+        .setState(newState)
+        .setTileTimeline(Timeline.fromLayoutElement(tileLayout(requestParams, context, newState)))
+        .setFreshnessIntervalMillis(1000)
+        .build()
 }
 
 private fun tileLayout(requestParams: RequestBuilders.TileRequest, context: Context, state: State) =
@@ -128,28 +137,34 @@ private fun tileLayout(requestParams: RequestBuilders.TileRequest, context: Cont
                     TypeBuilders.FloatProp.Builder(0.0F)
                         .setValue(0.0F)
                         .setDynamicValue(
-                            DynamicBuilders.DynamicFloat.from(AppDataKey(PROGRESS_ID)).animate())
-                        .build())
+                            DynamicBuilders.DynamicFloat.from(AppDataKey(PROGRESS_ID)).animate()
+                        )
+                        .build()
+                )
                 .setCircularProgressIndicatorColors(
-                    ProgressIndicatorColors(GoldenTilesColors.Pink, GoldenTilesColors.DarkerGray))
-                .build())
+                    ProgressIndicatorColors(GoldenTilesColors.Pink, GoldenTilesColors.DarkerGray)
+                )
+                .build()
+        )
         .setContent(
             MultiSlotLayout.Builder()
                 .addSlotContent(buildButton(context, buildClickable(SUB_ONE_ID, state), "-1"))
                 .addSlotContent(dynamicText((COUNT_ID)))
                 .addSlotContent(buildButton(context, buildClickable(ADD_ONE_ID, state), "+1"))
-                .build())
+                .build()
+        )
         .setPrimaryLabelTextContent(
             Text.Builder(context, "Cups")
                 .setColor(ColorBuilders.argb(GoldenTilesColors.Yellow))
-                .build())
+                .build()
+        )
         .build()
 
 @Preview(device = WearDevices.SMALL_ROUND)
 @Preview(device = WearDevices.LARGE_ROUND)
 fun tilePreview(context: Context) =
     TilePreviewData(::resources) {
-      tile(it, context, onInteractive = { CounterState(8) }, onStateChange = {})
+        tile(it, context, onInteractive = { CounterState(8) }, onStateChange = {})
     }
 
 fun buildButton(context: Context, clickable: Clickable, label: String) =
@@ -160,81 +175,85 @@ fun buildButton(context: Context, clickable: Clickable, label: String) =
             ButtonColors(
                 ColorBuilders.argb(GoldenTilesColors.LightPurple),
                 ColorBuilders.argb(GoldenTilesColors.DarkerGray),
-            ))
+            )
+        )
         .build()
 
 @androidx.annotation.OptIn(ProtoLayoutExperimental::class)
 fun dynamicText(key: String): LayoutElementBuilders.Text {
-  return LayoutElementBuilders.Text.Builder()
-      .setText(
-          TypeBuilders.StringProp.Builder("No Data")
-              .setValue("—")
-              .setDynamicValue(DynamicString.from(AppDataKey(key)))
-              .build())
-      .setLayoutConstraintsForDynamicText(
-          StringLayoutConstraint.Builder("00")
-              .setAlignment(LayoutElementBuilders.TEXT_ALIGN_CENTER)
-              .build())
-      .setFontStyle(
-          LayoutElementBuilders.FontStyle.Builder()
-              .setSize(sp(40F))
-              .setWeight(FONT_WEIGHT_BOLD)
-              .setColor(ColorBuilders.argb(GoldenTilesColors.Yellow))
-              .build())
-      .build()
+    return LayoutElementBuilders.Text.Builder()
+        .setText(
+            TypeBuilders.StringProp.Builder("No Data")
+                .setValue("—")
+                .setDynamicValue(DynamicString.from(AppDataKey(key)))
+                .build()
+        )
+        .setLayoutConstraintsForDynamicText(
+            StringLayoutConstraint.Builder("00")
+                .setAlignment(LayoutElementBuilders.TEXT_ALIGN_CENTER)
+                .build()
+        )
+        .setFontStyle(
+            LayoutElementBuilders.FontStyle.Builder()
+                .setSize(sp(40F))
+                .setWeight(FONT_WEIGHT_BOLD)
+                .setColor(ColorBuilders.argb(GoldenTilesColors.Yellow))
+                .build()
+        )
+        .build()
 }
 
 fun State.Builder.mergeMap(map: Map<String, Any>) = apply {
-  map.forEach { (key, value) ->
-    when (value) {
-      is Int ->
-          addKeyToValueMapping(
-              AppDataKey(key),
-              DynamicDataBuilders.DynamicDataValue.fromInt(value),
-          )
+    map.forEach { (key, value) ->
+        when (value) {
+            is Int ->
+                addKeyToValueMapping(
+                    AppDataKey(key),
+                    DynamicDataBuilders.DynamicDataValue.fromInt(value),
+                )
 
-      is Float ->
-          addKeyToValueMapping(
-              AppDataKey(key),
-              DynamicDataBuilders.DynamicDataValue.fromFloat(value),
-          )
+            is Float ->
+                addKeyToValueMapping(
+                    AppDataKey(key),
+                    DynamicDataBuilders.DynamicDataValue.fromFloat(value),
+                )
 
-      is String ->
-          addKeyToValueMapping(
-              AppDataKey(key),
-              DynamicDataBuilders.DynamicDataValue.fromString(value),
-          )
+            is String ->
+                addKeyToValueMapping(
+                    AppDataKey(key),
+                    DynamicDataBuilders.DynamicDataValue.fromString(value),
+                )
 
-      is java.time.Instant ->
-          addKeyToValueMapping(
-              AppDataKey(key),
-              DynamicDataBuilders.DynamicDataValue.fromInstant(value),
-          )
+            is java.time.Instant ->
+                addKeyToValueMapping(
+                    AppDataKey(key),
+                    DynamicDataBuilders.DynamicDataValue.fromInstant(value),
+                )
 
-      is java.time.Duration ->
-          addKeyToValueMapping(
-              AppDataKey(key),
-              DynamicDataBuilders.DynamicDataValue.fromDuration(value),
-          )
+            is java.time.Duration ->
+                addKeyToValueMapping(
+                    AppDataKey(key),
+                    DynamicDataBuilders.DynamicDataValue.fromDuration(value),
+                )
 
-      is ByteArray ->
-          addKeyToValueMapping(
-              AppDataKey(key),
-              DynamicDataBuilders.DynamicDataValue.fromByteArray(value),
-          )
+            is ByteArray ->
+                addKeyToValueMapping(
+                    AppDataKey(key),
+                    DynamicDataBuilders.DynamicDataValue.fromByteArray(value),
+                )
 
-      else -> throw IllegalArgumentException("Unsupported value type: ${value::class}")
+            else -> throw IllegalArgumentException("Unsupported value type: ${value::class}")
+        }
     }
-  }
 }
 
 fun Clickable.Builder.setIdAndState(id: String, state: State) = apply {
-  setId(id)
-  setOnClick(ActionBuilders.LoadAction.Builder().setRequestState(state).build())
+    setId(id)
+    setOnClick(ActionBuilders.LoadAction.Builder().setRequestState(state).build())
 }
 
 fun buildClickable(id: String, state: State): Clickable {
-  return Clickable.Builder().setIdAndState(id, state).build()
+    return Clickable.Builder().setIdAndState(id, state).build()
 }
 
 const val ADD_ONE_ID = "add_one_id"

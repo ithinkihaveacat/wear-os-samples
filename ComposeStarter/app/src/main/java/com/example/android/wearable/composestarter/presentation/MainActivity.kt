@@ -39,11 +39,13 @@ import androidx.wear.compose.material3.AlertDialog
 import androidx.wear.compose.material3.AlertDialogDefaults
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.EdgeButtonSize
 import androidx.wear.compose.material3.FilledIconButton
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
@@ -114,7 +116,8 @@ fun GreetingScreen(greetingName: String, onShowList: () -> Unit, modifier: Modif
         edgeButton = {
             EdgeButton(
                 onClick = onShowList,
-                buttonSize = EdgeButtonSize.ExtraSmall
+                buttonSize = EdgeButtonSize.ExtraSmall,
+                colors = ButtonDefaults.buttonColors(contentColor = MaterialTheme.colorScheme.onSecondary, containerColor = MaterialTheme.colorScheme.secondary)
             ) {
                 Text(stringResource(R.string.show_list), textAlign = TextAlign.Center)
             }
