@@ -10,12 +10,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState // New import
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,7 +24,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel // New import
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.CompactButton
@@ -75,27 +75,29 @@ fun WearApp(
             modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
             contentAlignment = Alignment.Center,
         ) {
-            CircularProgressIndicator(
-                progress = { uiState.count / 10F },
-                modifier = Modifier.fillMaxSize(),
-                colors =
-                    ProgressIndicatorDefaults.colors(
-                        indicatorColor = MaterialTheme.colorScheme.secondary,
-                        trackColor = MaterialTheme.colorScheme.onSecondary,
-                    ),
-                strokeWidth = 8.dp,
-            )
+            key(uiState.count) {
+                CircularProgressIndicator(
+                    progress = { uiState.count / 10F },
+                    modifier = Modifier.fillMaxSize(),
+                    colors =
+                        ProgressIndicatorDefaults.colors(
+                            indicatorColor = MaterialTheme.colorScheme.secondary,
+                            trackColor = MaterialTheme.colorScheme.onSecondary,
+                        ),
+                    strokeWidth = 8.dp,
+                )
+            }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    "Cups",
+                    text = "Cups",
                     style = MaterialTheme.typography.displayLarge,
                     color = MaterialTheme.colorScheme.primary,
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    CounterCompactButton(
+                    CounterButton(
                         onClick = onDecrement,
                         label = {
-                            Text(text = "-1", style = MaterialTheme.typography.displayMedium)
+                            Text(text = "−1", style = MaterialTheme.typography.displayMedium)
                         },
                     )
                     Spacer(Modifier.width(10.dp))
@@ -105,7 +107,7 @@ fun WearApp(
                         color = MaterialTheme.colorScheme.primary,
                     )
                     Spacer(Modifier.width(10.dp))
-                    CounterCompactButton(
+                    CounterButton(
                         onClick = onIncrement,
                         label = {
                             Text(text = "+1", style = MaterialTheme.typography.displayMedium)
@@ -118,11 +120,10 @@ fun WearApp(
 }
 
 @Composable
-fun CounterCompactButton(onClick: () -> Unit, label: @Composable RowScope.() -> Unit) {
+fun CounterButton(onClick: () -> Unit, label: @Composable RowScope.() -> Unit) {
     CompactButton(
-        shape = ShapeDefaults.Medium,
         onClick = onClick,
-        modifier = Modifier.size(55.dp),
+        shape = ShapeDefaults.Small,
         colors =
             ButtonDefaults.buttonColors(
                 contentColor = MaterialTheme.colorScheme.onTertiary,
@@ -136,7 +137,7 @@ fun CounterCompactButton(onClick: () -> Unit, label: @Composable RowScope.() -> 
 @Composable
 fun DefaultPreview() {
     WearApp(
-        uiState = CounterUiState(count = 9, isLoading = false),
+        uiState = CounterUiState(count = 6, isLoading = false),
         onIncrement = {},
         onDecrement = {},
         onRefresh = {},

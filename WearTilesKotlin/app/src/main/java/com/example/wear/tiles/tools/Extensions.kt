@@ -18,8 +18,9 @@ package com.example.wear.tiles.tools
 import android.graphics.Bitmap
 import androidx.annotation.DrawableRes
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
-import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.LayoutElementBuilders.Column
+import androidx.wear.protolayout.LayoutElementBuilders.Image
+import androidx.wear.protolayout.LayoutElementBuilders.Row
 import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.ResourceBuilders.ImageResource
 import androidx.wear.protolayout.ResourceBuilders.Resources
@@ -37,14 +38,13 @@ fun Resources.Builder.addIdToImageMapping(id: String, bitmap: Bitmap): Resources
 
 fun DeviceParameters.isLargeScreen() = screenWidthDp >= 225
 
-// Column extensions
+// LayoutElementBuilders extensions
 
 fun column(builder: Column.Builder.() -> Unit) = Column.Builder().apply(builder).build()
 
-// LayoutElementBuilders extensions
+fun row(builder: Row.Builder.() -> Unit) = Row.Builder().apply(builder).build()
 
-fun image(builder: LayoutElementBuilders.Image.Builder.() -> Unit) =
-    LayoutElementBuilders.Image.Builder().apply(builder).build()
+fun image(builder: Image.Builder.() -> Unit) = Image.Builder().apply(builder).build()
 
 // Image extensions
 
