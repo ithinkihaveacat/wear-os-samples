@@ -1,6 +1,7 @@
 package com.example.wear.tiles.counter
 
 import android.content.Context
+import androidx.annotation.OptIn
 import androidx.wear.protolayout.ActionBuilders
 import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DimensionBuilders.dp
@@ -26,21 +27,31 @@ import androidx.wear.protolayout.expression.mapTo
 import androidx.wear.protolayout.expression.stringAppDataKey
 import androidx.wear.protolayout.material3.ButtonDefaults.filledButtonColors
 import androidx.wear.protolayout.material3.ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS
-import androidx.wear.protolayout.material3.CircularProgressIndicatorDefaults.filledTonalProgressIndicatorColors
+import androidx.wear.protolayout.material3.CircularProgressIndicatorDefaults.recommendedAnimationSpec
+import androidx.wear.protolayout.material3.GraphicDataCardDefaults.constructGraphic
 import androidx.wear.protolayout.material3.MaterialScope
-import androidx.wear.protolayout.material3.Typography.DISPLAY_LARGE
-import androidx.wear.protolayout.material3.circularProgressIndicator
+import androidx.wear.protolayout.material3.PrimaryLayoutMargins
+import androidx.wear.protolayout.material3.Typography.TITLE_LARGE
+import androidx.wear.protolayout.material3.graphicDataCard
+import androidx.wear.protolayout.material3.icon
 import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
+import androidx.wear.protolayout.material3.segmentedCircularProgressIndicator
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textButton
+import androidx.wear.protolayout.modifiers.clickable
+import androidx.wear.protolayout.types.LayoutColor
+import androidx.wear.protolayout.types.LayoutString
+import androidx.wear.protolayout.types.asLayoutString
 import androidx.wear.protolayout.types.layoutString
+import androidx.wear.protolayout.types.stringLayoutConstraint
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.TileBuilders
 import androidx.wear.tiles.tooling.preview.Preview
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tooling.preview.devices.WearDevices
-import com.example.wear.tiles.golden.GoldenTilesColors
+import com.example.wear.tiles.R
+import com.example.wear.tiles.tools.addIdToImageMapping
 import com.example.wear.tiles.tools.column
 import com.example.wear.tiles.tools.row
 import com.google.android.horologist.tiles.SuspendingTileService
@@ -51,6 +62,9 @@ private const val ADD_ONE_ID = "add_one_id"
 private const val SUB_ONE_ID = "sub_one_id"
 private const val PROGRESS_ID = "progress_id"
 private const val COUNT_ID = "count_id"
+private const val TARGET_CUPS = 5
+private const val ICON_WATER = "waterIcon"
+private const val ICON_PLUS = "plusIcon"
 
 class CounterTileService : SuspendingTileService() {
 
@@ -70,7 +84,10 @@ class CounterTileService : SuspendingTileService() {
 }
 
 private fun resources(requestParams: RequestBuilders.ResourcesRequest): ResourceBuilders.Resources {
-    return ResourceBuilders.Resources.Builder().setVersion(requestParams.version).build()
+    return ResourceBuilders.Resources.Builder()
+        .setVersion(requestParams.version)
+        .addIdToImageMapping(ICON_WATER, R.drawable.outline_glass_cup_24)
+        .build()
 }
 
 private fun tile(
@@ -93,7 +110,7 @@ private fun tile(
         }
 
     val displayCount = nextCount.toString()
-    val displayProgress = nextCount * 10 / 100F
+    val displayProgress = nextCount.toFloat() / TARGET_CUPS
 
     // Persist change in state
     if (prevCount != nextCount) {
@@ -121,48 +138,81 @@ private fun tile(
 
 private fun tileLayout(requestParams: RequestBuilders.TileRequest, context: Context, state: State) =
     materialScope(context, requestParams.deviceConfiguration) {
+        val currentCups = DynamicBuilders.DynamicFloat.from(AppDataKey(PROGRESS_ID))
+        val progress = currentCups.animate(recommendedAnimationSpec)
+//            DynamicBuilders.DynamicFloat.animate(
+////                max(0F, currentCups - 1F) / TARGET_CUPS,
+//                0F,
+//                currentCups,
+//                recommendedAnimationSpec,
+//            )
         primaryLayout(
+            margins = PrimaryLayoutMargins.MIN_PRIMARY_LAYOUT_MARGIN,
             titleSlot = {
                 text(
-                    text = "Cups".layoutString,
-                    typography = DISPLAY_LARGE,
+                    text = "Water".layoutString,
+                    typography = TITLE_LARGE,
                     color = colorScheme.primary,
                 )
             },
             mainSlot = {
                 column {
+                    setWidth(expand())
+                    addContent(
+                        graphicDataCard(
+                            onClick = clickable(),
+                            height = expand(),
+                            content = { text("Cups".layoutString) }, // TODO Conditionalize based on currentCups…
+                            graphic = {
+                                constructGraphic(
+                                    mainContent = {
+                                        segmentedCircularProgressIndicator(
+//                                            startAngleDegrees = 200F,
+//                                            endAngleDegrees = 520F,
+                                            segmentCount = TARGET_CUPS,
+                                            dynamicProgress = progress,
+                                            staticProgress = 0F
+                                        )
+                                    },
+                                    iconContent = { icon(ICON_WATER) },
+                                )
+                            },
+                            title = { text(dynamicCount()) }
+                        )
+                    )
+                    addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
                     addContent(
                         row {
                             addContent(
                                 counterButton(
                                     onClick = buildClickable(SUB_ONE_ID, state),
-                                    labelContent = { text("−1".layoutString) },
+                                    labelContent = { text("−".layoutString) },
                                 )
                             )
                             addContent(
                                 Spacer.Builder().setWidth(dp(5F)).setHeight(expand()).build()
                             )
-                            addContent(dynamicText(COUNT_ID))
-                            addContent(
-                                Spacer.Builder().setWidth(dp(5F)).setHeight(expand()).build()
-                            )
+//                            addContent(dynamicText(COUNT_ID))
+//                            addContent(
+//                                Spacer.Builder().setWidth(dp(5F)).setHeight(expand()).build()
+//                            )
                             addContent(
                                 counterButton(
                                     onClick = buildClickable(ADD_ONE_ID, state),
-                                    labelContent = { text("+1".layoutString) },
+                                    labelContent = { text("+".layoutString) },
                                 )
                             )
                         }
                     )
-                    addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
-                    addContent(
-                        circularProgressIndicator(
-                            dynamicProgress =
-                                DynamicBuilders.DynamicFloat.from(AppDataKey(PROGRESS_ID))
-                                    .animate(),
-                            colors = filledTonalProgressIndicatorColors(),
-                        )
-                    )
+//                    addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
+//                    addContent(
+//                        circularProgressIndicator(
+//                            dynamicProgress =
+//                                DynamicBuilders.DynamicFloat.from(AppDataKey(PROGRESS_ID))
+//                                    .animate(),
+//                            colors = filledTonalProgressIndicatorColors(),
+//                        )
+//                    )
                 }
             }
         )
@@ -227,6 +277,7 @@ private fun MaterialScope.counterButton(
     textButton(
         onClick = onClick,
         shape = shapes.medium,
+        height = dp(45F),
         colors =
             filledButtonColors()
                 .copy(labelColor = colorScheme.onTertiary, containerColor = colorScheme.tertiary),
@@ -240,8 +291,8 @@ fun tilePreview(context: Context) =
         tile(it, context, onInteractive = { CounterState(8) }, onStateChange = {})
     }
 
-@androidx.annotation.OptIn(ProtoLayoutExperimental::class)
-fun dynamicText(key: String): LayoutElementBuilders.Text {
+@OptIn(ProtoLayoutExperimental::class)
+fun MaterialScope.dynamicText(key: String): LayoutElementBuilders.Text {
     return LayoutElementBuilders.Text.Builder()
         .setText(
             TypeBuilders.StringProp.Builder("No Data")
@@ -255,13 +306,38 @@ fun dynamicText(key: String): LayoutElementBuilders.Text {
                 .build()
         )
         .setFontStyle(
+            // TODO: extract size, weight axes from e.g. Typography.DISPLAY_LARGE
             LayoutElementBuilders.FontStyle.Builder()
                 .setSize(sp(40F))
                 .setWeight(FONT_WEIGHT_BOLD)
-                .setColor(ColorBuilders.argb(GoldenTilesColors.Yellow))
+                .setColor(colorScheme.primary.toColorProp())
                 .build()
         )
         .build()
+}
+
+fun MaterialScope.dynamicCount(): LayoutString {
+    val intToWordLambda: (Int) -> String = {
+        arrayOf("Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine").getOrNull(it) ?: "—"
+    }
+
+    val dynamicValue = DynamicString.from(AppDataKey<DynamicString>(COUNT_ID))
+
+    val constraint = stringLayoutConstraint(
+        longestPattern = "00",
+        alignment = LayoutElementBuilders.TEXT_ALIGN_START
+    )
+
+    return dynamicValue.asLayoutString(
+        staticValue = "—",
+        layoutConstraint = constraint
+    )
+}
+
+fun LayoutColor.toColorProp(): ColorBuilders.ColorProp {
+    val builder = ColorBuilders.ColorProp.Builder(this.staticArgb)
+    this.dynamicArgb?.let { dynamicColor -> builder.setDynamicValue(dynamicColor) }
+    return builder.build()
 }
 
 fun Clickable.Builder.setIdAndState(id: String, state: State) = apply {
