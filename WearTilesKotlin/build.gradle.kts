@@ -23,6 +23,7 @@ buildscript {
 plugins {
     alias(libs.plugins.com.diffplug.spotless) apply(false)
     alias(libs.plugins.com.android.application) apply(false)
+    alias(libs.plugins.compose.compiler) apply false
 }
 
 subprojects {
@@ -36,6 +37,7 @@ subprojects {
 
             ktlint(libs.versions.ktlint.get())
             licenseHeaderFile(rootProject.file("../spotless/copyright.kt"))
+            ktfmt(libs.versions.ktfmt.get()).kotlinlangStyle()
         }
         format("xml") {
             target("**/*.xml")
