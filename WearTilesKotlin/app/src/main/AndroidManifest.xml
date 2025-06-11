@@ -43,7 +43,7 @@
         </service>
 
         <service
-            android:name="com.example.wear.tiles.counter.CounterTileService"
+            android:name="com.example.wear.tiles.counter.CounterService"
             android:exported="true"
             android:label="@string/tile_counter_label"
             android:description="@string/tile_counter_description"

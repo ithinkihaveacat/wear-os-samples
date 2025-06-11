@@ -26,7 +26,10 @@ import androidx.wear.protolayout.expression.floatAppDataKey
 import androidx.wear.protolayout.expression.mapTo
 import androidx.wear.protolayout.expression.stringAppDataKey
 import androidx.wear.protolayout.material3.ButtonDefaults.filledButtonColors
+import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColors
 import androidx.wear.protolayout.material3.ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS
+import androidx.wear.protolayout.material3.CircularProgressIndicatorDefaults.filledProgressIndicatorColors
+import androidx.wear.protolayout.material3.CircularProgressIndicatorDefaults.filledTonalProgressIndicatorColors
 import androidx.wear.protolayout.material3.CircularProgressIndicatorDefaults.recommendedAnimationSpec
 import androidx.wear.protolayout.material3.GraphicDataCardDefaults.constructGraphic
 import androidx.wear.protolayout.material3.MaterialScope
@@ -66,7 +69,7 @@ private const val TARGET_CUPS = 5
 private const val ICON_WATER = "waterIcon"
 private const val ICON_PLUS = "plusIcon"
 
-class CounterTileService : SuspendingTileService() {
+class CounterService : SuspendingTileService() {
 
     override suspend fun resourcesRequest(requestParams: RequestBuilders.ResourcesRequest) =
         resources(requestParams)
@@ -162,13 +165,14 @@ private fun tileLayout(requestParams: RequestBuilders.TileRequest, context: Cont
                         graphicDataCard(
                             onClick = clickable(),
                             height = expand(),
-                            content = { text("Cups".layoutString) }, // TODO Conditionalize based on currentCups…
+                            content = { text("Cup(s)".layoutString) }, // TODO Conditionalize based on currentCups
                             graphic = {
                                 constructGraphic(
                                     mainContent = {
                                         segmentedCircularProgressIndicator(
 //                                            startAngleDegrees = 200F,
 //                                            endAngleDegrees = 520F,
+                                            colors = filledProgressIndicatorColors(),
                                             segmentCount = TARGET_CUPS,
                                             dynamicProgress = progress,
                                             staticProgress = 0F
@@ -317,10 +321,6 @@ fun MaterialScope.dynamicText(key: String): LayoutElementBuilders.Text {
 }
 
 fun MaterialScope.dynamicCount(): LayoutString {
-    val intToWordLambda: (Int) -> String = {
-        arrayOf("Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine").getOrNull(it) ?: "—"
-    }
-
     val dynamicValue = DynamicString.from(AppDataKey<DynamicString>(COUNT_ID))
 
     val constraint = stringLayoutConstraint(
