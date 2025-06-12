@@ -1,3 +1,18 @@
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.example.wear.tiles.counter
 
 import android.content.Context
@@ -26,10 +41,8 @@ import androidx.wear.protolayout.expression.floatAppDataKey
 import androidx.wear.protolayout.expression.mapTo
 import androidx.wear.protolayout.expression.stringAppDataKey
 import androidx.wear.protolayout.material3.ButtonDefaults.filledButtonColors
-import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColors
 import androidx.wear.protolayout.material3.ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS
 import androidx.wear.protolayout.material3.CircularProgressIndicatorDefaults.filledProgressIndicatorColors
-import androidx.wear.protolayout.material3.CircularProgressIndicatorDefaults.filledTonalProgressIndicatorColors
 import androidx.wear.protolayout.material3.CircularProgressIndicatorDefaults.recommendedAnimationSpec
 import androidx.wear.protolayout.material3.GraphicDataCardDefaults.constructGraphic
 import androidx.wear.protolayout.material3.MaterialScope
@@ -143,12 +156,12 @@ private fun tileLayout(requestParams: RequestBuilders.TileRequest, context: Cont
     materialScope(context, requestParams.deviceConfiguration) {
         val currentCups = DynamicBuilders.DynamicFloat.from(AppDataKey(PROGRESS_ID))
         val progress = currentCups.animate(recommendedAnimationSpec)
-//            DynamicBuilders.DynamicFloat.animate(
-////                max(0F, currentCups - 1F) / TARGET_CUPS,
-//                0F,
-//                currentCups,
-//                recommendedAnimationSpec,
-//            )
+        //            DynamicBuilders.DynamicFloat.animate(
+        // //                max(0F, currentCups - 1F) / TARGET_CUPS,
+        //                0F,
+        //                currentCups,
+        //                recommendedAnimationSpec,
+        //            )
         primaryLayout(
             margins = PrimaryLayoutMargins.MIN_PRIMARY_LAYOUT_MARGIN,
             titleSlot = {
@@ -165,23 +178,27 @@ private fun tileLayout(requestParams: RequestBuilders.TileRequest, context: Cont
                         graphicDataCard(
                             onClick = clickable(),
                             height = expand(),
-                            content = { text("Cup(s)".layoutString) }, // TODO Conditionalize based on currentCups
+                            content = {
+                                text("Cup(s)".layoutString)
+                            }, // TODO Conditionalize based on currentCups
                             graphic = {
                                 constructGraphic(
                                     mainContent = {
                                         segmentedCircularProgressIndicator(
-//                                            startAngleDegrees = 200F,
-//                                            endAngleDegrees = 520F,
+                                            //
+                                            // startAngleDegrees = 200F,
+                                            //
+                                            // endAngleDegrees = 520F,
                                             colors = filledProgressIndicatorColors(),
                                             segmentCount = TARGET_CUPS,
                                             dynamicProgress = progress,
-                                            staticProgress = 0F
+                                            staticProgress = 0F,
                                         )
                                     },
                                     iconContent = { icon(ICON_WATER) },
                                 )
                             },
-                            title = { text(dynamicCount()) }
+                            title = { text(dynamicCount()) },
                         )
                     )
                     addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
@@ -196,10 +213,11 @@ private fun tileLayout(requestParams: RequestBuilders.TileRequest, context: Cont
                             addContent(
                                 Spacer.Builder().setWidth(dp(5F)).setHeight(expand()).build()
                             )
-//                            addContent(dynamicText(COUNT_ID))
-//                            addContent(
-//                                Spacer.Builder().setWidth(dp(5F)).setHeight(expand()).build()
-//                            )
+                            //                            addContent(dynamicText(COUNT_ID))
+                            //                            addContent(
+                            //
+                            // Spacer.Builder().setWidth(dp(5F)).setHeight(expand()).build()
+                            //                            )
                             addContent(
                                 counterButton(
                                     onClick = buildClickable(ADD_ONE_ID, state),
@@ -208,17 +226,18 @@ private fun tileLayout(requestParams: RequestBuilders.TileRequest, context: Cont
                             )
                         }
                     )
-//                    addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
-//                    addContent(
-//                        circularProgressIndicator(
-//                            dynamicProgress =
-//                                DynamicBuilders.DynamicFloat.from(AppDataKey(PROGRESS_ID))
-//                                    .animate(),
-//                            colors = filledTonalProgressIndicatorColors(),
-//                        )
-//                    )
+                    //                    addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
+                    //                    addContent(
+                    //                        circularProgressIndicator(
+                    //                            dynamicProgress =
+                    //
+                    // DynamicBuilders.DynamicFloat.from(AppDataKey(PROGRESS_ID))
+                    //                                    .animate(),
+                    //                            colors = filledTonalProgressIndicatorColors(),
+                    //                        )
+                    //                    )
                 }
-            }
+            },
         )
     }
 
@@ -323,15 +342,13 @@ fun MaterialScope.dynamicText(key: String): LayoutElementBuilders.Text {
 fun MaterialScope.dynamicCount(): LayoutString {
     val dynamicValue = DynamicString.from(AppDataKey<DynamicString>(COUNT_ID))
 
-    val constraint = stringLayoutConstraint(
-        longestPattern = "00",
-        alignment = LayoutElementBuilders.TEXT_ALIGN_START
-    )
+    val constraint =
+        stringLayoutConstraint(
+            longestPattern = "00",
+            alignment = LayoutElementBuilders.TEXT_ALIGN_START,
+        )
 
-    return dynamicValue.asLayoutString(
-        staticValue = "—",
-        layoutConstraint = constraint
-    )
+    return dynamicValue.asLayoutString(staticValue = "—", layoutConstraint = constraint)
 }
 
 fun LayoutColor.toColorProp(): ColorBuilders.ColorProp {

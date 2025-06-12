@@ -1,11 +1,24 @@
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.example.wear.tiles.counter
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.FloatRange
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -17,8 +30,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -37,24 +48,15 @@ import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
-import androidx.wear.compose.material3.CircularProgressIndicator
-import androidx.wear.compose.material3.CircularProgressIndicatorDefaults
 import androidx.wear.compose.material3.CompactButton
-import androidx.wear.compose.material3.IconButtonDefaults
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.MaterialTheme
-import androidx.wear.compose.material3.ProgressIndicatorColors
 import androidx.wear.compose.material3.ProgressIndicatorDefaults
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.SegmentedCircularProgressIndicator
 import androidx.wear.compose.material3.ShapeDefaults
 import androidx.wear.compose.material3.Text
-import androidx.wear.compose.material3.TextButton
-import androidx.wear.compose.material3.TextButtonDefaults.filledVariantTextButtonColors
-import androidx.wear.compose.material3.TextButtonShapes
 import androidx.wear.compose.material3.dynamicColorScheme
-import androidx.wear.protolayout.types.LayoutColor
-import androidx.wear.protolayout.types.argb
 import androidx.wear.tooling.preview.devices.WearDevices
 import kotlinx.coroutines.launch
 
@@ -90,13 +92,13 @@ fun SmallSegmentedProgressIndicator(progress: Int) {
     SegmentedCircularProgressIndicator(
         segmentCount = segmentCount,
         segmentValue = { index -> index < progress },
-        colors = ProgressIndicatorDefaults.colors(
-            trackColor = MaterialTheme.colorScheme.onPrimary.withOpacity(0.2F),
-            indicatorColor = MaterialTheme.colorScheme.onPrimary
-        ),
-        modifier = Modifier
-            .size(ButtonDefaults.LargeIconSize),
-        strokeWidth = 5.dp
+        colors =
+            ProgressIndicatorDefaults.colors(
+                trackColor = MaterialTheme.colorScheme.onPrimary.withOpacity(0.2F),
+                indicatorColor = MaterialTheme.colorScheme.onPrimary,
+            ),
+        modifier = Modifier.size(ButtonDefaults.LargeIconSize),
+        strokeWidth = 5.dp,
     )
 }
 
@@ -134,83 +136,75 @@ fun WearApp(
         }
         item {
             Button(
-                onClick = { },
+                onClick = {},
                 modifier = Modifier.fillMaxWidth(),
                 icon = { SmallSegmentedProgressIndicator(uiState.count) },
                 label = { Text(uiState.count.toString()) },
-                secondaryLabel = { Text("Cups") }
+                secondaryLabel = { Text("Cups") },
             )
         }
-//        item {
-//            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-//                Row(verticalAlignment = Alignment.CenterVertically) {
-////                                 Spacer(Modifier.width(10.dp))
-////                                Text(
-////                                    text = uiState.count.toString(),
-////                                    style = MaterialTheme.typography.displayLarge,
-////                                    color = MaterialTheme.colorScheme.primary,
-////                                    modifier = Modifier.sizeIn(minWidth = 35.dp),
-////                                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-////                                )
-//                    TextButton(
-//                        onClick = { },
-//                        content = {
-//                            Text(
-//                                uiState.count.toString(),
-//                                style = MaterialTheme.typography.displayLarge
-//                            )
-//                        },
-//                        shapes = TextButtonShapes(
-//                            shape = MaterialTheme.shapes.medium
-//                        ),
-//                        colors = filledVariantTextButtonColors()
-//                    )
-//                    Spacer(Modifier.width(10.dp))
-//                    Box {
-//                        key(
-//                            uiState.count
-//                        ) { // need key() to recompose on state change
-//                            CircularProgressIndicator(
-//                                progress = { uiState.count / 10F },
-//                                modifier =
-//                                    Modifier
-//                                        .size(IconButtonDefaults.DefaultButtonSize)
-//                                        .align(Alignment.Center),
-//                                strokeWidth =
-//                                    CircularProgressIndicatorDefaults.largeStrokeWidth,
-//                                colors =
-//                                    ProgressIndicatorDefaults.colors(
-//                                        indicatorColor =
-//                                            MaterialTheme.colorScheme.secondary,
-//                                        trackColor = MaterialTheme.colorScheme.onSecondary,
-//                                    ),
-//                            )
-//                        }
-//                    }
-//                }
-//
-//            }
-//        }
+        //        item {
+        //            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        //                Row(verticalAlignment = Alignment.CenterVertically) {
+        // //                                 Spacer(Modifier.width(10.dp))
+        // //                                Text(
+        // //                                    text = uiState.count.toString(),
+        // //                                    style = MaterialTheme.typography.displayLarge,
+        // //                                    color = MaterialTheme.colorScheme.primary,
+        // //                                    modifier = Modifier.sizeIn(minWidth = 35.dp),
+        // //                                    textAlign =
+        // androidx.compose.ui.text.style.TextAlign.Center,
+        // //                                )
+        //                    TextButton(
+        //                        onClick = { },
+        //                        content = {
+        //                            Text(
+        //                                uiState.count.toString(),
+        //                                style = MaterialTheme.typography.displayLarge
+        //                            )
+        //                        },
+        //                        shapes = TextButtonShapes(
+        //                            shape = MaterialTheme.shapes.medium
+        //                        ),
+        //                        colors = filledVariantTextButtonColors()
+        //                    )
+        //                    Spacer(Modifier.width(10.dp))
+        //                    Box {
+        //                        key(
+        //                            uiState.count
+        //                        ) { // need key() to recompose on state change
+        //                            CircularProgressIndicator(
+        //                                progress = { uiState.count / 10F },
+        //                                modifier =
+        //                                    Modifier
+        //                                        .size(IconButtonDefaults.DefaultButtonSize)
+        //                                        .align(Alignment.Center),
+        //                                strokeWidth =
+        //                                    CircularProgressIndicatorDefaults.largeStrokeWidth,
+        //                                colors =
+        //                                    ProgressIndicatorDefaults.colors(
+        //                                        indicatorColor =
+        //                                            MaterialTheme.colorScheme.secondary,
+        //                                        trackColor =
+        // MaterialTheme.colorScheme.onSecondary,
+        //                                    ),
+        //                            )
+        //                        }
+        //                    }
+        //                }
+        //
+        //            }
+        //        }
         item {
             Row {
                 CounterButton(
                     onClick = onDecrement,
-                    label = {
-                        Text(
-                            text = "−",
-                            style = MaterialTheme.typography.displayMedium,
-                        )
-                    },
+                    label = { Text(text = "−", style = MaterialTheme.typography.displayMedium) },
                 )
                 Spacer(Modifier.width(10.dp))
                 CounterButton(
                     onClick = onIncrement,
-                    label = {
-                        Text(
-                            text = "+",
-                            style = MaterialTheme.typography.displayMedium,
-                        )
-                    },
+                    label = { Text(text = "+", style = MaterialTheme.typography.displayMedium) },
                 )
             }
         }
@@ -218,9 +212,7 @@ fun WearApp(
 }
 
 @Composable
-fun MaterialTransformingLazyColumn(
-    content: TransformingLazyColumnScope.() -> Unit
-) {
+fun MaterialTransformingLazyColumn(content: TransformingLazyColumnScope.() -> Unit) {
     MaterialTheme(
         // Need to explicitly opt-in to the dynamic theme
         colorScheme = dynamicColorScheme(LocalContext.current) ?: MaterialTheme.colorScheme
