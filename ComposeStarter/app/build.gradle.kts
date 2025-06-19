@@ -56,7 +56,7 @@ android {
         }
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.majorVersion
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -75,6 +75,7 @@ android {
 
 dependencies {
 
+    implementation(libs.androidx.core.ktx)
     val composeBom = platform(libs.androidx.compose.bom)
 
     // General compose dependencies

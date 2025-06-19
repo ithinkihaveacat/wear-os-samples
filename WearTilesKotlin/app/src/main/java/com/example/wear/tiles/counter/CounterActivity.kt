@@ -140,7 +140,7 @@ fun WearApp(
                 modifier = Modifier.fillMaxWidth(),
                 icon = { SmallSegmentedProgressIndicator(uiState.count) },
                 label = { Text(uiState.count.toString()) },
-                secondaryLabel = { Text("Cups") },
+                secondaryLabel = { Text("Cup${if (uiState.count == 1) "" else "s"}") }
             )
         }
         //        item {
