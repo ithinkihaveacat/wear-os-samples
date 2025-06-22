@@ -80,4 +80,6 @@ dependencies {
     implementation(libs.androidx.wear.tiles.tooling.preview)
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.wear.tooling.preview)
+
+    implementation(libs.androidx.tiles.tooling)
 }
