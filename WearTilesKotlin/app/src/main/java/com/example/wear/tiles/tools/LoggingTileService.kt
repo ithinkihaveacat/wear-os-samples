@@ -38,12 +38,9 @@ import kotlinx.coroutines.launch
 
 public abstract class LoggingTileService : TileService(), LifecycleOwner {
 
-    @Suppress("LeakingThis")
-    private val mDispatcher = ServiceLifecycleDispatcher(this)
+    @Suppress("LeakingThis") private val mDispatcher = ServiceLifecycleDispatcher(this)
 
-    final override fun onTileRequest(
-        requestParams: TileRequest
-    ): ListenableFuture<Tile> {
+    final override fun onTileRequest(requestParams: TileRequest): ListenableFuture<Tile> {
         Log.d("qqqqqq", "onTileRequest()")
         return CallbackToFutureAdapter.getFuture { completer ->
             val job =
@@ -119,8 +116,7 @@ public abstract class LoggingTileService : TileService(), LifecycleOwner {
     @Deprecated("Use onStartCommand")
     final override fun onStart(intent: Intent?, startId: Int) {
         mDispatcher.onServicePreSuperOnStart()
-        @Suppress("DEPRECATION")
-        super.onStart(intent, startId)
+        @Suppress("DEPRECATION") super.onStart(intent, startId)
     }
 
     // this method is added only to annotate it with @CallSuper.

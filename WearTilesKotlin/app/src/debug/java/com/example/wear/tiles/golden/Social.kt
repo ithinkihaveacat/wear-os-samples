@@ -19,9 +19,7 @@ import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.annotation.OptIn
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
-import androidx.wear.protolayout.DimensionBuilders
 import androidx.wear.protolayout.DimensionBuilders.expand
-import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
 import androidx.wear.protolayout.LayoutElementBuilders.FONT_WEIGHT_MEDIUM
 import androidx.wear.protolayout.LayoutElementBuilders.FontSetting
@@ -118,12 +116,13 @@ fun MaterialScope.contactButton(contact: Contact): LayoutElement {
             labelContent = {
                 basicText(
                     text = contact.initials.layoutString,
-                    fontStyle = fontStyle(
-                      color = colors.labelColor,
-                      settings = listOf(FontSetting.width(60F)),
-                      size = 26F,
-                      weight = FONT_WEIGHT_MEDIUM
-                    ),
+                    fontStyle =
+                        fontStyle(
+                            color = colors.labelColor,
+                            settings = listOf(FontSetting.width(60F)),
+                            size = 26F,
+                            weight = FONT_WEIGHT_MEDIUM,
+                        ),
                     modifier = LayoutModifier.background(colors.containerColor).clip(shapes.full),
                 )
             },
@@ -231,18 +230,19 @@ internal fun socialPreview5(context: Context) = socialPreviewN(context, 5)
 internal fun socialPreview6(context: Context) = socialPreviewN(context, 6)
 
 internal fun socialPreviewN(context: Context, n: Int): TilePreviewData {
-  val contacts = context.mockContacts().take(n)
-  return TilePreviewData(
-    resources {
-      contacts.forEach {
-        if (it.avatarId != null && it.avatarResource != null)
-          addIdToImageMapping(it.avatarId, it.avatarResource)
-      }
+    val contacts = context.mockContacts().take(n)
+    return TilePreviewData(
+        resources {
+            contacts.forEach {
+                if (it.avatarId != null && it.avatarResource != null) {
+                    addIdToImageMapping(it.avatarId, it.avatarResource)
+                }
+            }
+        }
+    ) {
+        TilePreviewHelper.singleTimelineEntryTileBuilder(
+                Social.layout(context, it.deviceConfiguration, contacts)
+            )
+            .build()
     }
-  ) {
-    TilePreviewHelper.singleTimelineEntryTileBuilder(
-      Social.layout(context, it.deviceConfiguration, contacts)
-    )
-      .build()
-  }
 }
