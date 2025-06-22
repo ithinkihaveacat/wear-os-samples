@@ -22,6 +22,7 @@ import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
 import androidx.wear.protolayout.LayoutElementBuilders.FontSetting
 import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
+import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.expression.ProtoLayoutExperimental
 import androidx.wear.protolayout.material3.ButtonColors
 import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColors
@@ -39,9 +40,9 @@ import androidx.wear.protolayout.modifiers.clip
 import androidx.wear.protolayout.modifiers.padding
 import androidx.wear.protolayout.modifiers.toProtoLayoutModifiers
 import androidx.wear.protolayout.types.layoutString
+import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
-import com.example.wear.tiles.golden.resources
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.addIdToImageMapping
 import com.example.wear.tiles.tools.column
@@ -68,13 +69,13 @@ fun MaterialScope.contactButton(contact: Contact): LayoutElement {
                 text(
                     text = contact.initials.layoutString,
                     color = colors.labelColor,
-                    settings = listOf(FontSetting.width(60F), FontSetting.weight(500)),
+                    settings = listOf(FontSetting.width(60F), FontSetting.weight(500))
                 )
             },
             width = expand(),
             height = expand(),
             contentPadding = padding(horizontal = 4F, vertical = 2F),
-            colors = colors,
+            colors = colors
         )
     }
 }
@@ -82,12 +83,12 @@ fun MaterialScope.contactButton(contact: Contact): LayoutElement {
 fun tileLayout(
     context: Context,
     deviceParameters: DeviceParameters,
-    contacts: List<Contact>,
+    contacts: List<Contact>
 ): LayoutElement {
     return materialScope(
         context = context,
         deviceConfiguration = deviceParameters,
-        allowDynamicTheme = true,
+        allowDynamicTheme = true
     ) {
         val visibleContacts = contacts.take(if (deviceParameters.isLargeScreen()) 6 else 4)
 
@@ -95,20 +96,20 @@ fun tileLayout(
             visibleContacts.chunked(if (visibleContacts.size > 4) 3 else 2).let { chunkedList ->
                 Pair(
                     chunkedList.getOrElse(0) { emptyList() },
-                    chunkedList.getOrElse(1) { emptyList() },
+                    chunkedList.getOrElse(1) { emptyList() }
                 )
             }
 
         primaryLayout(
             titleSlot =
-                // Only display the title if there's one row, otherwise the touch targets become
-                // too small (less than 48dp). See
-                // https://developer.android.com/training/wearables/accessibility#set-minimum
-                if (row2.isEmpty()) {
-                    { text(text = "Contacts".layoutString) }
-                } else {
-                    null
-                },
+            // Only display the title if there's one row, otherwise the touch targets become
+            // too small (less than 48dp). See
+            // https://developer.android.com/training/wearables/accessibility#set-minimum
+            if (row2.isEmpty()) {
+                { text(text = "Contacts".layoutString) }
+            } else {
+                null
+            },
             mainSlot = {
                 column {
                     setWidth(expand())
@@ -116,7 +117,7 @@ fun tileLayout(
                     addContent(
                         buttonGroup { row1.forEach { buttonGroupItem { contactButton(it) } } }
                     )
-                    if (row2.isNotEmpty()) {
+                    if (!row2.isEmpty()) {
                         addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
                         addContent(
                             buttonGroup { row2.forEach { buttonGroupItem { contactButton(it) } } }
@@ -128,9 +129,9 @@ fun tileLayout(
                 textEdgeButton(
                     onClick = clickable(),
                     labelContent = { text("More".layoutString) },
-                    colors = filledTonalButtonColors(),
+                    colors = filledTonalButtonColors()
                 )
-            },
+            }
         )
     }
 }
@@ -138,19 +139,19 @@ fun tileLayout(
 /** Returns a set of [ButtonColors] based on the provided index [n]. */
 private fun MaterialScope.buttonColorsByIndex(n: Int): ButtonColors =
     listOf(
-            ButtonColors(
-                labelColor = colorScheme.onPrimary,
-                containerColor = colorScheme.primaryDim,
-            ),
-            ButtonColors(
-                labelColor = colorScheme.onSecondary,
-                containerColor = colorScheme.secondaryDim,
-            ),
-            ButtonColors(
-                labelColor = colorScheme.onTertiary,
-                containerColor = colorScheme.tertiaryDim,
-            ),
+        ButtonColors(
+            labelColor = colorScheme.onPrimary,
+            containerColor = colorScheme.primaryDim
+        ),
+        ButtonColors(
+            labelColor = colorScheme.onSecondary,
+            containerColor = colorScheme.secondaryDim
+        ),
+        ButtonColors(
+            labelColor = colorScheme.onTertiary,
+            containerColor = colorScheme.tertiaryDim
         )
+    )
         .let { it[n.mod(it.size)] }
 
 @MultiRoundDevicesWithFontScalePreviews
@@ -183,8 +184,14 @@ internal fun socialPreviewN(context: Context, n: Int): TilePreviewData {
         }
     ) {
         TilePreviewHelper.singleTimelineEntryTileBuilder(
-                tileLayout(context, it.deviceConfiguration, contacts)
-            )
+            tileLayout(context, it.deviceConfiguration, contacts)
+        )
             .build()
     }
+}
+
+internal fun resources(
+    fn: ResourceBuilders.Resources.Builder.() -> Unit
+): (RequestBuilders.ResourcesRequest) -> ResourceBuilders.Resources = {
+    ResourceBuilders.Resources.Builder().setVersion(it.version).apply(fn).build()
 }
