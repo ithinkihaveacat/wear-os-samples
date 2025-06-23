@@ -33,7 +33,11 @@ import androidx.wear.tiles.tooling.preview.TilePreviewHelper.singleTimelineEntry
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.emptyClickable
+import com.example.wear.tiles.tools.resources
 import com.google.android.horologist.tiles.images.drawableResToImageResource
+
+// TODO: Designs
+// https://www.figma.com/design/2OJqWvi4ebE7FY5uuBTUhm/GM3-BC25-Wear-Compose-Design-Kit-1.5?node-id=66728-38855&m=dev
 
 object Workout {
     const val BUTTON_1_ICON_ID = "workout 1"

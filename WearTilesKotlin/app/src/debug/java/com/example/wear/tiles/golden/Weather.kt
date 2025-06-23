@@ -29,7 +29,10 @@ import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
+import com.example.wear.tiles.tools.resources
 import com.google.android.horologist.tiles.images.drawableResToImageResource
+
+// https://www.figma.com/design/2OJqWvi4ebE7FY5uuBTUhm/GM3-BC25-Wear-Compose-Design-Kit-1.5?node-id=66728-39609&m=dev
 
 object Weather {
 

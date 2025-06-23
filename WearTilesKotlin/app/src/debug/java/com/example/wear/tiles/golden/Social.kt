@@ -54,6 +54,7 @@ import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.addIdToImageMapping
 import com.example.wear.tiles.tools.image
 import com.example.wear.tiles.tools.isLargeScreen
+import com.example.wear.tiles.tools.resources
 
 fun Context.mockContacts(): List<Contact> {
     return listOf(

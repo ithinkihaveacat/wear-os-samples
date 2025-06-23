@@ -47,7 +47,7 @@ import java.util.UUID
 class PreviewTileService : SuspendingTileService() {
     override suspend fun tileRequest(requestParams: TileRequest): Tile {
         val meditationLayoutElement =
-            Meditation.chipsLayout(
+            Meditation.minutes(
                 this,
                 requestParams.deviceConfiguration,
                 numOfLeftTasks = 2,

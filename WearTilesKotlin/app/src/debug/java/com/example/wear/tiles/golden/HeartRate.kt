@@ -31,6 +31,8 @@ import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.emptyClickable
 
+// TODO: Needs to show graph. Not straightforward. Omit.
+
 object HeartRate {
 
     fun simpleLayout(

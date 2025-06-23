@@ -74,8 +74,9 @@ import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
+import com.example.wear.tiles.tools.addIdToImageMapping
 import com.example.wear.tiles.tools.emptyClickable
-import com.google.android.horologist.tiles.images.drawableResToImageResource
+import com.example.wear.tiles.tools.resources
 
 fun column(builder: Column.Builder.() -> Unit) = Column.Builder().apply(builder).build()
 
@@ -147,7 +148,19 @@ object Meditation {
     const val CHIP_1_ICON_ID = "meditation_1"
     const val CHIP_2_ICON_ID = "meditation_2"
 
-    fun chipsLayout(
+    // https://source.corp.google.com/piper///depot/google3/java/com/google/android/clockwork/prototiles/samples/material3/KeepTileService.kt;l=85?q=KeepTileService&ct=os
+
+    fun tasks(context: Context, deviceParameters: DeviceParameters): LayoutElement {
+        return materialScope(
+            context = context,
+            deviceConfiguration = deviceParameters,
+            allowDynamicTheme = true,
+        ) {
+            primaryLayout(mainSlot = { text("Hello".layoutString) })
+        }
+    }
+
+    fun minutes(
         context: Context,
         deviceParameters: DeviceParameters,
         numOfLeftTasks: Int,
@@ -332,21 +345,15 @@ object Meditation {
 }
 
 @MultiRoundDevicesWithFontScalePreviews
-internal fun meditationChipsPreview(context: Context) =
+internal fun meditationMinutesPreview(context: Context) =
     TilePreviewData(
         resources {
-            addIdToImageMapping(
-                Meditation.CHIP_1_ICON_ID,
-                drawableResToImageResource(R.drawable.ic_breathe_24),
-            )
-            addIdToImageMapping(
-                Meditation.CHIP_2_ICON_ID,
-                drawableResToImageResource(R.drawable.ic_mindfulness_24),
-            )
+            addIdToImageMapping(Meditation.CHIP_1_ICON_ID, R.drawable.ic_breathe_24)
+            addIdToImageMapping(Meditation.CHIP_2_ICON_ID, R.drawable.ic_mindfulness_24)
         }
     ) {
         TilePreviewHelper.singleTimelineEntryTileBuilder(
-                Meditation.chipsLayout(
+                Meditation.minutes(
                     context,
                     it.deviceConfiguration,
                     numOfLeftTasks = 2,

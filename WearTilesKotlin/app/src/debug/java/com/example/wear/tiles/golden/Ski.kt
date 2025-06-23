@@ -27,6 +27,8 @@ import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 
+// https://www.figma.com/design/2OJqWvi4ebE7FY5uuBTUhm/GM3-BC25-Wear-Compose-Design-Kit-1.5?node-id=66728-39449&m=dev
+
 object Ski {
 
     fun layout(

@@ -23,9 +23,16 @@ import androidx.wear.protolayout.LayoutElementBuilders.Column
 import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.ResourceBuilders.ImageResource
 import androidx.wear.protolayout.ResourceBuilders.Resources
+import androidx.wear.tiles.RequestBuilders
 import java.nio.ByteBuffer
 
 // Resources extensions
+
+fun resources(
+    fn: ResourceBuilders.Resources.Builder.() -> Unit
+): (RequestBuilders.ResourcesRequest) -> ResourceBuilders.Resources = {
+    ResourceBuilders.Resources.Builder().setVersion(it.version).apply(fn).build()
+}
 
 fun Resources.Builder.addIdToImageMapping(id: String, @DrawableRes resId: Int): Resources.Builder =
     addIdToImageMapping(id, resId.toImageResource())

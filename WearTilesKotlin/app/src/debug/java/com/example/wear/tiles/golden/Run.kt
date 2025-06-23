@@ -31,6 +31,8 @@ import androidx.wear.tiles.tooling.preview.TilePreviewHelper.singleTimelineEntry
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.emptyClickable
 
+// https://www.figma.com/design/2OJqWvi4ebE7FY5uuBTUhm/GM3-BC25-Wear-Compose-Design-Kit-1.5?node-id=66728-48273&m=dev
+
 object Run {
 
     fun layout(
