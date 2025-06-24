@@ -35,6 +35,7 @@ import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.RequestBuilders.ResourcesRequest
 import androidx.wear.tiles.RequestBuilders.TileRequest
 import androidx.wear.tiles.TileBuilders.Tile
+import com.example.wear.tiles.golden.Goal
 import com.example.wear.tiles.golden.Meditation
 import com.example.wear.tiles.golden.News
 import com.example.wear.tiles.golden.Social
@@ -81,7 +82,7 @@ class PreviewTileService : SuspendingTileService() {
                 contacts = mockContacts(),
             )
         val helloLayoutElement = helloLayout(this, requestParams.deviceConfiguration)
-        val layoutElement = meditationLayoutElement
+        val layoutElement = Goal.layout(this, requestParams.deviceConfiguration, 8324, 10000)
         val resourcesVersion = UUID.randomUUID().toString() // random to force resource request
         return Tile.Builder()
             .setResourcesVersion(resourcesVersion)
@@ -95,6 +96,7 @@ class PreviewTileService : SuspendingTileService() {
             .setVersion(requestParams.version)
             .apply {
                 addIdToImageMapping("news_image", R.drawable.news)
+              addIdToImageMapping("icon", R.drawable.outline_directions_walk_24)
                 mockContacts().forEach {
                     if (it.avatarId != null && it.avatarResource != null) {
                         addIdToImageMapping(it.avatarId, it.avatarResource)

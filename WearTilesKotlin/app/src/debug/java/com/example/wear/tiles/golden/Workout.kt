@@ -19,6 +19,9 @@ import android.content.Context
 import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DeviceParametersBuilders
 import androidx.wear.protolayout.DimensionBuilders
+import androidx.wear.protolayout.DimensionBuilders.dp
+import androidx.wear.protolayout.DimensionBuilders.expand
+import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.ModifiersBuilders
 import androidx.wear.protolayout.material.Button
 import androidx.wear.protolayout.material.ChipColors
@@ -28,21 +31,129 @@ import androidx.wear.protolayout.material.TitleChip
 import androidx.wear.protolayout.material.Typography
 import androidx.wear.protolayout.material.layouts.MultiButtonLayout
 import androidx.wear.protolayout.material.layouts.PrimaryLayout
+import androidx.wear.protolayout.material3.CardDefaults.filledVariantCardColors
+import androidx.wear.protolayout.material3.MaterialScope
+import androidx.wear.protolayout.material3.Typography.DISPLAY_LARGE
+import androidx.wear.protolayout.material3.Typography.TITLE_MEDIUM
+import androidx.wear.protolayout.material3.avatarImage
+import androidx.wear.protolayout.material3.buttonGroup
+import androidx.wear.protolayout.material3.iconDataCard
+import androidx.wear.protolayout.material3.materialScope
+import androidx.wear.protolayout.material3.primaryLayout
+import androidx.wear.protolayout.material3.text
+import androidx.wear.protolayout.material3.textEdgeButton
+import androidx.wear.protolayout.modifiers.clickable
+import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper.singleTimelineEntryTileBuilder
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
+import com.example.wear.tiles.tools.addIdToImageMapping
 import com.example.wear.tiles.tools.emptyClickable
+import com.example.wear.tiles.tools.isLargeScreen
 import com.example.wear.tiles.tools.resources
 import com.google.android.horologist.tiles.images.drawableResToImageResource
 
 // TODO: Designs
 // https://www.figma.com/design/2OJqWvi4ebE7FY5uuBTUhm/GM3-BC25-Wear-Compose-Design-Kit-1.5?node-id=66728-38855&m=dev
 
+val noOpElement: MaterialScope.() -> LayoutElementBuilders.LayoutElement = {
+    LayoutElementBuilders.Spacer.Builder().setWidth(dp(0F)).setHeight(dp(0F)).build()
+}
+
 object Workout {
     const val BUTTON_1_ICON_ID = "workout 1"
     const val BUTTON_2_ICON_ID = "workout 2"
     const val BUTTON_3_ICON_ID = "workout 3"
+
+    fun layout(context: Context, deviceParameters: DeviceParametersBuilders.DeviceParameters) =
+        materialScope(
+            context = context,
+            deviceConfiguration = deviceParameters,
+            allowDynamicTheme = true,
+        ) {
+            primaryLayout(
+                titleSlot = { text("Exercise".layoutString) },
+                mainSlot = {
+                    buttonGroup {
+                        buttonGroupItem {
+                            iconDataCard(
+                                onClick = clickable(),
+                                width = expand(),
+                                height =
+                                    if (deviceParameters.isLargeScreen()) dp(90f) else expand(),
+                                colors = filledVariantCardColors(),
+                                title = {
+                                    avatarImage(
+                                        protoLayoutResourceId =
+                                            context.resources.getResourceName(
+                                                R.drawable.ic_yoga_24
+                                            ),
+                                        contentScaleMode =
+                                            LayoutElementBuilders.CONTENT_SCALE_MODE_FILL_BOUNDS,
+                                    )
+                                },
+                                //                      secondaryIcon = {
+                                //                        avatarImage(
+                                //                          ICON_ID,
+                                //                          width = dp(32f),
+                                //                          height = dp(32f),
+                                //                          contentScaleMode =
+                                // LayoutElementBuilders.CONTENT_SCALE_MODE_FILL_BOUNDS,
+                                //                        )
+                                //                      }
+                            )
+                        }
+                        buttonGroupItem {
+                            iconDataCard(
+                                onClick = clickable(),
+                                width = if (deviceParameters.isLargeScreen()) dp(90f) else expand(),
+                                height = expand(),
+                                shape = shapes.medium,
+                                title = {
+                                    if (deviceParameters.isLargeScreen())
+                                        text("30".layoutString, typography = DISPLAY_LARGE)
+                                    else noOpElement()
+                                },
+                                content = {
+                                    if (deviceParameters.isLargeScreen())
+                                        text("Mins".layoutString, typography = TITLE_MEDIUM)
+                                    else noOpElement()
+                                },
+                                secondaryIcon = {
+                                    avatarImage(
+                                        protoLayoutResourceId =
+                                            context.resources.getResourceName(R.drawable.ic_run_24),
+                                        contentScaleMode =
+                                            LayoutElementBuilders.CONTENT_SCALE_MODE_FILL_BOUNDS,
+                                    )
+                                },
+                            )
+                        }
+                        buttonGroupItem {
+                            iconDataCard(
+                                onClick = clickable(),
+                                width = expand(),
+                                height =
+                                    if (deviceParameters.isLargeScreen()) dp(90f) else expand(),
+                                colors = filledVariantCardColors(),
+                                title = {
+                                    avatarImage(
+                                        protoLayoutResourceId =
+                                            context.resources.getResourceName(
+                                                R.drawable.ic_cycling_24
+                                            ),
+                                        contentScaleMode =
+                                            LayoutElementBuilders.CONTENT_SCALE_MODE_FILL_BOUNDS,
+                                    )
+                                },
+                            )
+                        }
+                    }
+                },
+                bottomSlot = { textEdgeButton(onClick = clickable()) { text("More".layoutString) } },
+            )
+        }
 
     fun buttonsLayout(
         context: Context,
@@ -128,6 +239,28 @@ object Workout {
             )
             .build()
 }
+
+@MultiRoundDevicesWithFontScalePreviews
+internal fun workoutLayoutPreview(context: Context) =
+    TilePreviewData(
+        onTileResourceRequest =
+            resources {
+                addIdToImageMapping(
+                    context.resources.getResourceName(R.drawable.ic_run_24),
+                    R.drawable.ic_run_24,
+                )
+                addIdToImageMapping(
+                    context.resources.getResourceName(R.drawable.ic_yoga_24),
+                    R.drawable.ic_yoga_24,
+                )
+                addIdToImageMapping(
+                    context.resources.getResourceName(R.drawable.ic_cycling_24),
+                    R.drawable.ic_cycling_24,
+                )
+            }
+    ) {
+        singleTimelineEntryTileBuilder(Workout.layout(context, it.deviceConfiguration)).build()
+    }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun workoutButtonsPreview(context: Context) =
