@@ -111,14 +111,18 @@ object Workout {
                                 height = expand(),
                                 shape = shapes.medium,
                                 title = {
-                                    if (deviceParameters.isLargeScreen())
+                                    if (deviceParameters.isLargeScreen()) {
                                         text("30".layoutString, typography = DISPLAY_LARGE)
-                                    else noOpElement()
+                                    } else {
+                                        noOpElement()
+                                    }
                                 },
                                 content = {
-                                    if (deviceParameters.isLargeScreen())
+                                    if (deviceParameters.isLargeScreen()) {
                                         text("Mins".layoutString, typography = TITLE_MEDIUM)
-                                    else noOpElement()
+                                    } else {
+                                        noOpElement()
+                                    }
                                 },
                                 secondaryIcon = {
                                     avatarImage(
@@ -251,7 +255,7 @@ internal fun workoutLayoutPreview(context: Context) =
                 )
                 addIdToImageMapping(
                     context.resources.getResourceName(R.drawable.self_improvement_24px),
-                    R.drawable.self_improvement_24px
+                    R.drawable.self_improvement_24px,
                 )
                 addIdToImageMapping(
                     context.resources.getResourceName(R.drawable.ic_cycling_24),

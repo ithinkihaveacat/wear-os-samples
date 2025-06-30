@@ -104,14 +104,14 @@ class PreviewTileService : SuspendingTileService() {
                     resources.getResourceName(R.drawable.self_improvement_24px),
                     R.drawable.self_improvement_24px,
                 )
-              addIdToImageMapping(
-                resources.getResourceName(R.drawable.ic_yoga_24),
-                R.drawable.ic_yoga_24,
-              )
-              addIdToImageMapping(
-                resources.getResourceName(R.drawable.ic_run_24),
-                R.drawable.ic_run_24,
-              )
+                addIdToImageMapping(
+                    resources.getResourceName(R.drawable.ic_yoga_24),
+                    R.drawable.ic_yoga_24,
+                )
+                addIdToImageMapping(
+                    resources.getResourceName(R.drawable.ic_run_24),
+                    R.drawable.ic_run_24,
+                )
                 mockContacts().forEach {
                     if (it.avatarId != null && it.avatarResource != null) {
                         addIdToImageMapping(it.avatarId, it.avatarResource)
