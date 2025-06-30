@@ -87,7 +87,7 @@ object Workout {
                                     avatarImage(
                                         protoLayoutResourceId =
                                             context.resources.getResourceName(
-                                                R.drawable.ic_yoga_24
+                                                R.drawable.self_improvement_24px
                                             ),
                                         contentScaleMode =
                                             LayoutElementBuilders.CONTENT_SCALE_MODE_FILL_BOUNDS,
@@ -250,8 +250,8 @@ internal fun workoutLayoutPreview(context: Context) =
                     R.drawable.ic_run_24,
                 )
                 addIdToImageMapping(
-                    context.resources.getResourceName(R.drawable.ic_yoga_24),
-                    R.drawable.ic_yoga_24,
+                    context.resources.getResourceName(R.drawable.self_improvement_24px),
+                    R.drawable.self_improvement_24px
                 )
                 addIdToImageMapping(
                     context.resources.getResourceName(R.drawable.ic_cycling_24),
