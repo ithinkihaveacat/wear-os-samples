@@ -18,7 +18,6 @@ package com.example.android.wearable.oauth.pkce
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -26,17 +25,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
-import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
-import androidx.wear.compose.material3.AppScaffold
-import androidx.wear.compose.material3.Button
-import androidx.wear.compose.material3.ListHeader
-import androidx.wear.compose.material3.ScreenScaffold
-import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material.Chip
+import androidx.wear.compose.material.ListHeader
+import androidx.wear.compose.material.Text
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
-import com.google.android.horologist.compose.layout.ColumnItemType
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import com.google.android.horologist.compose.layout.AppScaffold
+import com.google.android.horologist.compose.layout.ScalingLazyColumn
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import com.google.android.horologist.compose.layout.ScreenScaffold
+import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 
 /**
  * Demonstrates the OAuth flow on Wear OS. This sample currently handles the callback from the
@@ -68,25 +67,21 @@ fun PKCEApp(pkceViewModel: AuthPKCEViewModel) {
     }
 }
 
+@OptIn(ExperimentalHorologistApi::class)
 @Composable
 fun AuthenticateScreen(
     statusCode: Int,
     resultMessage: String,
     startAuthFlow: () -> Unit
 ) {
-    val listState = rememberTransformingLazyColumnState()
-
-    ScreenScaffold(
-        scrollState = listState,
-        contentPadding = rememberResponsiveColumnPadding(
-            first = ColumnItemType.ListHeader,
-            last = ColumnItemType.BodyText
+    val columnState = rememberResponsiveColumnState(
+        contentPadding = ScalingLazyColumnDefaults.padding(
+            first = ScalingLazyColumnDefaults.ItemType.Text,
+            last = ScalingLazyColumnDefaults.ItemType.Text
         )
-    ) { paddingValues ->
-        TransformingLazyColumn(
-            state = listState,
-            contentPadding = paddingValues
-        ) {
+    )
+    ScreenScaffold(scrollState = columnState) {
+        ScalingLazyColumn(columnState = columnState) {
             item {
                 ListHeader {
                     Text(
@@ -96,17 +91,14 @@ fun AuthenticateScreen(
                 }
             }
             item {
-                Button(
+                Chip(
                     onClick = { startAuthFlow() },
                     label = {
                         Text(
                             text = stringResource(R.string.authenticate),
-                            modifier = Modifier
-                                .align(Alignment.CenterVertically)
-                                .fillMaxWidth()
+                            modifier = Modifier.align(Alignment.CenterVertically)
                         )
-                    },
-                    modifier = Modifier.fillMaxWidth()
+                    }
                 )
             }
             item { Text(stringResource(id = statusCode)) }

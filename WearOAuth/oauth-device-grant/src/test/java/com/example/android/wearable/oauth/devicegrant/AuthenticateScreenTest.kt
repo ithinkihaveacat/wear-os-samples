@@ -15,14 +15,15 @@
  */
 package com.example.android.wearable.oauth.devicegrant
 
-import androidx.wear.compose.material3.AppScaffold
+import com.google.android.horologist.compose.layout.AppScaffold
+import com.google.android.horologist.compose.layout.ResponsiveTimeText
+import com.google.android.horologist.screenshots.FixedTimeSource
 import com.google.android.horologist.screenshots.rng.WearDevice
 import com.google.android.horologist.screenshots.rng.WearScreenshotTest
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.ParameterizedRobolectricTestRunner
 
-// TODO: Check before and after screenshots
 @RunWith(ParameterizedRobolectricTestRunner::class)
 class AuthenticateScreenTest(override val device: WearDevice) : WearScreenshotTest() {
     override val tolerance = 0.02f
@@ -35,14 +36,18 @@ class AuthenticateScreenTest(override val device: WearDevice) : WearScreenshotTe
 
     @Test
     fun authenticateScreenTest() = runTest {
-        AppScaffold {
+        AppScaffold(
+            timeText = { ResponsiveTimeText(timeSource = FixedTimeSource) }
+        ) {
             AuthenticateScreenPreview()
         }
     }
 
     @Test
     fun authenticateFailedScreenTest() = runTest {
-        AppScaffold {
+        AppScaffold(
+            timeText = { ResponsiveTimeText(timeSource = FixedTimeSource) }
+        ) {
             AuthenticateScreenFailedPreview()
         }
     }

@@ -17,7 +17,6 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     alias(libs.plugins.roborazzi)
-    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -80,6 +79,7 @@ dependencies {
     // General compose dependencies
     implementation(composeBom)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.splashscreen)
 
     // Compose for Wear OS Dependencies
     // NOTE: DO NOT INCLUDE a dependency on androidx.compose.material:material.
@@ -93,7 +93,9 @@ dependencies {
     implementation(libs.wear.compose.foundation)
     implementation(libs.androidx.material.icons.core)
 
+    // Horologist for correct Compose layout
     implementation(libs.horologist.compose.layout)
+    implementation(libs.horologist.compose.material)
 
     // Preview Tooling
     implementation(libs.compose.ui.tooling.preview)

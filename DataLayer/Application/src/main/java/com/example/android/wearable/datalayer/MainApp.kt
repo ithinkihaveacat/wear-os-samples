@@ -25,10 +25,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.Button
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -104,31 +104,31 @@ fun MainApp(
                     }
                 }
             }
-            HorizontalDivider()
+            Divider()
         }
         item {
             Button(onClick = onStartWearableActivityClick) {
                 Text(stringResource(id = R.string.start_wearable_activity))
             }
-            HorizontalDivider()
+            Divider()
         }
         items(events) { event ->
             Column {
                 Text(
                     stringResource(id = event.title),
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.subtitle1
                 )
                 Text(
                     event.text,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.body2
                 )
             }
-            HorizontalDivider()
+            Divider()
         }
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun MainAppPreview() {
     MainApp(
