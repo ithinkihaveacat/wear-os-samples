@@ -15,6 +15,7 @@
  */
 package com.example.wear.tiles.tools
 
+import android.content.Context
 import android.graphics.Bitmap
 import androidx.annotation.DrawableRes
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters

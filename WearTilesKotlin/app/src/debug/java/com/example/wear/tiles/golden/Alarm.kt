@@ -19,16 +19,35 @@ import android.content.Context
 import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders
+import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
 import androidx.wear.protolayout.material.ChipColors
-import androidx.wear.protolayout.material.Text
 import androidx.wear.protolayout.material.TitleChip
-import androidx.wear.protolayout.material.Typography
 import androidx.wear.protolayout.material.layouts.PrimaryLayout
+import androidx.wear.protolayout.material3.Typography
+import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColors
+import androidx.wear.protolayout.material3.CardDefaults.filledVariantCardColors
+import androidx.wear.protolayout.material3.TitleCardStyle
+import androidx.wear.protolayout.material3.Typography.DISPLAY_MEDIUM
+import androidx.wear.protolayout.material3.Typography.TITLE_MEDIUM
+import androidx.wear.protolayout.material3.icon
+import androidx.wear.protolayout.material3.iconEdgeButton
+import androidx.wear.protolayout.material3.materialScope
+import androidx.wear.protolayout.material3.primaryLayout
+import androidx.wear.protolayout.material3.text
+import androidx.wear.protolayout.material3.titleCard
+import androidx.wear.protolayout.modifiers.LayoutModifier
+import androidx.wear.protolayout.modifiers.clearSemantics
+import androidx.wear.protolayout.modifiers.contentDescription
+import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
+import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
+import com.example.wear.tiles.tools.addIdToImageMapping
 import com.example.wear.tiles.tools.emptyClickable
+import com.example.wear.tiles.tools.isLargeScreen
+import com.example.wear.tiles.tools.resources
 
 object Alarm {
 
@@ -38,53 +57,67 @@ object Alarm {
     timeUntilAlarm: String,
     alarmTime: String,
     alarmDays: String,
-    clickable: Clickable
+    clickable: Clickable,
   ) =
-    PrimaryLayout.Builder(deviceParameters)
-      .setResponsiveContentInsetEnabled(true)
-      .setPrimaryLabelTextContent(
-        Text.Builder(context, timeUntilAlarm)
-          .setColor(ColorBuilders.argb(GoldenTilesColors.White))
-          .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-          .build()
-      )
-      .setContent(
-        TitleChip.Builder(context, alarmTime, clickable, deviceParameters)
-          // TitleChip/Chip's default width == device width minus some padding
-          // Since PrimaryLayout's content slot already has margin, this leads to clipping
-          // unless we override the width to use the available space
-          .setWidth(DimensionBuilders.ExpandedDimensionProp.Builder().build())
-          .setChipColors(
-            ChipColors(
-              /*backgroundColor=*/
-              ColorBuilders.argb(GoldenTilesColors.Yellow),
-              /*contentColor=*/
-              ColorBuilders.argb(GoldenTilesColors.DarkerGray)
-            )
+    materialScope(context, deviceParameters) {
+      primaryLayout(
+        titleSlot = {
+          text("Today".layoutString, modifier = LayoutModifier.clearSemantics())
+        },
+        mainSlot = {
+          titleCard(
+            onClick = clickable,
+            title = {
+              text(
+                "Mon—Fri".layoutString,
+                typography = TITLE_MEDIUM,
+                color = colorScheme.onSurfaceVariant,
+              )
+            },
+            content = { text("3:30PM".layoutString, typography = DISPLAY_MEDIUM) },
+            height = expand(),
+            colors = filledVariantCardColors(),
+            style =
+              if (deviceParameters.isLargeScreen()) {
+                TitleCardStyle.extraLargeTitleCardStyle()
+              } else {
+                TitleCardStyle.defaultTitleCardStyle()
+              },
           )
-          .build()
+        },
+        bottomSlot = {
+          iconEdgeButton(
+            onClick = clickable,
+            colors = filledTonalButtonColors(),
+            modifier = LayoutModifier.contentDescription("Plus"),
+            iconContent = {
+              icon(context.resources.getResourceName(R.drawable.outline_add_2_24))
+            },
+          )
+        },
       )
-      .setSecondaryLabelTextContent(
-        Text.Builder(context, alarmDays)
-          .setColor(ColorBuilders.argb(GoldenTilesColors.Yellow))
-          .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-          .setMaxLines(2)
-          .build()
-      )
-      .build()
+    }
 }
 
 @MultiRoundDevicesWithFontScalePreviews
-internal fun alarmPreview(context: Context) = TilePreviewData {
-  TilePreviewHelper.singleTimelineEntryTileBuilder(
-    Alarm.layout(
-      context,
-      it.deviceConfiguration,
-      timeUntilAlarm = "Less than 1 min",
-      alarmTime = "14:58",
-      alarmDays = "Mon, Tue, Wed, Thu, Fri,Sat",
-      clickable = emptyClickable
-    )
-  )
-    .build()
-}
+internal fun alarmPreview(context: Context) =
+    TilePreviewData(
+        resources {
+            addIdToImageMapping(
+                context.resources.getResourceName(R.drawable.outline_add_2_24),
+                R.drawable.outline_add_2_24,
+            )
+        }
+    ) {
+        TilePreviewHelper.singleTimelineEntryTileBuilder(
+                Alarm.layout(
+                    context,
+                    it.deviceConfiguration,
+                    timeUntilAlarm = "Less than 1 min",
+                    alarmTime = "14:58",
+                    alarmDays = "Mon, Tue, Wed, Thu, Fri,Sat",
+                    clickable = emptyClickable,
+                )
+            )
+            .build()
+    }

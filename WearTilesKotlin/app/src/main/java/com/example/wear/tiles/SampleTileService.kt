@@ -199,6 +199,10 @@ class SampleTileService : SuspendingTileService() {
       .build()
   }
 
+  private fun ResourceBuilders.Resources.Builder.addIdToImageMapping(
+    @androidx.annotation.DrawableRes resId: Int
+  ) = addIdToImageMapping(resources.getResourceName(resId), resId)
+
   override suspend fun resourcesRequest(
     requestParams: RequestBuilders.ResourcesRequest
   ): ResourceBuilders.Resources =
@@ -207,22 +211,10 @@ class SampleTileService : SuspendingTileService() {
       .apply {
         addIdToImageMapping("news_image", R.drawable.news)
         addIdToImageMapping("icon", R.drawable.outline_directions_walk_24)
-        addIdToImageMapping(
-          resources.getResourceName(R.drawable.self_improvement_24px),
-          R.drawable.self_improvement_24px
-        )
-        addIdToImageMapping(
-          resources.getResourceName(R.drawable.ic_yoga_24),
-          R.drawable.ic_yoga_24
-        )
-        addIdToImageMapping(
-          resources.getResourceName(R.drawable.ic_run_24),
-          R.drawable.ic_run_24
-        )
-        addIdToImageMapping(
-          resources.getResourceName(R.drawable.ic_cycling_24),
-          R.drawable.ic_cycling_24
-        )
+        addIdToImageMapping(R.drawable.self_improvement_24px)
+        addIdToImageMapping(R.drawable.ic_yoga_24)
+        addIdToImageMapping(R.drawable.ic_run_24)
+        addIdToImageMapping(R.drawable.ic_cycling_24)
         mockContacts().forEach {
           if (it.avatarId != null && it.avatarResource != null) {
             addIdToImageMapping(it.avatarId, it.avatarResource)

@@ -26,7 +26,7 @@ import com.example.wear.tiles.tools.MultiRoundDevicesPreviews
 
 @MultiRoundDevicesPreviews private fun goal(context: Context) = goalPreview(context)
 
-@MultiRoundDevicesPreviews private fun workout(context: Context) = workoutButtonsPreview(context)
+@MultiRoundDevicesPreviews private fun workout(context: Context) = workoutLayoutPreview(context)
 
 // https://www.figma.com/design/2OJqWvi4ebE7FY5uuBTUhm/GM3-BC25-Wear-Compose-Design-Kit-1.5?node-id=66728-38944&m=dev
 // @MultiRoundDevicesPreviews private fun alarm(context: Context) = alarmPreview(context)
