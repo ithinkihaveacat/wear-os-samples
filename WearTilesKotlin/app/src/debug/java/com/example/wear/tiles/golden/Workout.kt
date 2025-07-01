@@ -33,10 +33,10 @@ import androidx.wear.protolayout.material.layouts.MultiButtonLayout
 import androidx.wear.protolayout.material.layouts.PrimaryLayout
 import androidx.wear.protolayout.material3.CardDefaults.filledVariantCardColors
 import androidx.wear.protolayout.material3.MaterialScope
-import androidx.wear.protolayout.material3.Typography.DISPLAY_LARGE
+import androidx.wear.protolayout.material3.Typography.DISPLAY_MEDIUM
 import androidx.wear.protolayout.material3.Typography.TITLE_MEDIUM
-import androidx.wear.protolayout.material3.avatarImage
 import androidx.wear.protolayout.material3.buttonGroup
+import androidx.wear.protolayout.material3.icon
 import androidx.wear.protolayout.material3.iconDataCard
 import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
@@ -84,35 +84,24 @@ object Workout {
                                     if (deviceParameters.isLargeScreen()) dp(90f) else expand(),
                                 colors = filledVariantCardColors(),
                                 title = {
-                                    avatarImage(
+                                    icon(
                                         protoLayoutResourceId =
                                             context.resources.getResourceName(
                                                 R.drawable.self_improvement_24px
-                                            ),
-                                        contentScaleMode =
-                                            LayoutElementBuilders.CONTENT_SCALE_MODE_FILL_BOUNDS,
+                                            )
                                     )
                                 },
-                                //                      secondaryIcon = {
-                                //                        avatarImage(
-                                //                          ICON_ID,
-                                //                          width = dp(32f),
-                                //                          height = dp(32f),
-                                //                          contentScaleMode =
-                                // LayoutElementBuilders.CONTENT_SCALE_MODE_FILL_BOUNDS,
-                                //                        )
-                                //                      }
                             )
                         }
                         buttonGroupItem {
                             iconDataCard(
                                 onClick = clickable(),
-                                width = if (deviceParameters.isLargeScreen()) dp(90f) else expand(),
+                                width = if (deviceParameters.isLargeScreen()) dp(80f) else expand(),
                                 height = expand(),
                                 shape = shapes.medium,
                                 title = {
                                     if (deviceParameters.isLargeScreen()) {
-                                        text("30".layoutString, typography = DISPLAY_LARGE)
+                                        text("30".layoutString, typography = DISPLAY_MEDIUM)
                                     } else {
                                         noOpElement()
                                     }
@@ -125,11 +114,9 @@ object Workout {
                                     }
                                 },
                                 secondaryIcon = {
-                                    avatarImage(
+                                    icon(
                                         protoLayoutResourceId =
-                                            context.resources.getResourceName(R.drawable.ic_run_24),
-                                        contentScaleMode =
-                                            LayoutElementBuilders.CONTENT_SCALE_MODE_FILL_BOUNDS,
+                                            context.resources.getResourceName(R.drawable.ic_run_24)
                                     )
                                 },
                             )
@@ -142,13 +129,11 @@ object Workout {
                                     if (deviceParameters.isLargeScreen()) dp(90f) else expand(),
                                 colors = filledVariantCardColors(),
                                 title = {
-                                    avatarImage(
+                                    icon(
                                         protoLayoutResourceId =
                                             context.resources.getResourceName(
                                                 R.drawable.ic_cycling_24
-                                            ),
-                                        contentScaleMode =
-                                            LayoutElementBuilders.CONTENT_SCALE_MODE_FILL_BOUNDS,
+                                            )
                                     )
                                 },
                             )
