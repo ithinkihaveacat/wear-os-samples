@@ -81,313 +81,323 @@ import com.example.wear.tiles.tools.resources
 fun column(builder: Column.Builder.() -> Unit) = Column.Builder().apply(builder).build()
 
 fun row(builder: LayoutElementBuilders.Row.Builder.() -> Unit) =
-    LayoutElementBuilders.Row.Builder().apply(builder).build()
+  LayoutElementBuilders.Row.Builder().apply(builder).build()
 
 fun MaterialScope.timerButton(firstLine: String?, secondLine: String? = null) =
-    timerButton2(firstLine, secondLine)
+  timerButton2(firstLine, secondLine)
 
 fun MaterialScope.timerButton1(firstLine: String?, secondLine: String? = null) =
-    // in beta, spacing between labelContent and secondaryLabelContent should be 0dp
-    button(
-        onClick = emptyClickable,
-        width = expand(),
-        height = expand(),
-        style = smallButtonStyle(),
-        horizontalAlignment = HORIZONTAL_ALIGN_CENTER,
-        labelContent = { text(firstLine?.layoutString ?: "".layoutString) },
-        secondaryLabelContent = { text(secondLine?.layoutString ?: "".layoutString) },
-    )
+  // in beta, spacing between labelContent and secondaryLabelContent should be 0dp
+  button(
+    onClick = emptyClickable,
+    width = expand(),
+    height = expand(),
+    style = smallButtonStyle(),
+    horizontalAlignment = HORIZONTAL_ALIGN_CENTER,
+    labelContent = { text(firstLine?.layoutString ?: "".layoutString) },
+    secondaryLabelContent = { text(secondLine?.layoutString ?: "".layoutString) }
+  )
 
 fun MaterialScope.timerButton2(firstLine: String?, secondLine: String? = null) =
-    textButton(
-        onClick = emptyClickable,
-        width = expand(),
-        height = expand(),
-        style = smallTextButtonStyle(),
-        colors =
-            filledButtonColors()
-                .copy(
-                    containerColor = LayoutColor(PaletteTokens.PRIMARY30),
-                    labelColor = LayoutColor(PaletteTokens.PRIMARY95),
-                ),
-        labelContent = {
-            Column.Builder()
-                .apply {
-                    if (firstLine != null) {
-                        addContent(
-                            text(
-                                text = firstLine.layoutString,
-                                typography = Typography.TYPOGRAPHY_CAPTION1,
-                            )
-                        )
-                    }
-                    if (secondLine != null) {
-                        addContent(
-                            text(
-                                text = secondLine.layoutString,
-                                typography = Typography.TYPOGRAPHY_CAPTION2,
-                            )
-                        )
-                    }
-                }
-                .build()
-        },
-    )
+  textButton(
+    onClick = emptyClickable,
+    width = expand(),
+    height = expand(),
+    style = smallTextButtonStyle(),
+    colors =
+    filledButtonColors()
+      .copy(
+        containerColor = LayoutColor(PaletteTokens.PRIMARY30),
+        labelColor = LayoutColor(PaletteTokens.PRIMARY95)
+      ),
+    labelContent = {
+      Column.Builder()
+        .apply {
+          if (firstLine != null) {
+            addContent(
+              text(
+                text = firstLine.layoutString,
+                typography = Typography.TYPOGRAPHY_CAPTION1
+              )
+            )
+          }
+          if (secondLine != null) {
+            addContent(
+              text(
+                text = secondLine.layoutString,
+                typography = Typography.TYPOGRAPHY_CAPTION2
+              )
+            )
+          }
+        }
+        .build()
+    }
+  )
 
 val myColorScheme =
-    ColorScheme(
-        primary = LayoutColor(PaletteTokens.PRIMARY30), // bg of buttons
-        onPrimary = LayoutColor(PaletteTokens.PRIMARY95), // fg of buttons
-        tertiary = LayoutColor(PaletteTokens.TERTIARY80), // bg of edge button
-        onTertiary = LayoutColor(PaletteTokens.TERTIARY10), // fg of edge button
-        //    secondary = android.graphics.Color.RED.argb,
-        //    onSecondary = LayoutColor(Color(0xFFFFFF00).toArgb())
-    )
+  ColorScheme(
+    primary = LayoutColor(PaletteTokens.PRIMARY30), // bg of buttons
+    onPrimary = LayoutColor(PaletteTokens.PRIMARY95), // fg of buttons
+    tertiary = LayoutColor(PaletteTokens.TERTIARY80), // bg of edge button
+    onTertiary = LayoutColor(PaletteTokens.TERTIARY10) // fg of edge button
+    //    secondary = android.graphics.Color.RED.argb,
+    //    onSecondary = LayoutColor(Color(0xFFFFFF00).toArgb())
+  )
 
 object Meditation {
-    const val CHIP_1_ICON_ID = "meditation_1"
-    const val CHIP_2_ICON_ID = "meditation_2"
+  const val CHIP_1_ICON_ID = "meditation_1"
+  const val CHIP_2_ICON_ID = "meditation_2"
 
-    // https://source.corp.google.com/piper///depot/google3/java/com/google/android/clockwork/prototiles/samples/material3/KeepTileService.kt;l=85?q=KeepTileService&ct=os
+  // https://source.corp.google.com/piper///depot/google3/java/com/google/android/clockwork/prototiles/samples/material3/KeepTileService.kt;l=85?q=KeepTileService&ct=os
 
-    fun tasks(context: Context, deviceParameters: DeviceParameters): LayoutElement {
-        return materialScope(
-            context = context,
-            deviceConfiguration = deviceParameters,
-            allowDynamicTheme = true,
-        ) {
-            primaryLayout(mainSlot = { text("Hello".layoutString) })
-        }
+  fun tasks(context: Context, deviceParameters: DeviceParameters): LayoutElement {
+    return materialScope(
+      context = context,
+      deviceConfiguration = deviceParameters,
+      allowDynamicTheme = true
+    ) {
+      primaryLayout(mainSlot = { text("Hello".layoutString) })
     }
+  }
 
-    fun minutes(
-        context: Context,
-        deviceParameters: DeviceParameters,
-        numOfLeftTasks: Int,
-        session1: Session,
-        session2: Session,
-        browseClickable: Clickable,
-    ): LayoutElement {
-        return materialScope(
-            context = context,
-            deviceConfiguration = deviceParameters,
-            allowDynamicTheme = true,
-            //      defaultColorScheme = myColorScheme,
-        ) {
-            primaryLayout(
-                mainSlot = {
-                    column {
-                        setWidth(expand())
-                        setHeight(expand())
-                        addContent(
-                            buttonGroup {
-                                buttonGroupItem { timerButton("1:00", "Hour") }
-                                buttonGroupItem { timerButton("5", "Mins") }
-                            }
-                        )
-                        addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
-                        addContent(
-                            buttonGroup {
-                                buttonGroupItem { timerButton("15", "Mins") }
-                                buttonGroupItem { timerButton("20", "Mins") }
-                                buttonGroupItem { timerButton("25", "Mins") }
-                            }
-                        )
-                        build()
-                    }
-                },
-                bottomSlot = {
-                    textEdgeButton(
-                        onClick = browseClickable,
-                        labelContent = { text("+".layoutString) },
-                        colors =
-                            filledButtonColors()
-                                .copy(
-                                    containerColor = colorScheme.tertiary,
-                                    labelColor = colorScheme.onTertiary,
-                                ),
-                        //              filledButtonColors().copy(containerColor =
-                        // LayoutColor(Color.rgb(255, 0, 0)), labelColor =
-                        // LayoutColor(Color.rgb(255, 255, 0)))
-                    )
-                },
+  fun minutes(
+    context: Context,
+    deviceParameters: DeviceParameters,
+    numOfLeftTasks: Int,
+    session1: Session,
+    session2: Session,
+    browseClickable: Clickable
+  ): LayoutElement {
+    return materialScope(
+      context = context,
+      deviceConfiguration = deviceParameters,
+      allowDynamicTheme = true
+      //      defaultColorScheme = myColorScheme,
+    ) {
+      primaryLayout(
+        mainSlot = {
+          column {
+            setWidth(expand())
+            setHeight(expand())
+            addContent(
+              buttonGroup {
+                buttonGroupItem { timerButton("1:00", "Hour") }
+                buttonGroupItem { timerButton("5", "Mins") }
+              }
             )
+            addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
+            addContent(
+              buttonGroup {
+                buttonGroupItem { timerButton("15", "Mins") }
+                buttonGroupItem { timerButton("20", "Mins") }
+                buttonGroupItem { timerButton("25", "Mins") }
+              }
+            )
+            build()
+          }
+        },
+        bottomSlot = {
+          textEdgeButton(
+            onClick = browseClickable,
+            labelContent = { text("+".layoutString) },
+            colors =
+            filledButtonColors()
+              .copy(
+                containerColor = colorScheme.tertiary,
+                labelColor = colorScheme.onTertiary
+              )
+            //              filledButtonColors().copy(containerColor =
+            // LayoutColor(Color.rgb(255, 0, 0)), labelColor =
+            // LayoutColor(Color.rgb(255, 255, 0)))
+          )
         }
+      )
     }
+  }
 
-    fun chipsLayoutOld(
-        context: Context,
-        deviceParameters: DeviceParameters,
-        numOfLeftTasks: Int,
-        session1: Session,
-        session2: Session,
-        browseClickable: Clickable,
-    ) =
-        PrimaryLayout.Builder(deviceParameters)
-            .setResponsiveContentInsetEnabled(true)
-            .apply {
-                if (deviceParameters.screenWidthDp > 225) {
-                    setPrimaryLabelTextContent(
-                        Text.Builder(context, "$numOfLeftTasks mindful tasks left")
-                            .setTypography(Typography.TYPOGRAPHY_BODY2)
-                            .setColor(ColorBuilders.argb(GoldenTilesColors.Pink))
-                            .build()
-                    )
-                }
+  fun chipsLayoutOld(
+    context: Context,
+    deviceParameters: DeviceParameters,
+    numOfLeftTasks: Int,
+    session1: Session,
+    session2: Session,
+    browseClickable: Clickable
+  ) =
+    PrimaryLayout.Builder(deviceParameters)
+      .setResponsiveContentInsetEnabled(true)
+      .apply {
+        if (deviceParameters.screenWidthDp > 225) {
+          setPrimaryLabelTextContent(
+            Text.Builder(context, "$numOfLeftTasks mindful tasks left")
+              .setTypography(Typography.TYPOGRAPHY_BODY2)
+              .setColor(ColorBuilders.argb(GoldenTilesColors.Pink))
+              .build()
+          )
+        }
+      }
+      .setContent(
+        Column.Builder()
+          // See the comment on `setWidth` below in `sessionChip()` too. The default width
+          // for
+          // column is "wrap", so we need to explicitly set it to "expand" so that we give
+          // the
+          // chips enough space to layout
+          .setWidth(DimensionBuilders.ExpandedDimensionProp.Builder().build())
+          .addContent(sessionChip(context, deviceParameters, session1))
+          .addContent(Spacer.Builder().setHeight(dp(4f)).build())
+          .addContent(sessionChip(context, deviceParameters, session2))
+          .build()
+      )
+      .setPrimaryChipContent(
+        CompactChip.Builder(context, "Browse", browseClickable, deviceParameters)
+          .setChipColors(
+            ChipColors(
+              /* backgroundColor = */
+              ColorBuilders.argb(
+                GoldenTilesColors.LightPurple
+              ),
+              /* contentColor = */
+              ColorBuilders.argb(GoldenTilesColors.DarkerGray)
+            )
+          )
+          .build()
+      )
+      .build()
+
+  private fun sessionChip(
+    context: Context,
+    deviceParameters: DeviceParameters,
+    session: Session
+  ): Chip {
+    return Chip.Builder(context, session.clickable, deviceParameters)
+      // TitleChip/Chip's default width == device width minus some padding
+      // Since PrimaryLayout's content slot already has margin, this leads to clipping
+      // unless we override the width to use the available space
+      .setWidth(DimensionBuilders.ExpandedDimensionProp.Builder().build())
+      .setIconContent(session.iconId)
+      .setPrimaryLabelContent(session.label)
+      .setChipColors(
+        ChipColors(
+          /* backgroundColor = */
+          ColorBuilders.argb(GoldenTilesColors.DarkPurple),
+          /* iconColor = */
+          ColorBuilders.argb(GoldenTilesColors.LightPurple),
+          /* contentColor = */
+          ColorBuilders.argb(GoldenTilesColors.White),
+          /* secondaryContentColor = */
+          ColorBuilders.argb(GoldenTilesColors.White)
+        )
+      )
+      .build()
+  }
+
+  fun buttonsLayout(
+    context: Context,
+    deviceParameters: DeviceParameters,
+    timer1: Timer,
+    timer2: Timer,
+    timer3: Timer,
+    timer4: Timer,
+    timer5: Timer,
+    clickable: Clickable
+  ) =
+    PrimaryLayout.Builder(deviceParameters)
+      .setResponsiveContentInsetEnabled(true)
+      .setPrimaryLabelTextContent(
+        Text.Builder(context, "Minutes")
+          .setTypography(Typography.TYPOGRAPHY_CAPTION1)
+          .setColor(ColorBuilders.argb(GoldenTilesColors.White))
+          .build()
+      )
+      .setContent(
+        MultiButtonLayout.Builder()
+          .addButtonContent(timerButton(context, timer1))
+          .addButtonContent(timerButton(context, timer2))
+          .addButtonContent(timerButton(context, timer3))
+          .apply {
+            if (deviceParameters.screenWidthDp > 225) {
+              addButtonContent(timerButton(context, timer4))
+              addButtonContent(timerButton(context, timer5))
             }
-            .setContent(
-                Column.Builder()
-                    // See the comment on `setWidth` below in `sessionChip()` too. The default width
-                    // for
-                    // column is "wrap", so we need to explicitly set it to "expand" so that we give
-                    // the
-                    // chips enough space to layout
-                    .setWidth(DimensionBuilders.ExpandedDimensionProp.Builder().build())
-                    .addContent(sessionChip(context, deviceParameters, session1))
-                    .addContent(Spacer.Builder().setHeight(dp(4f)).build())
-                    .addContent(sessionChip(context, deviceParameters, session2))
-                    .build()
+          }
+          .build()
+      )
+      .setPrimaryChipContent(
+        CompactChip.Builder(context, "New", clickable, deviceParameters)
+          .setChipColors(
+            ChipColors(
+              /*backgroundColor=*/
+              ColorBuilders.argb(GoldenTilesColors.DarkPurple),
+              /*contentColor=*/
+              ColorBuilders.argb(GoldenTilesColors.White)
             )
-            .setPrimaryChipContent(
-                CompactChip.Builder(context, "Browse", browseClickable, deviceParameters)
-                    .setChipColors(
-                        ChipColors(
-                            /* backgroundColor = */ ColorBuilders.argb(
-                                GoldenTilesColors.LightPurple
-                            ),
-                            /* contentColor = */ ColorBuilders.argb(GoldenTilesColors.DarkerGray),
-                        )
-                    )
-                    .build()
-            )
-            .build()
+          )
+          .build()
+      )
+      .build()
 
-    private fun sessionChip(
-        context: Context,
-        deviceParameters: DeviceParameters,
-        session: Session,
-    ): Chip {
-        return Chip.Builder(context, session.clickable, deviceParameters)
-            // TitleChip/Chip's default width == device width minus some padding
-            // Since PrimaryLayout's content slot already has margin, this leads to clipping
-            // unless we override the width to use the available space
-            .setWidth(DimensionBuilders.ExpandedDimensionProp.Builder().build())
-            .setIconContent(session.iconId)
-            .setPrimaryLabelContent(session.label)
-            .setChipColors(
-                ChipColors(
-                    /* backgroundColor = */ ColorBuilders.argb(GoldenTilesColors.DarkPurple),
-                    /* iconColor = */ ColorBuilders.argb(GoldenTilesColors.LightPurple),
-                    /* contentColor = */ ColorBuilders.argb(GoldenTilesColors.White),
-                    /* secondaryContentColor = */ ColorBuilders.argb(GoldenTilesColors.White),
-                )
-            )
-            .build()
-    }
+  private fun timerButton(context: Context, timer: Timer) =
+    Button.Builder(context, timer.clickable)
+      .setTextContent(timer.minutes.toString(), Typography.TYPOGRAPHY_TITLE3)
+      .setButtonColors(
+        androidx.wear.protolayout.material.ButtonColors(
+          /*backgroundColor=*/
+          ColorBuilders.argb(GoldenTilesColors.LightPurple),
+          /*contentColor=*/
+          ColorBuilders.argb(GoldenTilesColors.DarkerGray)
+        )
+      )
+      .build()
 
-    fun buttonsLayout(
-        context: Context,
-        deviceParameters: DeviceParameters,
-        timer1: Timer,
-        timer2: Timer,
-        timer3: Timer,
-        timer4: Timer,
-        timer5: Timer,
-        clickable: Clickable,
-    ) =
-        PrimaryLayout.Builder(deviceParameters)
-            .setResponsiveContentInsetEnabled(true)
-            .setPrimaryLabelTextContent(
-                Text.Builder(context, "Minutes")
-                    .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-                    .setColor(ColorBuilders.argb(GoldenTilesColors.White))
-                    .build()
-            )
-            .setContent(
-                MultiButtonLayout.Builder()
-                    .addButtonContent(timerButton(context, timer1))
-                    .addButtonContent(timerButton(context, timer2))
-                    .addButtonContent(timerButton(context, timer3))
-                    .apply {
-                        if (deviceParameters.screenWidthDp > 225) {
-                            addButtonContent(timerButton(context, timer4))
-                            addButtonContent(timerButton(context, timer5))
-                        }
-                    }
-                    .build()
-            )
-            .setPrimaryChipContent(
-                CompactChip.Builder(context, "New", clickable, deviceParameters)
-                    .setChipColors(
-                        ChipColors(
-                            /*backgroundColor=*/ ColorBuilders.argb(GoldenTilesColors.DarkPurple),
-                            /*contentColor=*/ ColorBuilders.argb(GoldenTilesColors.White),
-                        )
-                    )
-                    .build()
-            )
-            .build()
+  data class Session(val label: String, val iconId: String, val clickable: Clickable)
 
-    private fun timerButton(context: Context, timer: Timer) =
-        Button.Builder(context, timer.clickable)
-            .setTextContent(timer.minutes.toString(), Typography.TYPOGRAPHY_TITLE3)
-            .setButtonColors(
-                androidx.wear.protolayout.material.ButtonColors(
-                    /*backgroundColor=*/ ColorBuilders.argb(GoldenTilesColors.LightPurple),
-                    /*contentColor=*/ ColorBuilders.argb(GoldenTilesColors.DarkerGray),
-                )
-            )
-            .build()
-
-    data class Session(val label: String, val iconId: String, val clickable: Clickable)
-
-    data class Timer(val minutes: Int, val clickable: Clickable)
+  data class Timer(val minutes: Int, val clickable: Clickable)
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun meditationMinutesPreview(context: Context) =
-    TilePreviewData(
-        resources {
-            addIdToImageMapping(Meditation.CHIP_1_ICON_ID, R.drawable.ic_breathe_24)
-            addIdToImageMapping(Meditation.CHIP_2_ICON_ID, R.drawable.ic_mindfulness_24)
-        }
-    ) {
-        TilePreviewHelper.singleTimelineEntryTileBuilder(
-                Meditation.minutes(
-                    context,
-                    it.deviceConfiguration,
-                    numOfLeftTasks = 2,
-                    session1 =
-                        Meditation.Session(
-                            label = "Breathe",
-                            iconId = Meditation.CHIP_1_ICON_ID,
-                            clickable = emptyClickable,
-                        ),
-                    session2 =
-                        Meditation.Session(
-                            label = "Daily mindfulness",
-                            iconId = Meditation.CHIP_2_ICON_ID,
-                            clickable = emptyClickable,
-                        ),
-                    browseClickable = emptyClickable,
-                )
-            )
-            .build()
+  TilePreviewData(
+    resources {
+      addIdToImageMapping(Meditation.CHIP_1_ICON_ID, R.drawable.ic_breathe_24)
+      addIdToImageMapping(Meditation.CHIP_2_ICON_ID, R.drawable.ic_mindfulness_24)
     }
+  ) {
+    TilePreviewHelper.singleTimelineEntryTileBuilder(
+      Meditation.minutes(
+        context,
+        it.deviceConfiguration,
+        numOfLeftTasks = 2,
+        session1 =
+        Meditation.Session(
+          label = "Breathe",
+          iconId = Meditation.CHIP_1_ICON_ID,
+          clickable = emptyClickable
+        ),
+        session2 =
+        Meditation.Session(
+          label = "Daily mindfulness",
+          iconId = Meditation.CHIP_2_ICON_ID,
+          clickable = emptyClickable
+        ),
+        browseClickable = emptyClickable
+      )
+    )
+      .build()
+  }
 
 // @MultiRoundDevicesWithFontScalePreviews
 internal fun meditationButtonsPreview(context: Context) = TilePreviewData {
-    TilePreviewHelper.singleTimelineEntryTileBuilder(
-            Meditation.buttonsLayout(
-                context,
-                it.deviceConfiguration,
-                timer1 = Meditation.Timer(minutes = 5, clickable = emptyClickable),
-                timer2 = Meditation.Timer(minutes = 10, clickable = emptyClickable),
-                timer3 = Meditation.Timer(minutes = 15, clickable = emptyClickable),
-                timer4 = Meditation.Timer(minutes = 20, clickable = emptyClickable),
-                timer5 = Meditation.Timer(minutes = 25, clickable = emptyClickable),
-                clickable = emptyClickable,
-            )
-        )
-        .build()
+  TilePreviewHelper.singleTimelineEntryTileBuilder(
+    Meditation.buttonsLayout(
+      context,
+      it.deviceConfiguration,
+      timer1 = Meditation.Timer(minutes = 5, clickable = emptyClickable),
+      timer2 = Meditation.Timer(minutes = 10, clickable = emptyClickable),
+      timer3 = Meditation.Timer(minutes = 15, clickable = emptyClickable),
+      timer4 = Meditation.Timer(minutes = 20, clickable = emptyClickable),
+      timer5 = Meditation.Timer(minutes = 25, clickable = emptyClickable),
+      clickable = emptyClickable
+    )
+  )
+    .build()
 }

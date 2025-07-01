@@ -43,54 +43,54 @@ import java.util.Locale
 private const val ICON_ID = "icon"
 
 object Goal {
-    fun layout(context: Context, deviceParameters: DeviceParameters, steps: Int, goal: Int) =
-        materialScope(
-            context = context,
-            deviceConfiguration = deviceParameters,
-            allowDynamicTheme = true,
-        ) {
-            val stepsString = NumberFormat.getNumberInstance(Locale.US).format(steps)
-            val goalString = NumberFormat.getNumberInstance(Locale.US).format(goal)
-            primaryLayout(
-                titleSlot = { text("Steps".layoutString) },
-                margins = PrimaryLayoutMargins.MIN_PRIMARY_LAYOUT_MARGIN,
-                mainSlot = {
-                    graphicDataCard(
-                        onClick = clickable(),
-                        height = expand(),
-                        colors = filledTonalCardColors(),
-                        title = { text(stepsString.layoutString) },
-                        content = { text("of $goalString".layoutString) },
-                        horizontalAlignment = LayoutElementBuilders.HORIZONTAL_ALIGN_END,
-                        graphic = {
-                            constructGraphic(
-                                mainContent = {
-                                    circularProgressIndicator(
-                                        staticProgress = 1F * steps / goal,
-                                        startAngleDegrees = 200F,
-                                        endAngleDegrees = 520F,
-                                    )
-                                },
-                                iconContent = { icon(ICON_ID) },
-                            )
-                        },
-                    )
+  fun layout(context: Context, deviceParameters: DeviceParameters, steps: Int, goal: Int) =
+    materialScope(
+      context = context,
+      deviceConfiguration = deviceParameters,
+      allowDynamicTheme = true
+    ) {
+      val stepsString = NumberFormat.getNumberInstance(Locale.US).format(steps)
+      val goalString = NumberFormat.getNumberInstance(Locale.US).format(goal)
+      primaryLayout(
+        titleSlot = { text("Steps".layoutString) },
+        margins = PrimaryLayoutMargins.MIN_PRIMARY_LAYOUT_MARGIN,
+        mainSlot = {
+          graphicDataCard(
+            onClick = clickable(),
+            height = expand(),
+            colors = filledTonalCardColors(),
+            title = { text(stepsString.layoutString) },
+            content = { text("of $goalString".layoutString) },
+            horizontalAlignment = LayoutElementBuilders.HORIZONTAL_ALIGN_END,
+            graphic = {
+              constructGraphic(
+                mainContent = {
+                  circularProgressIndicator(
+                    staticProgress = 1F * steps / goal,
+                    startAngleDegrees = 200F,
+                    endAngleDegrees = 520F
+                  )
                 },
-                bottomSlot = {
-                    textEdgeButton(onClick = clickable()) { text("Track".layoutString) }
-                },
-            )
+                iconContent = { icon(ICON_ID) }
+              )
+            }
+          )
+        },
+        bottomSlot = {
+          textEdgeButton(onClick = clickable()) { text("Track".layoutString) }
         }
+      )
+    }
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun goalPreview(context: Context) =
-    TilePreviewData(
-        onTileResourceRequest =
-            resources { addIdToImageMapping(ICON_ID, R.drawable.outline_directions_walk_24) }
-    ) {
-        singleTimelineEntryTileBuilder(
-                Goal.layout(context, it.deviceConfiguration, steps = 5168, goal = 8000)
-            )
-            .build()
-    }
+  TilePreviewData(
+    onTileResourceRequest =
+    resources { addIdToImageMapping(ICON_ID, R.drawable.outline_directions_walk_24) }
+  ) {
+    singleTimelineEntryTileBuilder(
+      Goal.layout(context, it.deviceConfiguration, steps = 5168, goal = 8000)
+    )
+      .build()
+  }

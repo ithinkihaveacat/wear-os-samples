@@ -45,78 +45,78 @@ import java.time.format.FormatStyle
 
 object News {
 
-    fun layout(
-        context: Context,
-        deviceParameters: DeviceParameters,
-        date: String,
-        headline: String,
-        newsVendor: String,
-        clickable: Clickable,
-    ): LayoutElementBuilders.LayoutElement {
-        return materialScope(
-            context = context,
-            deviceConfiguration = deviceParameters,
-            allowDynamicTheme = false,
-            defaultColorScheme = GoldenTilesColorScheme,
-        ) {
-            primaryLayout(
-                titleSlot = { text(date.layoutString) },
-                mainSlot = {
-                    card(
-                        onClick = clickable,
-                        width = expand(),
-                        height = expand(),
-                        backgroundContent = {
-                            backgroundImage(
-                                protoLayoutResourceId = "news_image",
-                                overlayColor = null,
-                                contentScaleMode = CONTENT_SCALE_MODE_CROP,
-                            )
-                        },
-                        content = { text(text = headline.layoutString, maxLines = 3) },
-                    )
-                },
-                bottomSlot = {
-                    textEdgeButton(
-                        colors =
-                            ButtonColors(
-                                labelColor = colorScheme.onSurface,
-                                containerColor = colorScheme.surfaceContainer,
-                            ),
-                        onClick = clickable,
-                        labelContent = { text("News".layoutString) },
-                    )
-                },
-            )
+  fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters,
+    date: String,
+    headline: String,
+    newsVendor: String,
+    clickable: Clickable
+  ): LayoutElementBuilders.LayoutElement {
+    return materialScope(
+      context = context,
+      deviceConfiguration = deviceParameters,
+      allowDynamicTheme = false,
+      defaultColorScheme = GoldenTilesColorScheme
+    ) {
+      primaryLayout(
+        titleSlot = { text(date.layoutString) },
+        mainSlot = {
+          card(
+            onClick = clickable,
+            width = expand(),
+            height = expand(),
+            backgroundContent = {
+              backgroundImage(
+                protoLayoutResourceId = "news_image",
+                overlayColor = null,
+                contentScaleMode = CONTENT_SCALE_MODE_CROP
+              )
+            },
+            content = { text(text = headline.layoutString, maxLines = 3) }
+          )
+        },
+        bottomSlot = {
+          textEdgeButton(
+            colors =
+            ButtonColors(
+              labelColor = colorScheme.onSurface,
+              containerColor = colorScheme.surfaceContainer
+            ),
+            onClick = clickable,
+            labelContent = { text("News".layoutString) }
+          )
         }
+      )
     }
+  }
 
-    internal fun LocalDate.formatLocalDateTime(today: LocalDate = LocalDate.now()): String {
-        val yesterday = today.minusDays(1)
+  internal fun LocalDate.formatLocalDateTime(today: LocalDate = LocalDate.now()): String {
+    val yesterday = today.minusDays(1)
 
-        return when {
-            this == yesterday -> "yesterday ${format(DateTimeFormatter.ofPattern("MMM d"))}"
-            this == today -> "today ${format(DateTimeFormatter.ofPattern("MMM d"))}"
-            else -> format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL))
-        }
+    return when {
+      this == yesterday -> "yesterday ${format(DateTimeFormatter.ofPattern("MMM d"))}"
+      this == today -> "today ${format(DateTimeFormatter.ofPattern("MMM d"))}"
+      else -> format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL))
     }
+  }
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun newsPreview(context: Context) =
-    TilePreviewData(resources { addIdToImageMapping("news_image", R.drawable.news) }) {
-        val now = LocalDateTime.of(2024, 8, 1, 0, 0).toInstant(ZoneOffset.UTC)
-        Clock.fixed(now, Clock.systemUTC().zone)
+  TilePreviewData(resources { addIdToImageMapping("news_image", R.drawable.news) }) {
+    val now = LocalDateTime.of(2024, 8, 1, 0, 0).toInstant(ZoneOffset.UTC)
+    Clock.fixed(now, Clock.systemUTC().zone)
 
-        TilePreviewHelper.singleTimelineEntryTileBuilder(
-                News.layout(
-                    context,
-                    it.deviceConfiguration,
-                    headline = "Millions still without power as new storm moves across US",
-                    newsVendor = "The New York Times",
-                    date = "Today, 31 July",
-                    clickable = clickable(),
-                )
-            )
-            .build()
-    }
+    TilePreviewHelper.singleTimelineEntryTileBuilder(
+      News.layout(
+        context,
+        it.deviceConfiguration,
+        headline = "Millions still without power as new storm moves across US",
+        newsVendor = "The New York Times",
+        date = "Today, 31 July",
+        clickable = clickable()
+      )
+    )
+      .build()
+  }

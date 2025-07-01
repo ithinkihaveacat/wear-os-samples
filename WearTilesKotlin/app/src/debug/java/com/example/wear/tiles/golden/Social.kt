@@ -57,159 +57,159 @@ import com.example.wear.tiles.tools.isLargeScreen
 import com.example.wear.tiles.tools.resources
 
 fun Context.mockContacts(): List<Contact> {
-    return listOf(
-        Contact(
-            initials = "MS",
-            avatarId = resources.getResourceName(R.drawable.resized),
-            avatarResource = R.drawable.resized,
-        ),
-        Contact(initials = "AB", avatarId = null, avatarResource = null),
-        Contact(
-            initials = "WW",
-            avatarId = resources.getResourceName(R.drawable.avatar_bg_3),
-            avatarResource = R.drawable.avatar_bg_3,
-        ),
-        Contact(initials = "CD", avatarId = null, avatarResource = null),
-        Contact(
-            initials = "AD",
-            avatarId = resources.getResourceName(R.drawable.avatar_bg_2),
-            avatarResource = R.drawable.avatar_bg_2,
-        ),
-        Contact(initials = "EF", avatarId = null, avatarResource = null),
-    )
+  return listOf(
+    Contact(
+      initials = "MS",
+      avatarId = resources.getResourceName(R.drawable.resized),
+      avatarResource = R.drawable.resized
+    ),
+    Contact(initials = "AB", avatarId = null, avatarResource = null),
+    Contact(
+      initials = "WW",
+      avatarId = resources.getResourceName(R.drawable.avatar_bg_3),
+      avatarResource = R.drawable.avatar_bg_3
+    ),
+    Contact(initials = "CD", avatarId = null, avatarResource = null),
+    Contact(
+      initials = "AD",
+      avatarId = resources.getResourceName(R.drawable.avatar_bg_2),
+      avatarResource = R.drawable.avatar_bg_2
+    ),
+    Contact(initials = "EF", avatarId = null, avatarResource = null)
+  )
 }
 
 data class Contact(
-    val initials: String,
-    val clickable: Clickable = clickable(),
-    val avatarId: String?,
-    @DrawableRes val avatarResource: Int?,
+  val initials: String,
+  val clickable: Clickable = clickable(),
+  val avatarId: String?,
+  @DrawableRes val avatarResource: Int?
 )
 
 @OptIn(ProtoLayoutExperimental::class)
 fun MaterialScope.contactButton(contact: Contact): LayoutElement {
-    if (contact.avatarId != null) {
-        return image {
-            setHeight(expand())
-            setWidth(expand())
-            setModifiers(LayoutModifier.clip(shapes.full).toProtoLayoutModifiers())
-            setResourceId(contact.avatarId)
-            setContentScaleMode(CONTENT_SCALE_MODE_CROP)
-        }
-    } else {
-        val colors =
-            listOf(
-                ButtonColors(
-                    labelColor = colorScheme.onPrimary,
-                    containerColor = colorScheme.primaryDim,
-                ),
-                ButtonColors(
-                    labelColor = colorScheme.onSecondary,
-                    containerColor = colorScheme.secondaryDim,
-                ),
-                ButtonColors(
-                    labelColor = colorScheme.onTertiary,
-                    containerColor = colorScheme.tertiaryDim,
-                ),
-            )[contact.initials.hashCode() % 3]
-        return textButton(
-            onClick = clickable(),
-            labelContent = {
-                basicText(
-                    text = contact.initials.layoutString,
-                    fontStyle =
-                        fontStyle(
-                            color = colors.labelColor,
-                            settings = listOf(FontSetting.width(60F)),
-                            size = 26F,
-                            weight = FONT_WEIGHT_MEDIUM,
-                        ),
-                    modifier = LayoutModifier.background(colors.containerColor).clip(shapes.full),
-                )
-            },
-            width = expand(),
-            height = expand(),
-            contentPadding = padding(horizontal = 4F, vertical = 2F),
-            colors = colors,
-        )
+  if (contact.avatarId != null) {
+    return image {
+      setHeight(expand())
+      setWidth(expand())
+      setModifiers(LayoutModifier.clip(shapes.full).toProtoLayoutModifiers())
+      setResourceId(contact.avatarId)
+      setContentScaleMode(CONTENT_SCALE_MODE_CROP)
     }
+  } else {
+    val colors =
+      listOf(
+        ButtonColors(
+          labelColor = colorScheme.onPrimary,
+          containerColor = colorScheme.primaryDim
+        ),
+        ButtonColors(
+          labelColor = colorScheme.onSecondary,
+          containerColor = colorScheme.secondaryDim
+        ),
+        ButtonColors(
+          labelColor = colorScheme.onTertiary,
+          containerColor = colorScheme.tertiaryDim
+        )
+      )[contact.initials.hashCode() % 3]
+    return textButton(
+      onClick = clickable(),
+      labelContent = {
+        basicText(
+          text = contact.initials.layoutString,
+          fontStyle =
+          fontStyle(
+            color = colors.labelColor,
+            settings = listOf(FontSetting.width(60F)),
+            size = 26F,
+            weight = FONT_WEIGHT_MEDIUM
+          ),
+          modifier = LayoutModifier.background(colors.containerColor).clip(shapes.full)
+        )
+      },
+      width = expand(),
+      height = expand(),
+      contentPadding = padding(horizontal = 4F, vertical = 2F),
+      colors = colors
+    )
+  }
 }
 
 object Social {
 
-    fun layout(
-        context: Context,
-        deviceParameters: DeviceParameters,
-        contacts: List<Contact>,
-    ): LayoutElement {
-        return materialScope(
-            context = context,
-            deviceConfiguration = deviceParameters,
-            allowDynamicTheme = true,
-        ) {
-            val (row1, row2) =
-                contacts.take(6).take(if (deviceParameters.isLargeScreen()) 6 else 4).run {
-                    when (count()) {
-                        1 -> Pair(subList(0, 1), emptyList()) // 1 | 0 split
-                        2 -> Pair(subList(0, 2), emptyList()) // 2 | 0 split
-                        3 -> Pair(subList(0, 2), subList(2, 3)) // 2 | 1 split
-                        4 -> Pair(subList(0, 2), subList(2, 4)) // 2 | 2 split
-                        5 -> Pair(subList(0, 3), subList(3, 5)) // 3 | 2 split
-                        6 -> Pair(subList(0, 3), subList(3, 6)) // 3 | 3 split
-                        else ->
-                            throw IllegalArgumentException(
-                                "Unsupported contact count: ${count()}. Expected 1 to 6."
-                            )
-                    }
-                }
-
-            primaryLayout(
-                titleSlot =
-                    if (row2.isEmpty()) {
-                        {
-                            text(
-                                text = "Contacts".layoutString,
-                                color = colorScheme.onBackground,
-                                typography = TITLE_SMALL,
-                                maxLines = 2,
-                                alignment = TEXT_ALIGN_CENTER,
-                                modifier = LayoutModifier.contentDescription("Contacts"),
-                            )
-                        }
-                    } else {
-                        null
-                    },
-                mainSlot = {
-                    column {
-                        setWidth(expand())
-                        setHeight(expand())
-                        addContent(
-                            buttonGroup { row1.forEach { buttonGroupItem { contactButton(it) } } }
-                        )
-                        if (!row2.isEmpty()) {
-                            addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
-                            addContent(
-                                buttonGroup {
-                                    row2.forEach { buttonGroupItem { contactButton(it) } }
-                                }
-                            )
-                        }
-                    }
-                },
-                bottomSlot = {
-                    textEdgeButton(
-                        onClick = clickable(),
-                        labelContent = { text("More".layoutString) },
-                        colors =
-                            ButtonColors(
-                                labelColor = colorScheme.onSurface,
-                                containerColor = colorScheme.surfaceContainer,
-                            ),
-                    )
-                },
-            )
+  fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters,
+    contacts: List<Contact>
+  ): LayoutElement {
+    return materialScope(
+      context = context,
+      deviceConfiguration = deviceParameters,
+      allowDynamicTheme = true
+    ) {
+      val (row1, row2) =
+        contacts.take(6).take(if (deviceParameters.isLargeScreen()) 6 else 4).run {
+          when (count()) {
+            1 -> Pair(subList(0, 1), emptyList()) // 1 | 0 split
+            2 -> Pair(subList(0, 2), emptyList()) // 2 | 0 split
+            3 -> Pair(subList(0, 2), subList(2, 3)) // 2 | 1 split
+            4 -> Pair(subList(0, 2), subList(2, 4)) // 2 | 2 split
+            5 -> Pair(subList(0, 3), subList(3, 5)) // 3 | 2 split
+            6 -> Pair(subList(0, 3), subList(3, 6)) // 3 | 3 split
+            else ->
+              throw IllegalArgumentException(
+                "Unsupported contact count: ${count()}. Expected 1 to 6."
+              )
+          }
         }
+
+      primaryLayout(
+        titleSlot =
+        if (row2.isEmpty()) {
+          {
+            text(
+              text = "Contacts".layoutString,
+              color = colorScheme.onBackground,
+              typography = TITLE_SMALL,
+              maxLines = 2,
+              alignment = TEXT_ALIGN_CENTER,
+              modifier = LayoutModifier.contentDescription("Contacts")
+            )
+          }
+        } else {
+          null
+        },
+        mainSlot = {
+          column {
+            setWidth(expand())
+            setHeight(expand())
+            addContent(
+              buttonGroup { row1.forEach { buttonGroupItem { contactButton(it) } } }
+            )
+            if (!row2.isEmpty()) {
+              addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
+              addContent(
+                buttonGroup {
+                  row2.forEach { buttonGroupItem { contactButton(it) } }
+                }
+              )
+            }
+          }
+        },
+        bottomSlot = {
+          textEdgeButton(
+            onClick = clickable(),
+            labelContent = { text("More".layoutString) },
+            colors =
+            ButtonColors(
+              labelColor = colorScheme.onSurface,
+              containerColor = colorScheme.surfaceContainer
+            )
+          )
+        }
+      )
     }
+  }
 }
 
 @MultiRoundDevicesWithFontScalePreviews
@@ -231,19 +231,19 @@ internal fun socialPreview5(context: Context) = socialPreviewN(context, 5)
 internal fun socialPreview6(context: Context) = socialPreviewN(context, 6)
 
 internal fun socialPreviewN(context: Context, n: Int): TilePreviewData {
-    val contacts = context.mockContacts().take(n)
-    return TilePreviewData(
-        resources {
-            contacts.forEach {
-                if (it.avatarId != null && it.avatarResource != null) {
-                    addIdToImageMapping(it.avatarId, it.avatarResource)
-                }
-            }
+  val contacts = context.mockContacts().take(n)
+  return TilePreviewData(
+    resources {
+      contacts.forEach {
+        if (it.avatarId != null && it.avatarResource != null) {
+          addIdToImageMapping(it.avatarId, it.avatarResource)
         }
-    ) {
-        TilePreviewHelper.singleTimelineEntryTileBuilder(
-                Social.layout(context, it.deviceConfiguration, contacts)
-            )
-            .build()
+      }
     }
+  ) {
+    TilePreviewHelper.singleTimelineEntryTileBuilder(
+      Social.layout(context, it.deviceConfiguration, contacts)
+    )
+      .build()
+  }
 }

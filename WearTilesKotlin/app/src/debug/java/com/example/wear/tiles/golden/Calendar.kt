@@ -33,52 +33,52 @@ import com.example.wear.tiles.tools.emptyClickable
 
 object Calendar {
 
-    fun layout(
-        context: Context,
-        deviceParameters: DeviceParameters,
-        eventTime: String,
-        eventName: String,
-        eventLocation: String,
-        clickable: Clickable,
-    ) =
-        PrimaryLayout.Builder(deviceParameters)
-            .setResponsiveContentInsetEnabled(true)
-            .setPrimaryLabelTextContent(
-                Text.Builder(context, eventTime)
-                    .setColor(ColorBuilders.argb(GoldenTilesColors.LightBlue))
-                    .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-                    .build()
-            )
-            .setContent(
-                Text.Builder(context, eventName)
-                    .setMaxLines(3)
-                    .setColor(ColorBuilders.argb(GoldenTilesColors.White))
-                    .setTypography(Typography.TYPOGRAPHY_BODY1)
-                    .build()
-            )
-            .setSecondaryLabelTextContent(
-                Text.Builder(context, eventLocation)
-                    .setColor(ColorBuilders.argb(GoldenTilesColors.Gray))
-                    .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-                    .build()
-            )
-            .setPrimaryChipContent(
-                CompactChip.Builder(context, "Agenda", clickable, deviceParameters).build()
-            )
-            .build()
+  fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters,
+    eventTime: String,
+    eventName: String,
+    eventLocation: String,
+    clickable: Clickable
+  ) =
+    PrimaryLayout.Builder(deviceParameters)
+      .setResponsiveContentInsetEnabled(true)
+      .setPrimaryLabelTextContent(
+        Text.Builder(context, eventTime)
+          .setColor(ColorBuilders.argb(GoldenTilesColors.LightBlue))
+          .setTypography(Typography.TYPOGRAPHY_CAPTION1)
+          .build()
+      )
+      .setContent(
+        Text.Builder(context, eventName)
+          .setMaxLines(3)
+          .setColor(ColorBuilders.argb(GoldenTilesColors.White))
+          .setTypography(Typography.TYPOGRAPHY_BODY1)
+          .build()
+      )
+      .setSecondaryLabelTextContent(
+        Text.Builder(context, eventLocation)
+          .setColor(ColorBuilders.argb(GoldenTilesColors.Gray))
+          .setTypography(Typography.TYPOGRAPHY_CAPTION1)
+          .build()
+      )
+      .setPrimaryChipContent(
+        CompactChip.Builder(context, "Agenda", clickable, deviceParameters).build()
+      )
+      .build()
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun calendarPreview(context: Context) = TilePreviewData {
-    TilePreviewHelper.singleTimelineEntryTileBuilder(
-            Calendar.layout(
-                context,
-                it.deviceConfiguration,
-                eventTime = "6:30-7:30 PM",
-                eventName = "Morning Pilates with Christina Lloyd",
-                eventLocation = "216 Market Street",
-                clickable = emptyClickable,
-            )
-        )
-        .build()
+  TilePreviewHelper.singleTimelineEntryTileBuilder(
+    Calendar.layout(
+      context,
+      it.deviceConfiguration,
+      eventTime = "6:30-7:30 PM",
+      eventName = "Morning Pilates with Christina Lloyd",
+      eventLocation = "216 Market Street",
+      clickable = emptyClickable
+    )
+  )
+    .build()
 }

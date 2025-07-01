@@ -58,241 +58,249 @@ import com.google.android.horologist.tiles.images.drawableResToImageResource
 // https://www.figma.com/design/2OJqWvi4ebE7FY5uuBTUhm/GM3-BC25-Wear-Compose-Design-Kit-1.5?node-id=66728-38855&m=dev
 
 val noOpElement: MaterialScope.() -> LayoutElementBuilders.LayoutElement = {
-    LayoutElementBuilders.Spacer.Builder().setWidth(dp(0F)).setHeight(dp(0F)).build()
+  LayoutElementBuilders.Spacer.Builder().setWidth(dp(0F)).setHeight(dp(0F)).build()
 }
 
 object Workout {
-    const val BUTTON_1_ICON_ID = "workout 1"
-    const val BUTTON_2_ICON_ID = "workout 2"
-    const val BUTTON_3_ICON_ID = "workout 3"
+  const val BUTTON_1_ICON_ID = "workout 1"
+  const val BUTTON_2_ICON_ID = "workout 2"
+  const val BUTTON_3_ICON_ID = "workout 3"
 
-    fun layout(context: Context, deviceParameters: DeviceParametersBuilders.DeviceParameters) =
-        materialScope(
-            context = context,
-            deviceConfiguration = deviceParameters,
-            allowDynamicTheme = true,
-        ) {
-            primaryLayout(
-                titleSlot = { text("Exercise".layoutString) },
-                mainSlot = {
-                    buttonGroup {
-                        buttonGroupItem {
-                            iconDataCard(
-                                onClick = clickable(),
-                                width = expand(),
-                                height =
-                                    if (deviceParameters.isLargeScreen()) dp(90f) else expand(),
-                                colors = filledVariantCardColors(),
-                                title = {
-                                    icon(
-                                        protoLayoutResourceId =
-                                            context.resources.getResourceName(
-                                                R.drawable.self_improvement_24px
-                                            )
-                                    )
-                                },
-                            )
-                        }
-                        buttonGroupItem {
-                            iconDataCard(
-                                onClick = clickable(),
-                                width = if (deviceParameters.isLargeScreen()) dp(80f) else expand(),
-                                height = expand(),
-                                shape = shapes.medium,
-                                title = {
-                                    if (deviceParameters.isLargeScreen()) {
-                                        text("30".layoutString, typography = DISPLAY_MEDIUM)
-                                    } else {
-                                        noOpElement()
-                                    }
-                                },
-                                content = {
-                                    if (deviceParameters.isLargeScreen()) {
-                                        text("Mins".layoutString, typography = TITLE_MEDIUM)
-                                    } else {
-                                        noOpElement()
-                                    }
-                                },
-                                secondaryIcon = {
-                                    icon(
-                                        protoLayoutResourceId =
-                                            context.resources.getResourceName(R.drawable.ic_run_24)
-                                    )
-                                },
-                            )
-                        }
-                        buttonGroupItem {
-                            iconDataCard(
-                                onClick = clickable(),
-                                width = expand(),
-                                height =
-                                    if (deviceParameters.isLargeScreen()) dp(90f) else expand(),
-                                colors = filledVariantCardColors(),
-                                title = {
-                                    icon(
-                                        protoLayoutResourceId =
-                                            context.resources.getResourceName(
-                                                R.drawable.ic_cycling_24
-                                            )
-                                    )
-                                },
-                            )
-                        }
-                    }
+  fun layout(context: Context, deviceParameters: DeviceParametersBuilders.DeviceParameters) =
+    materialScope(
+      context = context,
+      deviceConfiguration = deviceParameters,
+      allowDynamicTheme = true
+    ) {
+      primaryLayout(
+        titleSlot = { text("Exercise".layoutString) },
+        mainSlot = {
+          buttonGroup {
+            buttonGroupItem {
+              iconDataCard(
+                onClick = clickable(),
+                width = expand(),
+                height =
+                if (deviceParameters.isLargeScreen()) dp(90f) else expand(),
+                colors = filledVariantCardColors(),
+                title = {
+                  icon(
+                    protoLayoutResourceId =
+                    context.resources.getResourceName(
+                      R.drawable.self_improvement_24px
+                    )
+                  )
+                }
+              )
+            }
+            buttonGroupItem {
+              iconDataCard(
+                onClick = clickable(),
+                width = if (deviceParameters.isLargeScreen()) dp(80f) else expand(),
+                height = expand(),
+                shape = shapes.medium,
+                title = {
+                  if (deviceParameters.isLargeScreen()) {
+                    text("30".layoutString, typography = DISPLAY_MEDIUM)
+                  } else {
+                    noOpElement()
+                  }
                 },
-                bottomSlot = { textEdgeButton(onClick = clickable()) { text("More".layoutString) } },
-            )
+                content = {
+                  if (deviceParameters.isLargeScreen()) {
+                    text("Mins".layoutString, typography = TITLE_MEDIUM)
+                  } else {
+                    noOpElement()
+                  }
+                },
+                secondaryIcon = {
+                  icon(
+                    protoLayoutResourceId =
+                    context.resources.getResourceName(R.drawable.ic_run_24)
+                  )
+                }
+              )
+            }
+            buttonGroupItem {
+              iconDataCard(
+                onClick = clickable(),
+                width = expand(),
+                height =
+                if (deviceParameters.isLargeScreen()) dp(90f) else expand(),
+                colors = filledVariantCardColors(),
+                title = {
+                  icon(
+                    protoLayoutResourceId =
+                    context.resources.getResourceName(
+                      R.drawable.ic_cycling_24
+                    )
+                  )
+                }
+              )
+            }
+          }
+        },
+        bottomSlot = {
+          textEdgeButton(
+            onClick = clickable()
+          ) { text("More".layoutString) }
         }
+      )
+    }
 
-    fun buttonsLayout(
-        context: Context,
-        deviceParameters: DeviceParametersBuilders.DeviceParameters,
-        weekSummary: String,
-        button1Clickable: ModifiersBuilders.Clickable,
-        button2Clickable: ModifiersBuilders.Clickable,
-        button3Clickable: ModifiersBuilders.Clickable,
-        chipClickable: ModifiersBuilders.Clickable,
-    ) =
-        PrimaryLayout.Builder(deviceParameters)
-            .setResponsiveContentInsetEnabled(true)
-            .setPrimaryLabelTextContent(
-                Text.Builder(context, weekSummary)
-                    .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-                    .setColor(ColorBuilders.argb(GoldenTilesColors.Blue))
-                    .build()
+  fun buttonsLayout(
+    context: Context,
+    deviceParameters: DeviceParametersBuilders.DeviceParameters,
+    weekSummary: String,
+    button1Clickable: ModifiersBuilders.Clickable,
+    button2Clickable: ModifiersBuilders.Clickable,
+    button3Clickable: ModifiersBuilders.Clickable,
+    chipClickable: ModifiersBuilders.Clickable
+  ) =
+    PrimaryLayout.Builder(deviceParameters)
+      .setResponsiveContentInsetEnabled(true)
+      .setPrimaryLabelTextContent(
+        Text.Builder(context, weekSummary)
+          .setTypography(Typography.TYPOGRAPHY_CAPTION1)
+          .setColor(ColorBuilders.argb(GoldenTilesColors.Blue))
+          .build()
+      )
+      .setContent(
+        MultiButtonLayout.Builder()
+          .addButtonContent(
+            Button.Builder(context, button1Clickable)
+              .setIconContent(BUTTON_1_ICON_ID)
+              .build()
+          )
+          .addButtonContent(
+            Button.Builder(context, button2Clickable)
+              .setIconContent(BUTTON_2_ICON_ID)
+              .build()
+          )
+          .addButtonContent(
+            Button.Builder(context, button3Clickable)
+              .setIconContent(BUTTON_3_ICON_ID)
+              .build()
+          )
+          .build()
+      )
+      .setPrimaryChipContent(
+        CompactChip.Builder(context, "More", chipClickable, deviceParameters)
+          .setChipColors(
+            ChipColors(
+              /*backgroundColor=*/
+              ColorBuilders.argb(GoldenTilesColors.BlueGray),
+              /*contentColor=*/
+              ColorBuilders.argb(GoldenTilesColors.White)
             )
-            .setContent(
-                MultiButtonLayout.Builder()
-                    .addButtonContent(
-                        Button.Builder(context, button1Clickable)
-                            .setIconContent(BUTTON_1_ICON_ID)
-                            .build()
-                    )
-                    .addButtonContent(
-                        Button.Builder(context, button2Clickable)
-                            .setIconContent(BUTTON_2_ICON_ID)
-                            .build()
-                    )
-                    .addButtonContent(
-                        Button.Builder(context, button3Clickable)
-                            .setIconContent(BUTTON_3_ICON_ID)
-                            .build()
-                    )
-                    .build()
-            )
-            .setPrimaryChipContent(
-                CompactChip.Builder(context, "More", chipClickable, deviceParameters)
-                    .setChipColors(
-                        ChipColors(
-                            /*backgroundColor=*/ ColorBuilders.argb(GoldenTilesColors.BlueGray),
-                            /*contentColor=*/ ColorBuilders.argb(GoldenTilesColors.White),
-                        )
-                    )
-                    .build()
-            )
-            .build()
+          )
+          .build()
+      )
+      .build()
 
-    fun largeChipLayout(
-        context: Context,
-        deviceParameters: DeviceParametersBuilders.DeviceParameters,
-        clickable: ModifiersBuilders.Clickable,
-        lastWorkoutSummary: String,
-    ) =
-        PrimaryLayout.Builder(deviceParameters)
-            .setResponsiveContentInsetEnabled(true)
-            .setPrimaryLabelTextContent(
-                Text.Builder(context, "Power Yoga")
-                    .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-                    .setColor(ColorBuilders.argb(GoldenTilesColors.Yellow))
-                    .build()
+  fun largeChipLayout(
+    context: Context,
+    deviceParameters: DeviceParametersBuilders.DeviceParameters,
+    clickable: ModifiersBuilders.Clickable,
+    lastWorkoutSummary: String
+  ) =
+    PrimaryLayout.Builder(deviceParameters)
+      .setResponsiveContentInsetEnabled(true)
+      .setPrimaryLabelTextContent(
+        Text.Builder(context, "Power Yoga")
+          .setTypography(Typography.TYPOGRAPHY_CAPTION1)
+          .setColor(ColorBuilders.argb(GoldenTilesColors.Yellow))
+          .build()
+      )
+      .setContent(
+        TitleChip.Builder(context, "Start", clickable, deviceParameters)
+          // TitleChip/Chip's default width == device width minus some padding
+          // Since PrimaryLayout's content slot already has margin, this leads to clipping
+          // unless we override the width to use the available space
+          .setWidth(DimensionBuilders.ExpandedDimensionProp.Builder().build())
+          .setChipColors(
+            ChipColors(
+              /*backgroundColor=*/
+              ColorBuilders.argb(GoldenTilesColors.Yellow),
+              /*contentColor=*/
+              ColorBuilders.argb(GoldenTilesColors.Black)
             )
-            .setContent(
-                TitleChip.Builder(context, "Start", clickable, deviceParameters)
-                    // TitleChip/Chip's default width == device width minus some padding
-                    // Since PrimaryLayout's content slot already has margin, this leads to clipping
-                    // unless we override the width to use the available space
-                    .setWidth(DimensionBuilders.ExpandedDimensionProp.Builder().build())
-                    .setChipColors(
-                        ChipColors(
-                            /*backgroundColor=*/ ColorBuilders.argb(GoldenTilesColors.Yellow),
-                            /*contentColor=*/ ColorBuilders.argb(GoldenTilesColors.Black),
-                        )
-                    )
-                    .build()
-            )
-            .setSecondaryLabelTextContent(
-                Text.Builder(context, lastWorkoutSummary)
-                    .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-                    .setColor(ColorBuilders.argb(GoldenTilesColors.White))
-                    .build()
-            )
-            .build()
+          )
+          .build()
+      )
+      .setSecondaryLabelTextContent(
+        Text.Builder(context, lastWorkoutSummary)
+          .setTypography(Typography.TYPOGRAPHY_CAPTION1)
+          .setColor(ColorBuilders.argb(GoldenTilesColors.White))
+          .build()
+      )
+      .build()
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun workoutLayoutPreview(context: Context) =
-    TilePreviewData(
-        onTileResourceRequest =
-            resources {
-                addIdToImageMapping(
-                    context.resources.getResourceName(R.drawable.ic_run_24),
-                    R.drawable.ic_run_24,
-                )
-                addIdToImageMapping(
-                    context.resources.getResourceName(R.drawable.self_improvement_24px),
-                    R.drawable.self_improvement_24px,
-                )
-                addIdToImageMapping(
-                    context.resources.getResourceName(R.drawable.ic_cycling_24),
-                    R.drawable.ic_cycling_24,
-                )
-            }
-    ) {
-        singleTimelineEntryTileBuilder(Workout.layout(context, it.deviceConfiguration)).build()
+  TilePreviewData(
+    onTileResourceRequest =
+    resources {
+      addIdToImageMapping(
+        context.resources.getResourceName(R.drawable.ic_run_24),
+        R.drawable.ic_run_24
+      )
+      addIdToImageMapping(
+        context.resources.getResourceName(R.drawable.self_improvement_24px),
+        R.drawable.self_improvement_24px
+      )
+      addIdToImageMapping(
+        context.resources.getResourceName(R.drawable.ic_cycling_24),
+        R.drawable.ic_cycling_24
+      )
     }
+  ) {
+    singleTimelineEntryTileBuilder(Workout.layout(context, it.deviceConfiguration)).build()
+  }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun workoutButtonsPreview(context: Context) =
-    TilePreviewData(
-        onTileResourceRequest =
-            resources {
-                addIdToImageMapping(
-                    Workout.BUTTON_1_ICON_ID,
-                    drawableResToImageResource(R.drawable.ic_run_24),
-                )
-                addIdToImageMapping(
-                    Workout.BUTTON_2_ICON_ID,
-                    drawableResToImageResource(R.drawable.ic_yoga_24),
-                )
-                addIdToImageMapping(
-                    Workout.BUTTON_3_ICON_ID,
-                    drawableResToImageResource(R.drawable.ic_cycling_24),
-                )
-            }
-    ) {
-        singleTimelineEntryTileBuilder(
-                Workout.buttonsLayout(
-                    context,
-                    it.deviceConfiguration,
-                    weekSummary = "1 run this week",
-                    button1Clickable = emptyClickable,
-                    button2Clickable = emptyClickable,
-                    button3Clickable = emptyClickable,
-                    chipClickable = emptyClickable,
-                )
-            )
-            .build()
+  TilePreviewData(
+    onTileResourceRequest =
+    resources {
+      addIdToImageMapping(
+        Workout.BUTTON_1_ICON_ID,
+        drawableResToImageResource(R.drawable.ic_run_24)
+      )
+      addIdToImageMapping(
+        Workout.BUTTON_2_ICON_ID,
+        drawableResToImageResource(R.drawable.ic_yoga_24)
+      )
+      addIdToImageMapping(
+        Workout.BUTTON_3_ICON_ID,
+        drawableResToImageResource(R.drawable.ic_cycling_24)
+      )
     }
+  ) {
+    singleTimelineEntryTileBuilder(
+      Workout.buttonsLayout(
+        context,
+        it.deviceConfiguration,
+        weekSummary = "1 run this week",
+        button1Clickable = emptyClickable,
+        button2Clickable = emptyClickable,
+        button3Clickable = emptyClickable,
+        chipClickable = emptyClickable
+      )
+    )
+      .build()
+  }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun workoutLargeChipPreview(context: Context) = TilePreviewData {
-    singleTimelineEntryTileBuilder(
-            Workout.largeChipLayout(
-                context,
-                it.deviceConfiguration,
-                clickable = emptyClickable,
-                lastWorkoutSummary = "Last session 45m",
-            )
-        )
-        .build()
+  singleTimelineEntryTileBuilder(
+    Workout.largeChipLayout(
+      context,
+      it.deviceConfiguration,
+      clickable = emptyClickable,
+      lastWorkoutSummary = "Last session 45m"
+    )
+  )
+    .build()
 }

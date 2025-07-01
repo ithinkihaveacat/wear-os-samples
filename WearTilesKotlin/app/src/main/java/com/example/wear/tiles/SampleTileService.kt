@@ -49,172 +49,179 @@ import com.example.wear.tiles.tools.emptyClickable
 import com.google.android.horologist.tiles.SuspendingTileService
 import java.util.UUID
 
-object Sample {
+object Layout {
 
-    fun helloLayout(
-        context: Context,
-        deviceConfiguration: DeviceParametersBuilders.DeviceParameters
-    ) =
-        materialScope(
-            context = context,
-            deviceConfiguration = deviceConfiguration,
-            allowDynamicTheme = false,
-        ) {
-            primaryLayout(
-                margins = PrimaryLayoutMargins.MAX_PRIMARY_LAYOUT_MARGIN,
-                titleSlot = { text("Hello, World!".layoutString) },
-                mainSlot = {
-                    textButton(
-                        height = expand(),
-                        width = expand(),
-                        onClick = emptyClickable,
-                        shape = shapes.small,
-                        colors =
-                        // Distinguish from the edge button
-                        ButtonColors(
-                            containerColor = Color.RED.argb,
-                            labelColor = LayoutColor(Color.RED),
-                            iconColor = 0xFFFFFF00.argb,
-                        ),
-                        labelContent = { text("Max Margin".layoutString) },
-                    )
-                },
-                bottomSlot = {
-                    textEdgeButton(
-                        onClick = emptyClickable,
-                        labelContent = { text("Edge".layoutString) },
-                    )
-                },
-            )
+  fun hello(context: Context, deviceConfiguration: DeviceParametersBuilders.DeviceParameters) =
+    materialScope(
+      context = context,
+      deviceConfiguration = deviceConfiguration,
+      allowDynamicTheme = false
+    ) {
+      primaryLayout(
+        margins = PrimaryLayoutMargins.MAX_PRIMARY_LAYOUT_MARGIN,
+        titleSlot = { text("Hello, World!".layoutString) },
+        mainSlot = {
+          textButton(
+            height = expand(),
+            width = expand(),
+            onClick = emptyClickable,
+            shape = shapes.small,
+            colors =
+            // Distinguish from the edge button
+            ButtonColors(
+              containerColor = Color.RED.argb,
+              labelColor = LayoutColor(Color.RED),
+              iconColor = 0xFFFFFF00.argb
+            ),
+            labelContent = { text("Max Margin".layoutString) }
+          )
+        },
+        bottomSlot = {
+          textEdgeButton(
+            onClick = emptyClickable,
+            labelContent = { text("Edge".layoutString) }
+          )
         }
+      )
+    }
 
   @OptIn(ProtoLayoutExperimental::class)
-  fun layoutSimple(
-        context: Context,
-        deviceConfiguration: DeviceParametersBuilders.DeviceParameters,
-    ) =
-        materialScope(context, deviceConfiguration) {
-            primaryLayout(
-                titleSlot = {
-                    androidx.wear.protolayout.layout.basicText(
-                        text = "Hello, World!".layoutString,
-                        fontStyle(
-                            size = 44F,
-                            settings =
-                            listOf(
-                                LayoutElementBuilders.FontSetting.weight(500),
-                                LayoutElementBuilders.FontSetting.roundness(100),
-                                LayoutElementBuilders.FontSetting.width(100F),
-                            ),
-                            weight = LayoutElementBuilders.FONT_WEIGHT_MEDIUM,
-                            letterSpacingEm = 0F,
-                        ),
-                    )
-                },
-                mainSlot = {
-                    textButton(
-                        height = expand(),
-                        width = expand(),
-                        onClick = emptyClickable,
-                        shape = shapes.extraSmall,
-                        colors =
-                        // Distinguish from the edge button
-                        ButtonColors(
-                            containerColor = colorScheme.secondaryContainer,
-                            labelColor = colorScheme.onSecondaryContainer,
-                        ),
-                        labelContent = {
-                            text(
-                                "mainSlot".layoutString,
-                                italic = true,
-                                // Defined in e.g.
-                                // androidx.wear.protolayout.LayoutElementBuilders.FontSetting.weight
-                                settings = listOf(
-                                    LayoutElementBuilders.FontSetting.weight(500),
-                                    LayoutElementBuilders.FontSetting.width(100F),
-                                    LayoutElementBuilders.FontSetting.roundness(100)
-                                ),
-                            )
-                        },
-                    )
-                },
-                margins = PrimaryLayoutMargins.MIN_PRIMARY_LAYOUT_MARGIN,
-                bottomSlot = {
-                    textEdgeButton(
-                        onClick = clickable(),
-                        labelContent = { text("bottomSlot".layoutString) },
-                    )
-                },
+  fun simple(context: Context, deviceConfiguration: DeviceParametersBuilders.DeviceParameters) =
+    materialScope(context, deviceConfiguration) {
+      primaryLayout(
+        titleSlot = {
+          androidx.wear.protolayout.layout.basicText(
+            text = "Hello, World!".layoutString,
+            fontStyle(
+              size = 44F,
+              settings =
+              listOf(
+                LayoutElementBuilders.FontSetting.weight(500),
+                LayoutElementBuilders.FontSetting.roundness(100),
+                LayoutElementBuilders.FontSetting.width(100F)
+              ),
+              weight = LayoutElementBuilders.FONT_WEIGHT_MEDIUM,
+              letterSpacingEm = 0F
             )
+          )
+        },
+        mainSlot = {
+          textButton(
+            height = expand(),
+            width = expand(),
+            onClick = emptyClickable,
+            shape = shapes.extraSmall,
+            colors =
+            // Distinguish from the edge button
+            ButtonColors(
+              containerColor = colorScheme.secondaryContainer,
+              labelColor = colorScheme.onSecondaryContainer
+            ),
+            labelContent = {
+              text(
+                "mainSlot".layoutString,
+                italic = true,
+                // Defined in e.g.
+                // androidx.wear.protolayout.LayoutElementBuilders.FontSetting.weight
+                settings =
+                listOf(
+                  LayoutElementBuilders.FontSetting.weight(500),
+                  LayoutElementBuilders.FontSetting.width(100F),
+                  LayoutElementBuilders.FontSetting.roundness(100)
+                )
+              )
+            }
+          )
+        },
+        margins = PrimaryLayoutMargins.MIN_PRIMARY_LAYOUT_MARGIN,
+        bottomSlot = {
+          textEdgeButton(
+            onClick = clickable(),
+            labelContent = { text("bottomSlot".layoutString) }
+          )
         }
-
+      )
+    }
 }
 
 class SampleTileService : SuspendingTileService() {
-    private var layoutCounter = 4
+  private var layoutCounter = 4
 
-    override suspend fun tileRequest(requestParams: RequestBuilders.TileRequest): TileBuilders.Tile {
-        val layout = when (layoutCounter % 6) {
-            0 -> Meditation.minutes(
-                this,
-                requestParams.deviceConfiguration,
-                numOfLeftTasks = 2,
-                session1 =
-                Meditation.Session(
-                    label = "Breathe",
-                    iconId = Meditation.CHIP_1_ICON_ID,
-                    clickable = emptyClickable,
-                ),
-                session2 =
-                Meditation.Session(
-                    label = "Daily mindfulness",
-                    iconId = Meditation.CHIP_2_ICON_ID,
-                    clickable = emptyClickable,
-                ),
-                browseClickable = emptyClickable,
-            )
-            1 -> News.layout(
-                context = this,
-                deviceParameters = requestParams.deviceConfiguration,
-                headline = "Millions still without power as new storm moves across the US",
-                newsVendor = "The New York Times",
-                clickable = emptyClickable,
-                date = "Today, 31 July",
-            )
-            2 -> Social.layout(
-                context = this,
-                deviceParameters = requestParams.deviceConfiguration,
-                contacts = mockContacts(),
-            )
-            3 -> Sample.helloLayout(this, requestParams.deviceConfiguration)
-            4 -> Workout.layout(this, requestParams.deviceConfiguration)
-            5 -> Goal.layout(this, requestParams.deviceConfiguration, 8324, 10000)
-            else -> Sample.layoutSimple(this, requestParams.deviceConfiguration)
-        }
-        layoutCounter++
-        val resourcesVersion = UUID.randomUUID().toString()
-        return TileBuilders.Tile.Builder()
-            .setResourcesVersion(resourcesVersion)
-            .setTileTimeline(TimelineBuilders.Timeline.fromLayoutElement(layout))
-            .build()
-    }
+  override suspend fun tileRequest(
+    requestParams: RequestBuilders.TileRequest
+  ): TileBuilders.Tile {
+    val layout =
+      when (layoutCounter % 6) {
+        0 ->
+          Meditation.minutes(
+            this,
+            requestParams.deviceConfiguration,
+            numOfLeftTasks = 2,
+            session1 =
+            Meditation.Session(
+              label = "Breathe",
+              iconId = Meditation.CHIP_1_ICON_ID,
+              clickable = emptyClickable
+            ),
+            session2 =
+            Meditation.Session(
+              label = "Daily mindfulness",
+              iconId = Meditation.CHIP_2_ICON_ID,
+              clickable = emptyClickable
+            ),
+            browseClickable = emptyClickable
+          )
+        1 ->
+          News.layout(
+            context = this,
+            deviceParameters = requestParams.deviceConfiguration,
+            headline = "Millions still without power as new storm moves across the US",
+            newsVendor = "The New York Times",
+            clickable = emptyClickable,
+            date = "Today, 31 July"
+          )
+        2 ->
+          Social.layout(
+            context = this,
+            deviceParameters = requestParams.deviceConfiguration,
+            contacts = mockContacts()
+          )
+        3 -> Layout.hello(this, requestParams.deviceConfiguration)
+        4 -> Workout.layout(this, requestParams.deviceConfiguration)
+        5 -> Goal.layout(this, requestParams.deviceConfiguration, 8324, 10000)
+        else -> Layout.simple(this, requestParams.deviceConfiguration)
+      }
+    layoutCounter++
+    val resourcesVersion = UUID.randomUUID().toString()
+    return TileBuilders.Tile.Builder()
+      .setResourcesVersion(resourcesVersion)
+      .setTileTimeline(TimelineBuilders.Timeline.fromLayoutElement(layout))
+      .build()
+  }
 
-    override suspend fun resourcesRequest(requestParams: RequestBuilders.ResourcesRequest): ResourceBuilders.Resources = ResourceBuilders.Resources.Builder()
+  override suspend fun resourcesRequest(
+    requestParams: RequestBuilders.ResourcesRequest
+  ): ResourceBuilders.Resources =
+    ResourceBuilders.Resources.Builder()
       .setVersion(requestParams.version)
       .apply {
         addIdToImageMapping("news_image", R.drawable.news)
         addIdToImageMapping("icon", R.drawable.outline_directions_walk_24)
         addIdToImageMapping(
           resources.getResourceName(R.drawable.self_improvement_24px),
-          R.drawable.self_improvement_24px,
+          R.drawable.self_improvement_24px
         )
         addIdToImageMapping(
           resources.getResourceName(R.drawable.ic_yoga_24),
-          R.drawable.ic_yoga_24,
+          R.drawable.ic_yoga_24
         )
         addIdToImageMapping(
           resources.getResourceName(R.drawable.ic_run_24),
-          R.drawable.ic_run_24,
+          R.drawable.ic_run_24
+        )
+        addIdToImageMapping(
+          resources.getResourceName(R.drawable.ic_cycling_24),
+          R.drawable.ic_cycling_24
         )
         mockContacts().forEach {
           if (it.avatarId != null && it.avatarResource != null) {

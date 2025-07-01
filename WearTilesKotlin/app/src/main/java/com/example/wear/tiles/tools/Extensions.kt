@@ -24,22 +24,21 @@ import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.ResourceBuilders.ImageResource
 import androidx.wear.protolayout.ResourceBuilders.Resources
 import androidx.wear.tiles.RequestBuilders
-
 import java.nio.ByteBuffer
 
 // Resources extensions
 
 fun resources(
-    fn: ResourceBuilders.Resources.Builder.() -> Unit
+  fn: ResourceBuilders.Resources.Builder.() -> Unit
 ): (RequestBuilders.ResourcesRequest) -> ResourceBuilders.Resources = {
-    ResourceBuilders.Resources.Builder().setVersion(it.version).apply(fn).build()
+  ResourceBuilders.Resources.Builder().setVersion(it.version).apply(fn).build()
 }
 
 fun Resources.Builder.addIdToImageMapping(id: String, @DrawableRes resId: Int): Resources.Builder =
-    addIdToImageMapping(id, resId.toImageResource())
+  addIdToImageMapping(id, resId.toImageResource())
 
 fun Resources.Builder.addIdToImageMapping(id: String, bitmap: Bitmap): Resources.Builder =
-    addIdToImageMapping(id, bitmap.toImageResource())
+  addIdToImageMapping(id, bitmap.toImageResource())
 
 // DeviceParameters extensions
 
@@ -52,33 +51,33 @@ fun column(builder: Column.Builder.() -> Unit) = Column.Builder().apply(builder)
 // LayoutElementBuilders extensions
 
 fun image(builder: LayoutElementBuilders.Image.Builder.() -> Unit) =
-    LayoutElementBuilders.Image.Builder().apply(builder).build()
+  LayoutElementBuilders.Image.Builder().apply(builder).build()
 
 // Image extensions
 
 fun @receiver:DrawableRes Int.toImageResource(): ImageResource {
-    return ImageResource.Builder()
-        .setAndroidResourceByResId(
-            ResourceBuilders.AndroidImageResourceByResId.Builder().setResourceId(this).build()
-        )
-        .build()
+  return ImageResource.Builder()
+    .setAndroidResourceByResId(
+      ResourceBuilders.AndroidImageResourceByResId.Builder().setResourceId(this).build()
+    )
+    .build()
 }
 
 fun Bitmap.toImageResource(): ImageResource {
-    val safeBitmap = this.copy(Bitmap.Config.RGB_565, false)
+  val safeBitmap = this.copy(Bitmap.Config.RGB_565, false)
 
-    val byteBuffer = ByteBuffer.allocate(safeBitmap.byteCount)
-    safeBitmap.copyPixelsToBuffer(byteBuffer)
-    val bytes: ByteArray = byteBuffer.array()
+  val byteBuffer = ByteBuffer.allocate(safeBitmap.byteCount)
+  safeBitmap.copyPixelsToBuffer(byteBuffer)
+  val bytes: ByteArray = byteBuffer.array()
 
-    return ImageResource.Builder()
-        .setInlineResource(
-            ResourceBuilders.InlineImageResource.Builder()
-                .setData(bytes)
-                .setWidthPx(this.width)
-                .setHeightPx(this.height)
-                .setFormat(ResourceBuilders.IMAGE_FORMAT_RGB_565)
-                .build()
-        )
+  return ImageResource.Builder()
+    .setInlineResource(
+      ResourceBuilders.InlineImageResource.Builder()
+        .setData(bytes)
+        .setWidthPx(this.width)
+        .setHeightPx(this.height)
+        .setFormat(ResourceBuilders.IMAGE_FORMAT_RGB_565)
         .build()
+    )
+    .build()
 }

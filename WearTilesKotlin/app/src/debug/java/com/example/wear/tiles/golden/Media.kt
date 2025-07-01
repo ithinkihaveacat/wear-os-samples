@@ -42,109 +42,113 @@ import com.example.wear.tiles.tools.resources
 import com.google.android.horologist.tiles.images.drawableResToImageResource
 
 object Media {
-    const val CHIP_1_ICON_ID = "media_1"
-    const val CHIP_2_ICON_ID = "media_2"
+  const val CHIP_1_ICON_ID = "media_1"
+  const val CHIP_2_ICON_ID = "media_2"
 
-    fun layout(
-        context: Context,
-        deviceParameters: DeviceParameters,
-        playlist1: Playlist,
-        playlist2: Playlist,
-        browseClickable: Clickable,
-    ) =
-        PrimaryLayout.Builder(deviceParameters)
-            .setResponsiveContentInsetEnabled(true)
-            .apply {
-                if (deviceParameters.screenWidthDp > 225) {
-                    setPrimaryLabelTextContent(
-                        Text.Builder(context, "Last Played")
-                            .setTypography(Typography.TYPOGRAPHY_BODY2)
-                            .setColor(argb(GoldenTilesColors.Pink))
-                            .build()
-                    )
-                }
-            }
-            .setContent(
-                Column.Builder()
-                    // See the comment on `setWidth` below in `playlistChip()` too. The default
-                    // width
-                    // for column is "wrap", so we need to explicitly set it to "expand" so that we
-                    // give
-                    // the chips enough space to layout
-                    .setWidth(DimensionBuilders.ExpandedDimensionProp.Builder().build())
-                    .addContent(playlistChip(context, deviceParameters, playlist1))
-                    .addContent(Spacer.Builder().setHeight(dp(4f)).build())
-                    .addContent(playlistChip(context, deviceParameters, playlist2))
-                    .build()
+  fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters,
+    playlist1: Playlist,
+    playlist2: Playlist,
+    browseClickable: Clickable
+  ) =
+    PrimaryLayout.Builder(deviceParameters)
+      .setResponsiveContentInsetEnabled(true)
+      .apply {
+        if (deviceParameters.screenWidthDp > 225) {
+          setPrimaryLabelTextContent(
+            Text.Builder(context, "Last Played")
+              .setTypography(Typography.TYPOGRAPHY_BODY2)
+              .setColor(argb(GoldenTilesColors.Pink))
+              .build()
+          )
+        }
+      }
+      .setContent(
+        Column.Builder()
+          // See the comment on `setWidth` below in `playlistChip()` too. The default
+          // width
+          // for column is "wrap", so we need to explicitly set it to "expand" so that we
+          // give
+          // the chips enough space to layout
+          .setWidth(DimensionBuilders.ExpandedDimensionProp.Builder().build())
+          .addContent(playlistChip(context, deviceParameters, playlist1))
+          .addContent(Spacer.Builder().setHeight(dp(4f)).build())
+          .addContent(playlistChip(context, deviceParameters, playlist2))
+          .build()
+      )
+      .setPrimaryChipContent(
+        CompactChip.Builder(context, "Browse", browseClickable, deviceParameters)
+          .setChipColors(
+            ChipColors(
+              /*backgroundColor=*/
+              ColorBuilders.argb(GoldenTilesColors.Pink),
+              /*contentColor=*/
+              ColorBuilders.argb(GoldenTilesColors.DarkerGray)
             )
-            .setPrimaryChipContent(
-                CompactChip.Builder(context, "Browse", browseClickable, deviceParameters)
-                    .setChipColors(
-                        ChipColors(
-                            /*backgroundColor=*/ ColorBuilders.argb(GoldenTilesColors.Pink),
-                            /*contentColor=*/ ColorBuilders.argb(GoldenTilesColors.DarkerGray),
-                        )
-                    )
-                    .build()
-            )
-            .build()
+          )
+          .build()
+      )
+      .build()
 
-    private fun playlistChip(
-        context: Context,
-        deviceParameters: DeviceParameters,
-        playlist: Playlist,
-    ): Chip {
-        return Chip.Builder(context, playlist.clickable, deviceParameters)
-            // TitleChip/Chip's default width == device width minus some padding
-            // Since PrimaryLayout's content slot already has margin, this leads to clipping
-            // unless we override the width to use the available space
-            .setWidth(DimensionBuilders.ExpandedDimensionProp.Builder().build())
-            .setIconContent(playlist.iconId)
-            .setPrimaryLabelContent(playlist.label)
-            .setChipColors(
-                ChipColors(
-                    /*backgroundColor=*/ ColorBuilders.argb(GoldenTilesColors.DarkPink),
-                    /*contentColor=*/ ColorBuilders.argb(GoldenTilesColors.White),
-                )
-            )
-            .build()
-    }
+  private fun playlistChip(
+    context: Context,
+    deviceParameters: DeviceParameters,
+    playlist: Playlist
+  ): Chip {
+    return Chip.Builder(context, playlist.clickable, deviceParameters)
+      // TitleChip/Chip's default width == device width minus some padding
+      // Since PrimaryLayout's content slot already has margin, this leads to clipping
+      // unless we override the width to use the available space
+      .setWidth(DimensionBuilders.ExpandedDimensionProp.Builder().build())
+      .setIconContent(playlist.iconId)
+      .setPrimaryLabelContent(playlist.label)
+      .setChipColors(
+        ChipColors(
+          /*backgroundColor=*/
+          ColorBuilders.argb(GoldenTilesColors.DarkPink),
+          /*contentColor=*/
+          ColorBuilders.argb(GoldenTilesColors.White)
+        )
+      )
+      .build()
+  }
 
-    data class Playlist(val label: String, val iconId: String, val clickable: Clickable)
+  data class Playlist(val label: String, val iconId: String, val clickable: Clickable)
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun mediaPreview(context: Context) =
-    TilePreviewData(
-        resources {
-            addIdToImageMapping(
-                Media.CHIP_1_ICON_ID,
-                drawableResToImageResource(R.drawable.ic_music_queue_24),
-            )
-            addIdToImageMapping(
-                Media.CHIP_2_ICON_ID,
-                drawableResToImageResource(R.drawable.ic_podcasts_24),
-            )
-        }
-    ) {
-        TilePreviewHelper.singleTimelineEntryTileBuilder(
-                Media.layout(
-                    context,
-                    it.deviceConfiguration,
-                    playlist1 =
-                        Media.Playlist(
-                            label = "Liked songs",
-                            iconId = Media.CHIP_1_ICON_ID,
-                            clickable = emptyClickable,
-                        ),
-                    playlist2 =
-                        Media.Playlist(
-                            label = "Podcasts",
-                            iconId = Media.CHIP_2_ICON_ID,
-                            clickable = emptyClickable,
-                        ),
-                    browseClickable = emptyClickable,
-                )
-            )
-            .build()
+  TilePreviewData(
+    resources {
+      addIdToImageMapping(
+        Media.CHIP_1_ICON_ID,
+        drawableResToImageResource(R.drawable.ic_music_queue_24)
+      )
+      addIdToImageMapping(
+        Media.CHIP_2_ICON_ID,
+        drawableResToImageResource(R.drawable.ic_podcasts_24)
+      )
     }
+  ) {
+    TilePreviewHelper.singleTimelineEntryTileBuilder(
+      Media.layout(
+        context,
+        it.deviceConfiguration,
+        playlist1 =
+        Media.Playlist(
+          label = "Liked songs",
+          iconId = Media.CHIP_1_ICON_ID,
+          clickable = emptyClickable
+        ),
+        playlist2 =
+        Media.Playlist(
+          label = "Podcasts",
+          iconId = Media.CHIP_2_ICON_ID,
+          clickable = emptyClickable
+        ),
+        browseClickable = emptyClickable
+      )
+    )
+      .build()
+  }

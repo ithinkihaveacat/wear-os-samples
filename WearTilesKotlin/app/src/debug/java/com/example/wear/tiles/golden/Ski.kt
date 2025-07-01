@@ -31,57 +31,57 @@ import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 
 object Ski {
 
-    fun layout(
-        context: Context,
-        deviceParameters: DeviceParametersBuilders.DeviceParameters,
-        stat1: Stat,
-        stat2: Stat,
-    ) =
-        PrimaryLayout.Builder(deviceParameters)
-            .setResponsiveContentInsetEnabled(true)
-            .setContent(
-                MultiSlotLayout.Builder()
-                    .setHorizontalSpacerWidth(16f)
-                    .addSlotContent(statColumn(context, stat1))
-                    .addSlotContent(statColumn(context, stat2))
-                    .build()
-            )
-            .build()
+  fun layout(
+    context: Context,
+    deviceParameters: DeviceParametersBuilders.DeviceParameters,
+    stat1: Stat,
+    stat2: Stat
+  ) =
+    PrimaryLayout.Builder(deviceParameters)
+      .setResponsiveContentInsetEnabled(true)
+      .setContent(
+        MultiSlotLayout.Builder()
+          .setHorizontalSpacerWidth(16f)
+          .addSlotContent(statColumn(context, stat1))
+          .addSlotContent(statColumn(context, stat2))
+          .build()
+      )
+      .build()
 
-    private fun statColumn(context: Context, stat: Stat) =
-        LayoutElementBuilders.Column.Builder()
-            .addContent(
-                Text.Builder(context, stat.label)
-                    .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-                    .setColor(ColorBuilders.argb(GoldenTilesColors.LightBlue))
-                    .build()
-            )
-            .addContent(
-                Text.Builder(context, stat.value)
-                    .setTypography(Typography.TYPOGRAPHY_DISPLAY3)
-                    .setColor(ColorBuilders.argb(GoldenTilesColors.White))
-                    .build()
-            )
-            .addContent(
-                Text.Builder(context, stat.unit)
-                    .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-                    .setColor(ColorBuilders.argb(GoldenTilesColors.White))
-                    .build()
-            )
-            .build()
+  private fun statColumn(context: Context, stat: Stat) =
+    LayoutElementBuilders.Column.Builder()
+      .addContent(
+        Text.Builder(context, stat.label)
+          .setTypography(Typography.TYPOGRAPHY_CAPTION1)
+          .setColor(ColorBuilders.argb(GoldenTilesColors.LightBlue))
+          .build()
+      )
+      .addContent(
+        Text.Builder(context, stat.value)
+          .setTypography(Typography.TYPOGRAPHY_DISPLAY3)
+          .setColor(ColorBuilders.argb(GoldenTilesColors.White))
+          .build()
+      )
+      .addContent(
+        Text.Builder(context, stat.unit)
+          .setTypography(Typography.TYPOGRAPHY_CAPTION1)
+          .setColor(ColorBuilders.argb(GoldenTilesColors.White))
+          .build()
+      )
+      .build()
 
-    data class Stat(val label: String, val value: String, val unit: String)
+  data class Stat(val label: String, val value: String, val unit: String)
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun skiPreview(context: Context) = TilePreviewData {
-    TilePreviewHelper.singleTimelineEntryTileBuilder(
-            Ski.layout(
-                context,
-                it.deviceConfiguration,
-                stat1 = Ski.Stat("Max Spd", "46.5", "mph"),
-                stat2 = Ski.Stat("Distance", "21.8", "mile"),
-            )
-        )
-        .build()
+  TilePreviewHelper.singleTimelineEntryTileBuilder(
+    Ski.layout(
+      context,
+      it.deviceConfiguration,
+      stat1 = Ski.Stat("Max Spd", "46.5", "mph"),
+      stat2 = Ski.Stat("Distance", "21.8", "mile")
+    )
+  )
+    .build()
 }

@@ -32,6 +32,6 @@ private fun workoutLargeChip(context: Context) = workoutLargeChipPreview(context
 
 // @Preview
 fun sleepTracker(context: Context) {
-    // TODO: This tile doesn't use standard components; we can achieve it by drawing on a Canvas
-    // (Compose's DrawScope) then converting it to a bitmap using Horologist
+  // TODO: This tile doesn't use standard components; we can achieve it by drawing on a Canvas
+  // (Compose's DrawScope) then converting it to a bitmap using Horologist
 }

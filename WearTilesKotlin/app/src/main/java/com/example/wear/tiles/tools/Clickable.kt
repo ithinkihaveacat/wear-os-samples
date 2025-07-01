@@ -19,7 +19,7 @@ import androidx.wear.protolayout.ActionBuilders
 import androidx.wear.protolayout.ModifiersBuilders
 
 val emptyClickable =
-    ModifiersBuilders.Clickable.Builder()
-        .setOnClick(ActionBuilders.LoadAction.Builder().build())
-        .setId("")
-        .build()
+  ModifiersBuilders.Clickable.Builder()
+    .setOnClick(ActionBuilders.LoadAction.Builder().build())
+    .setId("")
+    .build()
