@@ -24,6 +24,7 @@ import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.ResourceBuilders.ImageResource
 import androidx.wear.protolayout.ResourceBuilders.Resources
 import androidx.wear.tiles.RequestBuilders
+
 import java.nio.ByteBuffer
 
 // Resources extensions
