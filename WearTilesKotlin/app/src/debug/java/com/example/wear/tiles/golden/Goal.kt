@@ -70,32 +70,27 @@ object Goal {
                   )
                 },
                 iconContent = {
-                  icon(
-                    context.resources.getResourceName(R.drawable.outline_directions_walk_24)
-                  )
+                  icon(context.resources.getResourceName(R.drawable.outline_directions_walk_24))
                 }
               )
             }
           )
         },
-        bottomSlot = {
-          textEdgeButton(onClick = clickable()) { text("Track".layoutString) }
-        }
+        bottomSlot = { textEdgeButton(onClick = clickable()) { text("Track".layoutString) } }
       )
     }
+
+  fun resources(context: Context) = resources {
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.outline_directions_walk_24),
+      R.drawable.outline_directions_walk_24
+    )
+  }
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun goalPreview(context: Context) =
-  TilePreviewData(
-    onTileResourceRequest =
-    resources {
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.outline_directions_walk_24),
-        R.drawable.outline_directions_walk_24
-      )
-    }
-  ) {
+  TilePreviewData(onTileResourceRequest = Goal.resources(context)) {
     singleTimelineEntryTileBuilder(
       Goal.layout(context, it.deviceConfiguration, steps = 5168, goal = 8000)
     )

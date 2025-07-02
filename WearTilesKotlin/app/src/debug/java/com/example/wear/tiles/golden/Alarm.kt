@@ -89,9 +89,7 @@ fun MaterialScope.styledTime(time: LocalTime): LayoutElement {
     LayoutElementBuilders.FontStyle.Builder()
       .setSize(sp(timeSizeSp))
       .setLetterSpacing(em(timeTrackingSp / timeSizeSp))
-      .setSettings(
-        *VariableFontSettingsTokens.DISPLAY_MEDIUM_VARIATION_SETTINGS.toTypedArray()
-      )
+      .setSettings(*VariableFontSettingsTokens.DISPLAY_MEDIUM_VARIATION_SETTINGS.toTypedArray())
       .build()
 
   // Manually build the FontStyle for the AM/PM indicator.
@@ -144,9 +142,7 @@ object Alarm {
   ) =
     materialScope(context, deviceParameters) {
       primaryLayout(
-        titleSlot = {
-          text("Alarm".layoutString, modifier = LayoutModifier.clearSemantics())
-        },
+        titleSlot = { text("Alarm".layoutString, modifier = LayoutModifier.clearSemantics()) },
         mainSlot = {
           titleCard(
             onClick = clickable,
@@ -157,7 +153,6 @@ object Alarm {
                 color = colorScheme.onSurfaceVariant
               )
             },
-            //            content = { simpleTime(LocalTime.parse(alarmTime))},
             content = { styledTime(LocalTime.parse(alarmTime)) },
             height = expand(),
             colors = filledVariantCardColors(),
@@ -174,25 +169,23 @@ object Alarm {
             onClick = clickable,
             colors = filledTonalButtonColors(),
             modifier = LayoutModifier.contentDescription("Plus"),
-            iconContent = {
-              icon(context.resources.getResourceName(R.drawable.outline_add_2_24))
-            }
+            iconContent = { icon(context.resources.getResourceName(R.drawable.outline_add_2_24)) }
           )
         }
       )
     }
+
+  fun resources(context: Context) = resources {
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.outline_add_2_24),
+      R.drawable.outline_add_2_24
+    )
+  }
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun alarmPreview(context: Context) =
-  TilePreviewData(
-    resources {
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.outline_add_2_24),
-        R.drawable.outline_add_2_24
-      )
-    }
-  ) {
+  TilePreviewData(Alarm.resources(context)) {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
       Alarm.layout(
         context,

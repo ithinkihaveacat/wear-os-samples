@@ -112,22 +112,24 @@ object Media {
       .build()
   }
 
+  fun resources(context: Context) = resources {
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.ic_music_queue_24),
+      drawableResToImageResource(R.drawable.ic_music_queue_24)
+    )
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.ic_podcasts_24),
+      drawableResToImageResource(R.drawable.ic_podcasts_24)
+    )
+  }
+
   data class Playlist(val label: String, val iconId: String, val clickable: Clickable)
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun mediaPreview(context: Context) =
   TilePreviewData(
-    resources {
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.ic_music_queue_24),
-        drawableResToImageResource(R.drawable.ic_music_queue_24)
-      )
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.ic_podcasts_24),
-        drawableResToImageResource(R.drawable.ic_podcasts_24)
-      )
-    }
+    Media.resources(context)
   ) {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
       Media.layout(

@@ -116,18 +116,12 @@ fun MaterialScope.timerButton2(firstLine: String?, secondLine: String? = null) =
         .apply {
           if (firstLine != null) {
             addContent(
-              text(
-                text = firstLine.layoutString,
-                typography = Typography.TYPOGRAPHY_CAPTION1
-              )
+              text(text = firstLine.layoutString, typography = Typography.TYPOGRAPHY_CAPTION1)
             )
           }
           if (secondLine != null) {
             addContent(
-              text(
-                text = secondLine.layoutString,
-                typography = Typography.TYPOGRAPHY_CAPTION2
-              )
+              text(text = secondLine.layoutString, typography = Typography.TYPOGRAPHY_CAPTION2)
             )
           }
         }
@@ -161,10 +155,7 @@ object Meditation {
           null
         },
         bottomSlot = {
-          textEdgeButton(
-            onClick = clickable(),
-            labelContent = { text("Browse".layoutString) }
-          )
+          textEdgeButton(onClick = clickable(), labelContent = { text("Browse".layoutString) })
         },
         mainSlot = {
           column {
@@ -183,9 +174,7 @@ object Meditation {
                   smallButtonStyle()
                 },
                 iconContent = {
-                  icon(
-                    context.resources.getResourceName(R.drawable.outline_air_24)
-                  )
+                  icon(context.resources.getResourceName(R.drawable.outline_air_24))
                 },
                 labelContent = { text("Breath".layoutString) }
               )
@@ -203,12 +192,8 @@ object Meditation {
                 } else {
                   smallButtonStyle()
                 },
-                iconContent = {
-                  icon(context.resources.getResourceName(R.drawable.ic_yoga_24))
-                },
-                labelContent = {
-                  text("Daily mindfulness".layoutString, maxLines = 2)
-                }
+                iconContent = { icon(context.resources.getResourceName(R.drawable.ic_yoga_24)) },
+                labelContent = { text("Daily mindfulness".layoutString, maxLines = 2) }
               )
             )
           }
@@ -268,10 +253,7 @@ object Meditation {
             labelContent = { text("+".layoutString) },
             colors =
             filledButtonColors()
-              .copy(
-                containerColor = colorScheme.tertiary,
-                labelColor = colorScheme.onTertiary
-              )
+              .copy(containerColor = colorScheme.tertiary, labelColor = colorScheme.onTertiary)
             //              filledButtonColors().copy(containerColor =
             // LayoutColor(Color.rgb(255, 0, 0)), labelColor =
             // LayoutColor(Color.rgb(255, 255, 0)))
@@ -319,9 +301,7 @@ object Meditation {
           .setChipColors(
             ChipColors(
               /* backgroundColor = */
-              ColorBuilders.argb(
-                GoldenTilesColors.LightPurple
-              ),
+              ColorBuilders.argb(GoldenTilesColors.LightPurple),
               /* contentColor = */
               ColorBuilders.argb(GoldenTilesColors.DarkerGray)
             )
@@ -415,6 +395,25 @@ object Meditation {
       )
       .build()
 
+  fun resources(context: Context) = resources {
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.ic_yoga_24),
+      R.drawable.ic_yoga_24
+    )
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.outline_air_24),
+      R.drawable.outline_air_24
+    )
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.outline_add_2_24),
+      R.drawable.ic_breathe_24
+    )
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.outline_add_2_24),
+      R.drawable.ic_mindfulness_24
+    )
+  }
+
   data class Session(val label: String, val iconId: String, val clickable: Clickable)
 
   data class Timer(val minutes: Int, val clickable: Clickable)
@@ -422,18 +421,7 @@ object Meditation {
 
 @MultiRoundDevicesWithFontScalePreviews
 fun mindfulnessLayoutPreview(context: Context) =
-  TilePreviewData(
-    resources {
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.ic_yoga_24),
-        R.drawable.ic_yoga_24
-      )
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.outline_air_24),
-        R.drawable.outline_air_24
-      )
-    }
-  ) {
+  TilePreviewData(Meditation.resources(context)) {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
       Meditation.mindfulnessLayout(context, it.deviceConfiguration)
     )
@@ -442,18 +430,7 @@ fun mindfulnessLayoutPreview(context: Context) =
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun meditationMinutesPreview(context: Context) =
-  TilePreviewData(
-    resources {
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.outline_add_2_24),
-        R.drawable.ic_breathe_24
-      )
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.outline_add_2_24),
-        R.drawable.ic_mindfulness_24
-      )
-    }
-  ) {
+  TilePreviewData(Meditation.resources(context)) {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
       Meditation.minutes(
         context,

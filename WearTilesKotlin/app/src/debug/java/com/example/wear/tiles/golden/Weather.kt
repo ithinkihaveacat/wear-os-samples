@@ -94,18 +94,18 @@ object Weather {
           .build()
       )
       .build()
+
+  fun resources(context: Context) = resources {
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.scattered_showers),
+      drawableResToImageResource(R.drawable.scattered_showers)
+    )
+  }
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun weatherPreview(context: Context) =
-  TilePreviewData(
-    resources {
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.scattered_showers),
-        drawableResToImageResource(R.drawable.scattered_showers)
-      )
-    }
-  ) {
+  TilePreviewData(Weather.resources(context)) {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
       Weather.layout(
         context,

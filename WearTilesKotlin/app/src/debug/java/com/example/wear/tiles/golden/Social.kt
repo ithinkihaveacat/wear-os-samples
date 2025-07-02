@@ -211,6 +211,14 @@ object Social {
       )
     }
   }
+
+  fun resources(context: Context, contacts: List<Contact>) = resources {
+    contacts.forEach {
+      if (it.avatarId != null && it.avatarResource != null) {
+        addIdToImageMapping(it.avatarId, it.avatarResource)
+      }
+    }
+  }
 }
 
 @MultiRoundDevicesWithFontScalePreviews
@@ -234,13 +242,7 @@ internal fun socialPreview6(context: Context) = socialPreviewN(context, 6)
 internal fun socialPreviewN(context: Context, n: Int): TilePreviewData {
   val contacts = context.mockContacts().take(n)
   return TilePreviewData(
-    resources {
-      contacts.forEach {
-        if (it.avatarId != null && it.avatarResource != null) {
-          addIdToImageMapping(it.avatarId, it.avatarResource)
-        }
-      }
-    }
+    Social.resources(context, contacts)
   ) {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
       Social.layout(context, it.deviceConfiguration, contacts)

@@ -82,13 +82,18 @@ object Timer {
             onClick = clickable(),
             colors = filledButtonColors(),
             modifier = LayoutModifier.contentDescription("Plus"),
-            iconContent = {
-              icon(context.resources.getResourceName(R.drawable.outline_add_2_24))
-            }
+            iconContent = { icon(context.resources.getResourceName(R.drawable.outline_add_2_24)) }
           )
         }
       )
     }
+
+  fun resources(context: Context) = resources {
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.outline_add_2_24),
+      R.drawable.outline_add_2_24
+    )
+  }
 
   private fun MaterialScope.timerTextButton1(text: String) =
     textButton(
@@ -103,14 +108,7 @@ object Timer {
 
 @MultiRoundDevicesWithFontScalePreviews
 fun timerLayoutPreview(context: Context) =
-  TilePreviewData(
-    resources {
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.outline_add_2_24),
-        R.drawable.outline_add_2_24
-      )
-    }
-  ) {
+  TilePreviewData(Timer.resources(context)) {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
       Timer.timer1Layout(context, it.deviceConfiguration)
     )

@@ -73,15 +73,12 @@ object Workout {
               iconDataCard(
                 onClick = clickable(),
                 width = expand(),
-                height =
-                if (deviceParameters.isLargeScreen()) dp(90f) else expand(),
+                height = if (deviceParameters.isLargeScreen()) dp(90f) else expand(),
                 colors = filledVariantCardColors(),
                 title = {
                   icon(
                     protoLayoutResourceId =
-                    context.resources.getResourceName(
-                      R.drawable.self_improvement_24px
-                    )
+                    context.resources.getResourceName(R.drawable.self_improvement_24px)
                   )
                 }
               )
@@ -108,8 +105,7 @@ object Workout {
                 },
                 secondaryIcon = {
                   icon(
-                    protoLayoutResourceId =
-                    context.resources.getResourceName(R.drawable.ic_run_24)
+                    protoLayoutResourceId = context.resources.getResourceName(R.drawable.ic_run_24)
                   )
                 }
               )
@@ -118,26 +114,19 @@ object Workout {
               iconDataCard(
                 onClick = clickable(),
                 width = expand(),
-                height =
-                if (deviceParameters.isLargeScreen()) dp(90f) else expand(),
+                height = if (deviceParameters.isLargeScreen()) dp(90f) else expand(),
                 colors = filledVariantCardColors(),
                 title = {
                   icon(
                     protoLayoutResourceId =
-                    context.resources.getResourceName(
-                      R.drawable.ic_cycling_24
-                    )
+                    context.resources.getResourceName(R.drawable.ic_cycling_24)
                   )
                 }
               )
             }
           }
         },
-        bottomSlot = {
-          textEdgeButton(
-            onClick = clickable()
-          ) { text("More".layoutString) }
-        }
+        bottomSlot = { textEdgeButton(onClick = clickable()) { text("More".layoutString) } }
       )
     }
 
@@ -228,49 +217,36 @@ object Workout {
           .build()
       )
       .build()
+
+  fun resources(context: Context) = resources {
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.ic_run_24),
+      R.drawable.ic_run_24
+    )
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.self_improvement_24px),
+      R.drawable.self_improvement_24px
+    )
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.ic_cycling_24),
+      R.drawable.ic_cycling_24
+    )
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.ic_yoga_24),
+      drawableResToImageResource(R.drawable.ic_yoga_24)
+    )
+  }
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun workoutLayoutPreview(context: Context) =
-  TilePreviewData(
-    onTileResourceRequest =
-    resources {
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.ic_run_24),
-        R.drawable.ic_run_24
-      )
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.self_improvement_24px),
-        R.drawable.self_improvement_24px
-      )
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.ic_cycling_24),
-        R.drawable.ic_cycling_24
-      )
-    }
-  ) {
+  TilePreviewData(onTileResourceRequest = Workout.resources(context)) {
     singleTimelineEntryTileBuilder(Workout.layout(context, it.deviceConfiguration)).build()
   }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun workoutButtonsPreview(context: Context) =
-  TilePreviewData(
-    onTileResourceRequest =
-    resources {
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.ic_run_24),
-        drawableResToImageResource(R.drawable.ic_run_24)
-      )
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.ic_yoga_24),
-        drawableResToImageResource(R.drawable.ic_yoga_24)
-      )
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.ic_cycling_24),
-        drawableResToImageResource(R.drawable.ic_cycling_24)
-      )
-    }
-  ) {
+  TilePreviewData(onTileResourceRequest = Workout.resources(context)) {
     singleTimelineEntryTileBuilder(
       Workout.buttonsLayout(
         context,

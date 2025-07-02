@@ -222,6 +222,10 @@ object News {
       )
     }
 
+  fun resources(context: Context) = resources {
+    addIdToImageMapping(context.resources.getResourceName(R.drawable.news), R.drawable.news)
+  }
+
   internal fun LocalDate.formatLocalDateTime(today: LocalDate = LocalDate.now()): String {
     val yesterday = today.minusDays(1)
 
@@ -237,9 +241,7 @@ object News {
 internal fun news1Preview(context: Context): TilePreviewData {
   val imageResourceId = context.resources.getResourceName(R.drawable.news)
   return TilePreviewData(
-    resources {
-      addIdToImageMapping(imageResourceId, R.drawable.news)
-    }
+    News.resources(context)
   ) {
     val now = LocalDateTime.of(2024, 8, 1, 0, 0).toInstant(ZoneOffset.UTC)
     Clock.fixed(now, Clock.systemUTC().zone)
@@ -263,9 +265,7 @@ internal fun news1Preview(context: Context): TilePreviewData {
 internal fun news2Preview(context: Context): TilePreviewData {
   val imageResourceId = context.resources.getResourceName(R.drawable.news)
   return TilePreviewData(
-    resources {
-      addIdToImageMapping(imageResourceId, R.drawable.news)
-    }
+    News.resources(context)
   ) {
     val now = LocalDateTime.of(2024, 8, 1, 0, 0).toInstant(ZoneOffset.UTC)
     Clock.fixed(now, Clock.systemUTC().zone)
