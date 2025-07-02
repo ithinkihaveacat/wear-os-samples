@@ -40,8 +40,6 @@ import com.example.wear.tiles.tools.resources
 import java.text.NumberFormat
 import java.util.Locale
 
-private const val ICON_ID = "icon"
-
 object Goal {
   fun layout(context: Context, deviceParameters: DeviceParameters, steps: Int, goal: Int) =
     materialScope(
@@ -71,7 +69,7 @@ object Goal {
                     endAngleDegrees = 520F
                   )
                 },
-                iconContent = { icon(ICON_ID) }
+                iconContent = { icon(context.resources.getResourceName(R.drawable.outline_directions_walk_24)) }
               )
             }
           )
@@ -87,7 +85,12 @@ object Goal {
 internal fun goalPreview(context: Context) =
   TilePreviewData(
     onTileResourceRequest =
-    resources { addIdToImageMapping(ICON_ID, R.drawable.outline_directions_walk_24) }
+    resources {
+      addIdToImageMapping(
+        context.resources.getResourceName(R.drawable.outline_directions_walk_24),
+        R.drawable.outline_directions_walk_24
+      )
+    }
   ) {
     singleTimelineEntryTileBuilder(
       Goal.layout(context, it.deviceConfiguration, steps = 5168, goal = 8000)

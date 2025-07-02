@@ -209,18 +209,18 @@ class SampleTileService : SuspendingTileService() {
     ResourceBuilders.Resources.Builder()
       .setVersion(requestParams.version)
       .apply {
-        addIdToImageMapping("news_image", R.drawable.news)
-        addIdToImageMapping("icon", R.drawable.outline_directions_walk_24)
+        addIdToImageMapping(R.drawable.news)
+        addIdToImageMapping(R.drawable.outline_directions_walk_24)
         addIdToImageMapping(R.drawable.self_improvement_24px)
         addIdToImageMapping(R.drawable.ic_yoga_24)
         addIdToImageMapping(R.drawable.ic_run_24)
         addIdToImageMapping(R.drawable.ic_cycling_24)
         mockContacts().forEach {
           if (it.avatarId != null && it.avatarResource != null) {
-            addIdToImageMapping(it.avatarId, it.avatarResource)
+            addIdToImageMapping(it.avatarId!!, it.avatarResource!!)
           }
         }
-        addIdToImageMapping("img1", R.drawable.ic_search_24)
+        addIdToImageMapping(R.drawable.ic_search_24)
       }
       .build()
 }

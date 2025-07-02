@@ -37,14 +37,12 @@ import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
+import com.example.wear.tiles.tools.addIdToImageMapping
 import com.example.wear.tiles.tools.emptyClickable
 import com.example.wear.tiles.tools.resources
 import com.google.android.horologist.tiles.images.drawableResToImageResource
 
 object Media {
-  const val CHIP_1_ICON_ID = "media_1"
-  const val CHIP_2_ICON_ID = "media_2"
-
   fun layout(
     context: Context,
     deviceParameters: DeviceParameters,
@@ -122,11 +120,11 @@ internal fun mediaPreview(context: Context) =
   TilePreviewData(
     resources {
       addIdToImageMapping(
-        Media.CHIP_1_ICON_ID,
+        context.resources.getResourceName(R.drawable.ic_music_queue_24),
         drawableResToImageResource(R.drawable.ic_music_queue_24)
       )
       addIdToImageMapping(
-        Media.CHIP_2_ICON_ID,
+        context.resources.getResourceName(R.drawable.ic_podcasts_24),
         drawableResToImageResource(R.drawable.ic_podcasts_24)
       )
     }
@@ -138,13 +136,13 @@ internal fun mediaPreview(context: Context) =
         playlist1 =
         Media.Playlist(
           label = "Liked songs",
-          iconId = Media.CHIP_1_ICON_ID,
+          iconId = context.resources.getResourceName(R.drawable.ic_music_queue_24),
           clickable = emptyClickable
         ),
         playlist2 =
         Media.Playlist(
           label = "Podcasts",
-          iconId = Media.CHIP_2_ICON_ID,
+          iconId = context.resources.getResourceName(R.drawable.ic_podcasts_24),
           clickable = emptyClickable
         ),
         browseClickable = emptyClickable

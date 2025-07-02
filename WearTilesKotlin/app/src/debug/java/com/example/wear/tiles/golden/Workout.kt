@@ -59,10 +59,6 @@ val noOpElement: MaterialScope.() -> LayoutElementBuilders.LayoutElement = {
 }
 
 object Workout {
-  const val BUTTON_1_ICON_ID = "workout 1"
-  const val BUTTON_2_ICON_ID = "workout 2"
-  const val BUTTON_3_ICON_ID = "workout 3"
-
   fun layout(context: Context, deviceParameters: DeviceParametersBuilders.DeviceParameters) =
     materialScope(
       context = context,
@@ -166,17 +162,17 @@ object Workout {
         MultiButtonLayout.Builder()
           .addButtonContent(
             Button.Builder(context, button1Clickable)
-              .setIconContent(BUTTON_1_ICON_ID)
+              .setIconContent(context.resources.getResourceName(R.drawable.ic_run_24))
               .build()
           )
           .addButtonContent(
             Button.Builder(context, button2Clickable)
-              .setIconContent(BUTTON_2_ICON_ID)
+              .setIconContent(context.resources.getResourceName(R.drawable.ic_yoga_24))
               .build()
           )
           .addButtonContent(
             Button.Builder(context, button3Clickable)
-              .setIconContent(BUTTON_3_ICON_ID)
+              .setIconContent(context.resources.getResourceName(R.drawable.ic_cycling_24))
               .build()
           )
           .build()
@@ -262,15 +258,15 @@ internal fun workoutButtonsPreview(context: Context) =
     onTileResourceRequest =
     resources {
       addIdToImageMapping(
-        Workout.BUTTON_1_ICON_ID,
+        context.resources.getResourceName(R.drawable.ic_run_24),
         drawableResToImageResource(R.drawable.ic_run_24)
       )
       addIdToImageMapping(
-        Workout.BUTTON_2_ICON_ID,
+        context.resources.getResourceName(R.drawable.ic_yoga_24),
         drawableResToImageResource(R.drawable.ic_yoga_24)
       )
       addIdToImageMapping(
-        Workout.BUTTON_3_ICON_ID,
+        context.resources.getResourceName(R.drawable.ic_cycling_24),
         drawableResToImageResource(R.drawable.ic_cycling_24)
       )
     }

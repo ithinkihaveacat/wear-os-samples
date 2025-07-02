@@ -36,8 +36,6 @@ import com.google.android.horologist.tiles.images.drawableResToImageResource
 
 object Weather {
 
-  const val SCATTERED_SHOWERS_ICON_ID = "weather scattered showers icon"
-
   fun layout(
     context: Context,
     deviceParameters: DeviceParameters,
@@ -103,7 +101,7 @@ internal fun weatherPreview(context: Context) =
   TilePreviewData(
     resources {
       addIdToImageMapping(
-        Weather.SCATTERED_SHOWERS_ICON_ID,
+        context.resources.getResourceName(R.drawable.scattered_showers),
         drawableResToImageResource(R.drawable.scattered_showers)
       )
     }
@@ -113,7 +111,7 @@ internal fun weatherPreview(context: Context) =
         context,
         it.deviceConfiguration,
         location = "San Francisco",
-        weatherIconId = Weather.SCATTERED_SHOWERS_ICON_ID,
+        weatherIconId = context.resources.getResourceName(R.drawable.scattered_showers),
         currentTemperature = "52°",
         lowTemperature = "48°",
         highTemperature = "64°",
