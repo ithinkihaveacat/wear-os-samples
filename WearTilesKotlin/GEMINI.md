@@ -10,6 +10,8 @@
   library; please flag this if that appears to be required.
 - After making a change to a file, run the build-apk tool to see if there are any errors, and
   resolve any that appear.
+- Use LayoutModifier.* functions instead of Modifiers.Builder().* functions. Use
+  .toProtoLayoutModifiers() if you need to convert it to the "old" type.
 
 # Useful Resources
 

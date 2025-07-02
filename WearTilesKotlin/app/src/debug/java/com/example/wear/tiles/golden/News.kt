@@ -28,9 +28,9 @@ import androidx.wear.protolayout.LayoutElementBuilders.Row
 import androidx.wear.protolayout.LayoutElementBuilders.Spacer
 import androidx.wear.protolayout.ModifiersBuilders.Background
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
-import androidx.wear.protolayout.ModifiersBuilders.Corner
 import androidx.wear.protolayout.ModifiersBuilders.Modifiers
 import androidx.wear.protolayout.material3.ButtonColors
+import androidx.wear.protolayout.material3.Typography.BODY_SMALL
 import androidx.wear.protolayout.material3.backgroundImage
 import androidx.wear.protolayout.material3.card
 import androidx.wear.protolayout.material3.materialScope
@@ -40,6 +40,8 @@ import androidx.wear.protolayout.material3.textEdgeButton
 import androidx.wear.protolayout.modifiers.LayoutModifier
 import androidx.wear.protolayout.modifiers.background
 import androidx.wear.protolayout.modifiers.clickable
+import androidx.wear.protolayout.modifiers.padding
+import androidx.wear.protolayout.modifiers.toProtoLayoutModifiers
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
@@ -56,172 +58,210 @@ import java.time.format.FormatStyle
 
 object News {
 
-    fun layout1(
-        context: Context,
-        deviceParameters: DeviceParameters,
-        date: String,
-        headline: String,
-        newsVendor: String,
-        clickable: Clickable,
-    ): LayoutElementBuilders.LayoutElement {
-        return materialScope(
-            context = context,
-            deviceConfiguration = deviceParameters,
-            allowDynamicTheme = false,
-            defaultColorScheme = GoldenTilesColorScheme,
-        ) {
-            primaryLayout(
-                titleSlot = { text(date.layoutString) },
-                mainSlot = {
-                    card(
-                        onClick = clickable,
-                        width = expand(),
-                        height = expand(),
-                        modifier = LayoutModifier.background(colorScheme.surfaceContainer),
-                        content = {
-                            Row.Builder()
-                                .setWidth(expand())
-                                .setHeight(expand())
-                                .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
-                                .addContent(
-                                    Image.Builder()
-                                        .setResourceId("news_image")
-                                        .setContentScaleMode(
-                                            LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
-                                        )
-                                        .setWidth(weight(0.3f))
-                                        .setHeight(expand())
-                                        .setModifiers(
-                                            Modifiers.Builder()
-                                                .setBackground(
-                                                    Background.Builder()
-                                                        .setCorner(shapes.large)
-                                                        .build()
-                                                )
-                                                .build()
-                                        )
-                                        .build()
-                                )
-                                .addContent(Spacer.Builder().setWidth(dp(12f)).build())
-                                .addContent(
-                                    Column.Builder()
-                                        .setWidth(weight(0.7f))
-                                        .setHeight(expand())
-                                        .addContent(
-                                            text(text = headline.layoutString, maxLines = 3)
-                                        )
-                                        .build()
-                                )
+  fun layout1(
+    context: Context,
+    deviceParameters: DeviceParameters,
+    date: String,
+    headline: String,
+    newsVendor: String,
+    clickable: Clickable
+  ): LayoutElementBuilders.LayoutElement {
+    return materialScope(
+      context = context,
+      deviceConfiguration = deviceParameters,
+      allowDynamicTheme = false,
+      defaultColorScheme = GoldenTilesColorScheme
+    ) {
+      primaryLayout(
+        titleSlot = { text(date.layoutString) },
+        mainSlot = {
+          card(
+            onClick = clickable,
+            width = expand(),
+            height = expand(),
+            modifier = LayoutModifier.background(colorScheme.surfaceContainer),
+            content = {
+              Row.Builder()
+                .setWidth(expand())
+                .setHeight(expand())
+                .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
+                .addContent(
+                  LayoutElementBuilders.Box.Builder()
+                    .setWidth(weight(0.4f))
+                    .setHeight(expand())
+                    .setModifiers(
+                      LayoutModifier.padding(2f).toProtoLayoutModifiers()
+                    )
+                    .addContent(
+                      Image.Builder()
+                        .setResourceId("news_image")
+                        .setContentScaleMode(
+                          LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
+                        )
+                        .setWidth(expand())
+                        .setHeight(expand())
+                        .setModifiers(
+                          Modifiers.Builder()
+                            .setBackground(
+                              Background.Builder()
+                                .setCorner(shapes.large)
                                 .build()
-                        },
-                    )
-                },
-                bottomSlot = {
-                    textEdgeButton(
-                        colors =
-                            ButtonColors(
-                                labelColor = colorScheme.onSurface,
-                                containerColor = colorScheme.surfaceContainer,
-                            ),
-                        onClick = clickable,
-                        labelContent = { text("News".layoutString) },
-                    )
-                },
-            )
-        }
-    }
-
-    fun layout2(
-        context: Context,
-        deviceParameters: DeviceParameters,
-        date: String,
-        headline: String,
-        newsVendor: String,
-        clickable: Clickable,
-    ): LayoutElementBuilders.LayoutElement {
-        return materialScope(
-            context = context,
-            deviceConfiguration = deviceParameters,
-            allowDynamicTheme = false,
-            defaultColorScheme = GoldenTilesColorScheme,
-        ) {
-            primaryLayout(
-                titleSlot = { text(date.layoutString) },
-                mainSlot = {
-                    card(
-                        onClick = clickable,
-                        width = expand(),
-                        height = expand(),
-                        backgroundContent = {
-                            backgroundImage(
-                                protoLayoutResourceId = "news_image",
-                                overlayColor = null,
-                                contentScaleMode = CONTENT_SCALE_MODE_CROP,
                             )
-                        },
-                        content = { text(text = headline.layoutString, maxLines = 3) },
+                            .build()
+                        )
+                        .build()
                     )
-                },
-                bottomSlot = {
-                    textEdgeButton(
-                        colors =
-                            ButtonColors(
-                                labelColor = colorScheme.onSurface,
-                                containerColor = colorScheme.surfaceContainer,
-                            ),
-                        onClick = clickable,
-                        labelContent = { text("News".layoutString) },
+                    .build()
+                )
+                .addContent(Spacer.Builder().setWidth(dp(12f)).build())
+                .addContent(
+                  LayoutElementBuilders.Box.Builder()
+                    .setWidth(weight(0.7f))
+                    .setHeight(expand())
+                    .setModifiers(
+                      LayoutModifier.padding(horizontal = 0f, vertical = 10f)
+                        .toProtoLayoutModifiers()
                     )
-                },
-            )
+                    .addContent(
+                      Column.Builder()
+                        .setWidth(expand())
+                        .setHeight(expand())
+                        .addContent(
+                          text(
+                            text = headline.layoutString,
+                            typography = BODY_SMALL,
+                            maxLines = 3,
+                            alignment =
+                            LayoutElementBuilders.TEXT_ALIGN_START
+                          )
+                        )
+                        .addContent(
+                          Spacer.Builder().setHeight(dp(4f)).build()
+                        )
+                        .addContent(
+                          text(
+                            text = newsVendor.layoutString,
+                            typography = BODY_SMALL,
+                            color = colorScheme.onSurfaceVariant,
+                            maxLines = 1,
+                            alignment =
+                            LayoutElementBuilders.TEXT_ALIGN_START
+                          )
+                        )
+                        .build()
+                    )
+                    .build()
+                )
+                .build()
+            }
+          )
+        },
+        bottomSlot = {
+          textEdgeButton(
+            colors =
+            ButtonColors(
+              labelColor = colorScheme.onSurface,
+              containerColor = colorScheme.surfaceContainer
+            ),
+            onClick = clickable,
+            labelContent = { text("News".layoutString) }
+          )
         }
+      )
     }
+  }
 
-    internal fun LocalDate.formatLocalDateTime(today: LocalDate = LocalDate.now()): String {
-        val yesterday = today.minusDays(1)
-
-        return when {
-            this == yesterday -> "yesterday ${format(DateTimeFormatter.ofPattern("MMM d"))}"
-            this == today -> "today ${format(DateTimeFormatter.ofPattern("MMM d"))}"
-            else -> format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL))
+  fun layout2(
+    context: Context,
+    deviceParameters: DeviceParameters,
+    date: String,
+    headline: String,
+    newsVendor: String,
+    clickable: Clickable
+  ): LayoutElementBuilders.LayoutElement {
+    return materialScope(
+      context = context,
+      deviceConfiguration = deviceParameters,
+      allowDynamicTheme = false,
+      defaultColorScheme = GoldenTilesColorScheme
+    ) {
+      primaryLayout(
+        titleSlot = { text(date.layoutString) },
+        mainSlot = {
+          card(
+            onClick = clickable,
+            width = expand(),
+            height = expand(),
+            backgroundContent = {
+              backgroundImage(
+                protoLayoutResourceId = "news_image",
+                overlayColor = null,
+                contentScaleMode = CONTENT_SCALE_MODE_CROP
+              )
+            },
+            content = { text(text = headline.layoutString, maxLines = 3) }
+          )
+        },
+        bottomSlot = {
+          textEdgeButton(
+            colors =
+            ButtonColors(
+              labelColor = colorScheme.onSurface,
+              containerColor = colorScheme.surfaceContainer
+            ),
+            onClick = clickable,
+            labelContent = { text("News".layoutString) }
+          )
         }
+      )
     }
+  }
+
+  internal fun LocalDate.formatLocalDateTime(today: LocalDate = LocalDate.now()): String {
+    val yesterday = today.minusDays(1)
+
+    return when {
+      this == yesterday -> "yesterday ${format(DateTimeFormatter.ofPattern("MMM d"))}"
+      this == today -> "today ${format(DateTimeFormatter.ofPattern("MMM d"))}"
+      else -> format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL))
+    }
+  }
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun news1Preview(context: Context) =
-    TilePreviewData(resources { addIdToImageMapping("news_image", R.drawable.news) }) {
-        val now = LocalDateTime.of(2024, 8, 1, 0, 0).toInstant(ZoneOffset.UTC)
-        Clock.fixed(now, Clock.systemUTC().zone)
+  TilePreviewData(resources { addIdToImageMapping("news_image", R.drawable.news) }) {
+    val now = LocalDateTime.of(2024, 8, 1, 0, 0).toInstant(ZoneOffset.UTC)
+    Clock.fixed(now, Clock.systemUTC().zone)
 
-        TilePreviewHelper.singleTimelineEntryTileBuilder(
-                News.layout1(
-                    context,
-                    it.deviceConfiguration,
-                    headline = "Millions still without power as new storm moves across US",
-                    newsVendor = "The New York Times",
-                    date = "Today, 31 July",
-                    clickable = clickable(),
-                )
-            )
-            .build()
-    }
+    TilePreviewHelper.singleTimelineEntryTileBuilder(
+      News.layout1(
+        context,
+        it.deviceConfiguration,
+        headline = "Millions still without power as new storm moves across US",
+        newsVendor = "The New York Times",
+        date = "Today, 31 July",
+        clickable = clickable()
+      )
+    )
+      .build()
+  }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun news2Preview(context: Context) =
-    TilePreviewData(resources { addIdToImageMapping("news_image", R.drawable.news) }) {
-        val now = LocalDateTime.of(2024, 8, 1, 0, 0).toInstant(ZoneOffset.UTC)
-        Clock.fixed(now, Clock.systemUTC().zone)
+  TilePreviewData(resources { addIdToImageMapping("news_image", R.drawable.news) }) {
+    val now = LocalDateTime.of(2024, 8, 1, 0, 0).toInstant(ZoneOffset.UTC)
+    Clock.fixed(now, Clock.systemUTC().zone)
 
-        TilePreviewHelper.singleTimelineEntryTileBuilder(
-                News.layout2(
-                    context,
-                    it.deviceConfiguration,
-                    headline = "Millions still without power as new storm moves across US",
-                    newsVendor = "The New York Times",
-                    date = "Today, 31 July",
-                    clickable = clickable(),
-                )
-            )
-            .build()
-    }
+    TilePreviewHelper.singleTimelineEntryTileBuilder(
+      News.layout2(
+        context,
+        it.deviceConfiguration,
+        headline = "Millions still without power as new storm moves across US",
+        newsVendor = "The New York Times",
+        date = "Today, 31 July",
+        clickable = clickable()
+      )
+    )
+      .build()
+  }
