@@ -40,11 +40,10 @@ import com.example.wear.tiles.tools.MultiRoundDevicesPreviews
 
 @MultiRoundDevicesPreviews fun mindfulnessPreview(context: Context) = mindfulnessLayoutPreview(context)
 
-//@MultiRoundDevicesPreviews fun timerPreview(context: Context) = timerLayoutPreview(context)
+@MultiRoundDevicesPreviews fun timerPreview(context: Context) = timerLayoutPreview(context)
 
-
-@MultiRoundDevicesPreviews
-private fun mindfulnessMinutes(context: Context) = meditationMinutesPreview(context)
+//@MultiRoundDevicesPreviews
+//private fun mindfulnessMinutes(context: Context) = meditationMinutesPreview(context)
 
 @MultiRoundDevicesPreviews private fun ski(context: Context) = skiPreview(context)
 
