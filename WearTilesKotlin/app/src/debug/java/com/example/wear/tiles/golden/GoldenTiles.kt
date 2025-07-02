@@ -51,6 +51,8 @@ import com.example.wear.tiles.tools.MultiRoundDevicesPreviews
 
 @MultiRoundDevicesPreviews private fun weather(context: Context) = weatherPreview(context)
 
+@MultiRoundDevicesPreviews private fun news(context: Context) = news2Preview(context)
+
 @MultiRoundDevicesPreviews private fun calendar(context: Context) = calendarPreview(context)
 
 @MultiRoundDevicesPreviews private fun media(context: Context) = mediaPreview(context)

@@ -172,7 +172,7 @@ class SampleTileService : SuspendingTileService() {
             browseClickable = emptyClickable
           )
         1 ->
-          News.layout(
+          News.layout2(
             context = this,
             deviceParameters = requestParams.deviceConfiguration,
             headline = "Millions still without power as new storm moves across the US",

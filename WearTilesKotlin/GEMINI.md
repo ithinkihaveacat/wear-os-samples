@@ -8,6 +8,8 @@
 - Use functions from the androidx.wear.protolayout.material3 package where possible. It is very
   unlikely that you should be generating any code that uses the androidx.wear.protolayout.material
   library; please flag this if that appears to be required.
+- After making a change to a file, run the build-apk tool to see if there are any errors, and
+  resolve any that appear.
 
 # Useful Resources
 
