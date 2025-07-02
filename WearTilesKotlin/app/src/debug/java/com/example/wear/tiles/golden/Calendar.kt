@@ -16,20 +16,16 @@
 package com.example.wear.tiles.golden
 
 import android.content.Context
-import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
-import androidx.wear.protolayout.material.CompactChip
-import androidx.wear.protolayout.material.Text
-import androidx.wear.protolayout.material.Typography
-import androidx.wear.protolayout.material.layouts.PrimaryLayout
+import androidx.wear.protolayout.material3.materialScope
+import androidx.wear.protolayout.material3.primaryLayout
+import androidx.wear.protolayout.material3.text
+import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.emptyClickable
-
-// TODO:
-// https://source.corp.google.com/piper///depot/google3/java/com/google/android/clockwork/prototiles/samples/material3/CalendarTileService.kt
 
 object Calendar {
 
@@ -41,31 +37,9 @@ object Calendar {
     eventLocation: String,
     clickable: Clickable
   ) =
-    PrimaryLayout.Builder(deviceParameters)
-      .setResponsiveContentInsetEnabled(true)
-      .setPrimaryLabelTextContent(
-        Text.Builder(context, eventTime)
-          .setColor(ColorBuilders.argb(GoldenTilesColors.LightBlue))
-          .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-          .build()
-      )
-      .setContent(
-        Text.Builder(context, eventName)
-          .setMaxLines(3)
-          .setColor(ColorBuilders.argb(GoldenTilesColors.White))
-          .setTypography(Typography.TYPOGRAPHY_BODY1)
-          .build()
-      )
-      .setSecondaryLabelTextContent(
-        Text.Builder(context, eventLocation)
-          .setColor(ColorBuilders.argb(GoldenTilesColors.Gray))
-          .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-          .build()
-      )
-      .setPrimaryChipContent(
-        CompactChip.Builder(context, "Agenda", clickable, deviceParameters).build()
-      )
-      .build()
+    materialScope(context, deviceParameters) {
+      primaryLayout(mainSlot = { text("Hello".layoutString) }) // helpme: replace this primaryLayout() call with a layout of buttons on two rows. the first row should consist of a button for the date (taking up 60% of the width) and a second button that's the plus sign. the second row consists of a single button extending full width containing the event name (over potentially 2 lines) with the time underneath on a separate line. on large devices, include a third element of the address. these three buttons must use different colors (choose randomly). the "+" in the second button should be an image--see Timer.timer1Layout() for what resource to use. see other tiles in the directory for implementation help.
+    }
 }
 
 @MultiRoundDevicesWithFontScalePreviews
@@ -75,7 +49,7 @@ internal fun calendarPreview(context: Context) = TilePreviewData {
       context,
       it.deviceConfiguration,
       eventTime = "6:30-7:30 PM",
-      eventName = "Morning Pilates with Christina Lloyd",
+      eventName = "Tennis Coaching with Christina Lloyd",
       eventLocation = "216 Market Street",
       clickable = emptyClickable
     )
