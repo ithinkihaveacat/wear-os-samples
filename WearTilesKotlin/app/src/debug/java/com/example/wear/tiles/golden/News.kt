@@ -94,7 +94,7 @@ object News {
                     )
                     .addContent(
                       Image.Builder()
-                        .setResourceId("news_image")
+                        .setResourceId(context.resources.getResourceName(R.drawable.news))
                         .setContentScaleMode(
                           LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
                         )
@@ -194,7 +194,7 @@ object News {
             height = expand(),
             backgroundContent = {
               backgroundImage(
-                protoLayoutResourceId = "news_image",
+                protoLayoutResourceId = context.resources.getResourceName(R.drawable.news),
                 overlayColor = null,
                 contentScaleMode = CONTENT_SCALE_MODE_CROP
               )
@@ -230,7 +230,14 @@ object News {
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun news1Preview(context: Context) =
-  TilePreviewData(resources { addIdToImageMapping("news_image", R.drawable.news) }) {
+  TilePreviewData(
+    resources {
+      addIdToImageMapping(
+        context.resources.getResourceName(R.drawable.news),
+        R.drawable.news
+      )
+    }
+  ) {
     val now = LocalDateTime.of(2024, 8, 1, 0, 0).toInstant(ZoneOffset.UTC)
     Clock.fixed(now, Clock.systemUTC().zone)
 
@@ -249,7 +256,14 @@ internal fun news1Preview(context: Context) =
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun news2Preview(context: Context) =
-  TilePreviewData(resources { addIdToImageMapping("news_image", R.drawable.news) }) {
+  TilePreviewData(
+    resources {
+      addIdToImageMapping(
+        context.resources.getResourceName(R.drawable.news),
+        R.drawable.news
+      )
+    }
+  ) {
     val now = LocalDateTime.of(2024, 8, 1, 0, 0).toInstant(ZoneOffset.UTC)
     Clock.fixed(now, Clock.systemUTC().zone)
 
