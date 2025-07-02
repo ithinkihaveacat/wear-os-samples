@@ -69,7 +69,11 @@ object Goal {
                     endAngleDegrees = 520F
                   )
                 },
-                iconContent = { icon(context.resources.getResourceName(R.drawable.outline_directions_walk_24)) }
+                iconContent = {
+                  icon(
+                    context.resources.getResourceName(R.drawable.outline_directions_walk_24)
+                  )
+                }
               )
             }
           )

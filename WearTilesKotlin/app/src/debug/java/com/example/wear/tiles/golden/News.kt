@@ -30,6 +30,7 @@ import androidx.wear.protolayout.ModifiersBuilders.Background
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
 import androidx.wear.protolayout.ModifiersBuilders.Modifiers
 import androidx.wear.protolayout.material3.ButtonColors
+import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.Typography.BODY_SMALL
 import androidx.wear.protolayout.material3.backgroundImage
 import androidx.wear.protolayout.material3.card
@@ -57,6 +58,48 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
 object News {
+
+  private fun MaterialScope.newsImage(resourceId: String): LayoutElementBuilders.LayoutElement {
+    return Image.Builder()
+      .setResourceId(resourceId)
+      .setContentScaleMode(CONTENT_SCALE_MODE_CROP)
+      .setWidth(expand())
+      .setHeight(expand())
+      .setModifiers(
+        Modifiers.Builder()
+          .setBackground(Background.Builder().setCorner(shapes.large).build())
+          .build()
+      )
+      .build()
+  }
+
+  private fun MaterialScope.newsText(
+    headline: String,
+    newsVendor: String
+  ): LayoutElementBuilders.LayoutElement {
+    return Column.Builder()
+      .setWidth(expand())
+      .setHeight(expand())
+      .addContent(
+        text(
+          text = headline.layoutString,
+          typography = BODY_SMALL,
+          maxLines = 3,
+          alignment = LayoutElementBuilders.TEXT_ALIGN_START
+        )
+      )
+      .addContent(Spacer.Builder().setHeight(dp(4f)).build())
+      .addContent(
+        text(
+          text = newsVendor.layoutString,
+          typography = BODY_SMALL,
+          color = colorScheme.onSurfaceVariant,
+          maxLines = 1,
+          alignment = LayoutElementBuilders.TEXT_ALIGN_START
+        )
+      )
+      .build()
+  }
 
   fun layout1(
     context: Context,
@@ -93,23 +136,9 @@ object News {
                       LayoutModifier.padding(2f).toProtoLayoutModifiers()
                     )
                     .addContent(
-                      Image.Builder()
-                        .setResourceId(context.resources.getResourceName(R.drawable.news))
-                        .setContentScaleMode(
-                          LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
-                        )
-                        .setWidth(expand())
-                        .setHeight(expand())
-                        .setModifiers(
-                          Modifiers.Builder()
-                            .setBackground(
-                              Background.Builder()
-                                .setCorner(shapes.large)
-                                .build()
-                            )
-                            .build()
-                        )
-                        .build()
+                      newsImage(
+                        context.resources.getResourceName(R.drawable.news)
+                      )
                     )
                     .build()
                 )
@@ -122,34 +151,7 @@ object News {
                       LayoutModifier.padding(horizontal = 0f, vertical = 10f)
                         .toProtoLayoutModifiers()
                     )
-                    .addContent(
-                      Column.Builder()
-                        .setWidth(expand())
-                        .setHeight(expand())
-                        .addContent(
-                          text(
-                            text = headline.layoutString,
-                            typography = BODY_SMALL,
-                            maxLines = 3,
-                            alignment =
-                            LayoutElementBuilders.TEXT_ALIGN_START
-                          )
-                        )
-                        .addContent(
-                          Spacer.Builder().setHeight(dp(4f)).build()
-                        )
-                        .addContent(
-                          text(
-                            text = newsVendor.layoutString,
-                            typography = BODY_SMALL,
-                            color = colorScheme.onSurfaceVariant,
-                            maxLines = 1,
-                            alignment =
-                            LayoutElementBuilders.TEXT_ALIGN_START
-                          )
-                        )
-                        .build()
-                    )
+                    .addContent(newsText(headline, newsVendor))
                     .build()
                 )
                 .build()
@@ -194,7 +196,8 @@ object News {
             height = expand(),
             backgroundContent = {
               backgroundImage(
-                protoLayoutResourceId = context.resources.getResourceName(R.drawable.news),
+                protoLayoutResourceId =
+                context.resources.getResourceName(R.drawable.news),
                 overlayColor = null,
                 contentScaleMode = CONTENT_SCALE_MODE_CROP
               )
@@ -232,10 +235,7 @@ object News {
 internal fun news1Preview(context: Context) =
   TilePreviewData(
     resources {
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.news),
-        R.drawable.news
-      )
+      addIdToImageMapping(context.resources.getResourceName(R.drawable.news), R.drawable.news)
     }
   ) {
     val now = LocalDateTime.of(2024, 8, 1, 0, 0).toInstant(ZoneOffset.UTC)
@@ -258,10 +258,7 @@ internal fun news1Preview(context: Context) =
 internal fun news2Preview(context: Context) =
   TilePreviewData(
     resources {
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.news),
-        R.drawable.news
-      )
+      addIdToImageMapping(context.resources.getResourceName(R.drawable.news), R.drawable.news)
     }
   ) {
     val now = LocalDateTime.of(2024, 8, 1, 0, 0).toInstant(ZoneOffset.UTC)
