@@ -54,9 +54,6 @@ import com.example.wear.tiles.tools.isLargeScreen
 import com.example.wear.tiles.tools.resources
 import com.google.android.horologist.tiles.images.drawableResToImageResource
 
-// TODO: Designs
-// https://www.figma.com/design/2OJqWvi4ebE7FY5uuBTUhm/GM3-BC25-Wear-Compose-Design-Kit-1.5?node-id=66728-38855&m=dev
-
 val noOpElement: MaterialScope.() -> LayoutElementBuilders.LayoutElement = {
   LayoutElementBuilders.Spacer.Builder().setWidth(dp(0F)).setHeight(dp(0F)).build()
 }

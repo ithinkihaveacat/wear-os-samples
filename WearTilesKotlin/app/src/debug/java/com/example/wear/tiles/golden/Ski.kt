@@ -16,72 +16,108 @@
 package com.example.wear.tiles.golden
 
 import android.content.Context
-import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DeviceParametersBuilders
+import androidx.wear.protolayout.DimensionBuilders.dp
+import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.LayoutElementBuilders
-import androidx.wear.protolayout.material.Text
-import androidx.wear.protolayout.material.Typography
-import androidx.wear.protolayout.material.layouts.MultiSlotLayout
-import androidx.wear.protolayout.material.layouts.PrimaryLayout
+import androidx.wear.protolayout.material3.ButtonDefaults.filledVariantButtonColors
+import androidx.wear.protolayout.material3.MaterialScope
+import androidx.wear.protolayout.material3.Typography
+import androidx.wear.protolayout.material3.buttonGroup
+import androidx.wear.protolayout.material3.materialScope
+import androidx.wear.protolayout.material3.primaryLayout
+import androidx.wear.protolayout.material3.text
+import androidx.wear.protolayout.material3.textButton
+import androidx.wear.protolayout.modifiers.clickable
+import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
+import com.example.wear.tiles.tools.isLargeScreen
 
 // https://www.figma.com/design/2OJqWvi4ebE7FY5uuBTUhm/GM3-BC25-Wear-Compose-Design-Kit-1.5?node-id=66728-39449&m=dev
 
 object Ski {
 
-  fun layout(
-    context: Context,
-    deviceParameters: DeviceParametersBuilders.DeviceParameters,
-    stat1: Stat,
-    stat2: Stat
-  ) =
-    PrimaryLayout.Builder(deviceParameters)
-      .setResponsiveContentInsetEnabled(true)
-      .setContent(
-        MultiSlotLayout.Builder()
-          .setHorizontalSpacerWidth(16f)
-          .addSlotContent(statColumn(context, stat1))
-          .addSlotContent(statColumn(context, stat2))
-          .build()
-      )
-      .build()
+    fun layout(
+        context: Context,
+        deviceParameters: DeviceParametersBuilders.DeviceParameters,
+        stat1: Stat,
+        stat2: Stat,
+    ) =
+        materialScope(context, deviceParameters) {
+            primaryLayout(
+                titleSlot = { text("Latest run".layoutString) },
+                mainSlot = {
+                    buttonGroup {
+                        buttonGroupItem { statColumn(stat1) }
+                        buttonGroupItem { statColumn(stat2) }
+                    }
+                },
+            )
+        }
 
-  private fun statColumn(context: Context, stat: Stat) =
-    LayoutElementBuilders.Column.Builder()
-      .addContent(
-        Text.Builder(context, stat.label)
-          .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-          .setColor(ColorBuilders.argb(GoldenTilesColors.LightBlue))
-          .build()
-      )
-      .addContent(
-        Text.Builder(context, stat.value)
-          .setTypography(Typography.TYPOGRAPHY_DISPLAY3)
-          .setColor(ColorBuilders.argb(GoldenTilesColors.White))
-          .build()
-      )
-      .addContent(
-        Text.Builder(context, stat.unit)
-          .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-          .setColor(ColorBuilders.argb(GoldenTilesColors.White))
-          .build()
-      )
-      .build()
+    private fun MaterialScope.statColumn(stat: Stat) =
+        textButton(
+            onClick = clickable(),
+            width = expand(),
+            height = expand(),
+            colors =
+                filledVariantButtonColors()
+                    .copy(
+                        containerColor = colorScheme.onSecondary,
+                        labelColor = colorScheme.secondary,
+                    ),
+            labelContent = {
+                if (deviceConfiguration.isLargeScreen()) {
+                    LayoutElementBuilders.Column.Builder()
+                        .addContent(
+                            text(stat.label.layoutString, typography = Typography.TITLE_MEDIUM)
+                        )
+                        .addContent(
+                            LayoutElementBuilders.Spacer.Builder().setHeight(dp(6f)).build()
+                        )
+                        .addContent(
+                            text(stat.value.layoutString, typography = Typography.NUMERAL_SMALL)
+                        )
+                        .addContent(
+                            text(stat.unit.layoutString, typography = Typography.TITLE_MEDIUM)
+                        )
+                        .build()
+                } else {
+                    LayoutElementBuilders.Column.Builder()
+                        .addContent(
+                            text(stat.label.layoutString, typography = Typography.TITLE_SMALL)
+                        )
+                        .addContent(
+                            LayoutElementBuilders.Spacer.Builder().setHeight(dp(6f)).build()
+                        )
+                        .addContent(
+                            text(
+                                stat.value.layoutString,
+                                typography = Typography.NUMERAL_EXTRA_SMALL,
+                            )
+                        )
+                        .addContent(
+                            text(stat.unit.layoutString, typography = Typography.TITLE_SMALL)
+                        )
+                        .build()
+                }
+            },
+        )
 
-  data class Stat(val label: String, val value: String, val unit: String)
+    data class Stat(val label: String, val value: String, val unit: String)
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun skiPreview(context: Context) = TilePreviewData {
-  TilePreviewHelper.singleTimelineEntryTileBuilder(
-    Ski.layout(
-      context,
-      it.deviceConfiguration,
-      stat1 = Ski.Stat("Max Spd", "46.5", "mph"),
-      stat2 = Ski.Stat("Distance", "21.8", "mile")
-    )
-  )
-    .build()
+    TilePreviewHelper.singleTimelineEntryTileBuilder(
+            Ski.layout(
+                context,
+                it.deviceConfiguration,
+                stat1 = Ski.Stat("Max Spd", "46.5", "mph"),
+                stat2 = Ski.Stat("Distance", "21.8", "mile"),
+            )
+        )
+        .build()
 }
