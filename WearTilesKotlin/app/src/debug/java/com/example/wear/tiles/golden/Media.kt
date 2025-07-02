@@ -15,9 +15,6 @@
  */
 package com.example.wear.tiles.golden
 
-// For background image check
-// https://source.corp.google.com/piper///depot/google3/java/com/google/android/clockwork/prototiles/samples/material3/CalendarTileService.kt?q=CalendarTileService&ct=os
-
 import android.content.Context
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders.expand
@@ -28,6 +25,7 @@ import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColor
 import androidx.wear.protolayout.material3.ButtonGroupDefaults
 import androidx.wear.protolayout.material3.ButtonStyle.Companion.defaultButtonStyle
 import androidx.wear.protolayout.material3.ButtonStyle.Companion.smallButtonStyle
+import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.backgroundImage
 import androidx.wear.protolayout.material3.button
 import androidx.wear.protolayout.material3.materialScope
@@ -45,12 +43,48 @@ import com.example.wear.tiles.tools.column
 import com.example.wear.tiles.tools.isLargeScreen
 import com.example.wear.tiles.tools.resources
 
+private fun MaterialScope.playlistButton(
+  deviceParameters: DeviceParameters,
+  playlist: Media.Playlist,
+) =
+  button(
+    onClick = playlist.clickable ?: clickable(),
+    width = expand(),
+    height = expand(),
+    colors = filledTonalButtonColors(),
+    style =
+      if (deviceParameters.isLargeScreen()) {
+        defaultButtonStyle()
+      } else {
+        smallButtonStyle()
+      },
+    horizontalAlignment = LayoutElementBuilders.TEXT_ALIGN_START,
+    backgroundContent =
+      playlist.imageId?.let { id ->
+        {
+          backgroundImage(
+            protoLayoutResourceId = id,
+            overlayColor = null,
+            contentScaleMode = CONTENT_SCALE_MODE_CROP,
+          )
+        }
+      },
+    labelContent = { text(playlist.label.layoutString) },
+  )
+
 object Media {
+
+  data class Playlist(
+    val label: String,
+    val imageId: String? = null,
+    val clickable: Clickable? = clickable(),
+  )
 
   fun layout(
     context: Context,
     deviceParameters: DeviceParameters,
-    playlist2ImageId: String? = null,
+    playlist1: Playlist,
+    playlist2: Playlist,
   ) =
     materialScope(context, deviceParameters) {
       primaryLayout(
@@ -67,49 +101,9 @@ object Media {
           column {
             setWidth(expand())
             setHeight(expand())
-            addContent(
-              button(
-                onClick = clickable(),
-                width = expand(),
-                height = expand(),
-                colors = filledTonalButtonColors(),
-                style =
-                  if (deviceParameters.isLargeScreen()) {
-                    defaultButtonStyle()
-                  } else {
-                    smallButtonStyle()
-                  },
-                horizontalAlignment = LayoutElementBuilders.TEXT_ALIGN_START,
-                labelContent = { text("Metal mix".layoutString) },
-              )
-            )
+            addContent(playlistButton(deviceParameters, playlist1))
             addContent(ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
-            addContent(
-              button(
-                onClick = clickable(),
-                width = expand(),
-                height = expand(),
-                colors = filledTonalButtonColors(),
-                style =
-                  if (deviceParameters.isLargeScreen()) {
-                    defaultButtonStyle()
-                  } else {
-                    smallButtonStyle()
-                  },
-                horizontalAlignment = LayoutElementBuilders.TEXT_ALIGN_START,
-                backgroundContent =
-                  playlist2ImageId?.let { id ->
-                    {
-                      backgroundImage(
-                        protoLayoutResourceId = id,
-                        overlayColor = null,
-                        contentScaleMode = CONTENT_SCALE_MODE_CROP,
-                      )
-                    }
-                  },
-                labelContent = { text("Chilled mix".layoutString) },
-              )
-            )
+            addContent(playlistButton(deviceParameters, playlist2))
           }
         },
       )
@@ -126,12 +120,6 @@ object Media {
     )
     addIdToImageMapping(context.resources.getResourceName(R.drawable.news), R.drawable.news)
   }
-
-  data class Playlist(
-    val label: String,
-    val imageId: String? = null,
-    val clickable: Clickable? = clickable(),
-  )
 }
 
 @MultiRoundDevicesWithFontScalePreviews
@@ -141,7 +129,16 @@ internal fun mediaPreview(context: Context) =
         Media.layout(
           context,
           it.deviceConfiguration,
-          playlist2ImageId = context.resources.getResourceName(R.drawable.news),
+          playlist1 =
+            Media.Playlist(
+              "Metal mix",
+              imageId = context.resources.getResourceName(R.drawable.news),
+            ),
+          playlist2 =
+            Media.Playlist(
+              "Chilled mix",
+              imageId = context.resources.getResourceName(R.drawable.news),
+            ),
         )
       )
       .build()
