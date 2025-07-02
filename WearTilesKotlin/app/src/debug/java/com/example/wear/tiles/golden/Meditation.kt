@@ -63,6 +63,7 @@ import androidx.wear.protolayout.material3.ButtonStyle.Companion.smallButtonStyl
 import androidx.wear.protolayout.material3.ColorScheme
 import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.TextButtonStyle.Companion.smallTextButtonStyle
+import androidx.wear.protolayout.material3.Typography.NUMERAL_MEDIUM
 import androidx.wear.protolayout.material3.Typography.NUMERAL_SMALL
 import androidx.wear.protolayout.material3.button
 import androidx.wear.protolayout.material3.buttonGroup
@@ -226,39 +227,30 @@ object Meditation {
       primaryLayout(
         titleSlot = { text("Minutes".layoutString) },
         mainSlot = {
-          buttonGroup {
-            buttonGroupItem {
-              textButton(
-                width = expand(),
-                height = expand(),
-                onClick = clickable(),
-                colors = filledVariantButtonColors(),
-                labelContent = {
-                  text("5".layoutString, typography = NUMERAL_SMALL)
+          if (deviceParameters.isLargeScreen()) {
+            column {
+              setWidth(expand())
+              setHeight(expand())
+              addContent(
+                buttonGroup {
+                  buttonGroupItem { timerTextButton("5") }
+                  buttonGroupItem { timerTextButton("10") }
+                }
+              )
+              addContent(ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
+              addContent(
+                buttonGroup {
+                  buttonGroupItem { timerTextButton("15") }
+                  buttonGroupItem { timerTextButton("20") }
+                  buttonGroupItem { timerTextButton("30") }
                 }
               )
             }
-            buttonGroupItem {
-              textButton(
-                width = expand(),
-                height = expand(),
-                onClick = clickable(),
-                colors = filledVariantButtonColors(),
-                labelContent = {
-                  text("10".layoutString, typography = NUMERAL_SMALL)
-                }
-              )
-            }
-            buttonGroupItem {
-              textButton(
-                width = expand(),
-                height = expand(),
-                onClick = clickable(),
-                colors = filledVariantButtonColors(),
-                labelContent = {
-                  text("15".layoutString, typography = NUMERAL_SMALL)
-                }
-              )
+          } else {
+            buttonGroup {
+              buttonGroupItem { timerTextButton("5") }
+              buttonGroupItem { timerTextButton("10") }
+              buttonGroupItem { timerTextButton("15") }
             }
           }
         },
@@ -274,6 +266,17 @@ object Meditation {
         }
       )
     }
+
+  private fun MaterialScope.timerTextButton(text: String) = textButton(
+    width = expand(),
+    height = expand(),
+    onClick = clickable(),
+    shape = shapes.large,
+    colors = filledVariantButtonColors(),
+    labelContent = {
+      text(text.layoutString, typography = NUMERAL_SMALL)
+    }
+  )
 
   fun tasks(context: Context, deviceParameters: DeviceParameters): LayoutElement {
     return materialScope(
