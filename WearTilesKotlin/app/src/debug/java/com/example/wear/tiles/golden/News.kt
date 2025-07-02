@@ -101,7 +101,7 @@ object News {
       .build()
   }
 
-  fun MaterialScope.newsCard1(
+  private fun MaterialScope.newsCard1(
     clickable: Clickable,
     headline: String,
     newsVendor: String,
@@ -173,7 +173,7 @@ object News {
       )
     }
 
-  fun MaterialScope.newsCard2(
+  private fun MaterialScope.newsCard2(
     clickable: Clickable,
     headline: String,
     imageResourceId: String
