@@ -263,80 +263,6 @@ object Meditation {
     }
   }
 
-  fun chipsLayoutOld(
-    context: Context,
-    deviceParameters: DeviceParameters,
-    numOfLeftTasks: Int,
-    session1: Session,
-    session2: Session,
-    browseClickable: Clickable
-  ) =
-    PrimaryLayout.Builder(deviceParameters)
-      .setResponsiveContentInsetEnabled(true)
-      .apply {
-        if (deviceParameters.screenWidthDp > 225) {
-          setPrimaryLabelTextContent(
-            Text.Builder(context, "$numOfLeftTasks mindful tasks left")
-              .setTypography(Typography.TYPOGRAPHY_BODY2)
-              .setColor(ColorBuilders.argb(GoldenTilesColors.Pink))
-              .build()
-          )
-        }
-      }
-      .setContent(
-        Column.Builder()
-          // See the comment on `setWidth` below in `sessionChip()` too. The default width
-          // for
-          // column is "wrap", so we need to explicitly set it to "expand" so that we give
-          // the
-          // chips enough space to layout
-          .setWidth(DimensionBuilders.ExpandedDimensionProp.Builder().build())
-          .addContent(sessionChip(context, deviceParameters, session1))
-          .addContent(Spacer.Builder().setHeight(dp(4f)).build())
-          .addContent(sessionChip(context, deviceParameters, session2))
-          .build()
-      )
-      .setPrimaryChipContent(
-        CompactChip.Builder(context, "Browse", browseClickable, deviceParameters)
-          .setChipColors(
-            ChipColors(
-              /* backgroundColor = */
-              ColorBuilders.argb(GoldenTilesColors.LightPurple),
-              /* contentColor = */
-              ColorBuilders.argb(GoldenTilesColors.DarkerGray)
-            )
-          )
-          .build()
-      )
-      .build()
-
-  private fun sessionChip(
-    context: Context,
-    deviceParameters: DeviceParameters,
-    session: Session
-  ): Chip {
-    return Chip.Builder(context, session.clickable, deviceParameters)
-      // TitleChip/Chip's default width == device width minus some padding
-      // Since PrimaryLayout's content slot already has margin, this leads to clipping
-      // unless we override the width to use the available space
-      .setWidth(DimensionBuilders.ExpandedDimensionProp.Builder().build())
-      .setIconContent(session.iconId)
-      .setPrimaryLabelContent(session.label)
-      .setChipColors(
-        ChipColors(
-          /* backgroundColor = */
-          ColorBuilders.argb(GoldenTilesColors.DarkPurple),
-          /* iconColor = */
-          ColorBuilders.argb(GoldenTilesColors.LightPurple),
-          /* contentColor = */
-          ColorBuilders.argb(GoldenTilesColors.White),
-          /* secondaryContentColor = */
-          ColorBuilders.argb(GoldenTilesColors.White)
-        )
-      )
-      .build()
-  }
-
   fun buttonsLayout(
     context: Context,
     deviceParameters: DeviceParameters,
@@ -420,7 +346,7 @@ object Meditation {
 }
 
 @MultiRoundDevicesWithFontScalePreviews
-fun mindfulnessLayoutPreview(context: Context) =
+fun mindfulnessPreview(context: Context) =
   TilePreviewData(Meditation.resources(context)) {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
       Meditation.mindfulnessLayout(context, it.deviceConfiguration)

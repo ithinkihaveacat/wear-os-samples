@@ -19,136 +19,130 @@ package com.example.wear.tiles.golden
 // https://source.corp.google.com/piper///depot/google3/java/com/google/android/clockwork/prototiles/samples/material3/CalendarTileService.kt?q=CalendarTileService&ct=os
 
 import android.content.Context
-import androidx.wear.protolayout.ColorBuilders
-import androidx.wear.protolayout.ColorBuilders.argb
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
-import androidx.wear.protolayout.DimensionBuilders
-import androidx.wear.protolayout.DimensionBuilders.dp
-import androidx.wear.protolayout.LayoutElementBuilders.Column
-import androidx.wear.protolayout.LayoutElementBuilders.Spacer
+import androidx.wear.protolayout.DimensionBuilders.expand
+import androidx.wear.protolayout.LayoutElementBuilders
+import androidx.wear.protolayout.LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
-import androidx.wear.protolayout.material.Chip
-import androidx.wear.protolayout.material.ChipColors
-import androidx.wear.protolayout.material.CompactChip
-import androidx.wear.protolayout.material.Text
-import androidx.wear.protolayout.material.Typography
-import androidx.wear.protolayout.material.layouts.PrimaryLayout
+import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColors
+import androidx.wear.protolayout.material3.ButtonGroupDefaults
+import androidx.wear.protolayout.material3.ButtonStyle.Companion.defaultButtonStyle
+import androidx.wear.protolayout.material3.ButtonStyle.Companion.smallButtonStyle
+import androidx.wear.protolayout.material3.backgroundImage
+import androidx.wear.protolayout.material3.button
+import androidx.wear.protolayout.material3.materialScope
+import androidx.wear.protolayout.material3.primaryLayout
+import androidx.wear.protolayout.material3.text
+import androidx.wear.protolayout.material3.textEdgeButton
+import androidx.wear.protolayout.modifiers.clickable
+import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.addIdToImageMapping
-import com.example.wear.tiles.tools.emptyClickable
+import com.example.wear.tiles.tools.column
+import com.example.wear.tiles.tools.isLargeScreen
 import com.example.wear.tiles.tools.resources
-import com.google.android.horologist.tiles.images.drawableResToImageResource
 
 object Media {
+
   fun layout(
     context: Context,
     deviceParameters: DeviceParameters,
-    playlist1: Playlist,
-    playlist2: Playlist,
-    browseClickable: Clickable
+    playlist2ImageId: String? = null,
   ) =
-    PrimaryLayout.Builder(deviceParameters)
-      .setResponsiveContentInsetEnabled(true)
-      .apply {
-        if (deviceParameters.screenWidthDp > 225) {
-          setPrimaryLabelTextContent(
-            Text.Builder(context, "Last Played")
-              .setTypography(Typography.TYPOGRAPHY_BODY2)
-              .setColor(argb(GoldenTilesColors.Pink))
-              .build()
-          )
-        }
-      }
-      .setContent(
-        Column.Builder()
-          // See the comment on `setWidth` below in `playlistChip()` too. The default
-          // width
-          // for column is "wrap", so we need to explicitly set it to "expand" so that we
-          // give
-          // the chips enough space to layout
-          .setWidth(DimensionBuilders.ExpandedDimensionProp.Builder().build())
-          .addContent(playlistChip(context, deviceParameters, playlist1))
-          .addContent(Spacer.Builder().setHeight(dp(4f)).build())
-          .addContent(playlistChip(context, deviceParameters, playlist2))
-          .build()
-      )
-      .setPrimaryChipContent(
-        CompactChip.Builder(context, "Browse", browseClickable, deviceParameters)
-          .setChipColors(
-            ChipColors(
-              /*backgroundColor=*/
-              ColorBuilders.argb(GoldenTilesColors.Pink),
-              /*contentColor=*/
-              ColorBuilders.argb(GoldenTilesColors.DarkerGray)
+    materialScope(context, deviceParameters) {
+      primaryLayout(
+        titleSlot =
+          if (deviceParameters.isLargeScreen()) {
+            { text("Last played".layoutString) }
+          } else {
+            null
+          },
+        bottomSlot = {
+          textEdgeButton(onClick = clickable(), labelContent = { text("Browse".layoutString) })
+        },
+        mainSlot = {
+          column {
+            setWidth(expand())
+            setHeight(expand())
+            addContent(
+              button(
+                onClick = clickable(),
+                width = expand(),
+                height = expand(),
+                colors = filledTonalButtonColors(),
+                style =
+                  if (deviceParameters.isLargeScreen()) {
+                    defaultButtonStyle()
+                  } else {
+                    smallButtonStyle()
+                  },
+                horizontalAlignment = LayoutElementBuilders.TEXT_ALIGN_START,
+                labelContent = { text("Metal mix".layoutString) },
+              )
             )
-          )
-          .build()
+            addContent(ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
+            addContent(
+              button(
+                onClick = clickable(),
+                width = expand(),
+                height = expand(),
+                colors = filledTonalButtonColors(),
+                style =
+                  if (deviceParameters.isLargeScreen()) {
+                    defaultButtonStyle()
+                  } else {
+                    smallButtonStyle()
+                  },
+                horizontalAlignment = LayoutElementBuilders.TEXT_ALIGN_START,
+                backgroundContent =
+                  playlist2ImageId?.let { id ->
+                    {
+                      backgroundImage(
+                        protoLayoutResourceId = id,
+                        overlayColor = null,
+                        contentScaleMode = CONTENT_SCALE_MODE_CROP,
+                      )
+                    }
+                  },
+                labelContent = { text("Chilled mix".layoutString) },
+              )
+            )
+          }
+        },
       )
-      .build()
-
-  private fun playlistChip(
-    context: Context,
-    deviceParameters: DeviceParameters,
-    playlist: Playlist
-  ): Chip {
-    return Chip.Builder(context, playlist.clickable, deviceParameters)
-      // TitleChip/Chip's default width == device width minus some padding
-      // Since PrimaryLayout's content slot already has margin, this leads to clipping
-      // unless we override the width to use the available space
-      .setWidth(DimensionBuilders.ExpandedDimensionProp.Builder().build())
-      .setIconContent(playlist.iconId)
-      .setPrimaryLabelContent(playlist.label)
-      .setChipColors(
-        ChipColors(
-          /*backgroundColor=*/
-          ColorBuilders.argb(GoldenTilesColors.DarkPink),
-          /*contentColor=*/
-          ColorBuilders.argb(GoldenTilesColors.White)
-        )
-      )
-      .build()
-  }
+    }
 
   fun resources(context: Context) = resources {
     addIdToImageMapping(
       context.resources.getResourceName(R.drawable.ic_music_queue_24),
-      drawableResToImageResource(R.drawable.ic_music_queue_24)
+      R.drawable.ic_music_queue_24,
     )
     addIdToImageMapping(
       context.resources.getResourceName(R.drawable.ic_podcasts_24),
-      drawableResToImageResource(R.drawable.ic_podcasts_24)
+      R.drawable.ic_podcasts_24,
     )
+    addIdToImageMapping(context.resources.getResourceName(R.drawable.news), R.drawable.news)
   }
 
-  data class Playlist(val label: String, val iconId: String, val clickable: Clickable)
+  data class Playlist(
+    val label: String,
+    val imageId: String? = null,
+    val clickable: Clickable? = clickable(),
+  )
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun mediaPreview(context: Context) =
-  TilePreviewData(
-    Media.resources(context)
-  ) {
+  TilePreviewData(Media.resources(context)) {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
-      Media.layout(
-        context,
-        it.deviceConfiguration,
-        playlist1 =
-        Media.Playlist(
-          label = "Liked songs",
-          iconId = context.resources.getResourceName(R.drawable.ic_music_queue_24),
-          clickable = emptyClickable
-        ),
-        playlist2 =
-        Media.Playlist(
-          label = "Podcasts",
-          iconId = context.resources.getResourceName(R.drawable.ic_podcasts_24),
-          clickable = emptyClickable
-        ),
-        browseClickable = emptyClickable
+        Media.layout(
+          context,
+          it.deviceConfiguration,
+          playlist2ImageId = context.resources.getResourceName(R.drawable.news),
+        )
       )
-    )
       .build()
   }

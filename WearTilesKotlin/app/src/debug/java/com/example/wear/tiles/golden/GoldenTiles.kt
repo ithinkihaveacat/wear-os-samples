@@ -30,17 +30,7 @@ import com.example.wear.tiles.tools.MultiRoundDevicesPreviews
 
 @MultiRoundDevicesPreviews private fun alarm(context: Context) = alarmPreview(context)
 
-// https://www.figma.com/design/2OJqWvi4ebE7FY5uuBTUhm/GM3-BC25-Wear-Compose-Design-Kit-1.5?node-id=66728-38944&m=dev
-// @MultiRoundDevicesPreviews private fun alarm(context: Context) = alarmPreview(context)
-
-// https://www.figma.com/design/2OJqWvi4ebE7FY5uuBTUhm/GM3-BC25-Wear-Compose-Design-Kit-1.5?node-id=66728-39008&m=dev
-// https://source.corp.google.com/piper///depot/google3/java/com/google/android/clockwork/prototiles/samples/material3/KeepTileService.kt
-// @MultiRoundDevicesPreviews private fun mindfulnessTasks(context: Context) =
-// mindfulnessTasksPreview(context)
-
-@MultiRoundDevicesPreviews fun mindfulnessPreview(context: Context) = mindfulnessLayoutPreview(
-  context
-)
+@MultiRoundDevicesPreviews fun mindfulness(context: Context) = mindfulnessPreview(context)
 
 @MultiRoundDevicesPreviews fun timerPreview(context: Context) = timerLayoutPreview(context)
 
