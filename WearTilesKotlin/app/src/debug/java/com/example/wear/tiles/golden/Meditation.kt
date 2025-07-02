@@ -55,6 +55,7 @@ import androidx.wear.protolayout.material.layouts.MultiButtonLayout
 import androidx.wear.protolayout.material.layouts.PrimaryLayout
 import androidx.wear.protolayout.material3.ButtonDefaults.filledButtonColors
 import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColors
+import androidx.wear.protolayout.material3.ButtonDefaults.filledVariantButtonColors
 import androidx.wear.protolayout.material3.ButtonGroupDefaults
 import androidx.wear.protolayout.material3.ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS
 import androidx.wear.protolayout.material3.ButtonStyle.Companion.defaultButtonStyle
@@ -62,16 +63,20 @@ import androidx.wear.protolayout.material3.ButtonStyle.Companion.smallButtonStyl
 import androidx.wear.protolayout.material3.ColorScheme
 import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.TextButtonStyle.Companion.smallTextButtonStyle
+import androidx.wear.protolayout.material3.Typography.NUMERAL_SMALL
 import androidx.wear.protolayout.material3.button
 import androidx.wear.protolayout.material3.buttonGroup
 import androidx.wear.protolayout.material3.icon
+import androidx.wear.protolayout.material3.iconEdgeButton
 import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textButton
 import androidx.wear.protolayout.material3.textEdgeButton
 import androidx.wear.protolayout.material3.tokens.PaletteTokens
+import androidx.wear.protolayout.modifiers.LayoutModifier
 import androidx.wear.protolayout.modifiers.clickable
+import androidx.wear.protolayout.modifiers.contentDescription
 import androidx.wear.protolayout.types.LayoutColor
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.tooling.preview.TilePreviewData
@@ -212,6 +217,60 @@ object Meditation {
               )
             )
           }
+        }
+      )
+    }
+
+  fun timerLayout(context: Context, deviceParameters: DeviceParameters) =
+    materialScope(context, deviceParameters) {
+      primaryLayout(
+        titleSlot = { text("Minutes".layoutString) },
+        mainSlot = {
+          buttonGroup {
+            buttonGroupItem {
+              textButton(
+                width = expand(),
+                height = expand(),
+                onClick = clickable(),
+                colors = filledVariantButtonColors(),
+                labelContent = {
+                  text("5".layoutString, typography = NUMERAL_SMALL)
+                }
+              )
+            }
+            buttonGroupItem {
+              textButton(
+                width = expand(),
+                height = expand(),
+                onClick = clickable(),
+                colors = filledVariantButtonColors(),
+                labelContent = {
+                  text("10".layoutString, typography = NUMERAL_SMALL)
+                }
+              )
+            }
+            buttonGroupItem {
+              textButton(
+                width = expand(),
+                height = expand(),
+                onClick = clickable(),
+                colors = filledVariantButtonColors(),
+                labelContent = {
+                  text("15".layoutString, typography = NUMERAL_SMALL)
+                }
+              )
+            }
+          }
+        },
+        bottomSlot = {
+          iconEdgeButton(
+            onClick = clickable(),
+            colors = filledButtonColors(),
+            modifier = LayoutModifier.contentDescription("Plus"),
+            iconContent = {
+              icon(context.resources.getResourceName(R.drawable.outline_add_2_24))
+            }
+          )
         }
       )
     }
@@ -436,6 +495,22 @@ fun mindfulnessLayoutPreview(context: Context) =
   ) {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
       Meditation.mindfulnessLayout(context, it.deviceConfiguration)
+    )
+      .build()
+  }
+
+@MultiRoundDevicesWithFontScalePreviews
+fun timerLayoutPreview(context: Context) =
+  TilePreviewData(
+    resources {
+      addIdToImageMapping(
+        context.resources.getResourceName(R.drawable.outline_add_2_24),
+        R.drawable.outline_add_2_24
+      )
+    }
+  ) {
+    TilePreviewHelper.singleTimelineEntryTileBuilder(
+      Meditation.timerLayout(context, it.deviceConfiguration)
     )
       .build()
   }

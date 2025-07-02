@@ -1,6 +1,10 @@
 # Rules
 
 - Do not modify the file GoldenTilesColors.kt, and do not use any of the values defines there.
+- Do not offer to modify files in place. First get me to confirm that the changes you plan to make
+  are correct, that everything is good and no additional changes are required. Only then—as a second
+  step—offer to make the
+  changes.
 
 # Useful Resources
 
