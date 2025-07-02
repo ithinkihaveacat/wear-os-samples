@@ -101,6 +101,48 @@ object News {
       .build()
   }
 
+  fun MaterialScope.newsCard(
+    context: Context,
+    clickable: Clickable,
+    headline: String,
+    newsVendor: String
+  ) =
+    card(
+      onClick = clickable,
+      width = expand(),
+      height = expand(),
+      modifier = LayoutModifier.background(colorScheme.surfaceContainer),
+      content = {
+        Row.Builder()
+          .setWidth(expand())
+          .setHeight(expand())
+          .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
+          .addContent(
+            LayoutElementBuilders.Box.Builder()
+              .setWidth(weight(0.4f))
+              .setHeight(expand())
+              .setModifiers(LayoutModifier.padding(2f).toProtoLayoutModifiers())
+              .addContent(
+                newsImage(context.resources.getResourceName(R.drawable.news))
+              )
+              .build()
+          )
+          .addContent(Spacer.Builder().setWidth(dp(12f)).build())
+          .addContent(
+            LayoutElementBuilders.Box.Builder()
+              .setWidth(weight(0.7f))
+              .setHeight(expand())
+              .setModifiers(
+                LayoutModifier.padding(horizontal = 0f, vertical = 10f)
+                  .toProtoLayoutModifiers()
+              )
+              .addContent(newsText(headline, newsVendor))
+              .build()
+          )
+          .build()
+      }
+    )
+
   fun layout1(
     context: Context,
     deviceParameters: DeviceParameters,
@@ -108,8 +150,8 @@ object News {
     headline: String,
     newsVendor: String,
     clickable: Clickable
-  ): LayoutElementBuilders.LayoutElement {
-    return materialScope(
+  ) =
+    materialScope(
       context = context,
       deviceConfiguration = deviceParameters,
       allowDynamicTheme = false,
@@ -117,47 +159,7 @@ object News {
     ) {
       primaryLayout(
         titleSlot = { text(date.layoutString) },
-        mainSlot = {
-          card(
-            onClick = clickable,
-            width = expand(),
-            height = expand(),
-            modifier = LayoutModifier.background(colorScheme.surfaceContainer),
-            content = {
-              Row.Builder()
-                .setWidth(expand())
-                .setHeight(expand())
-                .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
-                .addContent(
-                  LayoutElementBuilders.Box.Builder()
-                    .setWidth(weight(0.4f))
-                    .setHeight(expand())
-                    .setModifiers(
-                      LayoutModifier.padding(2f).toProtoLayoutModifiers()
-                    )
-                    .addContent(
-                      newsImage(
-                        context.resources.getResourceName(R.drawable.news)
-                      )
-                    )
-                    .build()
-                )
-                .addContent(Spacer.Builder().setWidth(dp(12f)).build())
-                .addContent(
-                  LayoutElementBuilders.Box.Builder()
-                    .setWidth(weight(0.7f))
-                    .setHeight(expand())
-                    .setModifiers(
-                      LayoutModifier.padding(horizontal = 0f, vertical = 10f)
-                        .toProtoLayoutModifiers()
-                    )
-                    .addContent(newsText(headline, newsVendor))
-                    .build()
-                )
-                .build()
-            }
-          )
-        },
+        mainSlot = { newsCard(context, clickable, headline, newsVendor) },
         bottomSlot = {
           textEdgeButton(
             colors =
@@ -171,7 +173,6 @@ object News {
         }
       )
     }
-  }
 
   fun layout2(
     context: Context,
@@ -180,8 +181,8 @@ object News {
     headline: String,
     newsVendor: String,
     clickable: Clickable
-  ): LayoutElementBuilders.LayoutElement {
-    return materialScope(
+  ) =
+    materialScope(
       context = context,
       deviceConfiguration = deviceParameters,
       allowDynamicTheme = false,
@@ -218,7 +219,6 @@ object News {
         }
       )
     }
-  }
 
   internal fun LocalDate.formatLocalDateTime(today: LocalDate = LocalDate.now()): String {
     val yesterday = today.minusDays(1)

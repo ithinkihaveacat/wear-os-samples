@@ -1,10 +1,6 @@
 # Rules
 
 - Do not modify the file GoldenTilesColors.kt, and do not use any of the values defines there.
-- Do not offer to modify files in place. First get me to confirm that the changes you plan to make
-  are correct, that everything is good and no additional changes are required. Only then—as a second
-  step—offer to make the
-  changes.
 - Use functions from the androidx.wear.protolayout.material3 package where possible. It is very
   unlikely that you should be generating any code that uses the androidx.wear.protolayout.material
   library; please flag this if that appears to be required.
