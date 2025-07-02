@@ -20,11 +20,13 @@ import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders.dp
 import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.DimensionBuilders.weight
+import androidx.wear.protolayout.LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
 import androidx.wear.protolayout.LayoutElementBuilders.Spacer
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
 import androidx.wear.protolayout.material3.ButtonDefaults.filledButtonColors
 import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColors
 import androidx.wear.protolayout.material3.CardDefaults.filledVariantCardColors
+import androidx.wear.protolayout.material3.backgroundImage
 import androidx.wear.protolayout.material3.buttonGroup
 import androidx.wear.protolayout.material3.icon
 import androidx.wear.protolayout.material3.iconButton
@@ -56,6 +58,7 @@ object Calendar {
     eventTime: String,
     eventName: String,
     eventLocation: String,
+    eventImageId: String? = null,
     clickable: Clickable
   ) =
     materialScope(context, deviceParameters) {
@@ -125,6 +128,16 @@ object Calendar {
                       }
                     },
                     colors = filledVariantCardColors(),
+                    backgroundContent =
+                    eventImageId?.let { id ->
+                      {
+                        backgroundImage(
+                          protoLayoutResourceId = id,
+                          overlayColor = null,
+                          contentScaleMode = CONTENT_SCALE_MODE_CROP
+                        )
+                      }
+                    },
                     shape = shapes.extraLarge,
                     height = expand()
                   )
@@ -141,11 +154,18 @@ object Calendar {
       context.resources.getResourceName(R.drawable.outline_add_24),
       R.drawable.outline_add_24
     )
+    addIdToImageMapping(context.resources.getResourceName(R.drawable.news), R.drawable.news)
   }
 }
 
 @MultiRoundDevicesWithFontScalePreviews
-internal fun calendarPreview(context: Context) =
+internal fun calendar1Preview(context: Context) = calendarPreviewX(context)
+
+@MultiRoundDevicesWithFontScalePreviews
+internal fun calendar2Preview(context: Context) =
+  calendarPreviewX(context, context.resources.getResourceName(R.drawable.news))
+
+fun calendarPreviewX(context: Context, eventImageId: String? = null) =
   TilePreviewData(Calendar.resources(context)) {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
       Calendar.layout(
@@ -155,6 +175,7 @@ internal fun calendarPreview(context: Context) =
         eventTime = "6:30-7:30 PM",
         eventName = "Tennis Coaching with Christina Lloyd",
         eventLocation = "216 Market Street",
+        eventImageId = eventImageId,
         clickable = clickable()
       )
     )
