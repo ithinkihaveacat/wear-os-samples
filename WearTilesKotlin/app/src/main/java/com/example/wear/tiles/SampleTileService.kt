@@ -217,7 +217,7 @@ class SampleTileService : SuspendingTileService() {
         addIdToImageMapping(R.drawable.ic_cycling_24)
         mockContacts().forEach {
           if (it.avatarId != null && it.avatarResource != null) {
-            addIdToImageMapping(it.avatarId!!, it.avatarResource!!)
+            addIdToImageMapping(it.avatarId, it.avatarResource)
           }
         }
         addIdToImageMapping(R.drawable.ic_search_24)
