@@ -45,7 +45,7 @@ import com.example.wear.tiles.tools.resources
 
 private fun MaterialScope.playlistButton(
   deviceParameters: DeviceParameters,
-  playlist: Media.Playlist,
+  playlist: Media.Playlist
 ) =
   button(
     onClick = playlist.clickable ?: clickable(),
@@ -53,23 +53,23 @@ private fun MaterialScope.playlistButton(
     height = expand(),
     colors = filledTonalButtonColors(),
     style =
-      if (deviceParameters.isLargeScreen()) {
-        defaultButtonStyle()
-      } else {
-        smallButtonStyle()
-      },
+    if (deviceParameters.isLargeScreen()) {
+      defaultButtonStyle()
+    } else {
+      smallButtonStyle()
+    },
     horizontalAlignment = LayoutElementBuilders.TEXT_ALIGN_START,
     backgroundContent =
-      playlist.imageId?.let { id ->
-        {
-          backgroundImage(
-            protoLayoutResourceId = id,
-            overlayColor = null,
-            contentScaleMode = CONTENT_SCALE_MODE_CROP,
-          )
-        }
-      },
-    labelContent = { text(playlist.label.layoutString) },
+    playlist.imageId?.let { id ->
+      {
+        backgroundImage(
+          protoLayoutResourceId = id,
+          overlayColor = null,
+          contentScaleMode = CONTENT_SCALE_MODE_CROP
+        )
+      }
+    },
+    labelContent = { text(playlist.label.layoutString) }
   )
 
 object Media {
@@ -77,23 +77,23 @@ object Media {
   data class Playlist(
     val label: String,
     val imageId: String? = null,
-    val clickable: Clickable? = clickable(),
+    val clickable: Clickable? = clickable()
   )
 
   fun layout(
     context: Context,
     deviceParameters: DeviceParameters,
     playlist1: Playlist,
-    playlist2: Playlist,
+    playlist2: Playlist
   ) =
     materialScope(context, deviceParameters) {
       primaryLayout(
         titleSlot =
-          if (deviceParameters.isLargeScreen()) {
-            { text("Last played".layoutString) }
-          } else {
-            null
-          },
+        if (deviceParameters.isLargeScreen()) {
+          { text("Last played".layoutString) }
+        } else {
+          null
+        },
         bottomSlot = {
           textEdgeButton(onClick = clickable(), labelContent = { text("Browse".layoutString) })
         },
@@ -105,19 +105,11 @@ object Media {
             addContent(ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
             addContent(playlistButton(deviceParameters, playlist2))
           }
-        },
+        }
       )
     }
 
   fun resources(context: Context) = resources {
-    addIdToImageMapping(
-      context.resources.getResourceName(R.drawable.ic_music_queue_24),
-      R.drawable.ic_music_queue_24,
-    )
-    addIdToImageMapping(
-      context.resources.getResourceName(R.drawable.ic_podcasts_24),
-      R.drawable.ic_podcasts_24,
-    )
     addIdToImageMapping(context.resources.getResourceName(R.drawable.news), R.drawable.news)
   }
 }
@@ -126,20 +118,20 @@ object Media {
 internal fun mediaPreview(context: Context) =
   TilePreviewData(Media.resources(context)) {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
-        Media.layout(
-          context,
-          it.deviceConfiguration,
-          playlist1 =
-            Media.Playlist(
-              "Metal mix",
-              imageId = context.resources.getResourceName(R.drawable.news),
-            ),
-          playlist2 =
-            Media.Playlist(
-              "Chilled mix",
-              imageId = context.resources.getResourceName(R.drawable.news),
-            ),
+      Media.layout(
+        context,
+        it.deviceConfiguration,
+        playlist1 =
+        Media.Playlist(
+          "Metal mix",
+          imageId = context.resources.getResourceName(R.drawable.news)
+        ),
+        playlist2 =
+        Media.Playlist(
+          "Chilled mix",
+          imageId = context.resources.getResourceName(R.drawable.news)
         )
       )
+    )
       .build()
   }
