@@ -8,6 +8,14 @@
   resolve any that appear.
 - Use LayoutModifier.* functions instead of Modifiers.Builder().* functions. Use
   .toProtoLayoutModifiers() if you need to convert it to the "old" type.
+- Look through app/src/main/java/com/example/wear/tiles/tools/Extensions.kt for helper functions
+  that may be useful, and feel free to add any similar functions to make new code more readable.
+- Regarding colors, do not write code like ButtonDefaults.filledVariantButtonColors(
+  colorScheme.primary)! Just filledVariantButtonColors() or similar as imported from
+  androidx.wear.protolayout.material3.ButtonDefaults.filledVariantButtonColors is totally fine.
+- Prefer MaterialScope.* scope functions over Builder() style constructions.
+- LayoutModifier does not have a "weight()" function. To arrange for e.g. two elements to have
+  different widths, place them inside a box and use e.g. .setWidth(weight(0.7f)).
 
 # Useful Resources
 

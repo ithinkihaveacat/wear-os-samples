@@ -130,7 +130,7 @@ object News {
           .addContent(Spacer.Builder().setWidth(dp(12f)).build())
           .addContent(
             LayoutElementBuilders.Box.Builder()
-              .setWidth(weight(0.7f))
+              .setWidth(weight(0.6f))
               .setHeight(expand())
               .setModifiers(
                 LayoutModifier.padding(horizontal = 0f, vertical = 10f)

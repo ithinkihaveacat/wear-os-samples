@@ -1,31 +1,39 @@
-/*
- * Copyright 2022 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.example.wear.tiles.golden
 
 import android.content.Context
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
+import androidx.wear.protolayout.DimensionBuilders.dp
+import androidx.wear.protolayout.DimensionBuilders.expand
+import androidx.wear.protolayout.DimensionBuilders.weight
+import androidx.wear.protolayout.LayoutElementBuilders.Box
+import androidx.wear.protolayout.LayoutElementBuilders.Spacer
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
+import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColors
+import androidx.wear.protolayout.material3.CardDefaults.filledVariantCardColors
+import androidx.wear.protolayout.material3.buttonGroup
+import androidx.wear.protolayout.material3.icon
+import androidx.wear.protolayout.material3.iconButton
 import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
+import androidx.wear.protolayout.material3.textButton
+import androidx.wear.protolayout.material3.titleCard
+import androidx.wear.protolayout.modifiers.LayoutModifier
+import androidx.wear.protolayout.modifiers.clickable
+import androidx.wear.protolayout.modifiers.contentDescription
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
+import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
+import com.example.wear.tiles.tools.addIdToImageMapping
+import com.example.wear.tiles.tools.column
 import com.example.wear.tiles.tools.emptyClickable
+import com.example.wear.tiles.tools.isLargeScreen
+import com.example.wear.tiles.tools.resources
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 object Calendar {
 
@@ -35,24 +43,116 @@ object Calendar {
     eventTime: String,
     eventName: String,
     eventLocation: String,
-    clickable: Clickable
+    clickable: Clickable,
   ) =
     materialScope(context, deviceParameters) {
-      primaryLayout(mainSlot = { text("Hello".layoutString) }) // helpme: replace this primaryLayout() call with a layout of buttons on two rows. the first row should consist of a button for the date (taking up 60% of the width) and a second button that's the plus sign. the second row consists of a single button extending full width containing the event name (over potentially 2 lines) with the time underneath on a separate line. on large devices, include a third element of the address. these three buttons must use different colors (choose randomly). the "+" in the second button should be an image--see Timer.timer1Layout() for what resource to use. see other tiles in the directory for implementation help.
+      primaryLayout(
+        mainSlot = {
+          column {
+            setWidth(expand())
+            setHeight(expand())
+            addContent(
+              buttonGroup {
+                buttonGroupItem {
+                  Box.Builder()
+                    .setWidth(weight(0.6f))
+                    .setHeight(expand())
+                    .addContent(
+                      textButton(
+                        onClick = clickable,
+                        labelContent = {
+                          text(
+                            LocalDate.now()
+                              .format(
+                                DateTimeFormatter.ofPattern(
+                                  "d MMM"
+                                )
+                              )
+                              .uppercase(Locale.getDefault())
+                              .layoutString
+                          )
+                        },
+                        colors = filledTonalButtonColors(),
+                        width = expand(),
+                        height = expand()
+                      )
+                    )
+                    .build()
+                }
+                buttonGroupItem {
+                  Box.Builder()
+                    .setWidth(weight(0.4f))
+                    .setHeight(expand())
+                    .addContent(
+                      iconButton(
+                        onClick = clickable,
+                        iconContent = {
+                          icon(
+                            context.resources.getResourceName(
+                              R.drawable.outline_add_24
+                            )
+                          )
+                        },
+                        colors = filledTonalButtonColors(),
+                        modifier =
+                          LayoutModifier.contentDescription("Add Event"),
+                        width = expand(),
+                        height = expand()
+                      )
+                    )
+                    .build()
+                }
+              }
+            )
+            addContent(Spacer.Builder().setHeight(dp(4f)).build())
+            addContent(
+              titleCard(
+                onClick = clickable,
+                title = { text(eventName.layoutString, maxLines = 2) },
+                content = {
+                  column {
+                    addContent(text(eventTime.layoutString))
+                    if (deviceParameters.isLargeScreen()) {
+                      addContent(
+                        text(
+                          eventLocation.layoutString,
+                          maxLines = 1
+                        )
+                      )
+                    }
+                  }
+                },
+                colors = filledVariantCardColors(),
+                shape = shapes.large,
+                height = expand(),
+              )
+            )
+          }
+        }
+      )
     }
 }
 
 @MultiRoundDevicesWithFontScalePreviews
-internal fun calendarPreview(context: Context) = TilePreviewData {
-  TilePreviewHelper.singleTimelineEntryTileBuilder(
-    Calendar.layout(
-      context,
-      it.deviceConfiguration,
-      eventTime = "6:30-7:30 PM",
-      eventName = "Tennis Coaching with Christina Lloyd",
-      eventLocation = "216 Market Street",
-      clickable = emptyClickable
+internal fun calendarPreview(context: Context) =
+  TilePreviewData(
+    onTileResourceRequest =
+      resources {
+        addIdToImageMapping(
+          context.resources.getResourceName(R.drawable.outline_add_24),
+          R.drawable.outline_add_24
+        )
+      }
+  ) {
+    TilePreviewHelper.singleTimelineEntryTileBuilder(
+      Calendar.layout(
+        context,
+        it.deviceConfiguration,
+        eventTime = "6:30-7:30 PM",
+        eventName = "Tennis Coaching with Christina Lloyd",
+        eventLocation = "216 Market Street",
+        clickable = clickable(),
+      )
     )
-  )
-    .build()
-}
+      .build()
+  }

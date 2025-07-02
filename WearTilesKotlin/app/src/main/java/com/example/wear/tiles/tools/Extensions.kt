@@ -48,6 +48,10 @@ fun DeviceParameters.isLargeScreen() = screenWidthDp >= 225
 
 fun column(builder: Column.Builder.() -> Unit) = Column.Builder().apply(builder).build()
 
+fun row(builder: LayoutElementBuilders.Row.Builder.() -> Unit) =
+    LayoutElementBuilders.Row.Builder().apply(builder).build()
+
+
 // LayoutElementBuilders extensions
 
 fun image(builder: LayoutElementBuilders.Image.Builder.() -> Unit) =
