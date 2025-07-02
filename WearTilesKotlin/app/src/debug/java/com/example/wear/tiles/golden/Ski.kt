@@ -35,89 +35,69 @@ import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.isLargeScreen
 
-// https://www.figma.com/design/2OJqWvi4ebE7FY5uuBTUhm/GM3-BC25-Wear-Compose-Design-Kit-1.5?node-id=66728-39449&m=dev
-
 object Ski {
 
-    fun layout(
-        context: Context,
-        deviceParameters: DeviceParametersBuilders.DeviceParameters,
-        stat1: Stat,
-        stat2: Stat,
-    ) =
-        materialScope(context, deviceParameters) {
-            primaryLayout(
-                titleSlot = { text("Latest run".layoutString) },
-                mainSlot = {
-                    buttonGroup {
-                        buttonGroupItem { statColumn(stat1) }
-                        buttonGroupItem { statColumn(stat2) }
-                    }
-                },
-            )
+  fun layout(
+    context: Context,
+    deviceParameters: DeviceParametersBuilders.DeviceParameters,
+    stat1: Stat,
+    stat2: Stat
+  ) =
+    materialScope(context, deviceParameters) {
+      primaryLayout(
+        titleSlot = { text("Latest run".layoutString) },
+        mainSlot = {
+          buttonGroup {
+            buttonGroupItem { statTextButton(stat1) }
+            buttonGroupItem { statTextButton(stat2) }
+          }
         }
+      )
+    }
 
-    private fun MaterialScope.statColumn(stat: Stat) =
-        textButton(
-            onClick = clickable(),
-            width = expand(),
-            height = expand(),
-            colors =
-                filledVariantButtonColors()
-                    .copy(
-                        containerColor = colorScheme.onSecondary,
-                        labelColor = colorScheme.secondary,
-                    ),
-            labelContent = {
-                if (deviceConfiguration.isLargeScreen()) {
-                    LayoutElementBuilders.Column.Builder()
-                        .addContent(
-                            text(stat.label.layoutString, typography = Typography.TITLE_MEDIUM)
-                        )
-                        .addContent(
-                            LayoutElementBuilders.Spacer.Builder().setHeight(dp(6f)).build()
-                        )
-                        .addContent(
-                            text(stat.value.layoutString, typography = Typography.NUMERAL_SMALL)
-                        )
-                        .addContent(
-                            text(stat.unit.layoutString, typography = Typography.TITLE_MEDIUM)
-                        )
-                        .build()
-                } else {
-                    LayoutElementBuilders.Column.Builder()
-                        .addContent(
-                            text(stat.label.layoutString, typography = Typography.TITLE_SMALL)
-                        )
-                        .addContent(
-                            LayoutElementBuilders.Spacer.Builder().setHeight(dp(6f)).build()
-                        )
-                        .addContent(
-                            text(
-                                stat.value.layoutString,
-                                typography = Typography.NUMERAL_EXTRA_SMALL,
-                            )
-                        )
-                        .addContent(
-                            text(stat.unit.layoutString, typography = Typography.TITLE_SMALL)
-                        )
-                        .build()
-                }
-            },
-        )
+  private fun MaterialScope.statColumn(
+    stat: Stat,
+    isLargeScreen: Boolean
+  ): LayoutElementBuilders.Column {
+    val labelTypography = if (isLargeScreen) Typography.TITLE_MEDIUM else Typography.TITLE_SMALL
+    val valueTypography =
+      if (isLargeScreen) Typography.NUMERAL_SMALL else Typography.NUMERAL_EXTRA_SMALL
+    val unitTypography = if (isLargeScreen) Typography.TITLE_MEDIUM else Typography.TITLE_SMALL
 
-    data class Stat(val label: String, val value: String, val unit: String)
+    return LayoutElementBuilders.Column.Builder()
+      .addContent(text(stat.label.layoutString, typography = labelTypography))
+      .addContent(LayoutElementBuilders.Spacer.Builder().setHeight(dp(6f)).build())
+      .addContent(text(stat.value.layoutString, typography = valueTypography))
+      .addContent(text(stat.unit.layoutString, typography = unitTypography))
+      .build()
+  }
+
+  private fun MaterialScope.statTextButton(stat: Stat) =
+    textButton(
+      onClick = clickable(),
+      width = expand(),
+      height = expand(),
+      colors =
+      filledVariantButtonColors()
+        .copy(
+          containerColor = colorScheme.onSecondary,
+          labelColor = colorScheme.secondary
+        ),
+      labelContent = { statColumn(stat, deviceConfiguration.isLargeScreen()) }
+    )
+
+  data class Stat(val label: String, val value: String, val unit: String)
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun skiPreview(context: Context) = TilePreviewData {
-    TilePreviewHelper.singleTimelineEntryTileBuilder(
-            Ski.layout(
-                context,
-                it.deviceConfiguration,
-                stat1 = Ski.Stat("Max Spd", "46.5", "mph"),
-                stat2 = Ski.Stat("Distance", "21.8", "mile"),
-            )
-        )
-        .build()
+  TilePreviewHelper.singleTimelineEntryTileBuilder(
+    Ski.layout(
+      context,
+      it.deviceConfiguration,
+      stat1 = Ski.Stat("Max Spd", "46.5", "mph"),
+      stat2 = Ski.Stat("Distance", "21.8", "mile")
+    )
+  )
+    .build()
 }

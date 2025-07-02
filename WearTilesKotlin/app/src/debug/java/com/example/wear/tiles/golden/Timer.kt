@@ -45,74 +45,74 @@ import com.example.wear.tiles.tools.resources
 
 object Timer {
 
-    fun timer1Layout(context: Context, deviceParameters: DeviceParameters) =
-        materialScope(context, deviceParameters) {
-            primaryLayout(
-                titleSlot = { text("Minutes".layoutString) },
-                mainSlot = {
-                    if (deviceParameters.isLargeScreen()) {
-                        column {
-                            setWidth(expand())
-                            setHeight(expand())
-                            addContent(
-                                buttonGroup {
-                                    buttonGroupItem { timerTextButton1("5") }
-                                    buttonGroupItem { timerTextButton1("10") }
-                                }
-                            )
-                            addContent(ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
-                            addContent(
-                                buttonGroup {
-                                    buttonGroupItem { timerTextButton1("15") }
-                                    buttonGroupItem { timerTextButton1("20") }
-                                    buttonGroupItem { timerTextButton1("30") }
-                                }
-                            )
-                        }
-                    } else {
-                        buttonGroup {
-                            buttonGroupItem { timerTextButton1("5") }
-                            buttonGroupItem { timerTextButton1("10") }
-                            buttonGroupItem { timerTextButton1("15") }
-                        }
-                    }
-                },
-                bottomSlot = {
-                    iconEdgeButton(
-                        onClick = clickable(),
-                        colors = filledButtonColors(),
-                        modifier = LayoutModifier.contentDescription("Plus"),
-                        iconContent = {
-                            icon(context.resources.getResourceName(R.drawable.outline_add_2_24))
-                        },
-                    )
-                },
-            )
-        }
-
-    private fun MaterialScope.timerTextButton1(text: String) =
-        textButton(
-            width = expand(),
-            height = expand(),
+  fun timer1Layout(context: Context, deviceParameters: DeviceParameters) =
+    materialScope(context, deviceParameters) {
+      primaryLayout(
+        titleSlot = { text("Minutes".layoutString) },
+        mainSlot = {
+          if (deviceParameters.isLargeScreen()) {
+            column {
+              setWidth(expand())
+              setHeight(expand())
+              addContent(
+                buttonGroup {
+                  buttonGroupItem { timerTextButton1("5") }
+                  buttonGroupItem { timerTextButton1("10") }
+                }
+              )
+              addContent(ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
+              addContent(
+                buttonGroup {
+                  buttonGroupItem { timerTextButton1("15") }
+                  buttonGroupItem { timerTextButton1("20") }
+                  buttonGroupItem { timerTextButton1("30") }
+                }
+              )
+            }
+          } else {
+            buttonGroup {
+              buttonGroupItem { timerTextButton1("5") }
+              buttonGroupItem { timerTextButton1("10") }
+              buttonGroupItem { timerTextButton1("15") }
+            }
+          }
+        },
+        bottomSlot = {
+          iconEdgeButton(
             onClick = clickable(),
-            shape = shapes.large,
-            colors = filledVariantButtonColors(),
-            labelContent = { text(text.layoutString, typography = NUMERAL_SMALL) },
-        )
+            colors = filledButtonColors(),
+            modifier = LayoutModifier.contentDescription("Plus"),
+            iconContent = {
+              icon(context.resources.getResourceName(R.drawable.outline_add_2_24))
+            }
+          )
+        }
+      )
+    }
+
+  private fun MaterialScope.timerTextButton1(text: String) =
+    textButton(
+      width = expand(),
+      height = expand(),
+      onClick = clickable(),
+      shape = shapes.large,
+      colors = filledVariantButtonColors(),
+      labelContent = { text(text.layoutString, typography = NUMERAL_SMALL) }
+    )
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 fun timerLayoutPreview(context: Context) =
-    TilePreviewData(
-        resources {
-            addIdToImageMapping(
-                context.resources.getResourceName(R.drawable.outline_add_2_24),
-                R.drawable.outline_add_2_24,
-            )
-        }
-    ) {
-        TilePreviewHelper.singleTimelineEntryTileBuilder(
-                Timer.timer1Layout(context, it.deviceConfiguration)
-            )
-            .build()
+  TilePreviewData(
+    resources {
+      addIdToImageMapping(
+        context.resources.getResourceName(R.drawable.outline_add_2_24),
+        R.drawable.outline_add_2_24
+      )
     }
+  ) {
+    TilePreviewHelper.singleTimelineEntryTileBuilder(
+      Timer.timer1Layout(context, it.deviceConfiguration)
+    )
+      .build()
+  }
