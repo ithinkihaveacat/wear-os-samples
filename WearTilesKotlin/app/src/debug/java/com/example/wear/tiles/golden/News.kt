@@ -101,11 +101,11 @@ object News {
       .build()
   }
 
-  fun MaterialScope.newsCard(
-    context: Context,
+  fun MaterialScope.newsCard1(
     clickable: Clickable,
     headline: String,
-    newsVendor: String
+    newsVendor: String,
+    imageResourceId: String
   ) =
     card(
       onClick = clickable,
@@ -123,7 +123,7 @@ object News {
               .setHeight(expand())
               .setModifiers(LayoutModifier.padding(2f).toProtoLayoutModifiers())
               .addContent(
-                newsImage(context.resources.getResourceName(R.drawable.news))
+                newsImage(imageResourceId)
               )
               .build()
           )
@@ -149,17 +149,16 @@ object News {
     date: String,
     headline: String,
     newsVendor: String,
-    clickable: Clickable
+    clickable: Clickable,
+    imageResourceId: String
   ) =
     materialScope(
       context = context,
-      deviceConfiguration = deviceParameters,
-      allowDynamicTheme = false,
-      defaultColorScheme = GoldenTilesColorScheme
+      deviceConfiguration = deviceParameters
     ) {
       primaryLayout(
         titleSlot = { text(date.layoutString) },
-        mainSlot = { newsCard(context, clickable, headline, newsVendor) },
+        mainSlot = { newsCard1(clickable, headline, newsVendor, imageResourceId) },
         bottomSlot = {
           textEdgeButton(
             colors =
@@ -174,38 +173,41 @@ object News {
       )
     }
 
+  fun MaterialScope.newsCard2(
+    clickable: Clickable,
+    headline: String,
+    imageResourceId: String
+  ) =
+    card(
+      onClick = clickable,
+      width = expand(),
+      height = expand(),
+      backgroundContent = {
+        backgroundImage(
+          protoLayoutResourceId = imageResourceId,
+          overlayColor = null,
+          contentScaleMode = CONTENT_SCALE_MODE_CROP
+        )
+      },
+      content = { text(text = headline.layoutString, maxLines = 3) }
+    )
+
   fun layout2(
     context: Context,
     deviceParameters: DeviceParameters,
     date: String,
     headline: String,
     newsVendor: String,
-    clickable: Clickable
+    clickable: Clickable,
+    imageResourceId: String
   ) =
     materialScope(
       context = context,
-      deviceConfiguration = deviceParameters,
-      allowDynamicTheme = false,
-      defaultColorScheme = GoldenTilesColorScheme
+      deviceConfiguration = deviceParameters
     ) {
       primaryLayout(
         titleSlot = { text(date.layoutString) },
-        mainSlot = {
-          card(
-            onClick = clickable,
-            width = expand(),
-            height = expand(),
-            backgroundContent = {
-              backgroundImage(
-                protoLayoutResourceId =
-                context.resources.getResourceName(R.drawable.news),
-                overlayColor = null,
-                contentScaleMode = CONTENT_SCALE_MODE_CROP
-              )
-            },
-            content = { text(text = headline.layoutString, maxLines = 3) }
-          )
-        },
+        mainSlot = { newsCard2(clickable, headline, imageResourceId) },
         bottomSlot = {
           textEdgeButton(
             colors =
@@ -232,10 +234,11 @@ object News {
 }
 
 @MultiRoundDevicesWithFontScalePreviews
-internal fun news1Preview(context: Context) =
-  TilePreviewData(
+internal fun news1Preview(context: Context): TilePreviewData {
+  val imageResourceId = context.resources.getResourceName(R.drawable.news)
+  return TilePreviewData(
     resources {
-      addIdToImageMapping(context.resources.getResourceName(R.drawable.news), R.drawable.news)
+      addIdToImageMapping(imageResourceId, R.drawable.news)
     }
   ) {
     val now = LocalDateTime.of(2024, 8, 1, 0, 0).toInstant(ZoneOffset.UTC)
@@ -248,17 +251,20 @@ internal fun news1Preview(context: Context) =
         headline = "Millions still without power as new storm moves across US",
         newsVendor = "The New York Times",
         date = "Today, 31 July",
-        clickable = clickable()
+        clickable = clickable(),
+        imageResourceId = imageResourceId
       )
     )
       .build()
   }
+}
 
 @MultiRoundDevicesWithFontScalePreviews
-internal fun news2Preview(context: Context) =
-  TilePreviewData(
+internal fun news2Preview(context: Context): TilePreviewData {
+  val imageResourceId = context.resources.getResourceName(R.drawable.news)
+  return TilePreviewData(
     resources {
-      addIdToImageMapping(context.resources.getResourceName(R.drawable.news), R.drawable.news)
+      addIdToImageMapping(imageResourceId, R.drawable.news)
     }
   ) {
     val now = LocalDateTime.of(2024, 8, 1, 0, 0).toInstant(ZoneOffset.UTC)
@@ -271,8 +277,10 @@ internal fun news2Preview(context: Context) =
         headline = "Millions still without power as new storm moves across US",
         newsVendor = "The New York Times",
         date = "Today, 31 July",
-        clickable = clickable()
+        clickable = clickable(),
+        imageResourceId = imageResourceId
       )
     )
       .build()
   }
+}

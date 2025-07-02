@@ -178,7 +178,8 @@ class SampleTileService : SuspendingTileService() {
             headline = "Millions still without power as new storm moves across the US",
             newsVendor = "The New York Times",
             clickable = emptyClickable,
-            date = "Today, 31 July"
+            date = "Today, 31 July",
+            imageResourceId = resources.getResourceName(R.drawable.news)
           )
         2 ->
           Social.layout(
