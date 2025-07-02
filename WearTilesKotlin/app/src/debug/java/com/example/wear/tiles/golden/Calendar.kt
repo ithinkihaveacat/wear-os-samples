@@ -8,6 +8,7 @@ import androidx.wear.protolayout.DimensionBuilders.weight
 import androidx.wear.protolayout.LayoutElementBuilders.Box
 import androidx.wear.protolayout.LayoutElementBuilders.Spacer
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
+import androidx.wear.protolayout.material3.ButtonDefaults.filledButtonColors
 import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColors
 import androidx.wear.protolayout.material3.CardDefaults.filledVariantCardColors
 import androidx.wear.protolayout.material3.buttonGroup
@@ -52,80 +53,92 @@ object Calendar {
             setWidth(expand())
             setHeight(expand())
             addContent(
-              buttonGroup {
-                buttonGroupItem {
-                  Box.Builder()
-                    .setWidth(weight(0.6f))
-                    .setHeight(expand())
-                    .addContent(
-                      textButton(
-                        onClick = clickable,
-                        labelContent = {
-                          text(
-                            LocalDate.now()
-                              .format(
-                                DateTimeFormatter.ofPattern(
-                                  "d MMM"
+              Box.Builder()
+                .setWidth(expand())
+                .setHeight(weight(0.3f))
+                .addContent(
+                  buttonGroup {
+                    buttonGroupItem {
+                      Box.Builder()
+                        .setWidth(weight(0.6f))
+                        .setHeight(expand())
+                        .addContent(
+                          textButton(
+                            onClick = clickable,
+                            labelContent = {
+                              text(
+                                LocalDate.now()
+                                  .format(
+                                    DateTimeFormatter.ofPattern(
+                                      "d MMM"
+                                    )
+                                  )
+                                  .uppercase(Locale.getDefault())
+                                  .layoutString
+                              )
+                            },
+                            colors = filledTonalButtonColors(),
+                            width = expand(),
+                            height = expand()
+                          )
+                        )
+                        .build()
+                    }
+                    buttonGroupItem {
+                      Box.Builder()
+                        .setWidth(weight(0.4f))
+                        .setHeight(expand())
+                        .addContent(
+                          iconButton(
+                            onClick = clickable,
+                            iconContent = {
+                              icon(
+                                context.resources.getResourceName(
+                                  R.drawable.outline_add_24
                                 )
                               )
-                              .uppercase(Locale.getDefault())
-                              .layoutString
+                            },
+                            colors = filledButtonColors(),
+                            modifier =
+                            LayoutModifier.contentDescription("Add Event"),
+                            width = expand(),
+                            height = expand()
                           )
-                        },
-                        colors = filledTonalButtonColors(),
-                        width = expand(),
-                        height = expand()
-                      )
-                    )
-                    .build()
-                }
-                buttonGroupItem {
-                  Box.Builder()
-                    .setWidth(weight(0.4f))
-                    .setHeight(expand())
-                    .addContent(
-                      iconButton(
-                        onClick = clickable,
-                        iconContent = {
-                          icon(
-                            context.resources.getResourceName(
-                              R.drawable.outline_add_24
-                            )
-                          )
-                        },
-                        colors = filledTonalButtonColors(),
-                        modifier =
-                          LayoutModifier.contentDescription("Add Event"),
-                        width = expand(),
-                        height = expand()
-                      )
-                    )
-                    .build()
-                }
-              }
+                        )
+                        .build()
+                    }
+                  }
+                )
+                .build()
             )
             addContent(Spacer.Builder().setHeight(dp(4f)).build())
             addContent(
-              titleCard(
-                onClick = clickable,
-                title = { text(eventName.layoutString, maxLines = 2) },
-                content = {
-                  column {
-                    addContent(text(eventTime.layoutString))
-                    if (deviceParameters.isLargeScreen()) {
-                      addContent(
-                        text(
-                          eventLocation.layoutString,
-                          maxLines = 1
-                        )
-                      )
-                    }
-                  }
-                },
-                colors = filledVariantCardColors(),
-                shape = shapes.large,
-                height = expand(),
-              )
+              Box.Builder()
+                .setWidth(expand())
+                .setHeight(weight(0.6f))
+                .addContent(
+                  titleCard(
+                    onClick = clickable,
+                    title = { text(eventName.layoutString, maxLines = 2) },
+                    content = {
+                      column {
+                        addContent(text(eventTime.layoutString))
+                        if (deviceParameters.isLargeScreen()) {
+                          addContent(
+                            text(
+                              eventLocation.layoutString,
+                              maxLines = 1
+                            )
+                          )
+                        }
+                      }
+                    },
+                    colors = filledVariantCardColors(),
+                    shape = shapes.extraLarge,
+                    height = expand(),
+                  )
+                )
+                .build()
             )
           }
         }
