@@ -222,62 +222,6 @@ object Meditation {
       )
     }
 
-  fun timerLayout(context: Context, deviceParameters: DeviceParameters) =
-    materialScope(context, deviceParameters) {
-      primaryLayout(
-        titleSlot = { text("Minutes".layoutString) },
-        mainSlot = {
-          if (deviceParameters.isLargeScreen()) {
-            column {
-              setWidth(expand())
-              setHeight(expand())
-              addContent(
-                buttonGroup {
-                  buttonGroupItem { timerTextButton("5") }
-                  buttonGroupItem { timerTextButton("10") }
-                }
-              )
-              addContent(ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
-              addContent(
-                buttonGroup {
-                  buttonGroupItem { timerTextButton("15") }
-                  buttonGroupItem { timerTextButton("20") }
-                  buttonGroupItem { timerTextButton("30") }
-                }
-              )
-            }
-          } else {
-            buttonGroup {
-              buttonGroupItem { timerTextButton("5") }
-              buttonGroupItem { timerTextButton("10") }
-              buttonGroupItem { timerTextButton("15") }
-            }
-          }
-        },
-        bottomSlot = {
-          iconEdgeButton(
-            onClick = clickable(),
-            colors = filledButtonColors(),
-            modifier = LayoutModifier.contentDescription("Plus"),
-            iconContent = {
-              icon(context.resources.getResourceName(R.drawable.outline_add_2_24))
-            }
-          )
-        }
-      )
-    }
-
-  private fun MaterialScope.timerTextButton(text: String) = textButton(
-    width = expand(),
-    height = expand(),
-    onClick = clickable(),
-    shape = shapes.large,
-    colors = filledVariantButtonColors(),
-    labelContent = {
-      text(text.layoutString, typography = NUMERAL_SMALL)
-    }
-  )
-
   fun tasks(context: Context, deviceParameters: DeviceParameters): LayoutElement {
     return materialScope(
       context = context,
@@ -498,22 +442,6 @@ fun mindfulnessLayoutPreview(context: Context) =
   ) {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
       Meditation.mindfulnessLayout(context, it.deviceConfiguration)
-    )
-      .build()
-  }
-
-@MultiRoundDevicesWithFontScalePreviews
-fun timerLayoutPreview(context: Context) =
-  TilePreviewData(
-    resources {
-      addIdToImageMapping(
-        context.resources.getResourceName(R.drawable.outline_add_2_24),
-        R.drawable.outline_add_2_24
-      )
-    }
-  ) {
-    TilePreviewHelper.singleTimelineEntryTileBuilder(
-      Meditation.timerLayout(context, it.deviceConfiguration)
     )
       .build()
   }

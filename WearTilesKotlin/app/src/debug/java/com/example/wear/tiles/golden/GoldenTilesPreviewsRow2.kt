@@ -73,6 +73,6 @@ private fun meditationChips(context: Context) =
 @MultiRoundDevicesPreviews
 private fun meditationButtons(context: Context) = meditationButtonsPreview(context)
 
-@MultiRoundDevicesPreviews private fun timer(context: Context) = timerPreview(context)
+//@MultiRoundDevicesPreviews private fun timer(context: Context) = timerPreview(context)
 
 @MultiRoundDevicesPreviews private fun alarm(context: Context) = alarmPreview(context)
