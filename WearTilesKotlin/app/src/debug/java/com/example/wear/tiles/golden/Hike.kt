@@ -22,8 +22,13 @@ import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.DimensionBuilders.weight
 import androidx.wear.protolayout.LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
 import androidx.wear.protolayout.LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER
+import androidx.wear.protolayout.LayoutElementBuilders.Image
 import androidx.wear.protolayout.LayoutElementBuilders.Spacer
+import androidx.wear.protolayout.LayoutElementBuilders.TEXT_ALIGN_CENTER
+import androidx.wear.protolayout.LayoutElementBuilders.TEXT_ALIGN_END
+import androidx.wear.protolayout.ModifiersBuilders.Background
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
+import androidx.wear.protolayout.ModifiersBuilders.Modifiers
 import androidx.wear.protolayout.material3.ButtonDefaults.filledButtonColors
 import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColors
 import androidx.wear.protolayout.material3.ButtonDefaults.filledVariantButtonColors
@@ -66,8 +71,9 @@ object Hike {
   ) =
     materialScope(context, deviceParameters) {
       primaryLayout(
+        titleSlot = { text("Hike".layoutString) },
         bottomSlot = {
-          textEdgeButton(onClick = clickable(), colors = filledVariantButtonColors(), labelContent = { text("Start".layoutString) })
+          textEdgeButton(onClick = clickable(), colors = filledButtonColors(), labelContent = { text("Start".layoutString) })
         },
         mainSlot = {
           column {
@@ -94,9 +100,9 @@ object Hike {
                               column {
                                 setHorizontalAlignment(HORIZONTAL_ALIGN_CENTER)
                                 addContent(
-                                  text(distance.layoutString, typography = NUMERAL_SMALL)
+                                  text(distance.layoutString, typography = NUMERAL_SMALL, alignment = TEXT_ALIGN_CENTER)
                                 )
-                                addContent(text(unit.layoutString, typography = BODY_SMALL))
+                                addContent(text(unit.layoutString, typography = BODY_SMALL, alignment = TEXT_ALIGN_CENTER))
                               }
                             }
                           )
@@ -108,16 +114,18 @@ object Hike {
                         setWidth(weight(0.6f))
                         setHeight(expand())
                         addContent(
-                          iconButton(
-                            onClick = clickable,
-                            iconContent = {
-                              icon(context.resources.getResourceName(R.drawable.outline_add_24))
-                            },
-                            colors = filledButtonColors(),
-                            modifier = LayoutModifier.contentDescription("Add Event"),
-                            width = expand(),
-                            height = expand()
-                          )
+                          Image.Builder()
+                            .setResourceId(context.resources.getResourceName(R.drawable.news))
+                            .setContentScaleMode(CONTENT_SCALE_MODE_CROP)
+                            .setWidth(expand())
+                            .setHeight(expand())
+                            .setModifiers(
+                              Modifiers.Builder()
+                                .setBackground(Background.Builder().setCorner(shapes.large).build())
+                                .setClickable(clickable)
+                                .build()
+                            )
+                            .build()
                         )
                       }
                     }
