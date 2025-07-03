@@ -188,7 +188,7 @@ class SampleTileService : SuspendingTileService() {
             contacts = mockContacts()
           )
         3 -> Layout.hello(this, requestParams.deviceConfiguration)
-        4 -> Workout.layout(this, requestParams.deviceConfiguration)
+        4 -> Workout.layout1(this, requestParams.deviceConfiguration)
         5 -> Goal.layout(this, requestParams.deviceConfiguration, 8324, 10000)
         else -> Layout.simple(this, requestParams.deviceConfiguration)
       }

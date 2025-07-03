@@ -17,38 +17,26 @@ package com.example.wear.tiles.golden
 
 import android.content.Context
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
-import androidx.wear.protolayout.DimensionBuilders.dp
 import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.DimensionBuilders.weight
 import androidx.wear.protolayout.LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
 import androidx.wear.protolayout.LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER
 import androidx.wear.protolayout.LayoutElementBuilders.Image
-import androidx.wear.protolayout.LayoutElementBuilders.Spacer
 import androidx.wear.protolayout.LayoutElementBuilders.TEXT_ALIGN_CENTER
-import androidx.wear.protolayout.LayoutElementBuilders.TEXT_ALIGN_END
 import androidx.wear.protolayout.ModifiersBuilders.Background
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
 import androidx.wear.protolayout.ModifiersBuilders.Modifiers
 import androidx.wear.protolayout.material3.ButtonDefaults.filledButtonColors
-import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColors
 import androidx.wear.protolayout.material3.ButtonDefaults.filledVariantButtonColors
-import androidx.wear.protolayout.material3.CardDefaults.filledVariantCardColors
 import androidx.wear.protolayout.material3.Typography.BODY_SMALL
 import androidx.wear.protolayout.material3.Typography.NUMERAL_SMALL
-import androidx.wear.protolayout.material3.backgroundImage
-import androidx.wear.protolayout.material3.button
 import androidx.wear.protolayout.material3.buttonGroup
-import androidx.wear.protolayout.material3.icon
-import androidx.wear.protolayout.material3.iconButton
 import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textButton
 import androidx.wear.protolayout.material3.textEdgeButton
-import androidx.wear.protolayout.material3.titleCard
-import androidx.wear.protolayout.modifiers.LayoutModifier
 import androidx.wear.protolayout.modifiers.clickable
-import androidx.wear.protolayout.modifiers.contentDescription
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
@@ -57,7 +45,6 @@ import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.addIdToImageMapping
 import com.example.wear.tiles.tools.box
 import com.example.wear.tiles.tools.column
-import com.example.wear.tiles.tools.isLargeScreen
 import com.example.wear.tiles.tools.resources
 
 object Hike {
@@ -73,7 +60,9 @@ object Hike {
       primaryLayout(
         titleSlot = { text("Hike".layoutString) },
         bottomSlot = {
-          textEdgeButton(onClick = clickable(), colors = filledButtonColors(), labelContent = { text("Start".layoutString) })
+          textEdgeButton(onClick = clickable(), colors = filledButtonColors(), labelContent = {
+            text("Start".layoutString)
+          })
         },
         mainSlot = {
           column {
@@ -100,9 +89,19 @@ object Hike {
                               column {
                                 setHorizontalAlignment(HORIZONTAL_ALIGN_CENTER)
                                 addContent(
-                                  text(distance.layoutString, typography = NUMERAL_SMALL, alignment = TEXT_ALIGN_CENTER)
+                                  text(
+                                    distance.layoutString,
+                                    typography = NUMERAL_SMALL,
+                                    alignment = TEXT_ALIGN_CENTER
+                                  )
                                 )
-                                addContent(text(unit.layoutString, typography = BODY_SMALL, alignment = TEXT_ALIGN_CENTER))
+                                addContent(
+                                  text(
+                                    unit.layoutString,
+                                    typography = BODY_SMALL,
+                                    alignment = TEXT_ALIGN_CENTER
+                                  )
+                                )
                               }
                             }
                           )
