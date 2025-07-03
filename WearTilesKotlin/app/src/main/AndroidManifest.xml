@@ -223,16 +223,6 @@
             </intent-filter>
         </service>
         <service
-            android:name=".golden.RunTileService"
-            android:label="@string/tile_label_run"
-            android:description="@string/tile_label_run"
-            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
-            </intent-filter>
-        </service>
-        <service
             android:name=".golden.SkiTileService"
             android:label="@string/tile_label_ski"
             android:description="@string/tile_label_ski"

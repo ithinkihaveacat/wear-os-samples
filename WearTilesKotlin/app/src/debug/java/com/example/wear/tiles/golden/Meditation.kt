@@ -44,6 +44,7 @@ import androidx.wear.protolayout.ModifiersBuilders.Clickable
 import androidx.wear.protolayout.material.Typography
 import androidx.wear.protolayout.material3.ButtonDefaults.filledButtonColors
 import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColors
+import androidx.wear.protolayout.material3.ButtonDefaults.filledVariantButtonColors
 import androidx.wear.protolayout.material3.ButtonGroupDefaults
 import androidx.wear.protolayout.material3.ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS
 import androidx.wear.protolayout.material3.ButtonStyle.Companion.defaultButtonStyle
@@ -97,11 +98,12 @@ fun MaterialScope.timerButton2(firstLine: String?, secondLine: String? = null) =
     height = expand(),
     style = smallTextButtonStyle(),
     colors =
-    filledButtonColors()
-      .copy(
-        containerColor = LayoutColor(PaletteTokens.PRIMARY30),
-        labelColor = LayoutColor(PaletteTokens.PRIMARY95)
-      ),
+      filledVariantButtonColors(),
+//    filledButtonColors()
+//      .copy(
+//        containerColor = LayoutColor(PaletteTokens.PRIMARY30),
+//        labelColor = LayoutColor(PaletteTokens.PRIMARY95)
+//      ),
     labelContent = {
       Column.Builder()
         .apply {
@@ -120,6 +122,7 @@ fun MaterialScope.timerButton2(firstLine: String?, secondLine: String? = null) =
     }
   )
 
+// Move somewhere, and modify all materialScope calls to provide as default.
 val myColorScheme =
   ColorScheme(
     primary = LayoutColor(PaletteTokens.PRIMARY30), // bg of buttons
@@ -137,7 +140,7 @@ object Meditation {
     deviceParameters: DeviceParameters,
     tasksLeft: Int
   ) =
-    materialScope(context, deviceParameters) {
+    materialScope(context, deviceParameters, defaultColorScheme = myColorScheme) {
       primaryLayout(
         titleSlot =
         if (isLargeScreen()) {
