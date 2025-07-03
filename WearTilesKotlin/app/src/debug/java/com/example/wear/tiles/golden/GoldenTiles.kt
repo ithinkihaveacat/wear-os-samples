@@ -51,7 +51,7 @@ import com.example.wear.tiles.tools.MultiRoundDevicesPreviews
 
 @MultiRoundDevicesPreviews private fun media(context: Context) = mediaPreview(context)
 
-@MultiRoundDevicesPreviews private fun heartRate(context: Context) = heartRateSimplePreview(context)
+@MultiRoundDevicesPreviews private fun heartRate(context: Context) = heartRatePreview(context)
 
 // https://www.figma.com/design/2OJqWvi4ebE7FY5uuBTUhm/GM3-BC25-Wear-Compose-Design-Kit-1.5?node-id=66728-41278&m=dev
 // @MultiRoundDevicesPreviews private fun hike(context: Context) = hikePreview(context)

@@ -16,23 +16,16 @@
 package com.example.wear.tiles.golden
 
 import android.content.Context
-import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
-import androidx.wear.protolayout.LayoutElementBuilders.Column
-import androidx.wear.protolayout.ModifiersBuilders.Clickable
-import androidx.wear.protolayout.material.ChipColors
-import androidx.wear.protolayout.material.CompactChip
-import androidx.wear.protolayout.material.Text
-import androidx.wear.protolayout.material.Typography
-import androidx.wear.protolayout.material.layouts.MultiSlotLayout
-import androidx.wear.protolayout.material.layouts.PrimaryLayout
+import androidx.wear.protolayout.material3.PrimaryLayoutMargins.Companion.MIN_PRIMARY_LAYOUT_MARGIN
+import androidx.wear.protolayout.material3.TitleCardStyle
 import androidx.wear.protolayout.material3.backgroundImage
-import androidx.wear.protolayout.material3.card
 import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
+import androidx.wear.protolayout.material3.titleCard
 import androidx.wear.protolayout.modifiers.clickable
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.tooling.preview.TilePreviewData
@@ -40,7 +33,7 @@ import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.addIdToImageMapping
-import com.example.wear.tiles.tools.emptyClickable
+import com.example.wear.tiles.tools.noOpElement
 import com.example.wear.tiles.tools.resources
 
 object HeartRate {
@@ -48,103 +41,28 @@ object HeartRate {
   fun layout(context: Context, deviceParameters: DeviceParameters, imageResourceId: String) =
     materialScope(context, deviceParameters) {
       primaryLayout(
+        margins = MIN_PRIMARY_LAYOUT_MARGIN,
         titleSlot = { text("Heart rate".layoutString) },
         mainSlot = {
-          card( // helpme: how to change the shape (corner radius?)
+          titleCard(
             onClick = clickable(),
-            width = expand(),
             height = expand(),
             backgroundContent = {
               backgroundImage(
                 protoLayoutResourceId = imageResourceId,
                 overlayColor = null,
-                contentScaleMode = CONTENT_SCALE_MODE_CROP,
+                contentScaleMode = CONTENT_SCALE_MODE_CROP
               )
             },
+            title = { noOpElement() },
             content = { noOpElement() },
+            shape = shapes.full,
+            style = TitleCardStyle.smallTitleCardStyle()
           )
         },
-        bottomSlot = { text("72 bpm".layoutString) },
+        bottomSlot = { text("72 bpm".layoutString) }
       )
     }
-
-  fun simpleLayout(
-    context: Context,
-    deviceParameters: DeviceParameters,
-    highestHeartRateBpm: Int,
-    lowestHeartRateBpm: Int,
-    clickable: Clickable,
-  ) =
-    PrimaryLayout.Builder(deviceParameters)
-      .setResponsiveContentInsetEnabled(true)
-      .setPrimaryLabelTextContent(
-        Text.Builder(context, "Now")
-          .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-          .setColor(ColorBuilders.argb(GoldenTilesColors.White))
-          .build()
-      )
-      .setContent(
-        MultiSlotLayout.Builder()
-          .setHorizontalSpacerWidth(16f)
-          .addSlotContent(
-            Column.Builder()
-              .apply {
-                if (deviceParameters.screenWidthDp > 225) {
-                  addContent(
-                    Text.Builder(context, "Highest")
-                      .setTypography(Typography.TYPOGRAPHY_BUTTON)
-                      .setColor(ColorBuilders.argb(GoldenTilesColors.LightRed))
-                      .build()
-                  )
-                }
-              }
-              .addContent(
-                Text.Builder(context, highestHeartRateBpm.toString())
-                  .setTypography(Typography.TYPOGRAPHY_DISPLAY1)
-                  .setColor(ColorBuilders.argb(GoldenTilesColors.White))
-                  .build()
-              )
-              .build()
-          )
-          .apply {
-            if (deviceParameters.screenWidthDp > 225) {
-              addSlotContent(
-                Column.Builder()
-                  .addContent(
-                    Text.Builder(context, "Lowest")
-                      .setTypography(Typography.TYPOGRAPHY_BUTTON)
-                      .setColor(ColorBuilders.argb(GoldenTilesColors.LightRed))
-                      .build()
-                  )
-                  .addContent(
-                    Text.Builder(context, lowestHeartRateBpm.toString())
-                      .setTypography(Typography.TYPOGRAPHY_DISPLAY1)
-                      .setColor(ColorBuilders.argb(GoldenTilesColors.White))
-                      .build()
-                  )
-                  .build()
-              )
-            }
-          }
-          .build()
-      )
-      .setSecondaryLabelTextContent(
-        Text.Builder(context, "bpm")
-          .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-          .setColor(ColorBuilders.argb(GoldenTilesColors.LightGray))
-          .build()
-      )
-      .setPrimaryChipContent(
-        CompactChip.Builder(context, "Measure", clickable, deviceParameters)
-          .setChipColors(
-            ChipColors(
-              /*backgroundColor=*/ ColorBuilders.argb(GoldenTilesColors.LightRed),
-              /*contentColor=*/ ColorBuilders.argb(GoldenTilesColors.Black),
-            )
-          )
-          .build()
-      )
-      .build()
 
   fun resources(context: Context) = resources {
     addIdToImageMapping(context.resources.getResourceName(R.drawable.news), R.drawable.news)
@@ -155,25 +73,11 @@ object HeartRate {
 fun heartRatePreview(context: Context) =
   TilePreviewData(HeartRate.resources(context)) {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
-        HeartRate.layout(
-          context,
-          it.deviceConfiguration,
-          context.resources.getResourceName(R.drawable.news),
-        )
-      )
-      .build()
-  }
-
-// @MultiRoundDevicesWithFontScalePreviews
-internal fun heartRateSimplePreview(context: Context) = TilePreviewData {
-  TilePreviewHelper.singleTimelineEntryTileBuilder(
-      HeartRate.simpleLayout(
+      HeartRate.layout(
         context,
         it.deviceConfiguration,
-        highestHeartRateBpm = 86,
-        lowestHeartRateBpm = 54,
-        clickable = emptyClickable,
+        context.resources.getResourceName(R.drawable.news)
       )
     )
-    .build()
-}
+      .build()
+  }
