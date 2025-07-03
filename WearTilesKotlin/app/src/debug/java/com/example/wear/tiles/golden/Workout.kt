@@ -21,7 +21,6 @@ import androidx.wear.protolayout.DeviceParametersBuilders
 import androidx.wear.protolayout.DimensionBuilders
 import androidx.wear.protolayout.DimensionBuilders.dp
 import androidx.wear.protolayout.DimensionBuilders.expand
-import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.ModifiersBuilders
 import androidx.wear.protolayout.material.Button
 import androidx.wear.protolayout.material.ChipColors
@@ -32,7 +31,6 @@ import androidx.wear.protolayout.material.Typography
 import androidx.wear.protolayout.material.layouts.MultiButtonLayout
 import androidx.wear.protolayout.material.layouts.PrimaryLayout
 import androidx.wear.protolayout.material3.CardDefaults.filledVariantCardColors
-import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.Typography.DISPLAY_MEDIUM
 import androidx.wear.protolayout.material3.Typography.TITLE_MEDIUM
 import androidx.wear.protolayout.material3.buttonGroup
@@ -51,12 +49,9 @@ import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.addIdToImageMapping
 import com.example.wear.tiles.tools.emptyClickable
 import com.example.wear.tiles.tools.isLargeScreen
+import com.example.wear.tiles.tools.noOpElement
 import com.example.wear.tiles.tools.resources
 import com.google.android.horologist.tiles.images.drawableResToImageResource
-
-val noOpElement: MaterialScope.() -> LayoutElementBuilders.LayoutElement = {
-  LayoutElementBuilders.Spacer.Builder().setWidth(dp(0F)).setHeight(dp(0F)).build()
-}
 
 object Workout {
   fun layout(context: Context, deviceParameters: DeviceParametersBuilders.DeviceParameters) =

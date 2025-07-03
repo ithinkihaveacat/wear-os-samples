@@ -18,12 +18,14 @@ package com.example.wear.tiles.tools
 import android.graphics.Bitmap
 import androidx.annotation.DrawableRes
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
+import androidx.wear.protolayout.DimensionBuilders.dp
 import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.LayoutElementBuilders.Box
 import androidx.wear.protolayout.LayoutElementBuilders.Column
 import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.ResourceBuilders.ImageResource
 import androidx.wear.protolayout.ResourceBuilders.Resources
+import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.tiles.RequestBuilders
 import java.nio.ByteBuffer
 
@@ -108,3 +110,6 @@ fun Bitmap.toImageResource(): ImageResource {
     )
     .build()
 }
+
+fun MaterialScope.noOpElement(): LayoutElementBuilders.LayoutElement =
+  LayoutElementBuilders.Spacer.Builder().setWidth(dp(0F)).setHeight(dp(0F)).build()
