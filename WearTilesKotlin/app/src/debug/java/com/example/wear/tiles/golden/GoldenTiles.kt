@@ -55,4 +55,4 @@ import com.example.wear.tiles.tools.MultiRoundDevicesPreviews
 
 @MultiRoundDevicesPreviews private fun hike(context: Context) = hikePreview(context)
 
-@MultiRoundDevicesPreviews private fun run(context: Context) = runPreview(context)
+@MultiRoundDevicesPreviews private fun run(context: Context) = workoutLayout2Preview(context)
