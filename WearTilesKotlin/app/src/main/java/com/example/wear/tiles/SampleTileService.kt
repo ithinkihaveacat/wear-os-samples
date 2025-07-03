@@ -150,28 +150,7 @@ class SampleTileService : SuspendingTileService() {
     requestParams: RequestBuilders.TileRequest
   ): TileBuilders.Tile {
     val layout =
-      when (layoutCounter % 6) {
-        0 ->
-          Meditation.minutes(
-            this,
-            requestParams.deviceConfiguration,
-            Meditation.MeditationMinutesData(
-              numOfLeftTasks = 2,
-              session1 =
-              Meditation.Session(
-                label = "Breathe",
-                iconId = Meditation.CHIP_1_ICON_ID,
-                clickable = clickable()
-              ),
-              session2 =
-              Meditation.Session(
-                label = "Daily mindfulness",
-                iconId = Meditation.CHIP_2_ICON_ID,
-                clickable = clickable()
-              ),
-              browseClickable = clickable()
-            )
-          )
+      when (layoutCounter % 5) {
         1 ->
           News.layout2(
             context = this,
@@ -196,7 +175,7 @@ class SampleTileService : SuspendingTileService() {
           requestParams.deviceConfiguration,
           Workout.WorkoutData("Exercise", "30 min goal")
         )
-        5 -> Goal.layout(this, requestParams.deviceConfiguration, Goal.GoalData(8324, 10000))
+        0 -> Goal.layout(this, requestParams.deviceConfiguration, Goal.GoalData(8324, 10000))
         else -> Layout.simple(this, requestParams.deviceConfiguration)
       }
     layoutCounter++
