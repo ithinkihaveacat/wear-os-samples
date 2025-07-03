@@ -61,13 +61,16 @@ import androidx.wear.protolayout.material3.TextButtonStyle.Companion.smallTextBu
 import androidx.wear.protolayout.material3.button
 import androidx.wear.protolayout.material3.buttonGroup
 import androidx.wear.protolayout.material3.icon
+import androidx.wear.protolayout.material3.iconEdgeButton
 import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textButton
 import androidx.wear.protolayout.material3.textEdgeButton
 import androidx.wear.protolayout.material3.tokens.PaletteTokens
+import androidx.wear.protolayout.modifiers.LayoutModifier
 import androidx.wear.protolayout.modifiers.clickable
+import androidx.wear.protolayout.modifiers.contentDescription
 import androidx.wear.protolayout.types.LayoutColor
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.tooling.preview.TilePreviewData
@@ -207,27 +210,12 @@ object Meditation {
       )
     }
 
-  fun tasks(context: Context, deviceParameters: DeviceParameters): LayoutElement {
-    return materialScope(
-      context = context,
-      deviceConfiguration = deviceParameters,
-      allowDynamicTheme = true
-    ) {
-      primaryLayout(mainSlot = { text("Hello".layoutString) })
-    }
-  }
-
   fun minutes(
     context: Context,
     deviceParameters: DeviceParameters,
     data: MeditationMinutesData
   ): LayoutElement {
-    return materialScope(
-      context = context,
-      deviceConfiguration = deviceParameters,
-      allowDynamicTheme = true
-      //      defaultColorScheme = myColorScheme,
-    ) {
+    return materialScope(context = context, deviceConfiguration = deviceParameters) {
       primaryLayout(
         mainSlot = {
           column {
@@ -251,15 +239,13 @@ object Meditation {
           }
         },
         bottomSlot = {
-          textEdgeButton(
+          iconEdgeButton(
             onClick = data.browseClickable,
-            labelContent = { text("+".layoutString) },
             colors =
             filledButtonColors()
-              .copy(containerColor = colorScheme.tertiary, labelColor = colorScheme.onTertiary)
-            //              filledButtonColors().copy(containerColor =
-            // LayoutColor(Color.rgb(255, 0, 0)), labelColor =
-            // LayoutColor(Color.rgb(255, 255, 0)))
+              .copy(containerColor = colorScheme.tertiary, labelColor = colorScheme.onTertiary),
+            modifier = LayoutModifier.contentDescription("Plus"),
+            iconContent = { icon(context.resources.getResourceName(R.drawable.outline_add_2_24)) }
           )
         }
       )
@@ -334,12 +320,16 @@ object Meditation {
       R.drawable.outline_air_24
     )
     addIdToImageMapping(
-      context.resources.getResourceName(R.drawable.outline_add_2_24),
+      context.resources.getResourceName(R.drawable.ic_breathe_24),
       R.drawable.ic_breathe_24
     )
     addIdToImageMapping(
-      context.resources.getResourceName(R.drawable.outline_add_2_24),
+      context.resources.getResourceName(R.drawable.ic_mindfulness_24),
       R.drawable.ic_mindfulness_24
+    )
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.outline_add_2_24),
+      R.drawable.outline_add_2_24
     )
   }
 
