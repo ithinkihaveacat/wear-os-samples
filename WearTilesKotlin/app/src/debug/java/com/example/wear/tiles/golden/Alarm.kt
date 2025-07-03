@@ -76,10 +76,7 @@ fun MaterialScope.styledTime(time: LocalTime): LayoutElement {
     hour12 = 12
   }
 
-  // Format minutes with a leading zero if needed (e.g., "7:05")
-  val timeString =
-    "$hour12:${String.format(Locale.US, "%02d", minute)}" // helpme: provide US locale to
-  // String.format()
+  val timeString = "$hour12:${String.format(Locale.US, "%02d", minute)}"
 
   // Manually build the FontStyle for the time using public Material 3 tokens.
   // Values are from androidx.wear.protolayout.material3.tokens.TypeScaleTokens
