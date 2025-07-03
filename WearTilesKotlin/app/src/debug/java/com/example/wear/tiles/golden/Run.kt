@@ -26,10 +26,10 @@ import androidx.wear.protolayout.material.Text
 import androidx.wear.protolayout.material.TitleChip
 import androidx.wear.protolayout.material.Typography
 import androidx.wear.protolayout.material.layouts.PrimaryLayout
+import androidx.wear.protolayout.modifiers.clickable
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper.singleTimelineEntryTileBuilder
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
-import com.example.wear.tiles.tools.emptyClickable
 
 // https://www.figma.com/design/2OJqWvi4ebE7FY5uuBTUhm/GM3-BC25-Wear-Compose-Design-Kit-1.5?node-id=66728-48273&m=dev
 
@@ -100,8 +100,8 @@ internal fun runPreview(context: Context) = TilePreviewData {
       it.deviceConfiguration,
       lastRunText = "2 days ago",
       chanceOfRain = 20,
-      startRunClickable = emptyClickable,
-      moreChipClickable = emptyClickable
+      startRunClickable = clickable(),
+      moreChipClickable = clickable()
     )
   )
     .build()

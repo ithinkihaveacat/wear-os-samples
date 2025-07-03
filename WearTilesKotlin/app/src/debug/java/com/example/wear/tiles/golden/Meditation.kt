@@ -76,7 +76,6 @@ import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.addIdToImageMapping
 import com.example.wear.tiles.tools.column
-import com.example.wear.tiles.tools.emptyClickable
 import com.example.wear.tiles.tools.isLargeScreen
 import com.example.wear.tiles.tools.resources
 
@@ -86,7 +85,7 @@ fun MaterialScope.timerButton(firstLine: String?, secondLine: String? = null) =
 fun MaterialScope.timerButton1(firstLine: String?, secondLine: String? = null) =
   // in beta, spacing between labelContent and secondaryLabelContent should be 0dp
   button(
-    onClick = emptyClickable,
+    onClick = clickable(),
     width = expand(),
     height = expand(),
     style = smallButtonStyle(),
@@ -97,7 +96,7 @@ fun MaterialScope.timerButton1(firstLine: String?, secondLine: String? = null) =
 
 fun MaterialScope.timerButton2(firstLine: String?, secondLine: String? = null) =
   textButton(
-    onClick = emptyClickable,
+    onClick = clickable(),
     width = expand(),
     height = expand(),
     style = smallTextButtonStyle(),
@@ -362,15 +361,15 @@ internal fun meditationMinutesPreview(context: Context) =
         Meditation.Session(
           label = "Breathe",
           iconId = Meditation.CHIP_1_ICON_ID,
-          clickable = emptyClickable
+          clickable = clickable()
         ),
         session2 =
         Meditation.Session(
           label = "Daily mindfulness",
           iconId = Meditation.CHIP_2_ICON_ID,
-          clickable = emptyClickable
+          clickable = clickable()
         ),
-        browseClickable = emptyClickable
+        browseClickable = clickable()
       )
     )
       .build()
@@ -382,50 +381,50 @@ internal fun meditationButtonsPreview(context: Context) = TilePreviewData {
     Meditation.buttonsLayout(
       context,
       it.deviceConfiguration,
-      timer1 = Meditation.Timer(minutes = 5, clickable = emptyClickable),
-      timer2 = Meditation.Timer(minutes = 10, clickable = emptyClickable),
-      timer3 = Meditation.Timer(minutes = 15, clickable = emptyClickable),
-      timer4 = Meditation.Timer(minutes = 20, clickable = emptyClickable),
-      timer5 = Meditation.Timer(minutes = 25, clickable = emptyClickable),
-      clickable = emptyClickable
+      timer1 = Meditation.Timer(minutes = 5, clickable = clickable()),
+      timer2 = Meditation.Timer(minutes = 10, clickable = clickable()),
+      timer3 = Meditation.Timer(minutes = 15, clickable = clickable()),
+      timer4 = Meditation.Timer(minutes = 20, clickable = clickable()),
+      timer5 = Meditation.Timer(minutes = 25, clickable = clickable()),
+      clickable = clickable()
     )
   )
     .build()
 }
 
 class MindfulnessTileService : BaseTileService() {
-    override fun layout(
-        context: Context,
-        deviceParameters: DeviceParameters,
-    ): LayoutElement =
-        Meditation.mindfulnessLayout(context, deviceParameters)
+  override fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters
+  ): LayoutElement =
+    Meditation.mindfulnessLayout(context, deviceParameters)
 
-    override fun resources(context: Context) = Meditation.resources(context)
+  override fun resources(context: Context) = Meditation.resources(context)
 }
 
 class MeditationMinutesTileService : BaseTileService() {
-    override fun layout(
-        context: Context,
-        deviceParameters: DeviceParameters,
-    ): LayoutElement =
-        Meditation.minutes(
-            context,
-            deviceParameters,
-            numOfLeftTasks = 2,
-            session1 =
-            Meditation.Session(
-                label = "Breathe",
-                iconId = Meditation.CHIP_1_ICON_ID,
-                clickable = emptyClickable
-            ),
-            session2 =
-            Meditation.Session(
-                label = "Daily mindfulness",
-                iconId = Meditation.CHIP_2_ICON_ID,
-                clickable = emptyClickable
-            ),
-            browseClickable = emptyClickable
-        )
+  override fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters
+  ): LayoutElement =
+    Meditation.minutes(
+      context,
+      deviceParameters,
+      numOfLeftTasks = 2,
+      session1 =
+      Meditation.Session(
+        label = "Breathe",
+        iconId = Meditation.CHIP_1_ICON_ID,
+        clickable = clickable()
+      ),
+      session2 =
+      Meditation.Session(
+        label = "Daily mindfulness",
+        iconId = Meditation.CHIP_2_ICON_ID,
+        clickable = clickable()
+      ),
+      browseClickable = clickable()
+    )
 
-    override fun resources(context: Context) = Meditation.resources(context)
+  override fun resources(context: Context) = Meditation.resources(context)
 }

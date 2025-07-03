@@ -50,7 +50,6 @@ import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.addIdToImageMapping
-import com.example.wear.tiles.tools.emptyClickable
 import com.example.wear.tiles.tools.isLargeScreen
 import com.example.wear.tiles.tools.resources
 import java.time.LocalTime
@@ -198,18 +197,18 @@ internal fun alarmPreview(context: Context) =
   }
 
 class AlarmTileService : BaseTileService() {
-    override fun layout(
-        context: Context,
-        deviceParameters: DeviceParameters,
-    ): LayoutElement =
-        Alarm.layout(
-            context,
-            deviceParameters,
-            "Less than 1 min",
-            "14:58",
-            "Mon, Tue, Wed, Thu, Fri, Sat",
-            clickable(),
-        )
+  override fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters
+  ): LayoutElement =
+    Alarm.layout(
+      context,
+      deviceParameters,
+      "Less than 1 min",
+      "14:58",
+      "Mon, Tue, Wed, Thu, Fri, Sat",
+      clickable()
+    )
 
-    override fun resources(context: Context) = Alarm.resources(context)
+  override fun resources(context: Context) = Alarm.resources(context)
 }

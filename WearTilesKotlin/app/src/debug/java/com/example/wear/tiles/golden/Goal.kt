@@ -19,6 +19,7 @@ import android.content.Context
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.LayoutElementBuilders
+import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
 import androidx.wear.protolayout.material3.CardDefaults.filledTonalCardColors
 import androidx.wear.protolayout.material3.GraphicDataCardDefaults.constructGraphic
 import androidx.wear.protolayout.material3.PrimaryLayoutMargins
@@ -33,7 +34,6 @@ import androidx.wear.protolayout.modifiers.clickable
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper.singleTimelineEntryTileBuilder
-import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.addIdToImageMapping
@@ -98,16 +98,16 @@ internal fun goalPreview(context: Context) =
   }
 
 class GoalTileService : BaseTileService() {
-    override fun layout(
-        context: Context,
-        deviceParameters: DeviceParameters,
-    ): LayoutElement =
-        Goal.layout(
-            context,
-            deviceParameters,
-            steps = 5168,
-            goal = 8000,
-        )
+  override fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters
+  ): LayoutElement =
+    Goal.layout(
+      context,
+      deviceParameters,
+      steps = 5168,
+      goal = 8000
+    )
 
-    override fun resources(context: Context) = Goal.resources(context)
+  override fun resources(context: Context) = Goal.resources(context)
 }

@@ -45,7 +45,6 @@ import com.example.wear.tiles.golden.Social
 import com.example.wear.tiles.golden.Workout
 import com.example.wear.tiles.golden.mockContacts
 import com.example.wear.tiles.tools.addIdToImageMapping
-import com.example.wear.tiles.tools.emptyClickable
 import com.google.android.horologist.tiles.SuspendingTileService
 import java.util.UUID
 
@@ -64,7 +63,7 @@ object Layout {
           textButton(
             height = expand(),
             width = expand(),
-            onClick = emptyClickable,
+            onClick = clickable(),
             shape = shapes.small,
             colors =
             // Distinguish from the edge button
@@ -78,7 +77,7 @@ object Layout {
         },
         bottomSlot = {
           textEdgeButton(
-            onClick = emptyClickable,
+            onClick = clickable(),
             labelContent = { text("Edge".layoutString) }
           )
         }
@@ -109,7 +108,7 @@ object Layout {
           textButton(
             height = expand(),
             width = expand(),
-            onClick = emptyClickable,
+            onClick = clickable(),
             shape = shapes.extraSmall,
             colors =
             // Distinguish from the edge button
@@ -161,15 +160,15 @@ class SampleTileService : SuspendingTileService() {
             Meditation.Session(
               label = "Breathe",
               iconId = Meditation.CHIP_1_ICON_ID,
-              clickable = emptyClickable
+              clickable = clickable()
             ),
             session2 =
             Meditation.Session(
               label = "Daily mindfulness",
               iconId = Meditation.CHIP_2_ICON_ID,
-              clickable = emptyClickable
+              clickable = clickable()
             ),
-            browseClickable = emptyClickable
+            browseClickable = clickable()
           )
         1 ->
           News.layout2(
@@ -177,7 +176,7 @@ class SampleTileService : SuspendingTileService() {
             deviceParameters = requestParams.deviceConfiguration,
             headline = "Millions still without power as new storm moves across the US",
             newsVendor = "The New York Times",
-            clickable = emptyClickable,
+            clickable = clickable(),
             date = "Today, 31 July",
             imageResourceId = resources.getResourceName(R.drawable.news)
           )
