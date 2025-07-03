@@ -26,7 +26,7 @@ import com.example.wear.tiles.tools.MultiRoundDevicesPreviews
 
 @MultiRoundDevicesPreviews private fun goal(context: Context) = goalPreview(context)
 
-@MultiRoundDevicesPreviews private fun workout(context: Context) = workoutLayoutPreview(context)
+@MultiRoundDevicesPreviews private fun workout(context: Context) = workoutLayout1Preview(context)
 
 @MultiRoundDevicesPreviews private fun alarm(context: Context) = alarmPreview(context)
 

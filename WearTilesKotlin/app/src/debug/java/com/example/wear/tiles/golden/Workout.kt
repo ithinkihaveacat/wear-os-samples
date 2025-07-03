@@ -17,12 +17,19 @@ package com.example.wear.tiles.golden
 
 import android.content.Context
 import androidx.wear.protolayout.DeviceParametersBuilders
+import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders.dp
 import androidx.wear.protolayout.DimensionBuilders.expand
+import androidx.wear.protolayout.LayoutElementBuilders
+import androidx.wear.protolayout.material3.CardDefaults.filledTonalCardColors
 import androidx.wear.protolayout.material3.CardDefaults.filledVariantCardColors
+import androidx.wear.protolayout.material3.GraphicDataCardDefaults.constructGraphic
+import androidx.wear.protolayout.material3.PrimaryLayoutMargins
 import androidx.wear.protolayout.material3.Typography.DISPLAY_MEDIUM
 import androidx.wear.protolayout.material3.Typography.TITLE_MEDIUM
 import androidx.wear.protolayout.material3.buttonGroup
+import androidx.wear.protolayout.material3.circularProgressIndicator
+import androidx.wear.protolayout.material3.graphicDataCard
 import androidx.wear.protolayout.material3.icon
 import androidx.wear.protolayout.material3.iconDataCard
 import androidx.wear.protolayout.material3.materialScope
@@ -40,6 +47,8 @@ import com.example.wear.tiles.tools.isLargeScreen
 import com.example.wear.tiles.tools.noOpElement
 import com.example.wear.tiles.tools.resources
 import com.google.android.horologist.tiles.images.drawableResToImageResource
+import java.text.NumberFormat
+import java.util.Locale
 
 object Workout {
 
@@ -114,6 +123,47 @@ object Workout {
       )
     }
 
+  fun layout2(context: Context, deviceParameters: DeviceParameters, steps: Int, goal: Int) =
+    materialScope(
+      context = context,
+      deviceConfiguration = deviceParameters,
+      allowDynamicTheme = true
+    ) {
+      val stepsString = NumberFormat.getNumberInstance(Locale.US).format(steps)
+      val goalString = NumberFormat.getNumberInstance(Locale.US).format(goal)
+      primaryLayout(
+        titleSlot = { text("Steps".layoutString) },
+        margins = PrimaryLayoutMargins.MIN_PRIMARY_LAYOUT_MARGIN,
+        mainSlot = {
+          graphicDataCard(
+            onClick = clickable(),
+            height = expand(),
+            colors = filledTonalCardColors(),
+            title = { text("Start Run".layoutString) },
+            content = { text("30 min goal".layoutString) },
+            horizontalAlignment = LayoutElementBuilders.HORIZONTAL_ALIGN_START,
+            graphic = {
+              icon(context.resources.getResourceName(R.drawable.ic_run_24)) // helpme: image needs to be larger. what are my options? perhaps i need to use Image.Builder() directly?
+//              constructGraphic(
+//                mainContent = {
+//                  circularProgressIndicator(
+//                    staticProgress = 1F * steps / goal,
+//                    startAngleDegrees = 200F,
+//                    endAngleDegrees = 520F
+//                  )
+//                },
+//                iconContent = {
+//                  icon(context.resources.getResourceName(R.drawable.outline_directions_walk_24))
+//                }
+//              )
+            }
+          )
+        },
+        bottomSlot = { textEdgeButton(onClick = clickable()) { text("Track".layoutString) } }
+      )
+    }
+
+
   fun resources(context: Context) = resources {
     addIdToImageMapping(
       context.resources.getResourceName(R.drawable.ic_run_24),
@@ -135,7 +185,16 @@ object Workout {
 }
 
 @MultiRoundDevicesWithFontScalePreviews
-internal fun workoutLayoutPreview(context: Context) =
+internal fun workoutLayout1Preview(context: Context) =
   TilePreviewData(onTileResourceRequest = Workout.resources(context)) {
     singleTimelineEntryTileBuilder(Workout.layout1(context, it.deviceConfiguration)).build()
+  }
+
+@MultiRoundDevicesWithFontScalePreviews
+internal fun workoutLayout2Preview(context: Context) =
+  TilePreviewData(onTileResourceRequest = Goal.resources(context)) {
+    singleTimelineEntryTileBuilder(
+      Workout.layout2(context, it.deviceConfiguration, steps = 5168, goal = 8000)
+    )
+      .build()
   }
