@@ -15,6 +15,7 @@
  */
 package com.example.wear.tiles.golden
 
+import android.R.attr.data
 import android.content.Context
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders.expand
@@ -38,35 +39,40 @@ import com.example.wear.tiles.tools.resources
 
 object HeartRate {
 
-  fun layout(context: Context, deviceParameters: DeviceParameters, imageResourceId: String) =
-    materialScope(context, deviceParameters) {
-      primaryLayout(
-        margins = MIN_PRIMARY_LAYOUT_MARGIN,
-        titleSlot = { text("Heart rate".layoutString) },
-        mainSlot = {
-          titleCard(
-            onClick = clickable(),
-            height = expand(),
-            backgroundContent = {
-              backgroundImage(
-                protoLayoutResourceId = imageResourceId,
-                overlayColor = null,
-                contentScaleMode = CONTENT_SCALE_MODE_CROP
-              )
-            },
-            title = { noOpElement() },
-            content = { noOpElement() },
-            shape = shapes.full,
-            style = TitleCardStyle.smallTitleCardStyle()
-          )
-        },
-        bottomSlot = { text("72 bpm".layoutString) }
-      )
-    }
+  fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters,
+    data: HeartRateData
+  ) = materialScope(context, deviceParameters) {
+    primaryLayout(
+      margins = MIN_PRIMARY_LAYOUT_MARGIN,
+      titleSlot = { text("Heart rate".layoutString) },
+      mainSlot = {
+        titleCard(
+          onClick = clickable(),
+          height = expand(),
+          backgroundContent = {
+            backgroundImage(
+              protoLayoutResourceId = data.imageResourceId,
+              overlayColor = null,
+              contentScaleMode = CONTENT_SCALE_MODE_CROP
+            )
+          },
+          title = { noOpElement() },
+          content = { noOpElement() },
+          shape = shapes.full,
+          style = TitleCardStyle.smallTitleCardStyle()
+        )
+      },
+      bottomSlot = { text("${data.value} bpm".layoutString) }
+    )
+  }
 
   fun resources(context: Context) = resources {
     addIdToImageMapping(context.resources.getResourceName(R.drawable.news), R.drawable.news)
   }
+
+  data class HeartRateData(val imageResourceId: String, val value: Int)
 }
 
 @MultiRoundDevicesWithFontScalePreviews
@@ -76,7 +82,10 @@ fun heartRatePreview(context: Context) =
       HeartRate.layout(
         context,
         it.deviceConfiguration,
-        context.resources.getResourceName(R.drawable.news)
+        HeartRate.HeartRateData(
+          imageResourceId = context.resources.getResourceName(R.drawable.news),
+          value = 72
+        )
       )
     )
       .build()
