@@ -149,7 +149,7 @@ object Social {
       allowDynamicTheme = true
     ) {
       val (row1, row2) =
-        contacts.take(6).take(if (deviceParameters.isLargeScreen()) 6 else 4).run {
+        contacts.take(6).take(if (isLargeScreen()) 6 else 4).run {
           when (count()) {
             1 -> Pair(subList(0, 1), emptyList()) // 1 | 0 split
             2 -> Pair(subList(0, 2), emptyList()) // 2 | 0 split

@@ -50,7 +50,7 @@ object Timer {
       primaryLayout(
         titleSlot = { text("Minutes".layoutString) },
         mainSlot = {
-          if (deviceParameters.isLargeScreen()) {
+          if (isLargeScreen()) {
             column {
               setWidth(expand())
               setHeight(expand())

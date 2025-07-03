@@ -53,7 +53,7 @@ private fun MaterialScope.playlistButton(
     height = expand(),
     colors = filledTonalButtonColors(),
     style =
-    if (deviceParameters.isLargeScreen()) {
+    if (isLargeScreen()) {
       defaultButtonStyle()
     } else {
       smallButtonStyle()
@@ -89,7 +89,7 @@ object Media {
     materialScope(context, deviceParameters) {
       primaryLayout(
         titleSlot =
-        if (deviceParameters.isLargeScreen()) {
+        if (isLargeScreen()) {
           { text("Last played".layoutString) }
         } else {
           null

@@ -145,7 +145,7 @@ object Meditation {
     materialScope(context, deviceParameters) {
       primaryLayout(
         titleSlot =
-        if (deviceParameters.isLargeScreen()) {
+        if (isLargeScreen()) {
           { text("2 mindful tasks left".layoutString) }
         } else {
           null
@@ -164,7 +164,7 @@ object Meditation {
                 height = expand(),
                 colors = filledTonalButtonColors(),
                 style =
-                if (deviceParameters.isLargeScreen()) {
+                if (isLargeScreen()) {
                   defaultButtonStyle()
                 } else {
                   smallButtonStyle()
@@ -183,7 +183,7 @@ object Meditation {
                 height = expand(),
                 colors = filledTonalButtonColors(),
                 style =
-                if (deviceParameters.isLargeScreen()) {
+                if (isLargeScreen()) {
                   defaultButtonStyle()
                 } else {
                   smallButtonStyle()

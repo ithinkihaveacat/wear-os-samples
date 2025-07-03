@@ -83,7 +83,7 @@ object Ski {
           containerColor = colorScheme.onSecondary,
           labelColor = colorScheme.secondary
         ),
-      labelContent = { statColumn(stat, deviceConfiguration.isLargeScreen()) }
+      labelContent = { statColumn(stat, isLargeScreen()) }
     )
 
   data class Stat(val label: String, val value: String, val unit: String)

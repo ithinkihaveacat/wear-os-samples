@@ -122,7 +122,7 @@ object Calendar {
                     content = {
                       column {
                         addContent(text(eventTime.layoutString))
-                        if (deviceParameters.isLargeScreen()) {
+                        if (isLargeScreen()) {
                           addContent(text(eventLocation.layoutString, maxLines = 1))
                         }
                       }

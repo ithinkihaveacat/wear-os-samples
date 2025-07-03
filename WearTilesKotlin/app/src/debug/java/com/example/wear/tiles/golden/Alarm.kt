@@ -154,7 +154,7 @@ object Alarm {
             height = expand(),
             colors = filledVariantCardColors(),
             style =
-            if (deviceParameters.isLargeScreen()) {
+            if (isLargeScreen()) {
               TitleCardStyle.extraLargeTitleCardStyle()
             } else {
               TitleCardStyle.defaultTitleCardStyle()

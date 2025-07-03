@@ -68,7 +68,7 @@ object Workout {
               iconDataCard(
                 onClick = clickable(),
                 width = expand(),
-                height = if (deviceParameters.isLargeScreen()) dp(90f) else expand(),
+                height = if (isLargeScreen()) dp(90f) else expand(),
                 colors = filledVariantCardColors(),
                 title = {
                   icon(
@@ -81,18 +81,18 @@ object Workout {
             buttonGroupItem {
               iconDataCard(
                 onClick = clickable(),
-                width = if (deviceParameters.isLargeScreen()) dp(80f) else expand(),
+                width = if (isLargeScreen()) dp(80f) else expand(),
                 height = expand(),
                 shape = shapes.medium,
                 title = {
-                  if (deviceParameters.isLargeScreen()) {
+                  if (isLargeScreen()) {
                     text("30".layoutString, typography = DISPLAY_MEDIUM)
                   } else {
                     noOpElement()
                   }
                 },
                 content = {
-                  if (deviceParameters.isLargeScreen()) {
+                  if (isLargeScreen()) {
                     text("Mins".layoutString, typography = TITLE_MEDIUM)
                   } else {
                     noOpElement()
@@ -109,7 +109,7 @@ object Workout {
               iconDataCard(
                 onClick = clickable(),
                 width = expand(),
-                height = if (deviceParameters.isLargeScreen()) dp(90f) else expand(),
+                height = if (isLargeScreen()) dp(90f) else expand(),
                 colors = filledVariantCardColors(),
                 title = {
                   icon(
