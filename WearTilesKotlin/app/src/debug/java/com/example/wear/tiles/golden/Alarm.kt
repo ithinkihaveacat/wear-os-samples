@@ -42,6 +42,7 @@ import androidx.wear.protolayout.material3.tokens.TypeScaleTokens
 import androidx.wear.protolayout.material3.tokens.VariableFontSettingsTokens
 import androidx.wear.protolayout.modifiers.LayoutModifier
 import androidx.wear.protolayout.modifiers.clearSemantics
+import androidx.wear.protolayout.modifiers.clickable
 import androidx.wear.protolayout.modifiers.contentDescription
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.tooling.preview.TilePreviewData
@@ -189,9 +190,26 @@ internal fun alarmPreview(context: Context) =
         it.deviceConfiguration,
         timeUntilAlarm = "Less than 1 min",
         alarmTime = "14:58",
-        alarmDays = "Mon, Tue, Wed, Thu, Fri,Sat",
-        clickable = emptyClickable
+        alarmDays = "Mon, Tue, Wed, Thu, Fri, Sat",
+        clickable = clickable()
       )
     )
       .build()
   }
+
+class AlarmTileService : BaseTileService() {
+    override fun layout(
+        context: Context,
+        deviceParameters: DeviceParameters,
+    ): LayoutElement =
+        Alarm.layout(
+            context,
+            deviceParameters,
+            "Less than 1 min",
+            "14:58",
+            "Mon, Tue, Wed, Thu, Fri, Sat",
+            clickable(),
+        )
+
+    override fun resources(context: Context) = Alarm.resources(context)
+}

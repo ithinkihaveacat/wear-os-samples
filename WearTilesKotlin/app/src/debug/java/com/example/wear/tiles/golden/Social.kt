@@ -250,3 +250,42 @@ internal fun socialPreviewN(context: Context, n: Int): TilePreviewData {
       .build()
   }
 }
+
+class SocialTileService5 : BaseTileService() {
+    override fun layout(
+        context: Context,
+        deviceParameters: DeviceParameters,
+    ): LayoutElement {
+        val contacts = context.mockContacts().take(5)
+        return Social.layout(context, deviceParameters, contacts)
+    }
+
+    override fun resources(context: Context) =
+        Social.resources(context, context.mockContacts().take(5))
+}
+
+class SocialTileService6 : BaseTileService() {
+    override fun layout(
+        context: Context,
+        deviceParameters: DeviceParameters,
+    ): LayoutElement {
+        val contacts = context.mockContacts().take(6)
+        return Social.layout(context, deviceParameters, contacts)
+    }
+
+    override fun resources(context: Context) =
+        Social.resources(context, context.mockContacts().take(6))
+}
+
+class SocialTileService2 : BaseTileService() {
+    override fun layout(
+        context: Context,
+        deviceParameters: DeviceParameters,
+    ): LayoutElement {
+        val contacts = context.mockContacts().take(2)
+        return Social.layout(context, deviceParameters, contacts)
+    }
+
+    override fun resources(context: Context) =
+        Social.resources(context, context.mockContacts().take(2))
+}

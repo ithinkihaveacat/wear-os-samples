@@ -11,13 +11,14 @@ import androidx.wear.tiles.TileBuilders.Tile
 import androidx.wear.tiles.TileService
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
+import java.util.UUID
 
 abstract class BaseTileService : TileService() {
 
   override fun onTileRequest(requestParams: RequestBuilders.TileRequest): ListenableFuture<Tile> =
     Futures.immediateFuture(
       Tile.Builder()
-        .setResourcesVersion("")
+        .setResourcesVersion(UUID.randomUUID().toString()) // random string; resources will be loaded every time
         .setTileTimeline(
           Timeline.fromLayoutElement(layout(this, requestParams.deviceConfiguration))
         )
@@ -26,12 +27,12 @@ abstract class BaseTileService : TileService() {
 
   override fun onTileResourcesRequest(
     requestParams: ResourcesRequest
-  ): ListenableFuture<Resources> = Futures.immediateFuture(resources(this))
+  ): ListenableFuture<Resources> = Futures.immediateFuture(resources(this)(requestParams))
 
   abstract fun layout(
     context: Context,
     deviceParameters: DeviceParametersBuilders.DeviceParameters,
   ): LayoutElementBuilders.LayoutElement
 
-  abstract fun resources(context: Context): Resources
+  abstract fun resources(context: Context): (ResourcesRequest) -> Resources
 }

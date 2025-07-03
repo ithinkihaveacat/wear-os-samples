@@ -284,3 +284,43 @@ internal fun news2Preview(context: Context): TilePreviewData {
       .build()
   }
 }
+
+class News1TileService : BaseTileService() {
+    override fun layout(
+        context: Context,
+        deviceParameters: DeviceParameters,
+    ): LayoutElementBuilders.LayoutElement {
+        val imageResourceId = context.resources.getResourceName(R.drawable.news)
+        return News.layout1(
+            context,
+            deviceParameters,
+            headline = "Millions still without power as new storm moves across US",
+            newsVendor = "The New York Times",
+            date = "Today, 31 July",
+            clickable = clickable(),
+            imageResourceId = imageResourceId
+        )
+    }
+
+    override fun resources(context: Context) = News.resources(context)
+}
+
+class News2TileService : BaseTileService() {
+    override fun layout(
+        context: Context,
+        deviceParameters: DeviceParameters,
+    ): LayoutElementBuilders.LayoutElement {
+        val imageResourceId = context.resources.getResourceName(R.drawable.news)
+        return News.layout2(
+            context,
+            deviceParameters,
+            headline = "Millions still without power as new storm moves across US",
+            newsVendor = "The New York Times",
+            date = "Today, 31 July",
+            clickable = clickable(),
+            imageResourceId = imageResourceId
+        )
+    }
+
+    override fun resources(context: Context) = News.resources(context)
+}

@@ -278,3 +278,23 @@ internal fun workoutLayout2Preview(context: Context) =
     )
       .build()
   }
+
+class WorkoutTileService1 : BaseTileService() {
+    override fun layout(
+        context: Context,
+        deviceParameters: DeviceParameters,
+    ): LayoutElementBuilders.LayoutElement =
+        Workout.layout1(context, deviceParameters)
+
+    override fun resources(context: Context) = Workout.resources(context)
+}
+
+class WorkoutTileService2 : BaseTileService() {
+    override fun layout(
+        context: Context,
+        deviceParameters: DeviceParameters,
+    ): LayoutElementBuilders.LayoutElement =
+        Workout.layout2(context, deviceParameters)
+
+    override fun resources(context: Context) = Workout.resources(context)
+}

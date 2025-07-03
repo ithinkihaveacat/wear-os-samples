@@ -392,3 +392,40 @@ internal fun meditationButtonsPreview(context: Context) = TilePreviewData {
   )
     .build()
 }
+
+class MindfulnessTileService : BaseTileService() {
+    override fun layout(
+        context: Context,
+        deviceParameters: DeviceParameters,
+    ): LayoutElement =
+        Meditation.mindfulnessLayout(context, deviceParameters)
+
+    override fun resources(context: Context) = Meditation.resources(context)
+}
+
+class MeditationMinutesTileService : BaseTileService() {
+    override fun layout(
+        context: Context,
+        deviceParameters: DeviceParameters,
+    ): LayoutElement =
+        Meditation.minutes(
+            context,
+            deviceParameters,
+            numOfLeftTasks = 2,
+            session1 =
+            Meditation.Session(
+                label = "Breathe",
+                iconId = Meditation.CHIP_1_ICON_ID,
+                clickable = emptyClickable
+            ),
+            session2 =
+            Meditation.Session(
+                label = "Daily mindfulness",
+                iconId = Meditation.CHIP_2_ICON_ID,
+                clickable = emptyClickable
+            ),
+            browseClickable = emptyClickable
+        )
+
+    override fun resources(context: Context) = Meditation.resources(context)
+}
