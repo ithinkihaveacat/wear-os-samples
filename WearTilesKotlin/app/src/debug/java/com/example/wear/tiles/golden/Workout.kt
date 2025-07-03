@@ -23,12 +23,14 @@ import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.material3.CardDefaults.filledTonalCardColors
 import androidx.wear.protolayout.material3.CardDefaults.filledVariantCardColors
-import androidx.wear.protolayout.material3.GraphicDataCardDefaults.constructGraphic
 import androidx.wear.protolayout.material3.PrimaryLayoutMargins
 import androidx.wear.protolayout.material3.Typography.DISPLAY_MEDIUM
+import androidx.wear.protolayout.material3.Typography.DISPLAY_SMALL
+import androidx.wear.protolayout.material3.Typography.LABEL_LARGE
+import androidx.wear.protolayout.material3.Typography.LABEL_MEDIUM
+import androidx.wear.protolayout.material3.Typography.LABEL_SMALL
 import androidx.wear.protolayout.material3.Typography.TITLE_MEDIUM
 import androidx.wear.protolayout.material3.buttonGroup
-import androidx.wear.protolayout.material3.circularProgressIndicator
 import androidx.wear.protolayout.material3.graphicDataCard
 import androidx.wear.protolayout.material3.icon
 import androidx.wear.protolayout.material3.iconDataCard
@@ -56,7 +58,7 @@ object Workout {
     materialScope(
       context = context,
       deviceConfiguration = deviceParameters,
-      allowDynamicTheme = true
+      allowDynamicTheme = true,
     ) {
       primaryLayout(
         titleSlot = { text("Exercise".layoutString) },
@@ -71,9 +73,9 @@ object Workout {
                 title = {
                   icon(
                     protoLayoutResourceId =
-                    context.resources.getResourceName(R.drawable.self_improvement_24px)
+                      context.resources.getResourceName(R.drawable.self_improvement_24px)
                   )
-                }
+                },
               )
             }
             buttonGroupItem {
@@ -100,7 +102,7 @@ object Workout {
                   icon(
                     protoLayoutResourceId = context.resources.getResourceName(R.drawable.ic_run_24)
                   )
-                }
+                },
               )
             }
             buttonGroupItem {
@@ -112,14 +114,14 @@ object Workout {
                 title = {
                   icon(
                     protoLayoutResourceId =
-                    context.resources.getResourceName(R.drawable.ic_cycling_24)
+                      context.resources.getResourceName(R.drawable.ic_cycling_24)
                   )
-                }
+                },
               )
             }
           }
         },
-        bottomSlot = { textEdgeButton(onClick = clickable()) { text("More".layoutString) } }
+        bottomSlot = { textEdgeButton(onClick = clickable()) { text("More".layoutString) } },
       )
     }
 
@@ -127,59 +129,55 @@ object Workout {
     materialScope(
       context = context,
       deviceConfiguration = deviceParameters,
-      allowDynamicTheme = true
+      allowDynamicTheme = true,
     ) {
       val stepsString = NumberFormat.getNumberInstance(Locale.US).format(steps)
       val goalString = NumberFormat.getNumberInstance(Locale.US).format(goal)
       primaryLayout(
-        titleSlot = { text("Steps".layoutString) },
+        titleSlot = { text("Exercise".layoutString) },
         margins = PrimaryLayoutMargins.MIN_PRIMARY_LAYOUT_MARGIN,
         mainSlot = {
           graphicDataCard(
             onClick = clickable(),
             height = expand(),
             colors = filledTonalCardColors(),
-            title = { text("Start Run".layoutString) },
-            content = { text("30 min goal".layoutString) },
+            title = { text("Start Run".layoutString, typography = if (isLargeScreen()) DISPLAY_SMALL else LABEL_LARGE ) },
+            content = { text("30 min goal".layoutString, typography = if (isLargeScreen()) LABEL_MEDIUM else LABEL_SMALL) },
             horizontalAlignment = LayoutElementBuilders.HORIZONTAL_ALIGN_START,
             graphic = {
-              icon(context.resources.getResourceName(R.drawable.ic_run_24)) // helpme: image needs to be larger. what are my options? perhaps i need to use Image.Builder() directly?
-//              constructGraphic(
-//                mainContent = {
-//                  circularProgressIndicator(
-//                    staticProgress = 1F * steps / goal,
-//                    startAngleDegrees = 200F,
-//                    endAngleDegrees = 520F
-//                  )
-//                },
-//                iconContent = {
-//                  icon(context.resources.getResourceName(R.drawable.outline_directions_walk_24))
-//                }
-//              )
-            }
+              icon(
+                protoLayoutResourceId =
+                  context.resources.getResourceName(R.drawable.ic_run_24),
+                width = dp(36f),
+                height = dp(36f),
+              )
+            },
           )
         },
-        bottomSlot = { textEdgeButton(onClick = clickable()) { text("Track".layoutString) } }
+        bottomSlot = { textEdgeButton(onClick = clickable()) { text("Track".layoutString) } },
       )
     }
-
 
   fun resources(context: Context) = resources {
     addIdToImageMapping(
       context.resources.getResourceName(R.drawable.ic_run_24),
-      R.drawable.ic_run_24
+      R.drawable.ic_run_24,
     )
     addIdToImageMapping(
       context.resources.getResourceName(R.drawable.self_improvement_24px),
-      R.drawable.self_improvement_24px
+      R.drawable.self_improvement_24px,
     )
     addIdToImageMapping(
       context.resources.getResourceName(R.drawable.ic_cycling_24),
-      R.drawable.ic_cycling_24
+      R.drawable.ic_cycling_24,
     )
     addIdToImageMapping(
       context.resources.getResourceName(R.drawable.ic_yoga_24),
-      drawableResToImageResource(R.drawable.ic_yoga_24)
+      drawableResToImageResource(R.drawable.ic_yoga_24),
+    )
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.outline_directions_walk_24),
+      drawableResToImageResource(R.drawable.outline_directions_walk_24),
     )
   }
 }
@@ -192,9 +190,9 @@ internal fun workoutLayout1Preview(context: Context) =
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun workoutLayout2Preview(context: Context) =
-  TilePreviewData(onTileResourceRequest = Goal.resources(context)) {
+  TilePreviewData(onTileResourceRequest = Workout.resources(context)) {
     singleTimelineEntryTileBuilder(
-      Workout.layout2(context, it.deviceConfiguration, steps = 5168, goal = 8000)
-    )
+        Workout.layout2(context, it.deviceConfiguration, steps = 5168, goal = 8000)
+      )
       .build()
   }
