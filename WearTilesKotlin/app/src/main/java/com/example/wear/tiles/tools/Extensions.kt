@@ -66,6 +66,10 @@ operator fun Resources.plus(other: Resources): Resources {
 
 // DeviceParameters extensions
 
+// TODO: move this to a function on MaterialScope something like
+//   internal fun MaterialScope.isBreakpointOnSize() =
+//    // We know that is run on round devices that have the same width and height.
+//    deviceConfiguration.screenHeightDp >= BREAKPOINT_SIZE_DP
 fun DeviceParameters.isLargeScreen() = screenWidthDp >= 225
 
 // Column extensions
