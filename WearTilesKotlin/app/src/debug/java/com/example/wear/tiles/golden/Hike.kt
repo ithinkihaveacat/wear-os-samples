@@ -22,6 +22,7 @@ import androidx.wear.protolayout.DimensionBuilders.weight
 import androidx.wear.protolayout.LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
 import androidx.wear.protolayout.LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER
 import androidx.wear.protolayout.LayoutElementBuilders.Image
+import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
 import androidx.wear.protolayout.LayoutElementBuilders.TEXT_ALIGN_CENTER
 import androidx.wear.protolayout.ModifiersBuilders.Background
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
@@ -160,3 +161,19 @@ internal fun hikePreview(context: Context) =
     )
       .build()
   }
+
+class HikeTileService : BaseTileService() {
+  override fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters
+  ): LayoutElement =
+    Hike.layout(
+      context,
+      deviceParameters,
+      distance = "10",
+      unit = "Miles",
+      clickable = clickable()
+    )
+
+  override fun resources(context: Context) = Hike.resources(context)
+}

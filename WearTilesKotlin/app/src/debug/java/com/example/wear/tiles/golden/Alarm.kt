@@ -128,21 +128,24 @@ fun MaterialScope.simpleTime(time: LocalTime): LayoutElement {
 }
 
 object Alarm {
+  data class AlarmData(
+    val timeUntilAlarm: String,
+    val alarmTime: String,
+    val alarmDays: String,
+    val clickable: Clickable
+  )
 
   fun layout(
     context: Context,
     deviceParameters: DeviceParameters,
-    timeUntilAlarm: String,
-    alarmTime: String,
-    alarmDays: String,
-    clickable: Clickable
+    data: AlarmData
   ) =
     materialScope(context, deviceParameters) {
       primaryLayout(
         titleSlot = { text("Alarm".layoutString, modifier = LayoutModifier.clearSemantics()) },
         mainSlot = {
           titleCard(
-            onClick = clickable,
+            onClick = data.clickable,
             title = {
               text(
                 "Mon—Fri".layoutString,
@@ -150,7 +153,7 @@ object Alarm {
                 color = colorScheme.onSurfaceVariant
               )
             },
-            content = { styledTime(LocalTime.parse(alarmTime)) },
+            content = { styledTime(LocalTime.parse(data.alarmTime)) },
             height = expand(),
             colors = filledVariantCardColors(),
             style =
@@ -163,7 +166,7 @@ object Alarm {
         },
         bottomSlot = {
           iconEdgeButton(
-            onClick = clickable,
+            onClick = data.clickable,
             colors = filledTonalButtonColors(),
             modifier = LayoutModifier.contentDescription("Plus"),
             iconContent = { icon(context.resources.getResourceName(R.drawable.outline_add_2_24)) }
@@ -187,10 +190,12 @@ internal fun alarmPreview(context: Context) =
       Alarm.layout(
         context,
         it.deviceConfiguration,
-        timeUntilAlarm = "Less than 1 min",
-        alarmTime = "14:58",
-        alarmDays = "Mon, Tue, Wed, Thu, Fri, Sat",
-        clickable = clickable()
+        Alarm.AlarmData(
+          timeUntilAlarm = "Less than 1 min",
+          alarmTime = "14:58",
+          alarmDays = "Mon, Tue, Wed, Thu, Fri, Sat",
+          clickable = clickable()
+        )
       )
     )
       .build()
@@ -204,10 +209,12 @@ class AlarmTileService : BaseTileService() {
     Alarm.layout(
       context,
       deviceParameters,
-      "Less than 1 min",
-      "14:58",
-      "Mon, Tue, Wed, Thu, Fri, Sat",
-      clickable()
+      Alarm.AlarmData(
+        "Less than 1 min",
+        "14:58",
+        "Mon, Tue, Wed, Thu, Fri, Sat",
+        clickable()
+      )
     )
 
   override fun resources(context: Context) = Alarm.resources(context)

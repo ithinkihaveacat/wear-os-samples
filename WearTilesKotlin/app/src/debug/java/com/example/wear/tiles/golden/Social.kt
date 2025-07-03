@@ -137,11 +137,12 @@ fun MaterialScope.contactButton(contact: Contact): LayoutElement {
 }
 
 object Social {
+  data class SocialData(val contacts: List<Contact>)
 
   fun layout(
     context: Context,
     deviceParameters: DeviceParameters,
-    contacts: List<Contact>
+    data: SocialData
   ): LayoutElement {
     return materialScope(
       context = context,
@@ -149,7 +150,7 @@ object Social {
       allowDynamicTheme = true
     ) {
       val (row1, row2) =
-        contacts.take(6).take(if (isLargeScreen()) 6 else 4).run {
+        data.contacts.take(6).take(if (isLargeScreen()) 6 else 4).run {
           when (count()) {
             1 -> Pair(subList(0, 1), emptyList()) // 1 | 0 split
             2 -> Pair(subList(0, 2), emptyList()) // 2 | 0 split
@@ -245,7 +246,7 @@ internal fun socialPreviewN(context: Context, n: Int): TilePreviewData {
     Social.resources(context, contacts)
   ) {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
-      Social.layout(context, it.deviceConfiguration, contacts)
+      Social.layout(context, it.deviceConfiguration, Social.SocialData(contacts))
     )
       .build()
   }
@@ -257,7 +258,7 @@ class SocialTileService5 : BaseTileService() {
     deviceParameters: DeviceParameters
   ): LayoutElement {
     val contacts = context.mockContacts().take(5)
-    return Social.layout(context, deviceParameters, contacts)
+    return Social.layout(context, deviceParameters, Social.SocialData(contacts))
   }
 
   override fun resources(context: Context) =
@@ -270,7 +271,7 @@ class SocialTileService6 : BaseTileService() {
     deviceParameters: DeviceParameters
   ): LayoutElement {
     val contacts = context.mockContacts().take(6)
-    return Social.layout(context, deviceParameters, contacts)
+    return Social.layout(context, deviceParameters, Social.SocialData(contacts))
   }
 
   override fun resources(context: Context) =
@@ -283,7 +284,7 @@ class SocialTileService2 : BaseTileService() {
     deviceParameters: DeviceParameters
   ): LayoutElement {
     val contacts = context.mockContacts().take(2)
-    return Social.layout(context, deviceParameters, contacts)
+    return Social.layout(context, deviceParameters, Social.SocialData(contacts))
   }
 
   override fun resources(context: Context) =

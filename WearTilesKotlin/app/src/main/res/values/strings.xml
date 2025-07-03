@@ -27,4 +27,12 @@
     <string name="tile_workout_2_label">Workout 2</string>
     <string name="tile_mindfulness_label">Mindfulness</string>
     <string name="tile_meditation_minutes_label">Meditation Minutes</string>
+    <string name="tile_label_calendar">Calendar</string>
+    <string name="tile_label_heart_rate">Heart Rate</string>
+    <string name="tile_label_hike">Hike</string>
+    <string name="tile_label_media">Media</string>
+    <string name="tile_label_run">Run</string>
+    <string name="tile_label_ski">Ski</string>
+    <string name="tile_label_timer">Timer</string>
+    <string name="tile_label_weather">Weather</string>
 </resources>

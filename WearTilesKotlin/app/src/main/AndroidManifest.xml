@@ -172,5 +172,95 @@
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
         </service>
+        <service
+            android:name=".golden.Calendar1TileService"
+            android:label="@string/tile_label_calendar"
+            android:description="@string/tile_label_calendar"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".golden.Calendar2TileService"
+            android:label="@string/tile_label_calendar"
+            android:description="@string/tile_label_calendar"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".golden.HeartRateTileService"
+            android:label="@string/tile_label_heart_rate"
+            android:description="@string/tile_label_heart_rate"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".golden.HikeTileService"
+            android:label="@string/tile_label_hike"
+            android:description="@string/tile_label_hike"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".golden.MediaTileService"
+            android:label="@string/tile_label_media"
+            android:description="@string/tile_label_media"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".golden.RunTileService"
+            android:label="@string/tile_label_run"
+            android:description="@string/tile_label_run"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".golden.SkiTileService"
+            android:label="@string/tile_label_ski"
+            android:description="@string/tile_label_ski"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".golden.TimerTileService"
+            android:label="@string/tile_label_timer"
+            android:description="@string/tile_label_timer"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".golden.WeatherTileService"
+            android:label="@string/tile_label_weather"
+            android:description="@string/tile_label_weather"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+        </service>
     </application>
 </manifest>

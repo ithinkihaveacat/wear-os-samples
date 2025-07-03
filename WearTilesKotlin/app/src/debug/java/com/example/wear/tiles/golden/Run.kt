@@ -19,6 +19,7 @@ import android.content.Context
 import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders
+import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
 import androidx.wear.protolayout.material.ChipColors
 import androidx.wear.protolayout.material.CompactChip
@@ -30,6 +31,7 @@ import androidx.wear.protolayout.modifiers.clickable
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper.singleTimelineEntryTileBuilder
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
+import com.example.wear.tiles.tools.resources
 
 // https://www.figma.com/design/2OJqWvi4ebE7FY5uuBTUhm/GM3-BC25-Wear-Compose-Design-Kit-1.5?node-id=66728-48273&m=dev
 
@@ -105,4 +107,21 @@ internal fun runPreview(context: Context) = TilePreviewData {
     )
   )
     .build()
+}
+
+class RunTileService : BaseTileService() {
+  override fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters
+  ): LayoutElement =
+    Run.layout(
+      context,
+      deviceParameters,
+      lastRunText = "2 days ago",
+      chanceOfRain = 20,
+      startRunClickable = clickable(),
+      moreChipClickable = clickable()
+    )
+
+  override fun resources(context: Context) = resources {}
 }

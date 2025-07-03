@@ -55,15 +55,20 @@ import com.example.wear.tiles.tools.resources
 import com.google.android.horologist.tiles.images.drawableResToImageResource
 
 object Workout {
+  data class WorkoutData(val titleText: String, val contentText: String)
 
-  fun layout1(context: Context, deviceParameters: DeviceParametersBuilders.DeviceParameters) =
+  fun layout1(
+    context: Context,
+    deviceParameters: DeviceParametersBuilders.DeviceParameters,
+    data: WorkoutData
+  ) =
     materialScope(
       context = context,
       deviceConfiguration = deviceParameters,
       allowDynamicTheme = true
     ) {
       primaryLayout(
-        titleSlot = { text("Exercise".layoutString) },
+        titleSlot = { text(data.titleText.layoutString) },
         mainSlot = {
           buttonGroup {
             buttonGroupItem {
@@ -127,14 +132,14 @@ object Workout {
       )
     }
 
-  fun layout2(context: Context, deviceParameters: DeviceParameters) =
+  fun layout2(context: Context, deviceParameters: DeviceParameters, data: WorkoutData) =
     materialScope(
       context = context,
       deviceConfiguration = deviceParameters,
       allowDynamicTheme = true
     ) {
       primaryLayout(
-        titleSlot = { text("Exercise".layoutString) },
+        titleSlot = { text(data.titleText.layoutString) },
         margins = PrimaryLayoutMargins.MIN_PRIMARY_LAYOUT_MARGIN,
         mainSlot = {
           if (isLargeScreen()) {
@@ -144,7 +149,7 @@ object Workout {
               addContent(
                 workoutGraphicDataCard(
                   titleText = "Start Run",
-                  contentText = "30 min goal",
+                  contentText = data.contentText,
                   iconResourceName = context.resources.getResourceName(R.drawable.ic_run_24)
                 )
               )
@@ -204,7 +209,7 @@ object Workout {
           } else {
             workoutGraphicDataCard(
               titleText = "Start Run",
-              contentText = "30 min goal",
+              contentText = data.contentText,
               iconResourceName = context.resources.getResourceName(R.drawable.ic_run_24)
             )
           }
@@ -267,14 +272,25 @@ object Workout {
 @MultiRoundDevicesWithFontScalePreviews
 internal fun workoutLayout1Preview(context: Context) =
   TilePreviewData(onTileResourceRequest = Workout.resources(context)) {
-    singleTimelineEntryTileBuilder(Workout.layout1(context, it.deviceConfiguration)).build()
+    singleTimelineEntryTileBuilder(
+      Workout.layout1(
+        context,
+        it.deviceConfiguration,
+        Workout.WorkoutData("Exercise", "30 min goal")
+      )
+    )
+      .build()
   }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun workoutLayout2Preview(context: Context) =
   TilePreviewData(onTileResourceRequest = Workout.resources(context)) {
     singleTimelineEntryTileBuilder(
-      Workout.layout2(context, it.deviceConfiguration)
+      Workout.layout2(
+        context,
+        it.deviceConfiguration,
+        Workout.WorkoutData("Exercise", "30 min goal")
+      )
     )
       .build()
   }
@@ -284,7 +300,7 @@ class WorkoutTileService1 : BaseTileService() {
     context: Context,
     deviceParameters: DeviceParameters
   ): LayoutElementBuilders.LayoutElement =
-    Workout.layout1(context, deviceParameters)
+    Workout.layout1(context, deviceParameters, Workout.WorkoutData("Exercise", "30 min goal"))
 
   override fun resources(context: Context) = Workout.resources(context)
 }
@@ -294,7 +310,7 @@ class WorkoutTileService2 : BaseTileService() {
     context: Context,
     deviceParameters: DeviceParameters
   ): LayoutElementBuilders.LayoutElement =
-    Workout.layout2(context, deviceParameters)
+    Workout.layout2(context, deviceParameters, Workout.WorkoutData("Exercise", "30 min goal"))
 
   override fun resources(context: Context) = Workout.resources(context)
 }

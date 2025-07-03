@@ -20,6 +20,7 @@ import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
+import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
 import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColors
 import androidx.wear.protolayout.material3.ButtonGroupDefaults
@@ -135,3 +136,26 @@ internal fun mediaPreview(context: Context) =
     )
       .build()
   }
+
+class MediaTileService : BaseTileService() {
+  override fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters
+  ): LayoutElement =
+    Media.layout(
+      context,
+      deviceParameters,
+      playlist1 =
+      Media.Playlist(
+        "Metal mix",
+        imageId = context.resources.getResourceName(R.drawable.news)
+      ),
+      playlist2 =
+      Media.Playlist(
+        "Chilled mix",
+        imageId = context.resources.getResourceName(R.drawable.news)
+      )
+    )
+
+  override fun resources(context: Context) = Media.resources(context)
+}

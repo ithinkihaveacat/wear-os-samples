@@ -58,6 +58,13 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
 object News {
+  data class ArticleData(
+    val date: String,
+    val headline: String,
+    val newsVendor: String,
+    val clickable: Clickable,
+    val imageResourceId: String
+  )
 
   private fun MaterialScope.newsImage(resourceId: String): LayoutElementBuilders.LayoutElement {
     return Image.Builder()
@@ -146,19 +153,22 @@ object News {
   fun layout1(
     context: Context,
     deviceParameters: DeviceParameters,
-    date: String,
-    headline: String,
-    newsVendor: String,
-    clickable: Clickable,
-    imageResourceId: String
+    data: ArticleData
   ) =
     materialScope(
       context = context,
       deviceConfiguration = deviceParameters
     ) {
       primaryLayout(
-        titleSlot = { text(date.layoutString) },
-        mainSlot = { newsCard1(clickable, headline, newsVendor, imageResourceId) },
+        titleSlot = { text(data.date.layoutString) },
+        mainSlot = {
+          newsCard1(
+            data.clickable,
+            data.headline,
+            data.newsVendor,
+            data.imageResourceId
+          )
+        },
         bottomSlot = {
           textEdgeButton(
             colors =
@@ -166,7 +176,7 @@ object News {
               labelColor = colorScheme.onSurface,
               containerColor = colorScheme.surfaceContainer
             ),
-            onClick = clickable,
+            onClick = data.clickable,
             labelContent = { text("News".layoutString) }
           )
         }
@@ -195,19 +205,15 @@ object News {
   fun layout2(
     context: Context,
     deviceParameters: DeviceParameters,
-    date: String,
-    headline: String,
-    newsVendor: String,
-    clickable: Clickable,
-    imageResourceId: String
+    data: ArticleData
   ) =
     materialScope(
       context = context,
       deviceConfiguration = deviceParameters
     ) {
       primaryLayout(
-        titleSlot = { text(date.layoutString) },
-        mainSlot = { newsCard2(clickable, headline, imageResourceId) },
+        titleSlot = { text(data.date.layoutString) },
+        mainSlot = { newsCard2(data.clickable, data.headline, data.imageResourceId) },
         bottomSlot = {
           textEdgeButton(
             colors =
@@ -215,7 +221,7 @@ object News {
               labelColor = colorScheme.onSurface,
               containerColor = colorScheme.surfaceContainer
             ),
-            onClick = clickable,
+            onClick = data.clickable,
             labelContent = { text("News".layoutString) }
           )
         }
@@ -250,11 +256,13 @@ internal fun news1Preview(context: Context): TilePreviewData {
       News.layout1(
         context,
         it.deviceConfiguration,
-        headline = "Millions still without power as new storm moves across US",
-        newsVendor = "The New York Times",
-        date = "Today, 31 July",
-        clickable = clickable(),
-        imageResourceId = imageResourceId
+        News.ArticleData(
+          headline = "Millions still without power as new storm moves across US",
+          newsVendor = "The New York Times",
+          date = "Today, 31 July",
+          clickable = clickable(),
+          imageResourceId = imageResourceId
+        )
       )
     )
       .build()
@@ -274,11 +282,13 @@ internal fun news2Preview(context: Context): TilePreviewData {
       News.layout2(
         context,
         it.deviceConfiguration,
-        headline = "Millions still without power as new storm moves across US",
-        newsVendor = "The New York Times",
-        date = "Today, 31 July",
-        clickable = clickable(),
-        imageResourceId = imageResourceId
+        News.ArticleData(
+          headline = "Millions still without power as new storm moves across US",
+          newsVendor = "The New York Times",
+          date = "Today, 31 July",
+          clickable = clickable(),
+          imageResourceId = imageResourceId
+        )
       )
     )
       .build()
@@ -294,11 +304,13 @@ class News1TileService : BaseTileService() {
     return News.layout1(
       context,
       deviceParameters,
-      headline = "Millions still without power as new storm moves across US",
-      newsVendor = "The New York Times",
-      date = "Today, 31 July",
-      clickable = clickable(),
-      imageResourceId = imageResourceId
+      News.ArticleData(
+        headline = "Millions still without power as new storm moves across US",
+        newsVendor = "The New York Times",
+        date = "Today, 31 July",
+        clickable = clickable(),
+        imageResourceId = imageResourceId
+      )
     )
   }
 
@@ -314,11 +326,13 @@ class News2TileService : BaseTileService() {
     return News.layout2(
       context,
       deviceParameters,
-      headline = "Millions still without power as new storm moves across US",
-      newsVendor = "The New York Times",
-      date = "Today, 31 July",
-      clickable = clickable(),
-      imageResourceId = imageResourceId
+      News.ArticleData(
+        headline = "Millions still without power as new storm moves across US",
+        newsVendor = "The New York Times",
+        date = "Today, 31 July",
+        clickable = clickable(),
+        imageResourceId = imageResourceId
+      )
     )
   }
 

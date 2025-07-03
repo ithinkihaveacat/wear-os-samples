@@ -20,6 +20,7 @@ import android.content.Context
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
+import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
 import androidx.wear.protolayout.material3.PrimaryLayoutMargins.Companion.MIN_PRIMARY_LAYOUT_MARGIN
 import androidx.wear.protolayout.material3.TitleCardStyle
 import androidx.wear.protolayout.material3.backgroundImage
@@ -90,3 +91,20 @@ fun heartRatePreview(context: Context) =
     )
       .build()
   }
+
+class HeartRateTileService : BaseTileService() {
+  override fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters
+  ): LayoutElement =
+    HeartRate.layout(
+      context,
+      deviceParameters,
+      HeartRate.HeartRateData(
+        imageResourceId = context.resources.getResourceName(R.drawable.news),
+        value = 72
+      )
+    )
+
+  override fun resources(context: Context) = HeartRate.resources(context)
+}

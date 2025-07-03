@@ -42,13 +42,15 @@ import java.text.NumberFormat
 import java.util.Locale
 
 object Goal {
-  fun layout(context: Context, deviceParameters: DeviceParameters, steps: Int, goal: Int) =
+  data class GoalData(val steps: Int, val goal: Int)
+
+  fun layout(context: Context, deviceParameters: DeviceParameters, data: GoalData) =
     materialScope(
       context = context,
       deviceConfiguration = deviceParameters
     ) {
-      val stepsString = NumberFormat.getNumberInstance(Locale.US).format(steps)
-      val goalString = NumberFormat.getNumberInstance(Locale.US).format(goal)
+      val stepsString = NumberFormat.getNumberInstance(Locale.US).format(data.steps)
+      val goalString = NumberFormat.getNumberInstance(Locale.US).format(data.goal)
       primaryLayout(
         titleSlot = { text("Steps".layoutString) },
         margins = PrimaryLayoutMargins.MIN_PRIMARY_LAYOUT_MARGIN,
@@ -64,19 +66,27 @@ object Goal {
               constructGraphic(
                 mainContent = {
                   circularProgressIndicator(
-                    staticProgress = 1F * steps / goal,
+                    staticProgress = 1F * data.steps / data.goal,
                     startAngleDegrees = 200F,
                     endAngleDegrees = 520F
                   )
                 },
                 iconContent = {
-                  icon(context.resources.getResourceName(R.drawable.outline_directions_walk_24))
+                  icon(
+                    context.resources.getResourceName(
+                      R.drawable.outline_directions_walk_24
+                    )
+                  )
                 }
               )
             }
           )
         },
-        bottomSlot = { textEdgeButton(onClick = clickable()) { text("Track".layoutString) } }
+        bottomSlot = {
+          textEdgeButton(
+            onClick = clickable()
+          ) { text("Track".layoutString) }
+        }
       )
     }
 
@@ -92,7 +102,11 @@ object Goal {
 internal fun goalPreview(context: Context) =
   TilePreviewData(onTileResourceRequest = Goal.resources(context)) {
     singleTimelineEntryTileBuilder(
-      Goal.layout(context, it.deviceConfiguration, steps = 5168, goal = 8000)
+      Goal.layout(
+        context,
+        it.deviceConfiguration,
+        data = Goal.GoalData(steps = 5168, goal = 8000)
+      )
     )
       .build()
   }
@@ -105,8 +119,7 @@ class GoalTileService : BaseTileService() {
     Goal.layout(
       context,
       deviceParameters,
-      steps = 5168,
-      goal = 8000
+      data = Goal.GoalData(steps = 5168, goal = 8000)
     )
 
   override fun resources(context: Context) = Goal.resources(context)

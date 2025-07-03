@@ -21,6 +21,7 @@ import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders.dp
 import androidx.wear.protolayout.LayoutElementBuilders.Column
 import androidx.wear.protolayout.LayoutElementBuilders.Image
+import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
 import androidx.wear.protolayout.material.Text
 import androidx.wear.protolayout.material.Typography
 import androidx.wear.protolayout.material.layouts.MultiSlotLayout
@@ -120,3 +121,22 @@ internal fun weatherPreview(context: Context) =
     )
       .build()
   }
+
+class WeatherTileService : BaseTileService() {
+  override fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters
+  ): LayoutElement =
+    Weather.layout(
+      context,
+      deviceParameters,
+      location = "San Francisco",
+      weatherIconId = context.resources.getResourceName(R.drawable.scattered_showers),
+      currentTemperature = "52°",
+      lowTemperature = "48°",
+      highTemperature = "64°",
+      weatherSummary = "Showers"
+    )
+
+  override fun resources(context: Context) = Weather.resources(context)
+}

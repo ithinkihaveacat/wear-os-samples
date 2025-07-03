@@ -17,9 +17,11 @@ package com.example.wear.tiles.golden
 
 import android.content.Context
 import androidx.wear.protolayout.DeviceParametersBuilders
+import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders.dp
 import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.LayoutElementBuilders
+import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
 import androidx.wear.protolayout.material3.ButtonDefaults.filledVariantButtonColors
 import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.Typography
@@ -34,6 +36,7 @@ import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.isLargeScreen
+import com.example.wear.tiles.tools.resources
 
 object Ski {
 
@@ -100,4 +103,19 @@ internal fun skiPreview(context: Context) = TilePreviewData {
     )
   )
     .build()
+}
+
+class SkiTileService : BaseTileService() {
+  override fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters
+  ): LayoutElement =
+    Ski.layout(
+      context,
+      deviceParameters,
+      stat1 = Ski.Stat("Max Spd", "46.5", "mph"),
+      stat2 = Ski.Stat("Distance", "21.8", "mile")
+    )
+
+  override fun resources(context: Context) = resources {}
 }

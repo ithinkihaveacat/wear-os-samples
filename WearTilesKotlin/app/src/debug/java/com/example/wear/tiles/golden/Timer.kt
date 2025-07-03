@@ -18,6 +18,7 @@ package com.example.wear.tiles.golden
 import android.content.Context
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders.expand
+import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
 import androidx.wear.protolayout.material3.ButtonDefaults.filledButtonColors
 import androidx.wear.protolayout.material3.ButtonDefaults.filledVariantButtonColors
 import androidx.wear.protolayout.material3.ButtonGroupDefaults
@@ -114,3 +115,13 @@ fun timerLayoutPreview(context: Context) =
     )
       .build()
   }
+
+class TimerTileService : BaseTileService() {
+  override fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters
+  ): LayoutElement =
+    Timer.timer1Layout(context, deviceParameters)
+
+  override fun resources(context: Context) = Timer.resources(context)
+}

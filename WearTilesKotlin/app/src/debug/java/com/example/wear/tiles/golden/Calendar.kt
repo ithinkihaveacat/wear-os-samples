@@ -21,6 +21,7 @@ import androidx.wear.protolayout.DimensionBuilders.dp
 import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.DimensionBuilders.weight
 import androidx.wear.protolayout.LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
+import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
 import androidx.wear.protolayout.LayoutElementBuilders.Spacer
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
 import androidx.wear.protolayout.material3.ButtonDefaults.filledButtonColors
@@ -181,3 +182,41 @@ fun calendarPreviewX(context: Context, eventImageId: String? = null) =
     )
       .build()
   }
+
+class Calendar1TileService : BaseTileService() {
+  override fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters
+  ): LayoutElement =
+    Calendar.layout(
+      context,
+      deviceParameters,
+      eventDate = "25 July",
+      eventTime = "6:30-7:30 PM",
+      eventName = "Tennis Coaching with Christina Lloyd",
+      eventLocation = "216 Market Street",
+      eventImageId = null,
+      clickable = clickable()
+    )
+
+  override fun resources(context: Context) = Calendar.resources(context)
+}
+
+class Calendar2TileService : BaseTileService() {
+  override fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters
+  ): LayoutElement =
+    Calendar.layout(
+      context,
+      deviceParameters,
+      eventDate = "25 July",
+      eventTime = "6:30-7:30 PM",
+      eventName = "Tennis Coaching with Christina Lloyd",
+      eventLocation = "216 Market Street",
+      eventImageId = context.resources.getResourceName(R.drawable.news),
+      clickable = clickable()
+    )
+
+  override fun resources(context: Context) = Calendar.resources(context)
+}

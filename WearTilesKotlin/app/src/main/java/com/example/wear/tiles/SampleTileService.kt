@@ -155,40 +155,48 @@ class SampleTileService : SuspendingTileService() {
           Meditation.minutes(
             this,
             requestParams.deviceConfiguration,
-            numOfLeftTasks = 2,
-            session1 =
-            Meditation.Session(
-              label = "Breathe",
-              iconId = Meditation.CHIP_1_ICON_ID,
-              clickable = clickable()
-            ),
-            session2 =
-            Meditation.Session(
-              label = "Daily mindfulness",
-              iconId = Meditation.CHIP_2_ICON_ID,
-              clickable = clickable()
-            ),
-            browseClickable = clickable()
+            Meditation.MeditationMinutesData(
+              numOfLeftTasks = 2,
+              session1 =
+              Meditation.Session(
+                label = "Breathe",
+                iconId = Meditation.CHIP_1_ICON_ID,
+                clickable = clickable()
+              ),
+              session2 =
+              Meditation.Session(
+                label = "Daily mindfulness",
+                iconId = Meditation.CHIP_2_ICON_ID,
+                clickable = clickable()
+              ),
+              browseClickable = clickable()
+            )
           )
         1 ->
           News.layout2(
             context = this,
             deviceParameters = requestParams.deviceConfiguration,
-            headline = "Millions still without power as new storm moves across the US",
-            newsVendor = "The New York Times",
-            clickable = clickable(),
-            date = "Today, 31 July",
-            imageResourceId = resources.getResourceName(R.drawable.news)
+            data = News.ArticleData(
+              headline = "Millions still without power as new storm moves across the US",
+              newsVendor = "The New York Times",
+              clickable = clickable(),
+              date = "Today, 31 July",
+              imageResourceId = resources.getResourceName(R.drawable.news)
+            )
           )
         2 ->
           Social.layout(
             context = this,
             deviceParameters = requestParams.deviceConfiguration,
-            contacts = mockContacts()
+            data = Social.SocialData(mockContacts())
           )
         3 -> Layout.hello(this, requestParams.deviceConfiguration)
-        4 -> Workout.layout1(this, requestParams.deviceConfiguration)
-        5 -> Goal.layout(this, requestParams.deviceConfiguration, 8324, 10000)
+        4 -> Workout.layout1(
+          this,
+          requestParams.deviceConfiguration,
+          Workout.WorkoutData("Exercise", "30 min goal")
+        )
+        5 -> Goal.layout(this, requestParams.deviceConfiguration, Goal.GoalData(8324, 10000))
         else -> Layout.simple(this, requestParams.deviceConfiguration)
       }
     layoutCounter++
