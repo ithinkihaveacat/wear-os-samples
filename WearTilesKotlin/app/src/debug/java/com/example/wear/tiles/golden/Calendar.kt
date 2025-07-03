@@ -51,16 +51,19 @@ import com.example.wear.tiles.tools.isLargeScreen
 import com.example.wear.tiles.tools.resources
 
 object Calendar {
+  data class Event(
+    val date: String,
+    val time: String,
+    val name: String,
+    val location: String,
+    val imageId: String? = null,
+    val clickable: Clickable
+  )
 
   fun layout(
     context: Context,
     deviceParameters: DeviceParameters,
-    eventDate: String,
-    eventTime: String,
-    eventName: String,
-    eventLocation: String,
-    eventImageId: String? = null,
-    clickable: Clickable
+    data: Event
   ) =
     materialScope(context, deviceParameters) {
       primaryLayout(
@@ -80,8 +83,8 @@ object Calendar {
                         setHeight(expand())
                         addContent(
                           textButton(
-                            onClick = clickable,
-                            labelContent = { text(eventDate.layoutString) },
+                            onClick = data.clickable,
+                            labelContent = { text(data.date.layoutString) },
                             colors = filledTonalButtonColors(),
                             width = expand(),
                             height = expand()
@@ -95,7 +98,7 @@ object Calendar {
                         setHeight(expand())
                         addContent(
                           iconButton(
-                            onClick = clickable,
+                            onClick = data.clickable,
                             iconContent = {
                               icon(context.resources.getResourceName(R.drawable.outline_add_24))
                             },
@@ -118,19 +121,19 @@ object Calendar {
                 setHeight(weight(0.7f))
                 addContent(
                   titleCard(
-                    onClick = clickable,
-                    title = { text(eventName.layoutString, maxLines = 2) },
+                    onClick = data.clickable,
+                    title = { text(data.name.layoutString, maxLines = 2) },
                     content = {
                       column {
-                        addContent(text(eventTime.layoutString))
+                        addContent(text(data.time.layoutString))
                         if (isLargeScreen()) {
-                          addContent(text(eventLocation.layoutString, maxLines = 1))
+                          addContent(text(data.location.layoutString, maxLines = 1))
                         }
                       }
                     },
                     colors = filledVariantCardColors(),
                     backgroundContent =
-                    eventImageId?.let { id ->
+                    data.imageId?.let { id ->
                       {
                         backgroundImage(
                           protoLayoutResourceId = id,
@@ -172,12 +175,14 @@ fun calendarPreviewX(context: Context, eventImageId: String? = null) =
       Calendar.layout(
         context,
         it.deviceConfiguration,
-        eventDate = "25 July",
-        eventTime = "6:30-7:30 PM",
-        eventName = "Tennis Coaching with Christina Lloyd",
-        eventLocation = "216 Market Street",
-        eventImageId = eventImageId,
-        clickable = clickable()
+        Calendar.Event(
+          date = "25 July",
+          time = "6:30-7:30 PM",
+          name = "Tennis Coaching with Christina Lloyd",
+          location = "216 Market Street",
+          imageId = eventImageId,
+          clickable = clickable()
+        )
       )
     )
       .build()
@@ -191,12 +196,14 @@ class Calendar1TileService : BaseTileService() {
     Calendar.layout(
       context,
       deviceParameters,
-      eventDate = "25 July",
-      eventTime = "6:30-7:30 PM",
-      eventName = "Tennis Coaching with Christina Lloyd",
-      eventLocation = "216 Market Street",
-      eventImageId = null,
-      clickable = clickable()
+      Calendar.Event(
+        date = "25 July",
+        time = "6:30-7:30 PM",
+        name = "Tennis Coaching with Christina Lloyd",
+        location = "216 Market Street",
+        imageId = null,
+        clickable = clickable()
+      )
     )
 
   override fun resources(context: Context) = Calendar.resources(context)
@@ -210,12 +217,14 @@ class Calendar2TileService : BaseTileService() {
     Calendar.layout(
       context,
       deviceParameters,
-      eventDate = "25 July",
-      eventTime = "6:30-7:30 PM",
-      eventName = "Tennis Coaching with Christina Lloyd",
-      eventLocation = "216 Market Street",
-      eventImageId = context.resources.getResourceName(R.drawable.news),
-      clickable = clickable()
+      Calendar.Event(
+        date = "25 July",
+        time = "6:30-7:30 PM",
+        name = "Tennis Coaching with Christina Lloyd",
+        location = "216 Market Street",
+        imageId = context.resources.getResourceName(R.drawable.news),
+        clickable = clickable()
+      )
     )
 
   override fun resources(context: Context) = Calendar.resources(context)

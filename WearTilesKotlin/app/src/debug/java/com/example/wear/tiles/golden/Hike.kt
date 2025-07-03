@@ -49,19 +49,22 @@ import com.example.wear.tiles.tools.column
 import com.example.wear.tiles.tools.resources
 
 object Hike {
+  data class HikeData(
+    val distance: String,
+    val unit: String,
+    val clickable: Clickable
+  )
 
   fun layout(
     context: Context,
     deviceParameters: DeviceParameters,
-    distance: String,
-    unit: String,
-    clickable: Clickable
+    data: HikeData
   ) =
     materialScope(context, deviceParameters) {
       primaryLayout(
         titleSlot = { text("Hike".layoutString) },
         bottomSlot = {
-          textEdgeButton(onClick = clickable(), colors = filledButtonColors(), labelContent = {
+          textEdgeButton(onClick = data.clickable, colors = filledButtonColors(), labelContent = {
             text("Start".layoutString)
           })
         },
@@ -83,7 +86,7 @@ object Hike {
                           textButton(
                             width = expand(),
                             height = expand(),
-                            onClick = clickable,
+                            onClick = data.clickable,
                             shape = shapes.extraLarge,
                             colors = filledVariantButtonColors(),
                             labelContent = {
@@ -91,14 +94,14 @@ object Hike {
                                 setHorizontalAlignment(HORIZONTAL_ALIGN_CENTER)
                                 addContent(
                                   text(
-                                    distance.layoutString,
+                                    data.distance.layoutString,
                                     typography = NUMERAL_SMALL,
                                     alignment = TEXT_ALIGN_CENTER
                                   )
                                 )
                                 addContent(
                                   text(
-                                    unit.layoutString,
+                                    data.unit.layoutString,
                                     typography = BODY_SMALL,
                                     alignment = TEXT_ALIGN_CENTER
                                   )
@@ -122,7 +125,7 @@ object Hike {
                             .setModifiers(
                               Modifiers.Builder()
                                 .setBackground(Background.Builder().setCorner(shapes.large).build())
-                                .setClickable(clickable)
+                                .setClickable(data.clickable)
                                 .build()
                             )
                             .build()
@@ -154,9 +157,11 @@ internal fun hikePreview(context: Context) =
       Hike.layout(
         context,
         it.deviceConfiguration,
-        distance = "10",
-        unit = "Miles",
-        clickable = clickable()
+        Hike.HikeData(
+          distance = "10",
+          unit = "Miles",
+          clickable = clickable()
+        )
       )
     )
       .build()
@@ -170,9 +175,11 @@ class HikeTileService : BaseTileService() {
     Hike.layout(
       context,
       deviceParameters,
-      distance = "10",
-      unit = "Miles",
-      clickable = clickable()
+      Hike.HikeData(
+        distance = "10",
+        unit = "Miles",
+        clickable = clickable()
+      )
     )
 
   override fun resources(context: Context) = Hike.resources(context)

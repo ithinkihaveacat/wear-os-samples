@@ -36,21 +36,24 @@ import com.google.android.horologist.tiles.images.drawableResToImageResource
 // https://www.figma.com/design/2OJqWvi4ebE7FY5uuBTUhm/GM3-BC25-Wear-Compose-Design-Kit-1.5?node-id=66728-39609&m=dev
 
 object Weather {
+  data class WeatherData(
+    val location: String,
+    val weatherIconId: String,
+    val currentTemperature: String,
+    val lowTemperature: String,
+    val highTemperature: String,
+    val weatherSummary: String
+  )
 
   fun layout(
     context: Context,
     deviceParameters: DeviceParameters,
-    location: String,
-    weatherIconId: String,
-    currentTemperature: String,
-    lowTemperature: String,
-    highTemperature: String,
-    weatherSummary: String
+    data: WeatherData
   ) =
     PrimaryLayout.Builder(deviceParameters)
       .setResponsiveContentInsetEnabled(true)
       .setPrimaryLabelTextContent(
-        Text.Builder(context, location)
+        Text.Builder(context, data.location)
           .setColor(ColorBuilders.argb(GoldenTilesColors.Blue))
           .setTypography(Typography.TYPOGRAPHY_CAPTION1)
           .build()
@@ -61,11 +64,11 @@ object Weather {
             Image.Builder()
               .setWidth(dp(32f))
               .setHeight(dp(32f))
-              .setResourceId(weatherIconId)
+              .setResourceId(data.weatherIconId)
               .build()
           )
           .addSlotContent(
-            Text.Builder(context, currentTemperature)
+            Text.Builder(context, data.currentTemperature)
               .setTypography(Typography.TYPOGRAPHY_DISPLAY1)
               .setColor(ColorBuilders.argb(GoldenTilesColors.White))
               .build()
@@ -73,13 +76,13 @@ object Weather {
           .addSlotContent(
             Column.Builder()
               .addContent(
-                Text.Builder(context, highTemperature)
+                Text.Builder(context, data.highTemperature)
                   .setTypography(Typography.TYPOGRAPHY_TITLE3)
                   .setColor(ColorBuilders.argb(GoldenTilesColors.White))
                   .build()
               )
               .addContent(
-                Text.Builder(context, lowTemperature)
+                Text.Builder(context, data.lowTemperature)
                   .setTypography(Typography.TYPOGRAPHY_TITLE3)
                   .setColor(ColorBuilders.argb(GoldenTilesColors.Gray))
                   .build()
@@ -89,7 +92,7 @@ object Weather {
           .build()
       )
       .setSecondaryLabelTextContent(
-        Text.Builder(context, weatherSummary)
+        Text.Builder(context, data.weatherSummary)
           .setColor(ColorBuilders.argb(GoldenTilesColors.White))
           .setTypography(Typography.TYPOGRAPHY_TITLE3)
           .build()
@@ -111,12 +114,14 @@ internal fun weatherPreview(context: Context) =
       Weather.layout(
         context,
         it.deviceConfiguration,
-        location = "San Francisco",
-        weatherIconId = context.resources.getResourceName(R.drawable.scattered_showers),
-        currentTemperature = "52°",
-        lowTemperature = "48°",
-        highTemperature = "64°",
-        weatherSummary = "Showers"
+        Weather.WeatherData(
+          location = "San Francisco",
+          weatherIconId = context.resources.getResourceName(R.drawable.scattered_showers),
+          currentTemperature = "52°",
+          lowTemperature = "48°",
+          highTemperature = "64°",
+          weatherSummary = "Showers"
+        )
       )
     )
       .build()
@@ -130,12 +135,14 @@ class WeatherTileService : BaseTileService() {
     Weather.layout(
       context,
       deviceParameters,
-      location = "San Francisco",
-      weatherIconId = context.resources.getResourceName(R.drawable.scattered_showers),
-      currentTemperature = "52°",
-      lowTemperature = "48°",
-      highTemperature = "64°",
-      weatherSummary = "Showers"
+      Weather.WeatherData(
+        location = "San Francisco",
+        weatherIconId = context.resources.getResourceName(R.drawable.scattered_showers),
+        currentTemperature = "52°",
+        lowTemperature = "48°",
+        highTemperature = "64°",
+        weatherSummary = "Showers"
+      )
     )
 
   override fun resources(context: Context) = Weather.resources(context)

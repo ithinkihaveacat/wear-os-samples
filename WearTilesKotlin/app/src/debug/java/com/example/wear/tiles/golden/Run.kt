@@ -36,25 +36,28 @@ import com.example.wear.tiles.tools.resources
 // https://www.figma.com/design/2OJqWvi4ebE7FY5uuBTUhm/GM3-BC25-Wear-Compose-Design-Kit-1.5?node-id=66728-48273&m=dev
 
 object Run {
+  data class RunData(
+    val lastRunText: String,
+    val chanceOfRain: Int,
+    val startRunClickable: Clickable,
+    val moreChipClickable: Clickable
+  )
 
   fun layout(
     context: Context,
     deviceParameters: DeviceParameters,
-    lastRunText: String,
-    chanceOfRain: Int,
-    startRunClickable: Clickable,
-    moreChipClickable: Clickable
+    data: RunData
   ) =
     PrimaryLayout.Builder(deviceParameters)
       .setResponsiveContentInsetEnabled(true)
       .setPrimaryLabelTextContent(
-        Text.Builder(context, lastRunText)
+        Text.Builder(context, data.lastRunText)
           .setTypography(Typography.TYPOGRAPHY_CAPTION1)
           .setColor(ColorBuilders.argb(GoldenTilesColors.White))
           .build()
       )
       .setContent(
-        TitleChip.Builder(context, "Start run", startRunClickable, deviceParameters)
+        TitleChip.Builder(context, "Start run", data.startRunClickable, deviceParameters)
           // TitleChip/Chip's default width == device width minus some padding
           // Since PrimaryLayout's content slot already has margin, this leads to clipping
           // unless we override the width to use the available space
@@ -72,7 +75,7 @@ object Run {
       .apply {
         if (deviceParameters.screenWidthDp > 225) {
           setSecondaryLabelTextContent(
-            Text.Builder(context, "$chanceOfRain% chance of rain")
+            Text.Builder(context, "${data.chanceOfRain}% chance of rain")
               .setTypography(Typography.TYPOGRAPHY_CAPTION1)
               .setColor(ColorBuilders.argb(GoldenTilesColors.LightGray))
               .build()
@@ -80,7 +83,7 @@ object Run {
         }
       }
       .setPrimaryChipContent(
-        CompactChip.Builder(context, "More", moreChipClickable, deviceParameters)
+        CompactChip.Builder(context, "More", data.moreChipClickable, deviceParameters)
           .setChipColors(
             ChipColors(
               /*backgroundColor=*/
@@ -100,10 +103,12 @@ internal fun runPreview(context: Context) = TilePreviewData {
     Run.layout(
       context,
       it.deviceConfiguration,
-      lastRunText = "2 days ago",
-      chanceOfRain = 20,
-      startRunClickable = clickable(),
-      moreChipClickable = clickable()
+      Run.RunData(
+        lastRunText = "2 days ago",
+        chanceOfRain = 20,
+        startRunClickable = clickable(),
+        moreChipClickable = clickable()
+      )
     )
   )
     .build()
@@ -117,10 +122,12 @@ class RunTileService : BaseTileService() {
     Run.layout(
       context,
       deviceParameters,
-      lastRunText = "2 days ago",
-      chanceOfRain = 20,
-      startRunClickable = clickable(),
-      moreChipClickable = clickable()
+      Run.RunData(
+        lastRunText = "2 days ago",
+        chanceOfRain = 20,
+        startRunClickable = clickable(),
+        moreChipClickable = clickable()
+      )
     )
 
   override fun resources(context: Context) = resources {}
