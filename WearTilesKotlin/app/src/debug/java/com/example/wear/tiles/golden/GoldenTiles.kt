@@ -16,10 +16,6 @@
 package com.example.wear.tiles.golden
 
 import android.content.Context
-import androidx.wear.protolayout.material3.ColorScheme
-import androidx.wear.protolayout.material3.tokens.PaletteTokens
-import androidx.wear.protolayout.types.LayoutColor
-import androidx.wear.protolayout.types.argb
 import com.example.wear.tiles.tools.MultiRoundDevicesPreviews
 
 @MultiRoundDevicesPreviews private fun contacts5(context: Context) = socialPreview5(context)
@@ -34,9 +30,9 @@ import com.example.wear.tiles.tools.MultiRoundDevicesPreviews
 
 @MultiRoundDevicesPreviews private fun alarm(context: Context) = alarmPreview(context)
 
-@MultiRoundDevicesPreviews fun mindfulness(context: Context) = mindfulnessPreview(context)
+@MultiRoundDevicesPreviews private fun mindfulness(context: Context) = mindfulnessPreview(context)
 
-@MultiRoundDevicesPreviews fun timerPreview(context: Context) = timerLayoutPreview(context)
+@MultiRoundDevicesPreviews private fun timer1(context: Context) = timer1LayoutPreview(context)
 
 @MultiRoundDevicesPreviews private fun ski(context: Context) = skiPreview(context)
 
@@ -58,4 +54,4 @@ import com.example.wear.tiles.tools.MultiRoundDevicesPreviews
 
 @MultiRoundDevicesPreviews private fun run(context: Context) = workoutLayout2Preview(context)
 
-@MultiRoundDevicesPreviews private fun timer(context: Context) = meditationMinutesPreview(context)
+@MultiRoundDevicesPreviews private fun timer2(context: Context) = timer2LayoutPreview(context)
