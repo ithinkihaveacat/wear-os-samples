@@ -39,7 +39,6 @@ import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.TileBuilders
 import com.example.wear.tiles.golden.Goal
-import com.example.wear.tiles.golden.Meditation
 import com.example.wear.tiles.golden.News
 import com.example.wear.tiles.golden.Social
 import com.example.wear.tiles.golden.Workout

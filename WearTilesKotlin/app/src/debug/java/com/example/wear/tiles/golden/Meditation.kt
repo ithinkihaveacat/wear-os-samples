@@ -36,22 +36,23 @@ package com.example.wear.tiles.golden
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
+import androidx.wear.protolayout.DimensionBuilders
 import androidx.wear.protolayout.DimensionBuilders.expand
-import androidx.wear.protolayout.LayoutElementBuilders.Column
+import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER
 import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
-import androidx.wear.protolayout.material.Typography
 import androidx.wear.protolayout.material3.ButtonDefaults.filledButtonColors
 import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColors
 import androidx.wear.protolayout.material3.ButtonDefaults.filledVariantButtonColors
 import androidx.wear.protolayout.material3.ButtonGroupDefaults
 import androidx.wear.protolayout.material3.ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS
+import androidx.wear.protolayout.material3.ButtonStyle
 import androidx.wear.protolayout.material3.ButtonStyle.Companion.defaultButtonStyle
 import androidx.wear.protolayout.material3.ButtonStyle.Companion.smallButtonStyle
-import androidx.wear.protolayout.material3.ColorScheme
 import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.TextButtonStyle.Companion.smallTextButtonStyle
+import androidx.wear.protolayout.material3.Typography
 import androidx.wear.protolayout.material3.button
 import androidx.wear.protolayout.material3.buttonGroup
 import androidx.wear.protolayout.material3.icon
@@ -61,11 +62,9 @@ import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textButton
 import androidx.wear.protolayout.material3.textEdgeButton
-import androidx.wear.protolayout.material3.tokens.PaletteTokens
 import androidx.wear.protolayout.modifiers.LayoutModifier
 import androidx.wear.protolayout.modifiers.clickable
 import androidx.wear.protolayout.modifiers.contentDescription
-import androidx.wear.protolayout.types.LayoutColor
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
@@ -77,77 +76,95 @@ import com.example.wear.tiles.tools.isLargeScreen
 import com.example.wear.tiles.tools.resources
 
 fun MaterialScope.timerButton(firstLine: String?, secondLine: String? = null) =
-  timerButton2(firstLine, secondLine)
+  timerButton3(firstLine, secondLine)
 
 fun MaterialScope.timerButton1(firstLine: String?, secondLine: String? = null) =
-  // in beta, spacing between labelContent and secondaryLabelContent should be 0dp
   button(
     onClick = clickable(),
     width = expand(),
     height = expand(),
+    colors = filledVariantButtonColors(),
     style = smallButtonStyle(),
     horizontalAlignment = HORIZONTAL_ALIGN_CENTER,
     labelContent = { text(firstLine?.layoutString ?: "".layoutString) },
-    secondaryLabelContent = { text(secondLine?.layoutString ?: "".layoutString) }
+    secondaryLabelContent = { text(secondLine?.layoutString ?: "".layoutString) },
   )
 
-fun MaterialScope.timerButton2(firstLine: String?, secondLine: String? = null) =
+fun MaterialScope.timerButton2(mainNumber: String?, secondaryText: String?): LayoutElement {
+  // We must use an existing ButtonStyle from its companion object.
+  // Choose the one that provides a good base, then customize padding.
+  val baseButtonStyle = ButtonStyle.defaultButtonStyle() // or ButtonStyle.smallButtonStyle()
+
+  return button(
+    onClick = clickable(),
+    width = DimensionBuilders.wrap(),
+    height = DimensionBuilders.wrap(),
+    // Pass the base style directly. The typography will be overridden by the text composables.
+    style = baseButtonStyle,
+    horizontalAlignment = LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER,
+    //    contentPadding = ModifiersBuilders.Padding.Builder()
+    //      .setStart(DimensionBuilders.dp(8f))
+    //      .setEnd(DimensionBuilders.dp(8f))
+    //      .setTop(DimensionBuilders.dp(4f))
+    //      .setBottom(DimensionBuilders.dp(4f))
+    //      .setRtlAware(true)
+    //      .build(),
+    labelContent = {
+      text(
+        text = mainNumber?.layoutString ?: "".layoutString,
+        typography = Typography.NUMERAL_EXTRA_SMALL, // Apply large typography to the first line
+        // Consider setting scalable = false if you want fixed size regardless of user font settings
+        // scalable = false
+      )
+    },
+    secondaryLabelContent = {
+      text(
+        text = secondaryText?.layoutString ?: "".layoutString,
+        typography = Typography.LABEL_SMALL, // Apply small typography to the second line
+        // scalable = false
+      )
+    },
+  )
+}
+
+fun MaterialScope.timerButton3(firstLine: String?, secondLine: String? = null) =
   textButton(
     onClick = clickable(),
+    colors = filledVariantButtonColors(),
     width = expand(),
     height = expand(),
     style = smallTextButtonStyle(),
-    colors =
-      filledVariantButtonColors(),
-//    filledButtonColors()
-//      .copy(
-//        containerColor = LayoutColor(PaletteTokens.PRIMARY30),
-//        labelColor = LayoutColor(PaletteTokens.PRIMARY95)
-//      ),
     labelContent = {
-      Column.Builder()
-        .apply {
-          if (firstLine != null) {
-            addContent(
-              text(text = firstLine.layoutString, typography = Typography.TYPOGRAPHY_CAPTION1)
-            )
-          }
-          if (secondLine != null) {
-            addContent(
-              text(text = secondLine.layoutString, typography = Typography.TYPOGRAPHY_CAPTION2)
-            )
-          }
-        }
-        .build()
-    }
-  )
-
-// TODO: Move somewhere, and modify all materialScope calls to provide as default.
-val myColorScheme =
-  ColorScheme(
-    primary = LayoutColor(PaletteTokens.PRIMARY30), // bg of buttons
-    onPrimary = LayoutColor(PaletteTokens.PRIMARY95), // fg of buttons
-    tertiary = LayoutColor(PaletteTokens.TERTIARY80), // bg of edge button
-    onTertiary = LayoutColor(PaletteTokens.TERTIARY10) // fg of edge button
-    //    secondary = android.graphics.Color.RED.argb,
-    //    onSecondary = LayoutColor(Color(0xFFFFFF00).toArgb())
+      column {
+        setWidth(expand())
+        setHorizontalAlignment(HORIZONTAL_ALIGN_CENTER)
+        addContent(
+          text(
+            text = firstLine?.layoutString ?: "".layoutString,
+            typography = Typography.BODY_MEDIUM
+          )
+        )
+        addContent(
+          text(
+            text = secondLine?.layoutString ?: "".layoutString,
+            typography = Typography.BODY_EXTRA_SMALL
+          )
+        )
+      }
+    },
   )
 
 object Meditation {
 
-  fun listLayout(
-    context: Context,
-    deviceParameters: DeviceParameters,
-    tasksLeft: Int
-  ) =
-    materialScope(context, deviceParameters, defaultColorScheme = myColorScheme) {
+  fun listLayout(context: Context, deviceParameters: DeviceParameters, tasksLeft: Int) =
+    materialScope(context, deviceParameters) {
       primaryLayout(
         titleSlot =
-        if (isLargeScreen()) {
-          { text("$tasksLeft mindful tasks left".layoutString) }
-        } else {
-          null
-        },
+          if (isLargeScreen()) {
+            { text("$tasksLeft mindful tasks left".layoutString) }
+          } else {
+            null
+          },
         bottomSlot = {
           textEdgeButton(onClick = clickable(), labelContent = { text("Browse".layoutString) })
         },
@@ -162,15 +179,15 @@ object Meditation {
                 height = expand(),
                 colors = filledTonalButtonColors(),
                 style =
-                if (isLargeScreen()) {
-                  defaultButtonStyle()
-                } else {
-                  smallButtonStyle()
-                },
+                  if (isLargeScreen()) {
+                    defaultButtonStyle()
+                  } else {
+                    smallButtonStyle()
+                  },
                 iconContent = {
                   icon(context.resources.getResourceName(R.drawable.outline_air_24))
                 },
-                labelContent = { text("Breath".layoutString) }
+                labelContent = { text("Breath".layoutString) },
               )
             )
             addContent(ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
@@ -181,25 +198,22 @@ object Meditation {
                 height = expand(),
                 colors = filledTonalButtonColors(),
                 style =
-                if (isLargeScreen()) {
-                  defaultButtonStyle()
-                } else {
-                  smallButtonStyle()
-                },
+                  if (isLargeScreen()) {
+                    defaultButtonStyle()
+                  } else {
+                    smallButtonStyle()
+                  },
                 iconContent = { icon(context.resources.getResourceName(R.drawable.ic_yoga_24)) },
-                labelContent = { text("Daily mindfulness".layoutString, maxLines = 2) }
+                labelContent = { text("Daily mindfulness".layoutString, maxLines = 2) },
               )
             )
           }
-        }
+        },
       )
     }
 
-  fun timerLayout(
-    context: Context,
-    deviceParameters: DeviceParameters,
-    clickable: Clickable
-  ) = materialScope(context = context, deviceConfiguration = deviceParameters) {
+  fun timerLayout(context: Context, deviceParameters: DeviceParameters, clickable: Clickable) =
+    materialScope(context = context, deviceConfiguration = deviceParameters) {
       primaryLayout(
         mainSlot = {
           column {
@@ -226,46 +240,45 @@ object Meditation {
           iconEdgeButton(
             onClick = clickable,
             colors =
-            filledButtonColors()
-              .copy(containerColor = colorScheme.tertiary, labelColor = colorScheme.onTertiary),
+              filledButtonColors()
+                .copy(containerColor = colorScheme.tertiary, labelColor = colorScheme.onTertiary),
             modifier = LayoutModifier.contentDescription("Plus"),
-            iconContent = { icon(context.resources.getResourceName(R.drawable.outline_add_2_24)) }
+            iconContent = { icon(context.resources.getResourceName(R.drawable.outline_add_2_24)) },
           )
-        }
+        },
       )
     }
 
   fun resources(context: Context) = resources {
     addIdToImageMapping(
       context.resources.getResourceName(R.drawable.ic_yoga_24),
-      R.drawable.ic_yoga_24
+      R.drawable.ic_yoga_24,
     )
     addIdToImageMapping(
       context.resources.getResourceName(R.drawable.outline_air_24),
-      R.drawable.outline_air_24
+      R.drawable.outline_air_24,
     )
     addIdToImageMapping(
       context.resources.getResourceName(R.drawable.ic_breathe_24),
-      R.drawable.ic_breathe_24
+      R.drawable.ic_breathe_24,
     )
     addIdToImageMapping(
       context.resources.getResourceName(R.drawable.ic_mindfulness_24),
-      R.drawable.ic_mindfulness_24
+      R.drawable.ic_mindfulness_24,
     )
     addIdToImageMapping(
       context.resources.getResourceName(R.drawable.outline_add_2_24),
-      R.drawable.outline_add_2_24
+      R.drawable.outline_add_2_24,
     )
   }
-
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 fun mindfulnessPreview(context: Context) =
   TilePreviewData(Meditation.resources(context)) {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
-      Meditation.listLayout(context, it.deviceConfiguration, 3)
-    )
+        Meditation.listLayout(context, it.deviceConfiguration, 3)
+      )
       .build()
   }
 
@@ -273,12 +286,8 @@ fun mindfulnessPreview(context: Context) =
 internal fun meditationMinutesPreview(context: Context) =
   TilePreviewData(Meditation.resources(context)) {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
-      Meditation.timerLayout(
-        context,
-        it.deviceConfiguration,
-        clickable()
+        Meditation.timerLayout(context, it.deviceConfiguration, clickable())
       )
-    )
       .build()
   }
 
@@ -291,11 +300,7 @@ class MindfulnessTileService : BaseTileService() {
 
 class MeditationMinutesTileService : BaseTileService() {
   override fun layout(context: Context, deviceParameters: DeviceParameters): LayoutElement =
-    Meditation.timerLayout(
-      context,
-      deviceParameters,
-      clickable()
-    )
+    Meditation.timerLayout(context, deviceParameters, clickable())
 
   override fun resources(context: Context) = Meditation.resources(context)
 }
