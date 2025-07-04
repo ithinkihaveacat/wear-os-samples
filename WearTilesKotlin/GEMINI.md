@@ -1,27 +1,24 @@
 # Rules
 
-- Do not modify the file GoldenTilesColors.kt, and do not use any of the values
-  defines there.
-- Use functions from the androidx.wear.protolayout.material3 package where
+- Use functions from the `androidx.wear.protolayout.material3` package where
   possible. It is very unlikely that you should be generating any code that uses
-  the androidx.wear.protolayout.material library; please flag this if that
+  the `androidx.wear.protolayout.material` (no "3") library; please flag this if that
   appears to be required.
 - After making a change to a file, run the build-apk tool to see if there are
   any errors, and resolve any that appear.
-- Use LayoutModifier._ functions instead of Modifiers.Builder()._ functions. Use
-  .toProtoLayoutModifiers() if you need to convert it to the "old" type.
-- Look through app/src/main/java/com/example/wear/tiles/tools/Extensions.kt for
+- Use `LayoutModifier.*` functions instead of the `Modifiers.Builder().*` functions. Use
+  `.toProtoLayoutModifiers()` if you need to convert a layout to a different type.
+- Look through `app/src/main/java/com/example/wear/tiles/tools/Extensions.kt` for
   helper functions that may be useful, and feel free to add any similar
   functions to make new code more readable.
 - Regarding colors, do not write code like
-  ButtonDefaults.filledVariantButtonColors( colorScheme.primary)! Just
-  filledVariantButtonColors() or similar as imported from
-  androidx.wear.protolayout.material3.ButtonDefaults.filledVariantButtonColors
-  is totally fine.
-- Prefer MaterialScope.\* scope functions over Builder() style constructions.
-- LayoutModifier does not have a "weight()" function. To arrange for e.g. two
+  `ButtonDefaults.filledVariantButtonColors(colorScheme.primary)`! Just use
+  `filledVariantButtonColors()` or similar as imported from
+  `androidx.wear.protolayout.material3.ButtonDefaults.filledVariantButtonColors`.
+- Prefer `MaterialScope.*` scope functions over `Builder()` style constructions.
+- `LayoutModifier` does not have a `weight()` function. To arrange for e.g. two
   elements to have different widths, place them inside a box and use e.g.
-  .setWidth(weight(0.7f)).
+  `.setWidth(weight(0.7f))`.
 
 # Useful Resources
 
