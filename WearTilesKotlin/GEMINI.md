@@ -43,7 +43,12 @@ A TileService is associated with a static preview image via a `<meta-data>` entr
 in its AndroidManifest.xml declaration.
 
 The system uses a predefined name attribute to identify the preview metadata and
-the resource attribute to reference the drawable.
+the resource attribute to reference the drawable. As this is a standard Android
+drawable resource, you can use resource qualifiers to provide different preview
+images for different device configurations. For example, you could provide a
+preview for larger screens by placing it in a `drawable-w225dp` directory. The
+system will automatically select the appropriate preview image based on the
+device's characteristics.
 
 ```xml
 <!-- AndroidManifest.xml -->
