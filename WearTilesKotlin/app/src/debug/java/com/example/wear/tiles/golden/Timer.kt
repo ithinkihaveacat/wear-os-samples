@@ -259,9 +259,19 @@ fun timer2LayoutPreview(context: Context) =
       .build()
   }
 
-class TimerTileService : BaseTileService() {
+class Timer1TileService : BaseTileService() {
   override fun layout(context: Context, deviceParameters: DeviceParameters): LayoutElement =
     Timer.timer1Layout(context, deviceParameters)
+
+  override fun resources(context: Context) = Timer.resources(context)
+}
+
+class Timer2TileService : BaseTileService() {
+  override fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters
+  ): LayoutElement =
+    Timer.timer2Layout(context, deviceParameters, clickable())
 
   override fun resources(context: Context) = Timer.resources(context)
 }
