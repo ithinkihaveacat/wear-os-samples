@@ -16,6 +16,8 @@
 package com.example.wear.tiles.golden
 
 import android.content.Context
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders.dp
@@ -33,7 +35,27 @@ import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.resources
 import com.google.android.horologist.tiles.images.drawableResToImageResource
 
-// TODO: Update
+object GoldenTilesColors {
+  val Black = Color.Black.toArgb()
+  val Blue = android.graphics.Color.parseColor("#AECBFA")
+  val RichBlue = android.graphics.Color.parseColor("#6694DE")
+  val BlueGray = android.graphics.Color.parseColor("#2B333E")
+  val DarkGray = android.graphics.Color.parseColor("#1C1B1F")
+  val DarkerGray = android.graphics.Color.parseColor("#202124")
+  val DarkPink = android.graphics.Color.parseColor("#32222B")
+  val DarkPurple = android.graphics.Color.parseColor("#1F1C30")
+  val DarkYellow = android.graphics.Color.parseColor("#332D1D")
+  val Gray = android.graphics.Color.parseColor("#BDC1C6")
+  val LightBlue = android.graphics.Color.parseColor("#C4E7FF")
+  val LightGray = android.graphics.Color.parseColor("#DADCE0")
+  val LightPurple = android.graphics.Color.parseColor("#998AF2")
+  val LightRed = android.graphics.Color.parseColor("#F2B8B5")
+  val Pink = android.graphics.Color.parseColor("#FBA9D6")
+  val Purple = android.graphics.Color.parseColor("#C58AF9")
+  val White = Color.White.toArgb()
+  val White10Pc = Color(1f, 1f, 1f, 0.1f).toArgb()
+  val Yellow = android.graphics.Color.parseColor("#FDE293")
+}
 
 object Weather {
   data class WeatherData(
