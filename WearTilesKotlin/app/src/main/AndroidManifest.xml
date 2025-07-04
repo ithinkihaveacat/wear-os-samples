@@ -67,10 +67,6 @@
         <intent-filter>
           <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
         </intent-filter>
-
-        <meta-data
-          android:name="androidx.wear.tiles.PREVIEW"
-          android:resource="@drawable/tile_messaging" />
       </service>
         <service
             android:name=".golden.GoalTileService"
@@ -163,16 +159,6 @@
             </intent-filter>
         </service>
         <service
-            android:name=".golden.MeditationMinutesTileService"
-            android:label="@string/tile_meditation_minutes_label"
-            android:description="@string/tile_meditation_minutes_label"
-            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
-            </intent-filter>
-        </service>
-        <service
             android:name=".golden.Calendar1TileService"
             android:label="@string/tile_label_calendar"
             android:description="@string/tile_label_calendar"
@@ -233,7 +219,17 @@
             </intent-filter>
         </service>
         <service
-            android:name=".golden.TimerTileService"
+            android:name=".golden.Timer1TileService"
+            android:label="@string/tile_label_timer"
+            android:description="@string/tile_label_timer"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".golden.Timer2TileService"
             android:label="@string/tile_label_timer"
             android:description="@string/tile_label_timer"
             android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
