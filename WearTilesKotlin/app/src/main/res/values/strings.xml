@@ -25,6 +25,7 @@
     <string name="tile_social_2_label">Social 2</string>
     <string name="tile_workout_1_label">Workout 1</string>
     <string name="tile_workout_2_label">Workout 2</string>
+    <string name="tile_alarm_label">Alarm</string>
     <string name="tile_mindfulness_label">Mindfulness</string>
     <string name="tile_meditation_minutes_label">Meditation Minutes</string>
     <string name="tile_label_calendar">Calendar</string>

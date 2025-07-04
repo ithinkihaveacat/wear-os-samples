@@ -59,15 +59,18 @@
         </service>
 
       <service
-        android:name="com.example.wear.tiles.golden.AlarmTileService"
-        android:exported="true"
-        android:label="AlarmTileService"
-        android:icon="@mipmap/bolt"
-        android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
-        <intent-filter>
-          <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
-        </intent-filter>
-      </service>
+            android:name="com.example.wear.tiles.golden.AlarmTileService"
+            android:exported="true"
+            android:label="@string/tile_alarm_label"
+            android:icon="@mipmap/bolt"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_alarm" />
+        </service>
         <service
             android:name=".golden.GoalTileService"
             android:label="@string/tile_goal_label"
@@ -77,6 +80,9 @@
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_goal" />
         </service>
         <service
             android:name=".golden.News1TileService"
@@ -87,6 +93,9 @@
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_news1" />
         </service>
         <service
             android:name=".golden.News2TileService"
@@ -97,6 +106,9 @@
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_news2" />
         </service>
         <service
             android:name=".golden.SocialTileService5"
@@ -107,6 +119,9 @@
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_social5" />
         </service>
         <service
             android:name=".golden.SocialTileService6"
@@ -117,6 +132,9 @@
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_social6" />
         </service>
         <service
             android:name=".golden.SocialTileService2"
@@ -127,6 +145,9 @@
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_social2" />
         </service>
         <service
             android:name=".golden.WorkoutTileService1"
@@ -137,6 +158,9 @@
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_workout1" />
         </service>
         <service
             android:name=".golden.WorkoutTileService2"
@@ -147,6 +171,9 @@
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_workout2" />
         </service>
         <service
             android:name=".golden.MindfulnessTileService"
@@ -157,6 +184,9 @@
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_mindfulness" />
         </service>
         <service
             android:name=".golden.Calendar1TileService"
@@ -167,6 +197,9 @@
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_calendar1" />
         </service>
         <service
             android:name=".golden.Calendar2TileService"
@@ -177,6 +210,9 @@
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_calendar2" />
         </service>
         <service
             android:name=".golden.HeartRateTileService"
@@ -187,6 +223,9 @@
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_heart_rate" />
         </service>
         <service
             android:name=".golden.HikeTileService"
@@ -197,6 +236,9 @@
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_hike" />
         </service>
         <service
             android:name=".golden.MediaTileService"
@@ -207,6 +249,9 @@
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_media" />
         </service>
         <service
             android:name=".golden.SkiTileService"
@@ -217,27 +262,12 @@
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_ski" />
         </service>
-        <service
-            android:name=".golden.Timer1TileService"
-            android:label="@string/tile_label_timer"
-            android:description="@string/tile_label_timer"
-            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
-            </intent-filter>
-        </service>
-        <service
-            android:name=".golden.Timer2TileService"
-            android:label="@string/tile_label_timer"
-            android:description="@string/tile_label_timer"
-            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
-            </intent-filter>
-        </service>
+        
+        
         <service
             android:name=".golden.WeatherTileService"
             android:label="@string/tile_label_weather"
@@ -247,6 +277,35 @@
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_weather" />
+        </service>
+        <service
+            android:name="com.example.wear.tiles.golden.Timer1TileService"
+            android:label="@string/tile_label_timer"
+            android:description="@string/tile_label_timer"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_timer1" />
+        </service>
+        <service
+            android:name="com.example.wear.tiles.golden.Timer2TileService"
+            android:label="@string/tile_label_timer"
+            android:description="@string/tile_label_timer"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview_timer2" />
         </service>
     </application>
 </manifest>
