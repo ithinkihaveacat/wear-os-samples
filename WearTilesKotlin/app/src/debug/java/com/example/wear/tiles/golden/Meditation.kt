@@ -122,7 +122,7 @@ fun MaterialScope.timerButton2(firstLine: String?, secondLine: String? = null) =
     }
   )
 
-// Move somewhere, and modify all materialScope calls to provide as default.
+// TODO: Move somewhere, and modify all materialScope calls to provide as default.
 val myColorScheme =
   ColorScheme(
     primary = LayoutColor(PaletteTokens.PRIMARY30), // bg of buttons
