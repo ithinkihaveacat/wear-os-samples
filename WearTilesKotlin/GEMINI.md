@@ -37,6 +37,11 @@ etc.), but the layout function calls are syntactically correct. You may wish to
 consult the `.context/samples/*.kt` files when dealing with layout
 issues or when need to see some examples of how a function is invoked.
 
+If you need to verify the visual result of a code change, feel free to take a screenshot, and then
+ask me questions about the result. For example, you could ask, "Is the text in the screenshot at
+`/tmp/screenshot-AAAAA.png` version larger or smaller than the screenshot at
+`/tmp/screenshot-BBBBB.png`. Provide filenames when making this request.
+
 # Explanations
 
 ## Tile Previews
