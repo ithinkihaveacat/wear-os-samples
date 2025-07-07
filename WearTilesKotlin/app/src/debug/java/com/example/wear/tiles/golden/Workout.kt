@@ -21,10 +21,10 @@ import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders.dp
 import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.LayoutElementBuilders
+import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColors
+import androidx.wear.protolayout.material3.ButtonDefaults.filledVariantButtonColors
 import androidx.wear.protolayout.material3.ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS
-import androidx.wear.protolayout.material3.CardDefaults.filledCardColors
 import androidx.wear.protolayout.material3.CardDefaults.filledTonalCardColors
-import androidx.wear.protolayout.material3.CardDefaults.filledVariantCardColors
 import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.PrimaryLayoutMargins
 import androidx.wear.protolayout.material3.Typography.DISPLAY_MEDIUM
@@ -36,6 +36,7 @@ import androidx.wear.protolayout.material3.Typography.TITLE_MEDIUM
 import androidx.wear.protolayout.material3.buttonGroup
 import androidx.wear.protolayout.material3.graphicDataCard
 import androidx.wear.protolayout.material3.icon
+import androidx.wear.protolayout.material3.iconButton
 import androidx.wear.protolayout.material3.iconDataCard
 import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
@@ -71,12 +72,12 @@ object Workout {
         mainSlot = {
           buttonGroup {
             buttonGroupItem {
-              iconDataCard(
+              iconButton(
                 onClick = clickable(),
                 width = expand(),
                 height = if (isLargeScreen()) dp(90f) else expand(),
-                colors = filledVariantCardColors(),
-                title = {
+                colors = filledVariantButtonColors(),
+                iconContent = {
                   icon(
                     protoLayoutResourceId =
                     context.resources.getResourceName(R.drawable.self_improvement_24px)
@@ -112,12 +113,12 @@ object Workout {
               )
             }
             buttonGroupItem {
-              iconDataCard(
+              iconButton(
                 onClick = clickable(),
                 width = expand(),
                 height = if (isLargeScreen()) dp(90f) else expand(),
-                colors = filledVariantCardColors(),
-                title = {
+                colors = filledVariantButtonColors(),
+                iconContent = {
                   icon(
                     protoLayoutResourceId =
                     context.resources.getResourceName(R.drawable.ic_cycling_24)
@@ -155,31 +156,25 @@ object Workout {
               addContent(
                 buttonGroup {
                   buttonGroupItem {
-                    val cardColors = filledCardColors()
-                    iconDataCard(
+                    iconButton(
                       onClick = clickable(),
-                      width = expand(),
                       height = expand(),
-                      colors = cardColors,
-                      title = {
+                      width = expand(),
+                      iconContent = {
                         icon(
                           protoLayoutResourceId =
-                          context.resources.getResourceName(R.drawable.self_improvement_24px),
-                          // We need to explicitly set the tintColor when using filledCardColors().
-                          // filledCardColors() sets the background color to the "primary" token,
-                          // which is also the default tintColor.
-                          tintColor = cardColors.titleColor
+                          context.resources.getResourceName(R.drawable.self_improvement_24px)
                         )
                       }
                     )
                   }
                   buttonGroupItem {
-                    iconDataCard(
+                    iconButton(
                       onClick = clickable(),
                       width = expand(),
                       height = expand(),
-                      colors = filledVariantCardColors(),
-                      title = {
+                      colors = filledVariantButtonColors(),
+                      iconContent = {
                         icon(
                           protoLayoutResourceId =
                           context.resources.getResourceName(R.drawable.ic_run_24)
@@ -188,12 +183,12 @@ object Workout {
                     )
                   }
                   buttonGroupItem {
-                    iconDataCard(
+                    iconButton(
                       onClick = clickable(),
                       width = expand(),
                       height = expand(),
-                      colors = filledTonalCardColors(),
-                      title = {
+                      colors = filledTonalButtonColors(),
+                      iconContent = {
                         icon(
                           protoLayoutResourceId =
                           context.resources.getResourceName(R.drawable.ic_cycling_24)
