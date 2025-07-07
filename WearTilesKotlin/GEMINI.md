@@ -42,7 +42,7 @@ ask me questions about the result. For example, you could ask, "Is the text in t
 `/tmp/screenshot-AAAAA.png` version larger or smaller than the screenshot at
 `/tmp/screenshot-BBBBB.png`. Provide filenames when making this request.
 
-# Explanations
+# Reference Information
 
 ## Tile Previews
 
