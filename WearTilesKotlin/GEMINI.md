@@ -1,4 +1,4 @@
-# Rules
+# Rules and Requirements
 
 - Use functions from the `androidx.wear.protolayout.material3` package where
   possible. It is very unlikely that you should be generating any code that uses
@@ -19,18 +19,23 @@
 - `LayoutModifier` does not have a `weight()` function. To arrange for e.g. two
   elements to have different widths, place them inside a box and use e.g.
   `.setWidth(weight(0.7f))`.
+- Tiles modifiers, though them may look like Compose or Wear Compose modifiers, are different. When
+  working with modifiers, take care that you are correctly generating Tiles modifier code.
 
 # Useful Resources
 
-The full source code to the tiles and protolayout libraries is available in the
-files samples/tiles.txt and samples/proto.txt, which you may consult for your
-reference.
+The full source code to the tiles and protolayout libraries is available in the `.context/*`
+directory. For example the source code for the class
+`androidx.wear.protolayout.material3.iconEdgeButton` is found in the file
+`.context/proto/androidx/wear/protolayout/material3/EdgeButton.kt`. The source code for the class
+`android.wear.tiles.TileService` is found in the file
+`.context/tiles/androidx/wear/tiles/TileService.java`.
 
-Also in this directory is some sample code to produce layouts. This code is
+The `.context/samples` directory contains some code to produce layouts. This code is
 missing the support infrastructure (i.e. the service to create the layouts,
 etc.), but the layout function calls are syntactically correct. You may wish to
-consult the sample/\*.kt files in this directory when dealing with layout
-issues.
+consult the `.context/samples/*.kt` files when dealing with layout
+issues or when need to see some examples of how a function is invoked.
 
 # Explanations
 
@@ -50,9 +55,7 @@ device's characteristics.
 ```xml
 <!-- AndroidManifest.xml -->
 
-<service
-  android:name=".golden.WeatherTileService"
-  android:label="@string/tile_label_weather"
+<service android:name=".golden.WeatherTileService" android:label="@string/tile_label_weather"
   android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
   android:exported="true">
 
@@ -63,8 +66,7 @@ device's characteristics.
 
   <!-- Links the Tile Provider to a static drawable for its preview -->
 
-  <meta-data
-    android:name="androidx.wear.tiles.PREVIEW"
+  <meta-data android:name="androidx.wear.tiles.PREVIEW"
     android:resource="@drawable/tile_preview_weather" />
 
 </service>
@@ -113,10 +115,10 @@ device's characteristics.
    e. **Save or Overwrite the Preview Image** Save the screenshot into the
    project's `app/src/main/res/drawable/` directory.
 
-  - If an existing preview file was identified in step 3a, overwrite it with the
-    new screenshot.
-  - Otherwise, save the screenshot under a new, descriptive name (e.g.,
-    `tile_preview_servicename.png`).
+- If an existing preview file was identified in step 3a, overwrite it with the
+  new screenshot.
+- Otherwise, save the screenshot under a new, descriptive name (e.g.,
+  `tile_preview_servicename.png`).
 
 f. **Update the Manifest (if necessary)**
 
