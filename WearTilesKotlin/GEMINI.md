@@ -1,15 +1,19 @@
-# Rules and Requirements
+## Rules and Requirements
 
 - Use functions from the `androidx.wear.protolayout.material3` package where
   possible. It is very unlikely that you should be generating any code that uses
-  the `androidx.wear.protolayout.material` (no "3") library; please flag this if that
-  appears to be required.
+  the `androidx.wear.protolayout.material` (no "3") library; please flag this if
+  that appears to be required.
 - After making a change to a file, run the build-apk tool to see if there are
   any errors, and resolve any that appear.
-- Use `LayoutModifier.*` functions instead of the `Modifiers.Builder().*` functions. Use
-  `.toProtoLayoutModifiers()` if you need to convert a layout to a different type.
-- Look through `app/src/main/java/com/example/wear/tiles/tools/Extensions.kt` for
-  helper functions that may be useful, and feel free to add any similar
+- Try to use tools provided by the `adb` server where possible, even if you
+  think it would be better to run a command directly yourself. In particular,
+  you should not need to run the `./gradlew` command directly.
+- Use `LayoutModifier.*` functions instead of the `Modifiers.Builder().*`
+  functions. Use `.toProtoLayoutModifiers()` if you need to convert a layout to
+  a different type.
+- Look through `./app/src/main/java/com/example/wear/tiles/tools/Extensions.kt`
+  for helper functions that may be useful, and feel free to add any similar
   functions to make new code more readable.
 - Regarding colors, do not write code like
   `ButtonDefaults.filledVariantButtonColors(colorScheme.primary)`! Just use
@@ -19,43 +23,48 @@
 - `LayoutModifier` does not have a `weight()` function. To arrange for e.g. two
   elements to have different widths, place them inside a box and use e.g.
   `.setWidth(weight(0.7f))`.
-- Tiles modifiers, though them may look like Compose or Wear Compose modifiers, are different. When
-  working with modifiers, take care that you are correctly generating Tiles modifier code.
+- Tiles modifiers, though them may look like Compose or Wear Compose modifiers,
+  are different. When working with modifiers, take care that you are correctly
+  generating Tiles modifier code.
 
-# Useful Resources
+## Useful Resources
 
-The full source code to the tiles and protolayout libraries is available in the `.context/*`
-directory. For example the source code for the class
+The full source code to the tiles and protolayout libraries is available in the
+`.context/*` directory. For example the source code for the class
 `androidx.wear.protolayout.material3.iconEdgeButton` is found in the file
-`.context/proto/androidx/wear/protolayout/material3/EdgeButton.kt`. The source code for the class
-`android.wear.tiles.TileService` is found in the file
+`.context/proto/androidx/wear/protolayout/material3/EdgeButton.kt`. The source
+code for the class `android.wear.tiles.TileService` is found in the file
 `.context/tiles/androidx/wear/tiles/TileService.java`.
 
-The `.context/samples` directory contains some code to produce layouts. This code is
+The `.context/samples` directory contains some example layout code. This code is
 missing the support infrastructure (i.e. the service to create the layouts,
 etc.), but the layout function calls are syntactically correct. You may wish to
-consult the `.context/samples/*.kt` files when dealing with layout
-issues or when need to see some examples of how a function is invoked.
+consult the `.context/samples/*.kt` files when dealing with layout issues or
+when need to see some examples of how a function is invoked.
 
-If you need to verify the visual result of a code change, feel free to take a screenshot, and then
-ask me questions about the result. For example, you could ask, "Is the text in the screenshot at
+If you need to verify the visual result or impact of a code change, feel free to
+take a screenshot using the tool, and then ask me questions about the result.
+For example, you could ask, "Is the text in the screenshot at
 `/tmp/screenshot-AAAAA.png` version larger or smaller than the screenshot at
 `/tmp/screenshot-BBBBB.png`. Provide filenames when making this request.
 
-# Reference Information
+The "golden" Tiles are part of the "debug" variant, and so have their own
+`AndroidManifest.xml` at `./app/src/debug/AndroidManifest.xml`.
 
-## Tile Previews
+## Reference Information
 
-A TileService is associated with a static preview image via a `<meta-data>` entry
-in its AndroidManifest.xml declaration.
+### Tile Previews
 
-The system uses a predefined name attribute to identify the preview metadata and
-the resource attribute to reference the drawable. As this is a standard Android
+A TileService is associated with a static preview image via a `<meta-data>`
+entry in its `AndroidManifest.xml` declaration. Since this is a standard Android
 drawable resource, you can use resource qualifiers to provide different preview
-images for different device configurations. For example, you could provide a
-preview for larger screens by placing it in a `drawable-w225dp` directory. The
-system will automatically select the appropriate preview image based on the
-device's characteristics.
+images for different device configurations. For example, you can provide a
+preview for larger screens by them in a `drawable-w225dp` directory. The system
+will automatically select the appropriate preview image based on the device's
+characteristics.
+
+Example fragment specifying a preview image. In this case the preview image is
+`@drawable/tile_preview_weather`.
 
 ```xml
 <!-- AndroidManifest.xml -->
@@ -77,9 +86,9 @@ device's characteristics.
 </service>
 ```
 
-# Processes and howto guides
+## Processes and Guides
 
-## How to Regenerate or Update Tile Previews
+### How to Regenerate or Update Tile Previews
 
 1. **Identify Tile Services** Determine the application's tile services using
    one of the following methods:
@@ -94,7 +103,7 @@ device's characteristics.
   belonging to your app.
 
   ```shell
-  adb shell cmd package query-services -a androidx.wear.tiles.action.BIND_TILE_PROVIDER --brief | grep your.package.name
+  adb shell cmd package query-services -a androidx.wear.tiles.action.BIND_TILE_PROVIDER --brief | grep your.package.name | sort
   ```
 
 2. **Build and Install** If not already done, compile the latest version of the
