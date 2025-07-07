@@ -195,7 +195,6 @@ object News {
       backgroundContent = {
         backgroundImage(
           protoLayoutResourceId = imageResourceId,
-          overlayColor = null,
           contentScaleMode = CONTENT_SCALE_MODE_CROP
         )
       },
@@ -229,7 +228,7 @@ object News {
     }
 
   fun resources(context: Context) = resources {
-    addIdToImageMapping(context.resources.getResourceName(R.drawable.news), R.drawable.news)
+    addIdToImageMapping(context.resources.getResourceName(R.drawable.photo_15), R.drawable.photo_15)
   }
 
   internal fun LocalDate.formatLocalDateTime(today: LocalDate = LocalDate.now()): String {
@@ -245,7 +244,7 @@ object News {
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun news1Preview(context: Context): TilePreviewData {
-  val imageResourceId = context.resources.getResourceName(R.drawable.news)
+  val imageResourceId = context.resources.getResourceName(R.drawable.photo_15)
   return TilePreviewData(
     News.resources(context)
   ) {
@@ -271,7 +270,7 @@ internal fun news1Preview(context: Context): TilePreviewData {
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun news2Preview(context: Context): TilePreviewData {
-  val imageResourceId = context.resources.getResourceName(R.drawable.news)
+  val imageResourceId = context.resources.getResourceName(R.drawable.photo_15)
   return TilePreviewData(
     News.resources(context)
   ) {
@@ -300,7 +299,7 @@ class News1TileService : BaseTileService() {
     context: Context,
     deviceParameters: DeviceParameters
   ): LayoutElementBuilders.LayoutElement {
-    val imageResourceId = context.resources.getResourceName(R.drawable.news)
+    val imageResourceId = context.resources.getResourceName(R.drawable.photo_15)
     return News.layout1(
       context,
       deviceParameters,
@@ -322,7 +321,7 @@ class News2TileService : BaseTileService() {
     context: Context,
     deviceParameters: DeviceParameters
   ): LayoutElementBuilders.LayoutElement {
-    val imageResourceId = context.resources.getResourceName(R.drawable.news)
+    val imageResourceId = context.resources.getResourceName(R.drawable.photo_15)
     return News.layout2(
       context,
       deviceParameters,

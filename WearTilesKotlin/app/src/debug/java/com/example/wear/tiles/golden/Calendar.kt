@@ -137,7 +137,6 @@ object Calendar {
                       {
                         backgroundImage(
                           protoLayoutResourceId = id,
-                          overlayColor = null,
                           contentScaleMode = CONTENT_SCALE_MODE_CROP
                         )
                       }
@@ -158,7 +157,7 @@ object Calendar {
       context.resources.getResourceName(R.drawable.outline_add_24),
       R.drawable.outline_add_24
     )
-    addIdToImageMapping(context.resources.getResourceName(R.drawable.news), R.drawable.news)
+    addIdToImageMapping(context.resources.getResourceName(R.drawable.photo_38), R.drawable.photo_38)
   }
 }
 
@@ -167,7 +166,7 @@ internal fun calendar1Preview(context: Context) = calendarPreviewX(context)
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun calendar2Preview(context: Context) =
-  calendarPreviewX(context, context.resources.getResourceName(R.drawable.news))
+  calendarPreviewX(context, context.resources.getResourceName(R.drawable.photo_38))
 
 fun calendarPreviewX(context: Context, eventImageId: String? = null) =
   TilePreviewData(Calendar.resources(context)) {
@@ -222,7 +221,7 @@ class Calendar2TileService : BaseTileService() {
         time = "6:30-7:30 PM",
         name = "Tennis Coaching with Christina Lloyd",
         location = "216 Market Street",
-        imageId = context.resources.getResourceName(R.drawable.news),
+        imageId = context.resources.getResourceName(R.drawable.photo_38),
         clickable = clickable()
       )
     )

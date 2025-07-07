@@ -65,7 +65,6 @@ private fun MaterialScope.playlistButton(
       {
         backgroundImage(
           protoLayoutResourceId = id,
-          overlayColor = null,
           contentScaleMode = CONTENT_SCALE_MODE_CROP
         )
       }
@@ -111,7 +110,8 @@ object Media {
     }
 
   fun resources(context: Context) = resources {
-    addIdToImageMapping(context.resources.getResourceName(R.drawable.news), R.drawable.news)
+    addIdToImageMapping(context.resources.getResourceName(R.drawable.photo_01), R.drawable.photo_01)
+    addIdToImageMapping(context.resources.getResourceName(R.drawable.photo_11), R.drawable.photo_11)
   }
 }
 
@@ -125,12 +125,12 @@ internal fun mediaPreview(context: Context) =
         playlist1 =
         Media.Playlist(
           "Metal mix",
-          imageId = context.resources.getResourceName(R.drawable.news)
+          imageId = context.resources.getResourceName(R.drawable.photo_01)
         ),
         playlist2 =
         Media.Playlist(
           "Chilled mix",
-          imageId = context.resources.getResourceName(R.drawable.news)
+          imageId = context.resources.getResourceName(R.drawable.photo_11)
         )
       )
     )
@@ -148,12 +148,12 @@ class MediaTileService : BaseTileService() {
       playlist1 =
       Media.Playlist(
         "Metal mix",
-        imageId = context.resources.getResourceName(R.drawable.news)
+        imageId = context.resources.getResourceName(R.drawable.photo_01)
       ),
       playlist2 =
       Media.Playlist(
         "Chilled mix",
-        imageId = context.resources.getResourceName(R.drawable.news)
+        imageId = context.resources.getResourceName(R.drawable.photo_11)
       )
     )
 

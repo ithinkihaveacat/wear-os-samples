@@ -61,20 +61,20 @@ fun Context.mockContacts(): List<Contact> {
   return listOf(
     Contact(
       initials = "MS",
-      avatarId = resources.getResourceName(R.drawable.resized),
-      avatarResource = R.drawable.resized
+      avatarId = resources.getResourceName(R.drawable.avatar_illustration_18),
+      avatarResource = R.drawable.avatar_illustration_18
     ),
     Contact(initials = "AB", avatarId = null, avatarResource = null),
     Contact(
       initials = "WW",
-      avatarId = resources.getResourceName(R.drawable.avatar_bg_3),
-      avatarResource = R.drawable.avatar_bg_3
+      avatarId = resources.getResourceName(R.drawable.photo_17),
+      avatarResource = R.drawable.photo_17
     ),
     Contact(initials = "CD", avatarId = null, avatarResource = null),
     Contact(
       initials = "AD",
-      avatarId = resources.getResourceName(R.drawable.avatar_bg_2),
-      avatarResource = R.drawable.avatar_bg_2
+      avatarId = resources.getResourceName(R.drawable.avatar_3d_24),
+      avatarResource = R.drawable.avatar_3d_24
     ),
     Contact(initials = "EF", avatarId = null, avatarResource = null)
   )
@@ -100,18 +100,12 @@ fun MaterialScope.contactButton(contact: Contact): LayoutElement {
   } else {
     val colors =
       listOf(
-        ButtonColors(
-          labelColor = colorScheme.onPrimary,
-          containerColor = colorScheme.primaryDim
-        ),
+        ButtonColors(labelColor = colorScheme.onPrimary, containerColor = colorScheme.primaryDim),
         ButtonColors(
           labelColor = colorScheme.onSecondary,
           containerColor = colorScheme.secondaryDim
         ),
-        ButtonColors(
-          labelColor = colorScheme.onTertiary,
-          containerColor = colorScheme.tertiaryDim
-        )
+        ButtonColors(labelColor = colorScheme.onTertiary, containerColor = colorScheme.tertiaryDim)
       )[contact.initials.hashCode() % 3]
     return textButton(
       onClick = clickable(),
@@ -185,16 +179,10 @@ object Social {
           column {
             setWidth(expand())
             setHeight(expand())
-            addContent(
-              buttonGroup { row1.forEach { buttonGroupItem { contactButton(it) } } }
-            )
+            addContent(buttonGroup { row1.forEach { buttonGroupItem { contactButton(it) } } })
             if (!row2.isEmpty()) {
               addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
-              addContent(
-                buttonGroup {
-                  row2.forEach { buttonGroupItem { contactButton(it) } }
-                }
-              )
+              addContent(buttonGroup { row2.forEach { buttonGroupItem { contactButton(it) } } })
             }
           }
         },
@@ -242,9 +230,7 @@ internal fun socialPreview6(context: Context) = socialPreviewN(context, 6)
 
 internal fun socialPreviewN(context: Context, n: Int): TilePreviewData {
   val contacts = context.mockContacts().take(n)
-  return TilePreviewData(
-    Social.resources(context, contacts)
-  ) {
+  return TilePreviewData(Social.resources(context, contacts)) {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
       Social.layout(context, it.deviceConfiguration, Social.SocialData(contacts))
     )
@@ -253,10 +239,7 @@ internal fun socialPreviewN(context: Context, n: Int): TilePreviewData {
 }
 
 class SocialTileService5 : BaseTileService() {
-  override fun layout(
-    context: Context,
-    deviceParameters: DeviceParameters
-  ): LayoutElement {
+  override fun layout(context: Context, deviceParameters: DeviceParameters): LayoutElement {
     val contacts = context.mockContacts().take(5)
     return Social.layout(context, deviceParameters, Social.SocialData(contacts))
   }
@@ -266,10 +249,7 @@ class SocialTileService5 : BaseTileService() {
 }
 
 class SocialTileService6 : BaseTileService() {
-  override fun layout(
-    context: Context,
-    deviceParameters: DeviceParameters
-  ): LayoutElement {
+  override fun layout(context: Context, deviceParameters: DeviceParameters): LayoutElement {
     val contacts = context.mockContacts().take(6)
     return Social.layout(context, deviceParameters, Social.SocialData(contacts))
   }
@@ -279,10 +259,7 @@ class SocialTileService6 : BaseTileService() {
 }
 
 class SocialTileService2 : BaseTileService() {
-  override fun layout(
-    context: Context,
-    deviceParameters: DeviceParameters
-  ): LayoutElement {
+  override fun layout(context: Context, deviceParameters: DeviceParameters): LayoutElement {
     val contacts = context.mockContacts().take(2)
     return Social.layout(context, deviceParameters, Social.SocialData(contacts))
   }

@@ -118,7 +118,7 @@ object Hike {
                         setHeight(expand())
                         addContent(
                           Image.Builder()
-                            .setResourceId(context.resources.getResourceName(R.drawable.news))
+                            .setResourceId(context.resources.getResourceName(R.drawable.photo_14))
                             .setContentScaleMode(CONTENT_SCALE_MODE_CROP)
                             .setWidth(expand())
                             .setHeight(expand())
@@ -146,7 +146,7 @@ object Hike {
       context.resources.getResourceName(R.drawable.outline_add_24),
       R.drawable.outline_add_24
     )
-    addIdToImageMapping(context.resources.getResourceName(R.drawable.news), R.drawable.news)
+    addIdToImageMapping(context.resources.getResourceName(R.drawable.photo_14), R.drawable.photo_14)
   }
 }
 
