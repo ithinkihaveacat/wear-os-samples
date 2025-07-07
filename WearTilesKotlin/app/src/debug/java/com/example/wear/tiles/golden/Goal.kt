@@ -62,7 +62,7 @@ object Goal {
               text(
                 stepsString.layoutString,
                 typography =
-                if (isLargeScreen()) Typography.DISPLAY_LARGE else Typography.TITLE_LARGE
+                if (isLargeScreen()) Typography.DISPLAY_LARGE else Typography.DISPLAY_SMALL
               )
             },
             content = {
