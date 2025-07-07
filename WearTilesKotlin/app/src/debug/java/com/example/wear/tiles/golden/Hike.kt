@@ -142,10 +142,6 @@ object Hike {
     }
 
   fun resources(context: Context) = resources {
-    addIdToImageMapping(
-      context.resources.getResourceName(R.drawable.outline_add_24),
-      R.drawable.outline_add_24
-    )
     addIdToImageMapping(context.resources.getResourceName(R.drawable.photo_14), R.drawable.photo_14)
   }
 }
