@@ -64,8 +64,7 @@ object Workout {
   ) =
     materialScope(
       context = context,
-      deviceConfiguration = deviceParameters,
-      allowDynamicTheme = true
+      deviceConfiguration = deviceParameters
     ) {
       primaryLayout(
         titleSlot = { text(data.titleText.layoutString) },
@@ -135,8 +134,7 @@ object Workout {
   fun layout2(context: Context, deviceParameters: DeviceParameters, data: WorkoutData) =
     materialScope(
       context = context,
-      deviceConfiguration = deviceParameters,
-      allowDynamicTheme = true
+      deviceConfiguration = deviceParameters
     ) {
       primaryLayout(
         titleSlot = { text(data.titleText.layoutString) },
