@@ -23,6 +23,7 @@ import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
 import androidx.wear.protolayout.material3.CardDefaults.filledTonalCardColors
 import androidx.wear.protolayout.material3.GraphicDataCardDefaults.constructGraphic
 import androidx.wear.protolayout.material3.PrimaryLayoutMargins
+import androidx.wear.protolayout.material3.Typography
 import androidx.wear.protolayout.material3.circularProgressIndicator
 import androidx.wear.protolayout.material3.graphicDataCard
 import androidx.wear.protolayout.material3.icon
@@ -37,6 +38,7 @@ import androidx.wear.tiles.tooling.preview.TilePreviewHelper.singleTimelineEntry
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.addIdToImageMapping
+import com.example.wear.tiles.tools.isLargeScreen
 import com.example.wear.tiles.tools.resources
 import java.text.NumberFormat
 import java.util.Locale
@@ -45,10 +47,7 @@ object Goal {
   data class GoalData(val steps: Int, val goal: Int)
 
   fun layout(context: Context, deviceParameters: DeviceParameters, data: GoalData) =
-    materialScope(
-      context = context,
-      deviceConfiguration = deviceParameters
-    ) {
+    materialScope(context = context, deviceConfiguration = deviceParameters) {
       val stepsString = NumberFormat.getNumberInstance(Locale.US).format(data.steps)
       val goalString = NumberFormat.getNumberInstance(Locale.US).format(data.goal)
       primaryLayout(
@@ -59,8 +58,19 @@ object Goal {
             onClick = clickable(),
             height = expand(),
             colors = filledTonalCardColors(),
-            title = { text(stepsString.layoutString) },
-            content = { text("of $goalString".layoutString) },
+            title = {
+              text(
+                stepsString.layoutString,
+                typography =
+                if (isLargeScreen()) Typography.DISPLAY_LARGE else Typography.TITLE_LARGE
+              )
+            },
+            content = {
+              text(
+                "of $goalString".layoutString,
+                typography = if (isLargeScreen()) Typography.TITLE_LARGE else Typography.TITLE_SMALL
+              )
+            },
             horizontalAlignment = LayoutElementBuilders.HORIZONTAL_ALIGN_END,
             graphic = {
               constructGraphic(
@@ -72,21 +82,13 @@ object Goal {
                   )
                 },
                 iconContent = {
-                  icon(
-                    context.resources.getResourceName(
-                      R.drawable.outline_directions_walk_24
-                    )
-                  )
+                  icon(context.resources.getResourceName(R.drawable.outline_directions_walk_24))
                 }
               )
             }
           )
         },
-        bottomSlot = {
-          textEdgeButton(
-            onClick = clickable()
-          ) { text("Track".layoutString) }
-        }
+        bottomSlot = { textEdgeButton(onClick = clickable()) { text("Track".layoutString) } }
       )
     }
 
@@ -112,15 +114,8 @@ internal fun goalPreview(context: Context) =
   }
 
 class GoalTileService : BaseTileService() {
-  override fun layout(
-    context: Context,
-    deviceParameters: DeviceParameters
-  ): LayoutElement =
-    Goal.layout(
-      context,
-      deviceParameters,
-      data = Goal.GoalData(steps = 5168, goal = 8000)
-    )
+  override fun layout(context: Context, deviceParameters: DeviceParameters): LayoutElement =
+    Goal.layout(context, deviceParameters, data = Goal.GoalData(steps = 5168, goal = 8000))
 
   override fun resources(context: Context) = Goal.resources(context)
 }
