@@ -88,6 +88,9 @@ Example fragment specifying a preview image. In this case the preview image is
 </service>
 ```
 
+Note also that a "tile" is a service that "responds" to the
+`androidx.wear.tiles.action.BIND_TILE_PROVIDER` intent filter.
+
 ## Processes and Guides
 
 ### How to Regenerate or Update Tile Previews
