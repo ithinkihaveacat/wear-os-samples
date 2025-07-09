@@ -129,23 +129,26 @@ Note: only do this is specifically asked!
 1. **Identify Tile Services** Determine the application's tile services using
    one of the following methods:
 
-- **Method A (Static Analysis):** Review the `app/src/main/AndroidManifest.xml`
-  file to locate all `<service>` declarations that include an intent filter for
-  the `BIND_TILE_PROVIDER` action.
+   - **Method A (Static Analysis):** Review the `app/src/main/AndroidManifest.xml`
+     file to locate all `<service>` declarations that include an intent filter for
+     the `BIND_TILE_PROVIDER` action.
 
-- **Method B (Live Query):** Install the application on a device and run the
-  following `adb` command, replacing `your.package.name` with the app's actual
-  package name. This queries the device for all installed tile provider services
-  belonging to your app.
+   - **Method B (Live Query):** Install the application on a device and run the
+     following `adb` command, replacing `your.package.name` with the app's
+     package name. This queries the device for all installed tile provider
+     services belonging to your app.
 
-  ```shell
-  adb shell cmd package query-services -a androidx.wear.tiles.action.BIND_TILE_PROVIDER --brief | grep your.package.name | sort
-  ```
+     ```shell
+     adb exec-out cmd package query-services -a \
+     androidx.wear.tiles.action.BIND_TILE_PROVIDER --brief | \
+     grep your.package.name | \
+     sort
+     ```
 
-2. **Build and Install** If not already done, compile the latest version of the
+1. **Build and Install** If not already done, compile the latest version of the
    application and install it onto a connected Wear OS device or emulator.
 
-3. **Generate and Update Previews for Each Tile** For each tile service
+1. **Generate and Update Previews for Each Tile** For each tile service
    identified in Step 1, perform the following sequence:
 
    a. **Check for an Existing Preview** In `AndroidManifest.xml`, inspect the
@@ -165,19 +168,19 @@ Note: only do this is specifically asked!
    e. **Save or Overwrite the Preview Image** Save the screenshot into the
    project's `app/src/main/res/drawable/` directory.
 
-- If an existing preview file was identified in step 3a, overwrite it with the
-  new screenshot.
-- Otherwise, save the screenshot under a new, descriptive name (e.g.,
-  `tile_preview_servicename.png`).
+     - If an existing preview file was identified in step 3a, overwrite it with the
+       new screenshot.
+     - Otherwise, save the screenshot under a new, descriptive name (e.g.,
+       `tile_preview_servicename.png`).
 
-f. **Update the Manifest (if necessary)**
+   f. **Update the Manifest (if necessary)**
 
-  - If you overwrote an existing file, no manifest change is needed.
-  - If you created a new file, add the corresponding `<meta-data>` tag to the
-    `<service>` declaration, linking to the new drawable resource.
+     - If you overwrote an existing file, no manifest change is needed.
+     - If you created a new file, add the corresponding `<meta-data>` tag to the
+       `<service>` declaration, linking to the new drawable resource.
 
-g. **Clean Up** Remove the tile instance from the device's carousel.
+   g. **Clean Up** Remove the tile instance from the device's carousel.
 
-4. **Verify Changes** After processing all tiles, rebuild the application to
+1. **Verify Changes** After processing all tiles, rebuild the application to
    confirm that the manifest is correct and all preview resources are included
    properly.
