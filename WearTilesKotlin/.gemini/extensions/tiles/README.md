@@ -1,31 +1,20 @@
 # Wear OS MCP Server
 
-Install dependencies:
+## Getting Started
+
+For all options, first install node (version 18+).
+
+Then install install dependencies:
 
 ```sh
+# from the directory containing package.json
 npm install
 ```
 
-Check for updates (ignoring version specifiers):
+Final step depends on the agent using the MCP.
 
-```sh
-npx npm-check-updates    # reports outdated versions
-npx npm-check-updates -u # updates package.json
-```
-
-To run directly:
-
-```sh
-npx tsx server.ts
-```
-
-To run using the MCP inspector (no install needed):
-
-```sh
-npx @modelcontextprotocol/inspector tsx server.ts
-```
-
-To use with Gemini:
+For Gemini and other agents that are configured via a `mcpServer` value in a
+JSON configuration file:
 
 ```xml
 {
@@ -33,10 +22,31 @@ To use with Gemini:
     "adb": {
       "command": "npx",
       "args": [
+        "-y",
         "tsx",
-        "/Users/mjs/workspace/mcp/adb.ts"
+        "server.ts"
       ]
     }
   }
 }
+```
+
+For Android Studio see [Add an MCP
+server](https://developer.android.com/studio/preview/gemini/agent-mode#add-mcp).
+
+## Development
+
+Check for dependency updates (i.e. ignoring version specifiers):
+
+```sh
+npx npm-check-updates    # reports outdated versions
+npx npm-check-updates -u # updates package.json
+```
+
+Inspect the server using the [MCP
+inspector](https://modelcontextprotocol.io/docs/tools/inspector) (no need to
+install the inspector):
+
+```sh
+npx @modelcontextprotocol/inspector tsx server.ts
 ```
