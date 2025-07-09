@@ -104,9 +104,9 @@ ${error.stderr}`,
 createTool(
   "build-apk",
   {
-    title: "Build Debug APK",
+    title: "Builds the debug APK.",
     description:
-      "Builds the debug APK variant from the Android source code in the current directory and returns the path to the APK file. Use this if you don't need or want the APK to be installed (for example, if you want to check that the app can still be compiled after making a change to the source code). Exact command is ./gradlew :app:assembleDebug",
+      "Builds the debug APK from source. Use this to check for compilation errors after a code change. Exact command: `./gradlew :app:assembleDebug`.",
   },
   async () => {
     await executeCommand(
@@ -129,12 +129,14 @@ createTool(
 createTool(
   "install-apk",
   {
-    title: "Install Debug APK",
+    title: "Installs the debug APK.",
     description:
-      "Installs an APK file on the attached device. The exact command used is: ./gradlew :app:installDebug.",
-    },
+      "Installs the debug APK on the connected device. Exact command: `./gradlew :app:installDebug`.",
+  },
   async ({ apk }) => {
-    const stdout = await executeCommand(`cd ${APP_PATH} && ./gradlew :app:installDebug`);
+    const stdout = await executeCommand(
+      `cd ${APP_PATH} && ./gradlew :app:installDebug`
+    );
     return {
       content: [
         {
@@ -149,9 +151,9 @@ createTool(
 createTool(
   "add-tile",
   {
-    title: "Add Tile",
+    title: "Adds a tile to the carousel.",
     description:
-      "Adds a Wear OS tile to the tiles carousel of the attached device. The app must already be installed on the device. After adding the tile, it will not be visible, it has only been added to the carousel. If a tile already exists in the carousel, it's removed and reinserted in the same location. Otherwise, it's inserted at Index[0] (i.e. TileIndex 0). Also, if the carousel is at its maximum capacity, the last tile is removed to make room for the new tile. The exact command used is: adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SURFACE --es operation add-tile --ecn component <ComponentName>. ComponentName is a string that incorporates a package name, and the class name of the tile service in the standard Android format of <package_name>/<class_name>. For example com.example.wear.tiles/com.example.wear.tiles.PreviewTileService. Example output: Broadcast completed: result=1, data=\"Index=[0]\"",
+      "Adds a tile to the carousel. If the tile already exists, it is removed and re-added. If the carousel is full, the last tile is removed to make space. Exact command: `adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SURFACE --es operation add-tile --ecn component [COMPONENT_NAME]`.",
     inputSchema: { componentName: z.string() },
   },
   async ({ componentName }) => {
@@ -172,9 +174,9 @@ createTool(
 createTool(
   "show-tile",
   {
-    title: "Show Tile",
+    title: "Shows a tile.",
     description:
-      "Activate (that is raise and display to the user) the tile at index TILE_INDEX. The tile must already be added to the carousel. The exact command used is: adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SURFACE --es operation show-tile --ei tile-index <TileIndex>. TileIndex is the index of the tile in the carousel. Example output: Broadcast completed: result=1",
+      "Activates and displays the tile at a specific index in the carousel. Exact command: `adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SYSUI --es operation show-tile --ei index [TILE_INDEX]`.",
     inputSchema: { tileIndex: z.number() },
   },
   async ({ tileIndex }) => {
@@ -195,9 +197,9 @@ createTool(
 createTool(
   "remove-tile",
   {
-    title: "Remove Tile",
+    title: "Removes a tile.",
     description:
-      'Removes all tile instances on the carousel associated with COMPONENT_NAME. The exact command used is: adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SURFACE --es operation remove-tile --ecn component <ComponentName>. ComponentName is a string that incorporates a package name, and the class name of the tile service in the standard Android format of <package_name>/<class_name>. For example com.example.wear.tiles/com.example.wear.tiles.PreviewTileService. Example output: result=1, data="Tile(s) removed."',
+      "Removes all instances of a tile from the carousel. Exact command: `adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SURFACE --es operation remove-tile --ecn component [COMPONENT_NAME]`.",
     inputSchema: { componentName: z.string() },
   },
   async ({ componentName }) => {
@@ -218,9 +220,9 @@ createTool(
 createTool(
   "list-tiles",
   {
-    title: "List Tiles",
+    title: "Lists all tiles for a package.",
     description:
-      "Lists all tiles on the device provided by a given package name. (The package needs to be installed on the device for this command to work.) It returns the full component name, which is useful input for other tile commands, such as show tile and remove tile. The exact command used is: adb shell cmd package query-services -a androidx.wear.tiles.action.BIND_TILE_PROVIDER --brief | grep -E '\\s+<package_name>' | sed 's/^[[:space:]]*//'",
+      "Lists all available tiles for a given package. Exact command: `adb shell cmd package query-services -a androidx.wear.tiles.action.BIND_TILE_PROVIDER --brief | grep [PACKAGE_NAME]`.",
     inputSchema: { packageName: z.string() },
   },
   async ({ packageName }) => {
@@ -241,9 +243,9 @@ createTool(
 createTool(
   "get-package-name",
   {
-    title: "Get Package Name",
+    title: "Gets the app's package name.",
     description:
-      "Returns the package name of the app we're interacting with. If you need a package name as input for some other command, use this to get the package name.",
+      "Returns the package name for the application being tested, for use with other commands.",
   },
   async () => {
     return {
@@ -281,9 +283,9 @@ async function takeScreenshot(filename: string) {
 createTool(
   "screenshot-to-stdout",
   {
-    title: "Screenshot to PNG",
+    title: "Takes a screenshot and returns it as PNG data.",
     description:
-      "Takes a screenshot of the attached device, returning the screenshot as image/png encoded as base64.",
+      "Takes a screenshot of the connected device and returns the image data as a base64-encoded PNG.",
   },
   async () => {
     const filename = `/tmp/screenshot-${Date.now()}.png`;
@@ -305,9 +307,9 @@ createTool(
 createTool(
   "screenshot-to-file",
   {
-    title: "Screenshot to file",
+    title: "Takes a screenshot and saves it to a file.",
     description:
-      "Takes a screenshot of the attached device, returning the filename of the screenshot. The file type is image/png. Use the `cp` shell command to create the file in another location.",
+      "Takes a screenshot of the connected device and saves it to a temporary file, returning the absolute path to the PNG file.",
   },
   async () => {
     const filename = `/tmp/screenshot-${Date.now()}.png`;
