@@ -1,0 +1,10 @@
+{
+  "name": "tiles",
+  "version": "0.0.1",
+  "mcpServers": {
+    "adb-tiles-mcp": {
+      "command": ".gemini/extensions/tiles/node_modules/.bin/tsx",
+      "args": [".gemini/extensions/tiles/server.ts"]
+    }
+  }
+}
