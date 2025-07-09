@@ -104,13 +104,13 @@ ${error.stderr}`,
 createTool(
   "build-apk",
   {
-    title: "Build APK",
+    title: "Build Debug APK",
     description:
-      "Builds an APK from the Android source code in the current directory and returns the path to the APK file.",
+      "Builds the debug APK variant from the Android source code in the current directory and returns the path to the APK file. Use this if you don't need or want the APK to be installed (for example, if you want to check that the app can still be compiled after making a change to the source code). Exact command is ./gradlew :app:assembleDebug",
   },
   async () => {
     await executeCommand(
-      `cd ${APP_PATH} && ./gradlew :app:compileDebugKotlin`,
+      `cd ${APP_PATH} && ./gradlew :app:assembleDebug`,
       {
         validatePath: APK_PATH,
       }
@@ -129,13 +129,12 @@ createTool(
 createTool(
   "install-apk",
   {
-    title: "Install APK",
+    title: "Install Debug APK",
     description:
-      "Installs an APK file on the attached device. The APK file must already exist. The exact command used is: adb install -g -t -r <apk>.",
-    inputSchema: { apk: z.string() },
-  },
+      "Installs an APK file on the attached device. The exact command used is: ./gradlew :app:installDebug.",
+    },
   async ({ apk }) => {
-    const stdout = await executeCommand(`adb install -g -t -r ${apk}`);
+    const stdout = await executeCommand(`cd ${APP_PATH} && ./gradlew :app:installDebug`);
     return {
       content: [
         {
