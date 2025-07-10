@@ -2,18 +2,21 @@ import { McpServer, McpTool } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { exec } from "child_process";
 import { promises as fs } from "fs";
+import { tmpdir } from "os";
+import { join as joinPath } from "path";
 import { promisify } from "util";
 import { z } from "zod";
-import { homedir } from "os";
 
 const server = new McpServer({
-  name: "adb-mcp",
-  version: "0.0.1",
+  name: "wear-adb-mcp",
+  version: "0.0.1"
 });
 
-const APP_PATH = `${homedir()}/workspace/wear-os-samples/WearTilesKotlin`;
-const APK_PATH = `${APP_PATH}/app/build/outputs/apk/debug/app-debug.apk`;
-const PACKAGE_NAME = "com.example.wear.tiles";
+const SCREENSHOT_TMP_DIR = joinPath(tmpdir(), "gemini-extension-wear-adb");
+
+const GRADLE_PROJECT_ROOT = process.env.GRADLE_PROJECT_ROOT || `../../../`;
+const GRADLEW_PATH = process.env.GRADLEW_PATH || "../../../gradlew";
+const PACKAGE_NAME = process.env.PACKAGE_NAME || "com.example.wear.tiles";
 
 class CommandError extends Error {
   constructor(
@@ -26,7 +29,6 @@ class CommandError extends Error {
   }
 }
 
-// Helper function to execute ADB commands
 async function executeCommand(
   command: string,
   options?: { validatePath?: string }
@@ -36,12 +38,7 @@ async function executeCommand(
   try {
     cmdResult = await execAsync(command);
   } catch (error: any) {
-    throw new CommandError(
-      `Command failed: ${command}`,
-      command,
-      error.stdout,
-      error.stderr
-    );
+    throw new CommandError(`Command failed: ${command}`, command, error.stdout, error.stderr);
   }
 
   if (options?.validatePath) {
@@ -61,9 +58,7 @@ async function executeCommand(
   return cmdResult.stdout;
 }
 
-type ToolLogic = (
-  input: any
-) => Promise<{ isError?: boolean; content: McpTool.Output["content"] }>;
+type ToolLogic = (input: any) => Promise<{ isError?: boolean; content: McpTool.Output["content"] }>;
 
 function createTool(
   name: string,
@@ -77,25 +72,25 @@ function createTool(
       const content: McpTool.Output["content"] = [
         {
           type: "text",
-          text: `Error: ${error.message}`,
-        },
+          text: `Error: ${error.message}`
+        }
       ];
       if (error instanceof CommandError) {
         content.push(
           {
             type: "text",
-            text: `Command: ${error.command}`,
+            text: `Command: ${error.command}`
           },
           {
             type: "text",
             text: `Output: ${error.stdout}
-${error.stderr}`,
+${error.stderr}`
           }
         );
       }
       return {
         isError: true,
-        content,
+        content
       };
     }
   });
@@ -106,22 +101,19 @@ createTool(
   {
     title: "Builds the debug APK.",
     description:
-      "Builds the debug APK from source. Use this to check for compilation errors after a code change. Exact command: `./gradlew :app:assembleDebug`.",
+      "Builds the debug APK from source. Use this to check for compilation errors after a code change. Exact command: `./gradlew :app:assembleDebug`."
   },
   async () => {
-    await executeCommand(
-      `cd ${APP_PATH} && ./gradlew :app:assembleDebug`,
-      {
-        validatePath: APK_PATH,
-      }
+    const stdout = await executeCommand(
+      `${GRADLEW_PATH} -p ${GRADLE_PROJECT_ROOT} :app:assembleDebug`
     );
     return {
       content: [
         {
           type: "text",
-          text: APK_PATH,
-        },
-      ],
+          text: stdout
+        }
+      ]
     };
   }
 );
@@ -131,19 +123,19 @@ createTool(
   {
     title: "Installs the debug APK.",
     description:
-      "Installs the debug APK on the connected device. Exact command: `./gradlew :app:installDebug`.",
+      "Installs the debug APK on the connected device. Exact command: `./gradlew :app:installDebug`."
   },
   async ({ apk }) => {
     const stdout = await executeCommand(
-      `cd ${APP_PATH} && ./gradlew :app:installDebug`
+      `${GRADLEW_PATH} -p ${GRADLE_PROJECT_ROOT} :app:installDebug`
     );
     return {
       content: [
         {
           type: "text",
-          text: stdout,
-        },
-      ],
+          text: stdout
+        }
+      ]
     };
   }
 );
@@ -154,7 +146,7 @@ createTool(
     title: "Adds a tile to the carousel.",
     description:
       "Adds a tile to the carousel. If the tile already exists, it is removed and re-added. If the carousel is full, the last tile is removed to make space. Exact command: `adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SURFACE --es operation add-tile --ecn component [COMPONENT_NAME]`.",
-    inputSchema: { componentName: z.string() },
+    inputSchema: { componentName: z.string() }
   },
   async ({ componentName }) => {
     const stdout = await executeCommand(
@@ -164,9 +156,9 @@ createTool(
       content: [
         {
           type: "text",
-          text: stdout,
-        },
-      ],
+          text: stdout
+        }
+      ]
     };
   }
 );
@@ -177,7 +169,7 @@ createTool(
     title: "Shows a tile.",
     description:
       "Activates and displays the tile at a specific index in the carousel. Exact command: `adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SYSUI --es operation show-tile --ei index [TILE_INDEX]`.",
-    inputSchema: { tileIndex: z.number() },
+    inputSchema: { tileIndex: z.number() }
   },
   async ({ tileIndex }) => {
     const stdout = await executeCommand(
@@ -187,9 +179,9 @@ createTool(
       content: [
         {
           type: "text",
-          text: stdout,
-        },
-      ],
+          text: stdout
+        }
+      ]
     };
   }
 );
@@ -200,7 +192,7 @@ createTool(
     title: "Removes a tile.",
     description:
       "Removes all instances of a tile from the carousel. Exact command: `adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SURFACE --es operation remove-tile --ecn component [COMPONENT_NAME]`.",
-    inputSchema: { componentName: z.string() },
+    inputSchema: { componentName: z.string() }
   },
   async ({ componentName }) => {
     const stdout = await executeCommand(
@@ -210,9 +202,9 @@ createTool(
       content: [
         {
           type: "text",
-          text: stdout,
-        },
-      ],
+          text: stdout
+        }
+      ]
     };
   }
 );
@@ -220,46 +212,37 @@ createTool(
 createTool(
   "list-tiles",
   {
-    title: "Lists all tiles for a package.",
+    title: "Lists all tiles for the app.",
     description:
-      "Lists all available tiles for a given package. Exact command: `adb shell cmd package query-services -a androidx.wear.tiles.action.BIND_TILE_PROVIDER --brief | grep [PACKAGE_NAME]`.",
-    inputSchema: { packageName: z.string() },
-  },
-  async ({ packageName }) => {
-    const stdout = await executeCommand(
-      `adb shell cmd package query-services -a androidx.wear.tiles.action.BIND_TILE_PROVIDER --brief | grep -E "\\s+${packageName}" | sed 's/^[[:space:]]*//' | sort`
-    );
-    return {
-      content: [
-        {
-          type: "text",
-          text: stdout,
-        },
-      ],
-    };
-  }
-);
-
-createTool(
-  "get-package-name",
-  {
-    title: "Gets the app's package name.",
-    description:
-      "Returns the package name for the application being tested, for use with other commands.",
+      "Lists all available tiles for the current application, returning them in component name format (e.g., com.example.wear.tiles/com.example.wear.tiles.hello.HelloWorldTileService). Exact command: `adb shell cmd package query-services -a androidx.wear.tiles.action.BIND_TILE_PROVIDER --brief | grep [PACKAGE_NAME]`."
   },
   async () => {
+    const command = `adb shell cmd package query-services -a androidx.wear.tiles.action.BIND_TILE_PROVIDER --brief | sed 's/^[[:space:]]*//' | grep "${PACKAGE_NAME}" || true | sort`;
+    const stdout = await executeCommand(command);
     return {
       content: [
         {
           type: "text",
-          text: PACKAGE_NAME,
-        },
-      ],
+          text: stdout
+        }
+      ]
     };
   }
 );
 
-async function takeScreenshot(filename: string) {
+async function takeScreenshot(): Promise<string> {
+  await fs.mkdir(SCREENSHOT_TMP_DIR, { recursive: true });
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const MM = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  const hh = String(d.getHours()).padStart(2, "0");
+  const mm = String(d.getMinutes()).padStart(2, "0");
+  const ss = String(d.getSeconds()).padStart(2, "0");
+  const HH = String(Math.floor(d.getMilliseconds() / 10)).padStart(2, "0");
+  const timestamp = `${yyyy}${MM}${dd}${hh}${mm}${ss}${HH}`;
+  const filename = joinPath(SCREENSHOT_TMP_DIR, `screenshot-${timestamp}.png`);
+
   const wakeupCommand = "adb exec-out input keyevent KEYCODE_WAKEUP";
   const screencapCommand = `adb exec-out "screencap -p 2>/dev/null"`;
 
@@ -268,16 +251,14 @@ async function takeScreenshot(filename: string) {
     "-alpha set -background none -fill white",
     '\\( +clone -channel A -evaluate set 0 +channel -draw "circle %[fx:w/2],%[fx:h/2] %[fx:w/2],0" \\)',
     "-compose dstin -composite",
-    `png:"${filename}"`,
+    `png:"${filename}"`
   ];
   const magickCommand = magickArgs.join(" ");
 
-  await executeCommand(
-    `${wakeupCommand} && ${screencapCommand} | ${magickCommand}`,
-    {
-      validatePath: filename,
-    }
-  );
+  await executeCommand(`${wakeupCommand} && ${screencapCommand} | ${magickCommand}`, {
+    validatePath: filename
+  });
+  return filename;
 }
 
 createTool(
@@ -285,11 +266,10 @@ createTool(
   {
     title: "Takes a screenshot and returns it as PNG data.",
     description:
-      "Takes a screenshot of the connected device and returns the image data as a base64-encoded PNG.",
+      "Takes a screenshot of the connected device and returns the image data as a base64-encoded PNG."
   },
   async () => {
-    const filename = `/tmp/screenshot-${Date.now()}.png`;
-    await takeScreenshot(filename);
+    const filename = await takeScreenshot();
     const fileContent = await fs.readFile(filename);
     const base64Content = fileContent.toString("base64");
     return {
@@ -297,9 +277,9 @@ createTool(
         {
           type: "image",
           mimeType: "image/png",
-          data: base64Content,
-        },
-      ],
+          data: base64Content
+        }
+      ]
     };
   }
 );
@@ -309,18 +289,84 @@ createTool(
   {
     title: "Takes a screenshot and saves it to a file.",
     description:
-      "Takes a screenshot of the connected device and saves it to a temporary file, returning the absolute path to the PNG file.",
+      "Takes a screenshot of the connected device and saves it to a temporary file, returning the absolute path to the PNG file."
   },
   async () => {
-    const filename = `/tmp/screenshot-${Date.now()}.png`;
-    await takeScreenshot(filename);
+    const filename = await takeScreenshot();
     return {
       content: [
         {
           type: "text",
-          text: filename,
-        },
-      ],
+          text: filename
+        }
+      ]
+    };
+  }
+);
+
+createTool(
+  "get-display-size",
+  {
+    title: "Gets the display size in dp.",
+    description:
+      "Gets the height and width of the attached display in dp using `adb shell wm size` and `adb shell wm density`"
+  },
+  async () => {
+    const sizeStdout = await executeCommand("adb exec-out wm size");
+    const densityStdout = await executeCommand("adb exec-out wm density");
+
+    const sizeMatch = sizeStdout.match(/Physical size: (\d+)x(\d+)/);
+    if (!sizeMatch) {
+      throw new Error(`Could not parse screen size from: ${sizeStdout}`);
+    }
+    const widthPx = parseInt(sizeMatch[1], 10);
+    const heightPx = parseInt(sizeMatch[2], 10);
+
+    const densityMatch = densityStdout.match(/Physical density: (\d+)/);
+    if (!densityMatch) {
+      throw new Error(`Could not parse screen density from: ${densityStdout}`);
+    }
+    const density = parseInt(densityMatch[1], 10);
+
+    if (density === 0) {
+      throw new Error("Density cannot be zero.");
+    }
+
+    const widthDp = (widthPx * 160) / density;
+    const heightDp = (heightPx * 160) / density;
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({ width: widthDp, height: heightDp })
+        }
+      ]
+    };
+  }
+);
+
+createTool(
+  "debug-info",
+  {
+    title: "Gets server-side debug info.",
+    description: "Returns the values of server-side constants for debugging."
+  },
+  async () => {
+    const info = `
+CWD: ${process.cwd()}
+SCREENSHOT_TMP_DIR: ${SCREENSHOT_TMP_DIR}
+GRADLE_PROJECT_ROOT: ${GRADLE_PROJECT_ROOT}
+GRADLEW_PATH: ${GRADLEW_PATH}
+PACKAGE_NAME: ${PACKAGE_NAME}
+    `;
+    return {
+      content: [
+        {
+          type: "text",
+          text: info.trim()
+        }
+      ]
     };
   }
 );
