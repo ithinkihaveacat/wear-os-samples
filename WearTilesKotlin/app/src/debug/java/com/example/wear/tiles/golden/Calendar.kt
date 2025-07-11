@@ -122,7 +122,7 @@ object Calendar {
                 addContent(
                   titleCard(
                     onClick = data.clickable,
-                    title = { text(data.name.layoutString, maxLines = 2) },
+                    title = { text(data.name.layoutString, maxLines = if (isLargeScreen()) 3 else 2) },
                     content = {
                       column {
                         addContent(text(data.time.layoutString))
@@ -177,7 +177,7 @@ fun calendarPreviewX(context: Context, eventImageId: String? = null) =
         Calendar.Event(
           date = "25 July",
           time = "6:30-7:30 PM",
-          name = "Tennis Coaching with Christina Lloyd",
+          name = "Advanced Tennis Coaching with Christina Lloyd",
           location = "216 Market Street",
           imageId = eventImageId,
           clickable = clickable()
@@ -198,7 +198,7 @@ class Calendar1TileService : BaseTileService() {
       Calendar.Event(
         date = "25 July",
         time = "6:30-7:30 PM",
-        name = "Tennis Coaching with Christina Lloyd",
+        name = "Advanced Tennis Coaching with Christina Lloyd",
         location = "216 Market Street",
         imageId = null,
         clickable = clickable()
@@ -219,7 +219,7 @@ class Calendar2TileService : BaseTileService() {
       Calendar.Event(
         date = "25 July",
         time = "6:30-7:30 PM",
-        name = "Tennis Coaching with Christina Lloyd",
+        name = "Advanced Tennis Coaching with Christina Lloyd",
         location = "216 Market Street",
         imageId = context.resources.getResourceName(R.drawable.photo_38),
         clickable = clickable()
