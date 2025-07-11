@@ -347,18 +347,70 @@ createTool(
 );
 
 createTool(
+  "get-state",
+  {
+    title: "Gets the adb state of a connected device.",
+    description:
+      "Runs `adb get-state` and returns the result. Returns 'error' if the device is not found."
+  },
+  async () => {
+    try {
+      const stdout = await executeCommand(`adb get-state`);
+      return {
+        content: [
+          {
+            type: "text",
+            text: stdout.trim()
+          }
+        ]
+      };
+    } catch (e) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: "error"
+          }
+        ]
+      };
+    }
+  }
+);
+
+createTool(
+  "get-serialno",
+  {
+    title: "Gets the serial number of a connected device.",
+    description: "Runs `adb get-serialno` and returns the result."
+  },
+  async () => {
+    const stdout = await executeCommand(`adb get-serialno`);
+    return {
+      content: [
+        {
+          type: "text",
+          text: stdout.trim()
+        }
+      ]
+    };
+  }
+);
+
+createTool(
   "debug-info",
   {
     title: "Gets server-side debug info.",
     description: "Returns the values of server-side constants for debugging."
   },
   async () => {
+    const serialNo = await executeCommand("adb get-serialno").catch((e) => `Error: ${e.message}`);
     const info = `
 CWD: ${process.cwd()}
 SCREENSHOT_TMP_DIR: ${SCREENSHOT_TMP_DIR}
 GRADLE_PROJECT_ROOT: ${GRADLE_PROJECT_ROOT}
 GRADLEW_PATH: ${GRADLEW_PATH}
 PACKAGE_NAME: ${PACKAGE_NAME}
+ANDROID_SERIAL: ${serialNo.trim()} # adb get-serialno
     `;
     return {
       content: [

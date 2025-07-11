@@ -4,7 +4,7 @@
   "mcpServers": {
     "wear-adb-mcp": {
       "command": "npx",
-      "args": ["tsx", "server.ts"],
+      "args": ["-y", "tsx", "server.ts"],
       "cwd": ".gemini/extensions/wear",
       "env": {
         "GRADLE_PROJECT_ROOT": "$PWD/../../..",
