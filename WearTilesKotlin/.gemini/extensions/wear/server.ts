@@ -1,3 +1,18 @@
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import { McpServer, McpTool } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { exec } from "child_process";
@@ -97,7 +112,7 @@ ${error.stderr}`
 }
 
 createTool(
-  "build-apk",
+  "build_apk",
   {
     title: "Builds the debug APK.",
     description:
@@ -119,13 +134,13 @@ createTool(
 );
 
 createTool(
-  "install-apk",
+  "install_apk",
   {
     title: "Installs the debug APK.",
     description:
       "Installs the debug APK on the connected device. Exact command: `./gradlew :app:installDebug`."
   },
-  async ({ apk }) => {
+  async () => {
     const stdout = await executeCommand(
       `${GRADLEW_PATH} -p ${GRADLE_PROJECT_ROOT} :app:installDebug`
     );
@@ -141,12 +156,19 @@ createTool(
 );
 
 createTool(
-  "add-tile",
+  "add_tile",
   {
     title: "Adds a tile to the carousel.",
     description:
       "Adds a tile to the carousel. If the tile already exists, it is removed and re-added. If the carousel is full, the last tile is removed to make space. Exact command: `adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SURFACE --es operation add-tile --ecn component [COMPONENT_NAME]`.",
-    inputSchema: { componentName: z.string() }
+    inputSchema: {
+      componentName: z
+        .string()
+        .regex(
+          /^[\w.]+\/[\w.]+$/,
+          "Invalid component name format. Expected format: com.package.name/com.package.name.service.ClassName"
+        )
+    }
   },
   async ({ componentName }) => {
     const stdout = await executeCommand(
@@ -164,7 +186,7 @@ createTool(
 );
 
 createTool(
-  "show-tile",
+  "show_tile",
   {
     title: "Shows a tile.",
     description:
@@ -187,12 +209,19 @@ createTool(
 );
 
 createTool(
-  "remove-tile",
+  "remove_tile",
   {
     title: "Removes a tile.",
     description:
       "Removes all instances of a tile from the carousel. Exact command: `adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SURFACE --es operation remove-tile --ecn component [COMPONENT_NAME]`.",
-    inputSchema: { componentName: z.string() }
+    inputSchema: {
+      componentName: z
+        .string()
+        .regex(
+          /^[\w.]+\/[\w.]+$/,
+          "Invalid component name format. Expected format: com.package.name/com.package.name.service.ClassName"
+        )
+    }
   },
   async ({ componentName }) => {
     const stdout = await executeCommand(
@@ -210,7 +239,7 @@ createTool(
 );
 
 createTool(
-  "list-tiles",
+  "list_tiles",
   {
     title: "Lists all tiles for the app.",
     description:
@@ -262,7 +291,7 @@ async function takeScreenshot(): Promise<string> {
 }
 
 createTool(
-  "screenshot-to-stdout",
+  "screenshot_to_stdout",
   {
     title: "Takes a screenshot and returns it as PNG data.",
     description:
@@ -285,7 +314,7 @@ createTool(
 );
 
 createTool(
-  "screenshot-to-file",
+  "screenshot_to_file",
   {
     title: "Takes a screenshot and saves it to a file.",
     description:
@@ -305,7 +334,7 @@ createTool(
 );
 
 createTool(
-  "get-display-size",
+  "get_display_size",
   {
     title: "Gets the display size in dp.",
     description:
@@ -347,7 +376,7 @@ createTool(
 );
 
 createTool(
-  "get-state",
+  "get_state",
   {
     title: "Gets the adb state of a connected device.",
     description:
@@ -378,7 +407,7 @@ createTool(
 );
 
 createTool(
-  "get-serialno",
+  "get_serialno",
   {
     title: "Gets the serial number of a connected device.",
     description: "Runs `adb get-serialno` and returns the result."
@@ -397,7 +426,7 @@ createTool(
 );
 
 createTool(
-  "debug-info",
+  "debug_info",
   {
     title: "Gets server-side debug info.",
     description: "Returns the values of server-side constants for debugging."
