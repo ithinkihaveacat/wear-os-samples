@@ -122,7 +122,12 @@ object Calendar {
                 addContent(
                   titleCard(
                     onClick = data.clickable,
-                    title = { text(data.name.layoutString, maxLines = if (isLargeScreen()) 3 else 2) },
+                    title = {
+                      text(
+                        data.name.layoutString,
+                        maxLines = if (isLargeScreen()) 3 else 2
+                      )
+                    },
                     content = {
                       column {
                         addContent(text(data.time.layoutString))

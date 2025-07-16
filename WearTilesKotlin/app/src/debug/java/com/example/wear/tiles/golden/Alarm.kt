@@ -64,8 +64,18 @@ fun MaterialScope.styledTime(time: LocalTime): LayoutElement {
 
   return LayoutElementBuilders.Row.Builder()
     .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_BOTTOM)
-    .addContent(text(text = timeString.layoutString, typography = if (isLargeScreen()) DISPLAY_LARGE else DISPLAY_MEDIUM))
-    .addContent(text(text = " $amPm".layoutString, typography = if (isLargeScreen()) TITLE_LARGE else TITLE_MEDIUM))
+    .addContent(
+      text(
+        text = timeString.layoutString,
+        typography = if (isLargeScreen()) DISPLAY_LARGE else DISPLAY_MEDIUM
+      )
+    )
+    .addContent(
+      text(
+        text = " $amPm".layoutString,
+        typography = if (isLargeScreen()) TITLE_LARGE else TITLE_MEDIUM
+      )
+    )
     .build()
 }
 

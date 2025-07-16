@@ -29,7 +29,6 @@ import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.PrimaryLayoutMargins
 import androidx.wear.protolayout.material3.Typography.DISPLAY_MEDIUM
 import androidx.wear.protolayout.material3.Typography.DISPLAY_SMALL
-import androidx.wear.protolayout.material3.Typography.LABEL_LARGE
 import androidx.wear.protolayout.material3.Typography.LABEL_MEDIUM
 import androidx.wear.protolayout.material3.Typography.LABEL_SMALL
 import androidx.wear.protolayout.material3.Typography.TITLE_MEDIUM

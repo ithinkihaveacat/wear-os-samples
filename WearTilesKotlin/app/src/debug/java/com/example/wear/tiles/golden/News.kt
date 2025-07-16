@@ -34,8 +34,6 @@ import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.Typography.BODY_LARGE
 import androidx.wear.protolayout.material3.Typography.BODY_MEDIUM
 import androidx.wear.protolayout.material3.Typography.BODY_SMALL
-import androidx.wear.protolayout.material3.Typography.DISPLAY_LARGE
-import androidx.wear.protolayout.material3.Typography.DISPLAY_SMALL
 import androidx.wear.protolayout.material3.backgroundImage
 import androidx.wear.protolayout.material3.card
 import androidx.wear.protolayout.material3.materialScope
@@ -203,7 +201,13 @@ object News {
           contentScaleMode = CONTENT_SCALE_MODE_CROP
         )
       },
-      content = { text(text = headline.layoutString, maxLines = 3, typography = if (isLargeScreen()) BODY_LARGE else BODY_MEDIUM) }
+      content = {
+        text(
+          text = headline.layoutString,
+          maxLines = 3,
+          typography = if (isLargeScreen()) BODY_LARGE else BODY_MEDIUM
+        )
+      }
     )
 
   fun layout2(
