@@ -25,7 +25,9 @@ import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColor
 import androidx.wear.protolayout.material3.CardDefaults.filledVariantCardColors
 import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.TitleCardStyle
+import androidx.wear.protolayout.material3.Typography.DISPLAY_LARGE
 import androidx.wear.protolayout.material3.Typography.DISPLAY_MEDIUM
+import androidx.wear.protolayout.material3.Typography.TITLE_LARGE
 import androidx.wear.protolayout.material3.Typography.TITLE_MEDIUM
 import androidx.wear.protolayout.material3.icon
 import androidx.wear.protolayout.material3.iconEdgeButton
@@ -62,8 +64,8 @@ fun MaterialScope.styledTime(time: LocalTime): LayoutElement {
 
   return LayoutElementBuilders.Row.Builder()
     .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_BOTTOM)
-    .addContent(text(text = timeString.layoutString, typography = DISPLAY_MEDIUM))
-    .addContent(text(text = " $amPm".layoutString, typography = TITLE_MEDIUM))
+    .addContent(text(text = timeString.layoutString, typography = if (isLargeScreen()) DISPLAY_LARGE else DISPLAY_MEDIUM))
+    .addContent(text(text = " $amPm".layoutString, typography = if (isLargeScreen()) TITLE_LARGE else TITLE_MEDIUM))
     .build()
 }
 
@@ -85,7 +87,7 @@ object Alarm {
             title = {
               text(
                 "Mon—Fri".layoutString,
-                typography = TITLE_MEDIUM,
+                typography = if (isLargeScreen()) TITLE_LARGE else TITLE_MEDIUM,
                 color = colorScheme.onSurfaceVariant
               )
             },
