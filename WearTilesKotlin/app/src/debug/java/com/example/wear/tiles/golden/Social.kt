@@ -116,7 +116,7 @@ fun MaterialScope.contactButton(contact: Contact): LayoutElement {
           fontStyle(
             color = colors.labelColor,
             settings = listOf(FontSetting.width(60F)),
-            size = 26F,
+            size = 30F,
             weight = FONT_WEIGHT_MEDIUM
           ),
           modifier =
