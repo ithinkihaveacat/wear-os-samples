@@ -90,7 +90,7 @@ object Workout {
                 onClick = clickable(),
                 width = if (isLargeScreen()) dp(80f) else expand(),
                 height = expand(),
-                shape = shapes.medium,
+                shape = shapes.large,
                 title = {
                   if (isLargeScreen()) {
                     text("30".layoutString, typography = DISPLAY_MEDIUM)
@@ -223,7 +223,7 @@ object Workout {
       title = {
         text(
           titleText.layoutString,
-          typography = if (isLargeScreen()) DISPLAY_SMALL else LABEL_LARGE
+          typography = if (isLargeScreen()) DISPLAY_MEDIUM else DISPLAY_SMALL
         )
       },
       content = {
