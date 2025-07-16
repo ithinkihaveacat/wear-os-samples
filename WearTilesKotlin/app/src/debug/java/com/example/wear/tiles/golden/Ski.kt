@@ -58,14 +58,12 @@ object Ski {
       )
     }
 
-  private fun MaterialScope.statColumn(
-    stat: Stat,
-    isLargeScreen: Boolean
-  ): LayoutElementBuilders.Column {
-    val labelTypography = if (isLargeScreen) Typography.TITLE_MEDIUM else Typography.TITLE_SMALL
+  private fun MaterialScope.statColumn(stat: Stat): LayoutElementBuilders.Column {
+    val largeScreen = isLargeScreen()
+    val labelTypography = if (largeScreen) Typography.TITLE_MEDIUM else Typography.TITLE_SMALL
     val valueTypography =
-      if (isLargeScreen) Typography.NUMERAL_SMALL else Typography.NUMERAL_EXTRA_SMALL
-    val unitTypography = if (isLargeScreen) Typography.TITLE_MEDIUM else Typography.TITLE_SMALL
+      if (largeScreen) Typography.NUMERAL_SMALL else Typography.NUMERAL_EXTRA_SMALL
+    val unitTypography = if (largeScreen) Typography.TITLE_MEDIUM else Typography.TITLE_SMALL
 
     return LayoutElementBuilders.Column.Builder()
       .addContent(text(stat.label.layoutString, typography = labelTypography))
@@ -87,7 +85,7 @@ object Ski {
           containerColor = colorScheme.onSecondary,
           labelColor = colorScheme.secondary
         ),
-      labelContent = { statColumn(stat, isLargeScreen()) }
+      labelContent = { statColumn(stat) }
     )
 
   data class Stat(val label: String, val value: String, val unit: String)
