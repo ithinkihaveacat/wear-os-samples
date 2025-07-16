@@ -119,7 +119,10 @@ fun MaterialScope.contactButton(contact: Contact): LayoutElement {
             size = 26F,
             weight = FONT_WEIGHT_MEDIUM
           ),
-          modifier = LayoutModifier.background(colors.containerColor).clip(shapes.full)
+          modifier =
+          LayoutModifier.background(colors.containerColor)
+            .clip(shapes.full)
+            .padding(horizontal = 2F, vertical = 2F)
         )
       },
       width = expand(),
