@@ -80,6 +80,7 @@ object Ski {
       onClick = clickable(),
       width = expand(),
       height = expand(),
+      shape = shapes.extraLarge,
       colors =
       filledVariantButtonColors()
         .copy(
