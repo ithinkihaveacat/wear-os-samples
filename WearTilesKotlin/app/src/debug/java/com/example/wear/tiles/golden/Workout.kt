@@ -24,16 +24,16 @@ import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.material3.ButtonDefaults.filledTonalButtonColors
 import androidx.wear.protolayout.material3.ButtonDefaults.filledVariantButtonColors
 import androidx.wear.protolayout.material3.ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS
-import androidx.wear.protolayout.material3.CardDefaults.filledTonalCardColors
 import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.PrimaryLayoutMargins
 import androidx.wear.protolayout.material3.Typography.DISPLAY_MEDIUM
-import androidx.wear.protolayout.material3.Typography.DISPLAY_SMALL
+import androidx.wear.protolayout.material3.Typography.LABEL_LARGE
 import androidx.wear.protolayout.material3.Typography.LABEL_MEDIUM
 import androidx.wear.protolayout.material3.Typography.LABEL_SMALL
+import androidx.wear.protolayout.material3.Typography.TITLE_LARGE
 import androidx.wear.protolayout.material3.Typography.TITLE_MEDIUM
+import androidx.wear.protolayout.material3.button
 import androidx.wear.protolayout.material3.buttonGroup
-import androidx.wear.protolayout.material3.graphicDataCard
 import androidx.wear.protolayout.material3.icon
 import androidx.wear.protolayout.material3.iconButton
 import androidx.wear.protolayout.material3.iconDataCard
@@ -62,10 +62,7 @@ object Workout {
     deviceParameters: DeviceParametersBuilders.DeviceParameters,
     data: WorkoutData
   ) =
-    materialScope(
-      context = context,
-      deviceConfiguration = deviceParameters
-    ) {
+    materialScope(context = context, deviceConfiguration = deviceParameters) {
       primaryLayout(
         titleSlot = { text(data.titleText.layoutString) },
         mainSlot = {
@@ -79,7 +76,9 @@ object Workout {
                 iconContent = {
                   icon(
                     protoLayoutResourceId =
-                    context.resources.getResourceName(R.drawable.self_improvement_24px)
+                    context.resources.getResourceName(
+                      R.drawable.self_improvement_24px
+                    )
                   )
                 }
               )
@@ -106,7 +105,8 @@ object Workout {
                 },
                 secondaryIcon = {
                   icon(
-                    protoLayoutResourceId = context.resources.getResourceName(R.drawable.ic_run_24)
+                    protoLayoutResourceId =
+                    context.resources.getResourceName(R.drawable.ic_run_24)
                   )
                 }
               )
@@ -120,25 +120,30 @@ object Workout {
                 iconContent = {
                   icon(
                     protoLayoutResourceId =
-                    context.resources.getResourceName(R.drawable.ic_cycling_24)
+                    context.resources.getResourceName(
+                      R.drawable.ic_cycling_24
+                    )
                   )
                 }
               )
             }
           }
         },
-        bottomSlot = { textEdgeButton(onClick = clickable()) { text("More".layoutString) } }
+        bottomSlot = {
+          textEdgeButton(onClick = clickable()) { text("More".layoutString) }
+        }
       )
     }
 
-  fun layout2(context: Context, deviceParameters: DeviceParameters, data: WorkoutData) =
-    materialScope(
-      context = context,
-      deviceConfiguration = deviceParameters
-    ) {
+  fun layout2(
+    context: Context,
+    deviceParameters: DeviceParameters,
+    data: WorkoutData
+  ) =
+    materialScope(context = context, deviceConfiguration = deviceParameters) {
       primaryLayout(
         titleSlot = { text(data.titleText.layoutString) },
-        margins = PrimaryLayoutMargins.MIN_PRIMARY_LAYOUT_MARGIN,
+        margins = PrimaryLayoutMargins.MID_PRIMARY_LAYOUT_MARGIN,
         mainSlot = {
           if (isLargeScreen()) {
             column {
@@ -148,7 +153,8 @@ object Workout {
                 workoutGraphicDataCard(
                   titleText = "Start Run",
                   contentText = data.contentText,
-                  iconResourceName = context.resources.getResourceName(R.drawable.ic_run_24)
+                  iconResourceName =
+                  context.resources.getResourceName(R.drawable.ic_run_24)
                 )
               )
               addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
@@ -159,24 +165,13 @@ object Workout {
                       onClick = clickable(),
                       height = expand(),
                       width = expand(),
+                      colors = filledTonalButtonColors(),
                       iconContent = {
                         icon(
                           protoLayoutResourceId =
-                          context.resources.getResourceName(R.drawable.self_improvement_24px)
-                        )
-                      }
-                    )
-                  }
-                  buttonGroupItem {
-                    iconButton(
-                      onClick = clickable(),
-                      width = expand(),
-                      height = expand(),
-                      colors = filledVariantButtonColors(),
-                      iconContent = {
-                        icon(
-                          protoLayoutResourceId =
-                          context.resources.getResourceName(R.drawable.ic_run_24)
+                          context.resources.getResourceName(
+                            R.drawable.self_improvement_24px
+                          )
                         )
                       }
                     )
@@ -190,7 +185,25 @@ object Workout {
                       iconContent = {
                         icon(
                           protoLayoutResourceId =
-                          context.resources.getResourceName(R.drawable.ic_cycling_24)
+                          context.resources.getResourceName(
+                            R.drawable.ic_run_24
+                          )
+                        )
+                      }
+                    )
+                  }
+                  buttonGroupItem {
+                    iconButton(
+                      onClick = clickable(),
+                      width = expand(),
+                      height = expand(),
+                      colors = filledTonalButtonColors(),
+                      iconContent = {
+                        icon(
+                          protoLayoutResourceId =
+                          context.resources.getResourceName(
+                            R.drawable.ic_cycling_24
+                          )
                         )
                       }
                     )
@@ -202,11 +215,19 @@ object Workout {
             workoutGraphicDataCard(
               titleText = "Start Run",
               contentText = data.contentText,
-              iconResourceName = context.resources.getResourceName(R.drawable.ic_run_24)
+              iconResourceName =
+              context.resources.getResourceName(R.drawable.ic_run_24)
             )
           }
         },
-        bottomSlot = { textEdgeButton(onClick = clickable()) { text("Track".layoutString) } }
+        bottomSlot = {
+          textEdgeButton(
+            onClick = clickable(),
+            colors = filledVariantButtonColors()
+          ) {
+            text("More".layoutString)
+          }
+        }
       )
     }
 
@@ -215,25 +236,29 @@ object Workout {
     contentText: String,
     iconResourceName: String
   ) =
-    graphicDataCard(
+    button(
       onClick = clickable(),
       height = expand(),
-      colors = filledTonalCardColors(),
-      title = {
+      width = expand(),
+      labelContent = {
         text(
           titleText.layoutString,
-          typography = if (isLargeScreen()) DISPLAY_MEDIUM else DISPLAY_SMALL
+          typography = TITLE_LARGE
         )
       },
-      content = {
+      secondaryLabelContent = {
         text(
           contentText.layoutString,
-          typography = if (isLargeScreen()) LABEL_MEDIUM else LABEL_SMALL
+          typography = LABEL_SMALL
         )
       },
       horizontalAlignment = LayoutElementBuilders.HORIZONTAL_ALIGN_START,
-      graphic = {
-        icon(protoLayoutResourceId = iconResourceName, width = dp(36f), height = dp(36f))
+      iconContent = {
+        icon(
+          protoLayoutResourceId = iconResourceName,
+          width = dp(36f),
+          height = dp(36f)
+        )
       }
     )
 
@@ -292,7 +317,11 @@ class WorkoutTileService1 : BaseTileService() {
     context: Context,
     deviceParameters: DeviceParameters
   ): LayoutElementBuilders.LayoutElement =
-    Workout.layout1(context, deviceParameters, Workout.WorkoutData("Exercise", "30 min goal"))
+    Workout.layout1(
+      context,
+      deviceParameters,
+      Workout.WorkoutData("Exercise", "30 min goal")
+    )
 
   override fun resources(context: Context) = Workout.resources(context)
 }
@@ -302,7 +331,11 @@ class WorkoutTileService2 : BaseTileService() {
     context: Context,
     deviceParameters: DeviceParameters
   ): LayoutElementBuilders.LayoutElement =
-    Workout.layout2(context, deviceParameters, Workout.WorkoutData("Exercise", "30 min goal"))
+    Workout.layout2(
+      context,
+      deviceParameters,
+      Workout.WorkoutData("Exercise", "30 min goal")
+    )
 
   override fun resources(context: Context) = Workout.resources(context)
 }
