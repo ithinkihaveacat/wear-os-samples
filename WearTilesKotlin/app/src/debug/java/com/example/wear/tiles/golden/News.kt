@@ -52,8 +52,11 @@ import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.addIdToImageMapping
+import com.example.wear.tiles.tools.column
+import com.example.wear.tiles.tools.image
 import com.example.wear.tiles.tools.isLargeScreen
 import com.example.wear.tiles.tools.resources
+import com.example.wear.tiles.tools.row
 import java.time.Clock
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -71,27 +74,27 @@ object News {
   )
 
   private fun MaterialScope.newsImage(resourceId: String): LayoutElementBuilders.LayoutElement {
-    return Image.Builder()
-      .setResourceId(resourceId)
-      .setContentScaleMode(CONTENT_SCALE_MODE_CROP)
-      .setWidth(expand())
-      .setHeight(expand())
-      .setModifiers(
+    return image {
+      setResourceId(resourceId)
+      setContentScaleMode(CONTENT_SCALE_MODE_CROP)
+      setWidth(expand())
+      setHeight(expand())
+      setModifiers(
         Modifiers.Builder()
           .setBackground(Background.Builder().setCorner(shapes.large).build())
           .build()
       )
-      .build()
+    }
   }
 
   private fun MaterialScope.newsText(
     headline: String,
     newsVendor: String
   ): LayoutElementBuilders.LayoutElement {
-    return Column.Builder()
-      .setWidth(expand())
-      .setHeight(expand())
-      .addContent(
+    return column {
+      setWidth(expand())
+      setHeight(expand())
+      addContent(
         text(
           text = headline.layoutString,
           typography = LABEL_SMALL,
@@ -99,8 +102,8 @@ object News {
           alignment = LayoutElementBuilders.TEXT_ALIGN_START
         )
       )
-      .addContent(Spacer.Builder().setHeight(dp(4f)).build())
-      .addContent(
+      addContent(Spacer.Builder().setHeight(dp(3f)).build())
+      addContent(
         text(
           text = newsVendor.layoutString,
           typography = BODY_SMALL,
@@ -109,7 +112,7 @@ object News {
           alignment = LayoutElementBuilders.TEXT_ALIGN_START
         )
       )
-      .build()
+    }
   }
 
   private fun MaterialScope.newsCard1(
@@ -124,11 +127,11 @@ object News {
       height = expand(),
       modifier = LayoutModifier.background(colorScheme.surfaceContainer),
       content = {
-        Row.Builder()
-          .setWidth(expand())
-          .setHeight(expand())
-          .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
-          .addContent(
+        row {
+          setWidth(expand())
+          setHeight(expand())
+          setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
+          addContent(
             LayoutElementBuilders.Box.Builder()
               .setWidth(weight(0.4f))
               .setHeight(expand())
@@ -138,8 +141,8 @@ object News {
               )
               .build()
           )
-          .addContent(Spacer.Builder().setWidth(dp(12f)).build())
-          .addContent(
+          addContent(Spacer.Builder().setWidth(dp(12f)).build())
+          addContent(
             LayoutElementBuilders.Box.Builder()
               .setWidth(weight(0.6f))
               .setHeight(expand())
@@ -150,7 +153,7 @@ object News {
               .addContent(newsText(headline, newsVendor))
               .build()
           )
-          .build()
+        }
       }
     )
 
