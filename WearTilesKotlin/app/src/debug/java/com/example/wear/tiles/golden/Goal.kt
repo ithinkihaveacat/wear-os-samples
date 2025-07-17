@@ -79,8 +79,7 @@ object Goal {
                   circularProgressIndicator(
                     staticProgress = 1F * data.steps / data.goal,
                     startAngleDegrees = 200F,
-                    endAngleDegrees = 520F,
-                    colors = filledTonalProgressIndicatorColors()
+                    endAngleDegrees = 520F
                   )
                 },
                 iconContent = {
