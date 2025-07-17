@@ -21,12 +21,16 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders.dp
 import androidx.wear.protolayout.DimensionBuilders.expand
+import androidx.wear.protolayout.DimensionBuilders.weight
+import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
 import androidx.wear.protolayout.LayoutElementBuilders.Spacer
 import androidx.wear.protolayout.material3.ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS
 import androidx.wear.protolayout.material3.CardDefaults.filledVariantCardColors
 import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.Typography.BODY_SMALL
+import androidx.wear.protolayout.material3.Typography.NUMERAL_LARGE
+import androidx.wear.protolayout.material3.Typography.NUMERAL_MEDIUM
 import androidx.wear.protolayout.material3.Typography.TITLE_MEDIUM
 import androidx.wear.protolayout.material3.card
 import androidx.wear.protolayout.material3.icon
@@ -43,6 +47,7 @@ import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.addIdToImageMapping
+import com.example.wear.tiles.tools.box
 import com.example.wear.tiles.tools.column
 import com.example.wear.tiles.tools.isLargeScreen
 import com.example.wear.tiles.tools.resources
@@ -111,118 +116,78 @@ object Weather {
       primaryLayout(
         titleSlot = { text(data.location.layoutString) },
         mainSlot = {
-          card(
-            onClick = clickable(),
-            height = expand(),
-            width = expand(),
-            modifier =
-              LayoutModifier.background(
-                filledVariantCardColors().backgroundColor
-              ),
-            contentPadding = padding(top = 16f),
-          ) {
-            row {
-              setWidth(expand())
-              setHeight(expand())
-              val maxForecasts = if (isLargeScreen()) 4 else 3
-              data.forecast.take(maxForecasts).forEachIndexed { index, forecast
-                ->
-                addContent(hourForecast(forecast))
-                if (index < data.forecast.take(maxForecasts).size - 1) {
-                  addContent(Spacer.Builder().setWidth(dp(8f)).build())
-                }
-              }
-            }
-            //          column {
-            //            setWidth(expand())
-            //            setHeight(expand())
-            //            addContent(row {
-            //              setWidth(expand())
-            //              addContent(box {
-            //                setWidth(weight(1f))
-            //
-            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-            //                addContent(text("R1C1".layoutString))
-            //              })
-            //              addContent(box {
-            //                setWidth(weight(1f))
-            //
-            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-            //                addContent(text("R1C2".layoutString))
-            //              })
-            //              addContent(box {
-            //                setWidth(weight(1f))
-            //
-            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-            //                addContent(text("R1C3".layoutString))
-            //              })
-            //              addContent(box {
-            //                setWidth(weight(1f))
-            //
-            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-            //                addContent(text("R1C4".layoutString))
-            //              })
-            //            })
-            //            // Second Row
-            //            addContent(row {
-            //              setWidth(expand())
-            //              addContent(box {
-            //                setWidth(weight(1f))
-            //
-            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-            //                addContent(text("R2C1".layoutString))
-            //              })
-            //              addContent(box {
-            //                setWidth(weight(1f))
-            //
-            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-            //                addContent(text("R2C2".layoutString))
-            //              })
-            //              addContent(box {
-            //                setWidth(weight(1f))
-            //
-            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-            //                addContent(text("R2C3".layoutString))
-            //              })
-            //              addContent(box {
-            //                setWidth(weight(1f))
-            //
-            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-            //                addContent(text("R2C4".layoutString))
-            //              })
-            //            })
-            //            // Third Row
-            //            addContent(row {
-            //              setWidth(expand())
-            //              addContent(box {
-            //                setWidth(weight(1f))
-            //
-            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-            //                addContent(text("R3C1".layoutString))
-            //              })
-            //              addContent(box {
-            //                setWidth(weight(1f))
-            //
-            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-            //                addContent(text("R3C2".layoutString))
-            //              })
-            //              addContent(box {
-            //                setWidth(weight(1f))
-            //
-            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-            //                addContent(text("R3C3".layoutString))
-            //              })
-            //              addContent(box {
-            //                setWidth(weight(1f))
-            //
-            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-            //                addContent(text("R3C4".layoutString))
-            //              })
-            //            })
-            //          }
+          column {
+            setHeight(expand())
+            setWidth(expand())
+            addContent(conditions(data.conditions))
+            addContent(        Spacer.Builder().setWidth(expand()).setHeight(dp(12F)).build()
+            )
+//            addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
+//            addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
+//            addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
+//            addContent(Spacer.Builder().setWidth(dp(8f)))
+            addContent(forecast(data.forecast))
           }
         },
       )
+    }
+
+  private fun MaterialScope.conditions(
+    conditions: Weather.Conditions
+  ): LayoutElement = box {
+    setHeight(weight(0.40F))
+    setWidth(expand())
+    addContent(
+      row {
+        setHeight(expand())
+        setWidth(expand())
+        setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
+        addContent(
+          icon(
+            conditions.weatherIconId,
+            width = dp(32F),
+            height = dp(32F),
+            tintColor = colorScheme.tertiary
+          )
+        )
+        addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
+        addContent(
+          text(conditions.currentTemperature.layoutString, typography = if (isLargeScreen()) NUMERAL_LARGE else NUMERAL_MEDIUM)
+        )
+        addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
+        addContent(column {
+          addContent(
+            text(conditions.highTemperature.layoutString, typography = TITLE_MEDIUM)
+          )
+          addContent(
+            text(conditions.lowTemperature.layoutString, typography = TITLE_MEDIUM)
+          )
+        })
+      }
+    )
+  }
+
+  private fun MaterialScope.forecast(forecast: List<Forecast>): LayoutElement =
+    card(
+      onClick = clickable(),
+      height = weight(0.60F),
+      width = expand(),
+      modifier =
+        LayoutModifier.background(filledVariantCardColors().backgroundColor),
+      contentPadding = padding(top = 10f),
+    ) {
+      row {
+        setWidth(expand())
+        setHeight(expand())
+        val maxForecasts = if (isLargeScreen()) 4 else 3
+        val displayedForecasts = forecast.take(maxForecasts)
+        displayedForecasts.forEachIndexed { index, forecast ->
+          addContent(hourForecast(forecast))
+          if (index < displayedForecasts.size - 1) {
+            addContent(Spacer.Builder().setWidth(dp(0f)).setHeight(expand()).build())
+          }
+        }
+      }
     }
 
   private fun MaterialScope.hourForecast(forecast: Forecast): LayoutElement {
@@ -231,7 +196,11 @@ object Weather {
       setHeight(expand())
       addContent(
         column {
-          addContent(icon(protoLayoutResourceId = forecast.weatherIconId))
+          addContent(
+            icon(
+              forecast.weatherIconId,
+            )
+          )
           addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
           if (isLargeScreen()) {
             addContent(
@@ -244,8 +213,6 @@ object Weather {
       )
     }
   }
-
-//  private fun MaterialScope.conditions()
 
   fun resources(context: Context) = resources {
     addIdToImageMapping(
@@ -261,7 +228,9 @@ object Weather {
       R.drawable.baseline_thunderstorm_24,
     )
     addIdToImageMapping(
-      context.resources.getResourceName(R.drawable.outline_partly_cloudy_day_24),
+      context.resources.getResourceName(
+        R.drawable.outline_partly_cloudy_day_24
+      ),
       R.drawable.outline_partly_cloudy_day_24,
     )
   }
@@ -279,13 +248,14 @@ class WeatherTileService : BaseTileService() {
       deviceParameters,
       Weather.WeatherData(
         location = "San Francisco",
-        conditions = Weather.Conditions(
-          weatherIconId = scatteredShowers,
-          currentTemperature = "52°",
-          lowTemperature = "48°",
-          highTemperature = "64°",
-          weatherSummary = "Showers",
-        ),
+        conditions =
+          Weather.Conditions(
+            weatherIconId = scatteredShowers,
+            currentTemperature = "52°",
+            lowTemperature = "48°",
+            highTemperature = "64°",
+            weatherSummary = "Showers",
+          ),
         forecast =
           listOf(
             Weather.Forecast(getRandomWeatherIcon(context), "68°", "9AM"),
@@ -311,13 +281,14 @@ internal fun weatherPreview(context: Context) =
           it.deviceConfiguration,
           Weather.WeatherData(
             location = "San Francisco",
-            conditions = Weather.Conditions(
-              weatherIconId = scatteredShowers,
-              currentTemperature = "52°",
-              lowTemperature = "48°",
-              highTemperature = "64°",
-              weatherSummary = "Showers",
-            ),
+            conditions =
+              Weather.Conditions(
+                weatherIconId = scatteredShowers,
+                currentTemperature = "52°",
+                lowTemperature = "48°",
+                highTemperature = "64°",
+                weatherSummary = "Showers",
+              ),
             forecast =
               listOf(
                 Weather.Forecast(getRandomWeatherIcon(context), "68°", "9AM"),
