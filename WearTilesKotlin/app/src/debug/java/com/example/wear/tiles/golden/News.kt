@@ -34,6 +34,7 @@ import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.Typography.BODY_LARGE
 import androidx.wear.protolayout.material3.Typography.BODY_MEDIUM
 import androidx.wear.protolayout.material3.Typography.BODY_SMALL
+import androidx.wear.protolayout.material3.Typography.LABEL_SMALL
 import androidx.wear.protolayout.material3.backgroundImage
 import androidx.wear.protolayout.material3.card
 import androidx.wear.protolayout.material3.materialScope
@@ -93,8 +94,8 @@ object News {
       .addContent(
         text(
           text = headline.layoutString,
-          typography = BODY_SMALL,
-          maxLines = 3,
+          typography = LABEL_SMALL,
+          maxLines = if (isLargeScreen()) 4 else 3,
           alignment = LayoutElementBuilders.TEXT_ALIGN_START
         )
       )
