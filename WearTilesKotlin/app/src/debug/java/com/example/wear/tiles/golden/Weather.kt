@@ -18,22 +18,46 @@ package com.example.wear.tiles.golden
 import android.content.Context
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders.dp
-import androidx.wear.protolayout.LayoutElementBuilders.Column
-import androidx.wear.protolayout.LayoutElementBuilders.Image
+import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
-import androidx.wear.protolayout.material.Text
-import androidx.wear.protolayout.material.Typography
-import androidx.wear.protolayout.material.layouts.MultiSlotLayout
-import androidx.wear.protolayout.material.layouts.PrimaryLayout
+import androidx.wear.protolayout.LayoutElementBuilders.Spacer
+import androidx.wear.protolayout.material3.ButtonGroupDefaults.DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS
+import androidx.wear.protolayout.material3.CardDefaults.filledVariantCardColors
+import androidx.wear.protolayout.material3.MaterialScope
+import androidx.wear.protolayout.material3.Typography.BODY_SMALL
+import androidx.wear.protolayout.material3.Typography.TITLE_MEDIUM
+import androidx.wear.protolayout.material3.card
+import androidx.wear.protolayout.material3.icon
+import androidx.wear.protolayout.material3.materialScope
+import androidx.wear.protolayout.material3.primaryLayout
+import androidx.wear.protolayout.material3.text
+import androidx.wear.protolayout.modifiers.LayoutModifier
+import androidx.wear.protolayout.modifiers.background
+import androidx.wear.protolayout.modifiers.clickable
+import androidx.wear.protolayout.modifiers.padding
+import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
+import com.example.wear.tiles.tools.addIdToImageMapping
+import com.example.wear.tiles.tools.column
+import com.example.wear.tiles.tools.isLargeScreen
 import com.example.wear.tiles.tools.resources
-import com.google.android.horologist.tiles.images.drawableResToImageResource
+import com.example.wear.tiles.tools.row
+
+private fun getRandomWeatherIcon(context: Context): String {
+  val weatherIcons =
+    listOf(
+      R.drawable.scattered_showers,
+      R.drawable.baseline_cloud_24,
+      R.drawable.baseline_thunderstorm_24,
+      R.drawable.outline_partly_cloudy_day_24,
+    )
+  return context.resources.getResourceName(weatherIcons.random())
+}
 
 object GoldenTilesColors {
   val Black = Color.Black.toArgb()
@@ -58,114 +82,251 @@ object GoldenTilesColors {
 }
 
 object Weather {
-  data class WeatherData(
-    val location: String,
+  data class Forecast(
+    val weatherIconId: String,
+    val temperature: String,
+    val time: String,
+  )
+
+  data class Conditions(
     val weatherIconId: String,
     val currentTemperature: String,
     val lowTemperature: String,
     val highTemperature: String,
-    val weatherSummary: String
+    val weatherSummary: String,
+  )
+
+  data class WeatherData(
+    val location: String,
+    val conditions: Conditions,
+    val forecast: List<Forecast>,
   )
 
   fun layout(
     context: Context,
     deviceParameters: DeviceParameters,
-    data: WeatherData
+    data: WeatherData,
   ) =
-    PrimaryLayout.Builder(deviceParameters)
-      .setResponsiveContentInsetEnabled(true)
-      .setPrimaryLabelTextContent(
-        Text.Builder(context, data.location)
-          .setColor(ColorBuilders.argb(GoldenTilesColors.Blue))
-          .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-          .build()
+    materialScope(context, deviceParameters) {
+      primaryLayout(
+        titleSlot = { text(data.location.layoutString) },
+        mainSlot = {
+          card(
+            onClick = clickable(),
+            height = expand(),
+            width = expand(),
+            modifier =
+              LayoutModifier.background(
+                filledVariantCardColors().backgroundColor
+              ),
+            contentPadding = padding(top = 16f),
+          ) {
+            row {
+              setWidth(expand())
+              setHeight(expand())
+              val maxForecasts = if (isLargeScreen()) 4 else 3
+              data.forecast.take(maxForecasts).forEachIndexed { index, forecast
+                ->
+                addContent(hourForecast(forecast))
+                if (index < data.forecast.take(maxForecasts).size - 1) {
+                  addContent(Spacer.Builder().setWidth(dp(8f)).build())
+                }
+              }
+            }
+            //          column {
+            //            setWidth(expand())
+            //            setHeight(expand())
+            //            addContent(row {
+            //              setWidth(expand())
+            //              addContent(box {
+            //                setWidth(weight(1f))
+            //
+            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+            //                addContent(text("R1C1".layoutString))
+            //              })
+            //              addContent(box {
+            //                setWidth(weight(1f))
+            //
+            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+            //                addContent(text("R1C2".layoutString))
+            //              })
+            //              addContent(box {
+            //                setWidth(weight(1f))
+            //
+            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+            //                addContent(text("R1C3".layoutString))
+            //              })
+            //              addContent(box {
+            //                setWidth(weight(1f))
+            //
+            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+            //                addContent(text("R1C4".layoutString))
+            //              })
+            //            })
+            //            // Second Row
+            //            addContent(row {
+            //              setWidth(expand())
+            //              addContent(box {
+            //                setWidth(weight(1f))
+            //
+            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+            //                addContent(text("R2C1".layoutString))
+            //              })
+            //              addContent(box {
+            //                setWidth(weight(1f))
+            //
+            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+            //                addContent(text("R2C2".layoutString))
+            //              })
+            //              addContent(box {
+            //                setWidth(weight(1f))
+            //
+            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+            //                addContent(text("R2C3".layoutString))
+            //              })
+            //              addContent(box {
+            //                setWidth(weight(1f))
+            //
+            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+            //                addContent(text("R2C4".layoutString))
+            //              })
+            //            })
+            //            // Third Row
+            //            addContent(row {
+            //              setWidth(expand())
+            //              addContent(box {
+            //                setWidth(weight(1f))
+            //
+            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+            //                addContent(text("R3C1".layoutString))
+            //              })
+            //              addContent(box {
+            //                setWidth(weight(1f))
+            //
+            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+            //                addContent(text("R3C2".layoutString))
+            //              })
+            //              addContent(box {
+            //                setWidth(weight(1f))
+            //
+            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+            //                addContent(text("R3C3".layoutString))
+            //              })
+            //              addContent(box {
+            //                setWidth(weight(1f))
+            //
+            // setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+            //                addContent(text("R3C4".layoutString))
+            //              })
+            //            })
+            //          }
+          }
+        },
       )
-      .setContent(
-        MultiSlotLayout.Builder()
-          .addSlotContent(
-            Image.Builder()
-              .setWidth(dp(32f))
-              .setHeight(dp(32f))
-              .setResourceId(data.weatherIconId)
-              .build()
-          )
-          .addSlotContent(
-            Text.Builder(context, data.currentTemperature)
-              .setTypography(Typography.TYPOGRAPHY_DISPLAY1)
-              .setColor(ColorBuilders.argb(GoldenTilesColors.White))
-              .build()
-          )
-          .addSlotContent(
-            Column.Builder()
-              .addContent(
-                Text.Builder(context, data.highTemperature)
-                  .setTypography(Typography.TYPOGRAPHY_TITLE3)
-                  .setColor(ColorBuilders.argb(GoldenTilesColors.White))
-                  .build()
-              )
-              .addContent(
-                Text.Builder(context, data.lowTemperature)
-                  .setTypography(Typography.TYPOGRAPHY_TITLE3)
-                  .setColor(ColorBuilders.argb(GoldenTilesColors.Gray))
-                  .build()
-              )
-              .build()
-          )
-          .build()
+    }
+
+  private fun MaterialScope.hourForecast(forecast: Forecast): LayoutElement {
+    return column {
+      setWidth(expand())
+      setHeight(expand())
+      addContent(
+        column {
+          addContent(icon(protoLayoutResourceId = forecast.weatherIconId))
+          addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
+          if (isLargeScreen()) {
+            addContent(
+              text(forecast.temperature.layoutString, typography = TITLE_MEDIUM)
+            )
+            addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
+          }
+          addContent(text(forecast.time.layoutString, typography = BODY_SMALL))
+        }
       )
-      .setSecondaryLabelTextContent(
-        Text.Builder(context, data.weatherSummary)
-          .setColor(ColorBuilders.argb(GoldenTilesColors.White))
-          .setTypography(Typography.TYPOGRAPHY_TITLE3)
-          .build()
-      )
-      .build()
+    }
+  }
+
+//  private fun MaterialScope.conditions()
 
   fun resources(context: Context) = resources {
     addIdToImageMapping(
       context.resources.getResourceName(R.drawable.scattered_showers),
-      drawableResToImageResource(R.drawable.scattered_showers)
+      R.drawable.scattered_showers,
+    )
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.baseline_cloud_24),
+      R.drawable.baseline_cloud_24,
+    )
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.baseline_thunderstorm_24),
+      R.drawable.baseline_thunderstorm_24,
+    )
+    addIdToImageMapping(
+      context.resources.getResourceName(R.drawable.outline_partly_cloudy_day_24),
+      R.drawable.outline_partly_cloudy_day_24,
     )
   }
+}
+
+class WeatherTileService : BaseTileService() {
+  override fun layout(
+    context: Context,
+    deviceParameters: DeviceParameters,
+  ): LayoutElement {
+    val scatteredShowers =
+      context.resources.getResourceName(R.drawable.scattered_showers)
+    return Weather.layout(
+      context,
+      deviceParameters,
+      Weather.WeatherData(
+        location = "San Francisco",
+        conditions = Weather.Conditions(
+          weatherIconId = scatteredShowers,
+          currentTemperature = "52°",
+          lowTemperature = "48°",
+          highTemperature = "64°",
+          weatherSummary = "Showers",
+        ),
+        forecast =
+          listOf(
+            Weather.Forecast(getRandomWeatherIcon(context), "68°", "9AM"),
+            Weather.Forecast(getRandomWeatherIcon(context), "65°", "10AM"),
+            Weather.Forecast(getRandomWeatherIcon(context), "62°", "11AM"),
+            Weather.Forecast(getRandomWeatherIcon(context), "60°", "12PM"),
+          ),
+      ),
+    )
+  }
+
+  override fun resources(context: Context) = Weather.resources(context)
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun weatherPreview(context: Context) =
   TilePreviewData(Weather.resources(context)) {
+    val scatteredShowers =
+      context.resources.getResourceName(R.drawable.scattered_showers)
     TilePreviewHelper.singleTimelineEntryTileBuilder(
-      Weather.layout(
-        context,
-        it.deviceConfiguration,
-        Weather.WeatherData(
-          location = "San Francisco",
-          weatherIconId = context.resources.getResourceName(R.drawable.scattered_showers),
-          currentTemperature = "52°",
-          lowTemperature = "48°",
-          highTemperature = "64°",
-          weatherSummary = "Showers"
+        Weather.layout(
+          context,
+          it.deviceConfiguration,
+          Weather.WeatherData(
+            location = "San Francisco",
+            conditions = Weather.Conditions(
+              weatherIconId = scatteredShowers,
+              currentTemperature = "52°",
+              lowTemperature = "48°",
+              highTemperature = "64°",
+              weatherSummary = "Showers",
+            ),
+            forecast =
+              listOf(
+                Weather.Forecast(getRandomWeatherIcon(context), "68°", "9AM"),
+                Weather.Forecast(getRandomWeatherIcon(context), "65°", "10AM"),
+                Weather.Forecast(getRandomWeatherIcon(context), "62°", "11AM"),
+                Weather.Forecast(getRandomWeatherIcon(context), "60°", "12PM"),
+              ),
+          ),
         )
       )
-    )
       .build()
   }
-
-class WeatherTileService : BaseTileService() {
-  override fun layout(
-    context: Context,
-    deviceParameters: DeviceParameters
-  ): LayoutElement =
-    Weather.layout(
-      context,
-      deviceParameters,
-      Weather.WeatherData(
-        location = "San Francisco",
-        weatherIconId = context.resources.getResourceName(R.drawable.scattered_showers),
-        currentTemperature = "52°",
-        lowTemperature = "48°",
-        highTemperature = "64°",
-        weatherSummary = "Showers"
-      )
-    )
-
-  override fun resources(context: Context) = Weather.resources(context)
-}
