@@ -16,8 +16,6 @@
 package com.example.wear.tiles.golden
 
 import android.content.Context
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders.dp
 import androidx.wear.protolayout.DimensionBuilders.expand
@@ -59,38 +57,16 @@ private fun getRandomWeatherIcon(context: Context): String {
       R.drawable.scattered_showers,
       R.drawable.baseline_cloud_24,
       R.drawable.baseline_thunderstorm_24,
-      R.drawable.outline_partly_cloudy_day_24,
+      R.drawable.outline_partly_cloudy_day_24
     )
   return context.resources.getResourceName(weatherIcons.random())
-}
-
-object GoldenTilesColors {
-  val Black = Color.Black.toArgb()
-  val Blue = android.graphics.Color.parseColor("#AECBFA")
-  val RichBlue = android.graphics.Color.parseColor("#6694DE")
-  val BlueGray = android.graphics.Color.parseColor("#2B333E")
-  val DarkGray = android.graphics.Color.parseColor("#1C1B1F")
-  val DarkerGray = android.graphics.Color.parseColor("#202124")
-  val DarkPink = android.graphics.Color.parseColor("#32222B")
-  val DarkPurple = android.graphics.Color.parseColor("#1F1C30")
-  val DarkYellow = android.graphics.Color.parseColor("#332D1D")
-  val Gray = android.graphics.Color.parseColor("#BDC1C6")
-  val LightBlue = android.graphics.Color.parseColor("#C4E7FF")
-  val LightGray = android.graphics.Color.parseColor("#DADCE0")
-  val LightPurple = android.graphics.Color.parseColor("#998AF2")
-  val LightRed = android.graphics.Color.parseColor("#F2B8B5")
-  val Pink = android.graphics.Color.parseColor("#FBA9D6")
-  val Purple = android.graphics.Color.parseColor("#C58AF9")
-  val White = Color.White.toArgb()
-  val White10Pc = Color(1f, 1f, 1f, 0.1f).toArgb()
-  val Yellow = android.graphics.Color.parseColor("#FDE293")
 }
 
 object Weather {
   data class Forecast(
     val weatherIconId: String,
     val temperature: String,
-    val time: String,
+    val time: String
   )
 
   data class Conditions(
@@ -98,19 +74,19 @@ object Weather {
     val currentTemperature: String,
     val lowTemperature: String,
     val highTemperature: String,
-    val weatherSummary: String,
+    val weatherSummary: String
   )
 
   data class WeatherData(
     val location: String,
     val conditions: Conditions,
-    val forecast: List<Forecast>,
+    val forecast: List<Forecast>
   )
 
   fun layout(
     context: Context,
     deviceParameters: DeviceParameters,
-    data: WeatherData,
+    data: WeatherData
   ) =
     materialScope(context, deviceParameters) {
       primaryLayout(
@@ -120,15 +96,12 @@ object Weather {
             setHeight(expand())
             setWidth(expand())
             addContent(conditions(data.conditions))
-            addContent(        Spacer.Builder().setWidth(expand()).setHeight(dp(12F)).build()
+            addContent(
+              Spacer.Builder().setWidth(expand()).setHeight(dp(12F)).build()
             )
-//            addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
-//            addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
-//            addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
-//            addContent(Spacer.Builder().setWidth(dp(8f)))
             addContent(forecast(data.forecast))
           }
-        },
+        }
       )
     }
 
@@ -152,29 +125,40 @@ object Weather {
         )
         addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
         addContent(
-          text(conditions.currentTemperature.layoutString, typography = if (isLargeScreen()) NUMERAL_LARGE else NUMERAL_MEDIUM)
+          text(
+            conditions.currentTemperature.layoutString,
+            typography = if (isLargeScreen()) NUMERAL_LARGE else NUMERAL_MEDIUM
+          )
         )
         addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
-        addContent(column {
-          addContent(
-            text(conditions.highTemperature.layoutString, typography = TITLE_MEDIUM)
-          )
-          addContent(
-            text(conditions.lowTemperature.layoutString, typography = TITLE_MEDIUM)
-          )
-        })
+        addContent(
+          column {
+            addContent(
+              text(
+                conditions.highTemperature.layoutString,
+                typography = TITLE_MEDIUM
+              )
+            )
+            addContent(
+              text(
+                conditions.lowTemperature.layoutString,
+                typography = TITLE_MEDIUM
+              )
+            )
+          }
+        )
       }
     )
   }
 
   private fun MaterialScope.forecast(forecast: List<Forecast>): LayoutElement =
-    card(
+    card( // helpme: change the corner radius (shapes) to "large"
       onClick = clickable(),
       height = weight(0.60F),
       width = expand(),
       modifier =
-        LayoutModifier.background(filledVariantCardColors().backgroundColor),
-      contentPadding = padding(top = 10f),
+      LayoutModifier.background(filledVariantCardColors().backgroundColor),
+      contentPadding = padding(top = 10f)
     ) {
       row {
         setWidth(expand())
@@ -184,7 +168,9 @@ object Weather {
         displayedForecasts.forEachIndexed { index, forecast ->
           addContent(hourForecast(forecast))
           if (index < displayedForecasts.size - 1) {
-            addContent(Spacer.Builder().setWidth(dp(0f)).setHeight(expand()).build())
+            addContent(
+              Spacer.Builder().setWidth(dp(0f)).setHeight(expand()).build()
+            )
           }
         }
       }
@@ -196,11 +182,7 @@ object Weather {
       setHeight(expand())
       addContent(
         column {
-          addContent(
-            icon(
-              forecast.weatherIconId,
-            )
-          )
+          addContent(icon(forecast.weatherIconId))
           addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
           if (isLargeScreen()) {
             addContent(
@@ -217,21 +199,21 @@ object Weather {
   fun resources(context: Context) = resources {
     addIdToImageMapping(
       context.resources.getResourceName(R.drawable.scattered_showers),
-      R.drawable.scattered_showers,
+      R.drawable.scattered_showers
     )
     addIdToImageMapping(
       context.resources.getResourceName(R.drawable.baseline_cloud_24),
-      R.drawable.baseline_cloud_24,
+      R.drawable.baseline_cloud_24
     )
     addIdToImageMapping(
       context.resources.getResourceName(R.drawable.baseline_thunderstorm_24),
-      R.drawable.baseline_thunderstorm_24,
+      R.drawable.baseline_thunderstorm_24
     )
     addIdToImageMapping(
       context.resources.getResourceName(
         R.drawable.outline_partly_cloudy_day_24
       ),
-      R.drawable.outline_partly_cloudy_day_24,
+      R.drawable.outline_partly_cloudy_day_24
     )
   }
 }
@@ -239,31 +221,29 @@ object Weather {
 class WeatherTileService : BaseTileService() {
   override fun layout(
     context: Context,
-    deviceParameters: DeviceParameters,
+    deviceParameters: DeviceParameters
   ): LayoutElement {
-    val scatteredShowers =
-      context.resources.getResourceName(R.drawable.scattered_showers)
     return Weather.layout(
       context,
       deviceParameters,
       Weather.WeatherData(
         location = "San Francisco",
         conditions =
-          Weather.Conditions(
-            weatherIconId = scatteredShowers,
-            currentTemperature = "52°",
-            lowTemperature = "48°",
-            highTemperature = "64°",
-            weatherSummary = "Showers",
-          ),
+        Weather.Conditions(
+          weatherIconId = getRandomWeatherIcon(context),
+          currentTemperature = "52°",
+          lowTemperature = "48°",
+          highTemperature = "64°",
+          weatherSummary = "Showers"
+        ),
         forecast =
-          listOf(
-            Weather.Forecast(getRandomWeatherIcon(context), "68°", "9AM"),
-            Weather.Forecast(getRandomWeatherIcon(context), "65°", "10AM"),
-            Weather.Forecast(getRandomWeatherIcon(context), "62°", "11AM"),
-            Weather.Forecast(getRandomWeatherIcon(context), "60°", "12PM"),
-          ),
-      ),
+        listOf(
+          Weather.Forecast(getRandomWeatherIcon(context), "68°", "9AM"),
+          Weather.Forecast(getRandomWeatherIcon(context), "65°", "10AM"),
+          Weather.Forecast(getRandomWeatherIcon(context), "62°", "11AM"),
+          Weather.Forecast(getRandomWeatherIcon(context), "60°", "12PM")
+        )
+      )
     )
   }
 
@@ -273,31 +253,29 @@ class WeatherTileService : BaseTileService() {
 @MultiRoundDevicesWithFontScalePreviews
 internal fun weatherPreview(context: Context) =
   TilePreviewData(Weather.resources(context)) {
-    val scatteredShowers =
-      context.resources.getResourceName(R.drawable.scattered_showers)
     TilePreviewHelper.singleTimelineEntryTileBuilder(
-        Weather.layout(
-          context,
-          it.deviceConfiguration,
-          Weather.WeatherData(
-            location = "San Francisco",
-            conditions =
-              Weather.Conditions(
-                weatherIconId = scatteredShowers,
-                currentTemperature = "52°",
-                lowTemperature = "48°",
-                highTemperature = "64°",
-                weatherSummary = "Showers",
-              ),
-            forecast =
-              listOf(
-                Weather.Forecast(getRandomWeatherIcon(context), "68°", "9AM"),
-                Weather.Forecast(getRandomWeatherIcon(context), "65°", "10AM"),
-                Weather.Forecast(getRandomWeatherIcon(context), "62°", "11AM"),
-                Weather.Forecast(getRandomWeatherIcon(context), "60°", "12PM"),
-              ),
+      Weather.layout(
+        context,
+        it.deviceConfiguration,
+        Weather.WeatherData(
+          location = "San Francisco",
+          conditions =
+          Weather.Conditions(
+            weatherIconId = getRandomWeatherIcon(context),
+            currentTemperature = "52°",
+            lowTemperature = "48°",
+            highTemperature = "64°",
+            weatherSummary = "Showers"
           ),
+          forecast =
+          listOf(
+            Weather.Forecast(getRandomWeatherIcon(context), "68°", "9AM"),
+            Weather.Forecast(getRandomWeatherIcon(context), "65°", "10AM"),
+            Weather.Forecast(getRandomWeatherIcon(context), "62°", "11AM"),
+            Weather.Forecast(getRandomWeatherIcon(context), "60°", "12PM")
+          )
         )
       )
+    )
       .build()
   }
