@@ -146,7 +146,7 @@ object Workout {
           if (isLargeScreen()) {
             column {
               setWidth(expand())
-              setWidth(expand())
+              setHeight(expand())
               addContent(
                 workoutGraphicDataCard(
                   titleText = "Start Run",
@@ -158,6 +158,7 @@ object Workout {
               addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
               addContent(
                 buttonGroup {
+                  setHeight(expand())
                   buttonGroupItem {
                     iconButton(
                       onClick = clickable(),
