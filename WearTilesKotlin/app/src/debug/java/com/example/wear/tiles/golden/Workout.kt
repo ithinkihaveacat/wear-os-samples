@@ -158,7 +158,6 @@ object Workout {
               addContent(DEFAULT_SPACER_BETWEEN_BUTTON_GROUPS)
               addContent(
                 buttonGroup {
-                  setHeight(expand())
                   buttonGroupItem {
                     iconButton(
                       onClick = clickable(),
