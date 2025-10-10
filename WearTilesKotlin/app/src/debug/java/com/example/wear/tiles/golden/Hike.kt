@@ -22,6 +22,10 @@ import androidx.wear.protolayout.DimensionBuilders.weight
 import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
 import androidx.wear.protolayout.LayoutElementBuilders.TEXT_ALIGN_CENTER
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
+import androidx.wear.protolayout.ProtoLayoutScope
+import androidx.wear.protolayout.TimelineBuilders
+import androidx.wear.protolayout.layout.androidImageResource
+import androidx.wear.protolayout.layout.imageResource
 import androidx.wear.protolayout.material3.ButtonDefaults.filledButtonColors
 import androidx.wear.protolayout.material3.CardDefaults.filledVariantCardColors
 import androidx.wear.protolayout.material3.Typography.BODY_SMALL
@@ -29,7 +33,7 @@ import androidx.wear.protolayout.material3.Typography.NUMERAL_SMALL
 import androidx.wear.protolayout.material3.backgroundImage
 import androidx.wear.protolayout.material3.buttonGroup
 import androidx.wear.protolayout.material3.imageButton
-import androidx.wear.protolayout.material3.materialScope
+import androidx.wear.protolayout.material3.materialScopeWithResources
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textDataCard
@@ -38,18 +42,26 @@ import androidx.wear.protolayout.modifiers.LayoutModifier
 import androidx.wear.protolayout.modifiers.clickable
 import androidx.wear.protolayout.modifiers.clip
 import androidx.wear.protolayout.types.layoutString
+import androidx.wear.tiles.RequestBuilders.TileRequest
+import androidx.wear.tiles.TileBuilders.Tile
+import androidx.wear.tiles.TileService
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
-import com.example.wear.tiles.tools.addIdToImageMapping
-import com.example.wear.tiles.tools.resources
+import com.google.common.util.concurrent.Futures
+import com.google.common.util.concurrent.ListenableFuture
 
 object Hike {
     data class HikeData(val distance: String, val unit: String, val clickable: Clickable)
 
-    fun layout(context: Context, deviceParameters: DeviceParameters, data: HikeData) =
-        materialScope(context, deviceParameters) {
+    fun layout(
+        context: Context,
+        scope: ProtoLayoutScope,
+        deviceParameters: DeviceParameters,
+        data: HikeData
+    ): LayoutElement =
+        materialScopeWithResources(context, scope, deviceParameters) {
             primaryLayout(
                 titleSlot = { text("Hike".layoutString) },
                 bottomSlot = {
@@ -91,8 +103,9 @@ object Hike {
                                 modifier = LayoutModifier.clip(shapes.large),
                                 backgroundContent = {
                                     backgroundImage(
-                                        protoLayoutResourceId =
-                                        context.resources.getResourceName(R.drawable.photo_14),
+                                        resource = imageResource(
+                                            androidImage = androidImageResource(R.drawable.photo_14)
+                                        ),
                                         overlayColor = null
                                     )
                                 }
@@ -102,35 +115,35 @@ object Hike {
                 }
             )
         }
-
-    fun resources(context: Context) = resources {
-        addIdToImageMapping(
-            context.resources.getResourceName(R.drawable.photo_14),
-            R.drawable.photo_14
-        )
-    }
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun hikePreview(context: Context) =
-    TilePreviewData(Hike.resources(context)) {
+    TilePreviewData { request ->
         TilePreviewHelper.singleTimelineEntryTileBuilder(
             Hike.layout(
                 context,
-                it.deviceConfiguration,
+                request.scope,
+                request.deviceConfiguration,
                 Hike.HikeData(distance = "10", unit = "Miles", clickable = clickable())
             )
-        )
-            .build()
+        ).build()
     }
 
-class HikeTileService : BaseTileService() {
-    override fun layout(context: Context, deviceParameters: DeviceParameters): LayoutElement =
-        Hike.layout(
-            context,
-            deviceParameters,
-            Hike.HikeData(distance = "10", unit = "Miles", clickable = clickable())
+class HikeTileService : TileService() {
+    override fun onTileRequest(requestParams: TileRequest): ListenableFuture<Tile> =
+        Futures.immediateFuture(
+            Tile.Builder()
+                .setTileTimeline(
+                    TimelineBuilders.Timeline.fromLayoutElement(
+                        Hike.layout(
+                            this,
+                            requestParams.scope,
+                            requestParams.deviceConfiguration,
+                            Hike.HikeData(distance = "10", unit = "Miles", clickable = clickable())
+                        )
+                    )
+                )
+                .build()
         )
-
-    override fun resources(context: Context) = Hike.resources(context)
 }
