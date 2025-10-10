@@ -24,27 +24,33 @@ import androidx.wear.protolayout.material3.CardDefaults.filledVariantCardColors
 import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.Typography
 import androidx.wear.protolayout.material3.buttonGroup
-import androidx.wear.protolayout.material3.materialScope
+import androidx.wear.protolayout.ProtoLayoutScope
+import androidx.wear.protolayout.TimelineBuilders
+import androidx.wear.protolayout.material3.materialScopeWithResources
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textDataCard
 import androidx.wear.protolayout.modifiers.clickable
 import androidx.wear.protolayout.types.layoutString
+import androidx.wear.tiles.RequestBuilders
+import androidx.wear.tiles.TileBuilders
+import androidx.wear.tiles.TileService
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
 import com.example.wear.tiles.tools.isLargeScreen
-import com.example.wear.tiles.tools.resources
+import com.google.common.util.concurrent.Futures
 
 object Ski {
 
     fun layout(
         context: Context,
+        scope: ProtoLayoutScope,
         deviceParameters: DeviceParametersBuilders.DeviceParameters,
         stat1: Stat,
         stat2: Stat
     ) =
-        materialScope(context, deviceParameters) {
+        materialScopeWithResources(context, scope, deviceParameters) {
             primaryLayout(
                 titleSlot = { text("Latest run".layoutString) },
                 mainSlot = {
@@ -108,11 +114,12 @@ object Ski {
 }
 
 @MultiRoundDevicesWithFontScalePreviews
-internal fun skiPreview(context: Context) = TilePreviewData {
+internal fun skiPreview(context: Context) = TilePreviewData { request ->
     TilePreviewHelper.singleTimelineEntryTileBuilder(
         Ski.layout(
             context,
-            it.deviceConfiguration,
+            request.scope,
+            request.deviceConfiguration,
             stat1 = Ski.Stat("Max Spd", "46.5", "mph"),
             stat2 = Ski.Stat("Distance", "21.8", "mile")
         )
@@ -120,17 +127,21 @@ internal fun skiPreview(context: Context) = TilePreviewData {
         .build()
 }
 
-class SkiTileService : BaseTileService() {
-    override fun layout(
-        context: Context,
-        deviceParameters: DeviceParameters
-    ): LayoutElement =
-        Ski.layout(
-            context,
-            deviceParameters,
-            stat1 = Ski.Stat("Max Spd", "46.5", "mph"),
-            stat2 = Ski.Stat("Distance", "21.8", "mile")
+class SkiTileService : TileService() {
+    override fun onTileRequest(requestParams: RequestBuilders.TileRequest) =
+        Futures.immediateFuture(
+            TileBuilders.Tile.Builder()
+                .setTileTimeline(
+                    TimelineBuilders.Timeline.fromLayoutElement(
+                        Ski.layout(
+                            this,
+                            requestParams.scope,
+                            requestParams.deviceConfiguration,
+                            stat1 = Ski.Stat("Max Spd", "46.5", "mph"),
+                            stat2 = Ski.Stat("Distance", "21.8", "mile")
+                        )
+                    )
+                )
+                .build()
         )
-
-    override fun resources(context: Context) = resources {}
 }

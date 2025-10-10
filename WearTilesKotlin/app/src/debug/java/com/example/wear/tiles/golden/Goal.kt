@@ -30,26 +30,37 @@ import androidx.wear.protolayout.material3.Typography
 import androidx.wear.protolayout.material3.circularProgressIndicator
 import androidx.wear.protolayout.material3.graphicDataCard
 import androidx.wear.protolayout.material3.icon
-import androidx.wear.protolayout.material3.materialScope
+import androidx.wear.protolayout.ProtoLayoutScope
+import androidx.wear.protolayout.TimelineBuilders
+import androidx.wear.protolayout.layout.androidImageResource
+import androidx.wear.protolayout.layout.imageResource
+import androidx.wear.protolayout.material3.materialScopeWithResources
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textEdgeButton
 import androidx.wear.protolayout.modifiers.clickable
 import androidx.wear.protolayout.types.layoutString
+import androidx.wear.tiles.RequestBuilders
+import androidx.wear.tiles.TileBuilders
+import androidx.wear.tiles.TileService
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper.singleTimelineEntryTileBuilder
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
-import com.example.wear.tiles.tools.addIdToImageMapping
 import com.example.wear.tiles.tools.isLargeScreen
-import com.example.wear.tiles.tools.resources
+import com.google.common.util.concurrent.Futures
 import java.text.NumberFormat
 
 object Goal {
     data class GoalData(val steps: Int, val goal: Int)
 
-    fun layout(context: Context, deviceParameters: DeviceParameters, data: GoalData) =
-        materialScope(context = context, deviceConfiguration = deviceParameters) {
+    fun layout(
+        context: Context,
+        scope: ProtoLayoutScope,
+        deviceParameters: DeviceParameters,
+        data: GoalData
+    ) =
+        materialScopeWithResources(context, scope, deviceParameters) {
             val stepsString = NumberFormat.getNumberInstance().format(data.steps)
             val goalString = NumberFormat.getNumberInstance().format(data.goal)
             primaryLayout(
@@ -105,8 +116,10 @@ object Goal {
                                 },
                                 iconContent = {
                                     icon(
-                                        context.resources.getResourceName(
-                                            R.drawable.outline_directions_walk_24
+                                        imageResource(
+                                            androidImageResource(
+                                                R.drawable.outline_directions_walk_24
+                                            )
                                         )
                                     )
                                 }
@@ -119,31 +132,36 @@ object Goal {
                 }
             )
         }
-
-    fun resources(context: Context) = resources {
-        addIdToImageMapping(
-            context.resources.getResourceName(R.drawable.outline_directions_walk_24),
-            R.drawable.outline_directions_walk_24
-        )
-    }
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun goalPreview(context: Context) =
-    TilePreviewData(onTileResourceRequest = Goal.resources(context)) {
+    TilePreviewData { request ->
         singleTimelineEntryTileBuilder(
             Goal.layout(
                 context,
-                it.deviceConfiguration,
+                request.scope,
+                request.deviceConfiguration,
                 data = Goal.GoalData(steps = 5168, goal = 8000)
             )
         )
             .build()
     }
 
-class GoalTileService : BaseTileService() {
-    override fun layout(context: Context, deviceParameters: DeviceParameters): LayoutElement =
-        Goal.layout(context, deviceParameters, data = Goal.GoalData(steps = 5168, goal = 8000))
-
-    override fun resources(context: Context) = Goal.resources(context)
+class GoalTileService : TileService() {
+    override fun onTileRequest(requestParams: RequestBuilders.TileRequest) =
+        Futures.immediateFuture(
+            TileBuilders.Tile.Builder()
+                .setTileTimeline(
+                    TimelineBuilders.Timeline.fromLayoutElement(
+                        Goal.layout(
+                            this,
+                            requestParams.scope,
+                            requestParams.deviceConfiguration,
+                            data = Goal.GoalData(steps = 5168, goal = 8000)
+                        )
+                    )
+                )
+                .build()
+        )
 }

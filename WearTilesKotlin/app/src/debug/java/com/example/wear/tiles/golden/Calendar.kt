@@ -30,7 +30,11 @@ import androidx.wear.protolayout.material3.backgroundImage
 import androidx.wear.protolayout.material3.buttonGroup
 import androidx.wear.protolayout.material3.icon
 import androidx.wear.protolayout.material3.iconButton
-import androidx.wear.protolayout.material3.materialScope
+import androidx.wear.protolayout.ProtoLayoutScope
+import androidx.wear.protolayout.TimelineBuilders
+import androidx.wear.protolayout.layout.androidImageResource
+import androidx.wear.protolayout.layout.imageResource
+import androidx.wear.protolayout.material3.materialScopeWithResources
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textButton
@@ -39,15 +43,17 @@ import androidx.wear.protolayout.modifiers.LayoutModifier
 import androidx.wear.protolayout.modifiers.clickable
 import androidx.wear.protolayout.modifiers.contentDescription
 import androidx.wear.protolayout.types.layoutString
+import androidx.wear.tiles.RequestBuilders
+import androidx.wear.tiles.TileBuilders
+import androidx.wear.tiles.TileService
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
-import com.example.wear.tiles.tools.addIdToImageMapping
 import com.example.wear.tiles.tools.box
 import com.example.wear.tiles.tools.column
 import com.example.wear.tiles.tools.isLargeScreen
-import com.example.wear.tiles.tools.resources
+import com.google.common.util.concurrent.Futures
 
 object Calendar {
     data class Event(
@@ -59,8 +65,13 @@ object Calendar {
         val clickable: Clickable
     )
 
-    fun layout(context: Context, deviceParameters: DeviceParameters, data: Event) =
-        materialScope(context, deviceParameters) {
+    fun layout(
+        context: Context,
+        scope: ProtoLayoutScope,
+        deviceParameters: DeviceParameters,
+        data: Event
+    ) =
+        materialScopeWithResources(context, scope, deviceParameters) {
             primaryLayout(
                 mainSlot = {
                     column {
@@ -86,8 +97,10 @@ object Calendar {
                                                 onClick = data.clickable,
                                                 iconContent = {
                                                     icon(
-                                                        context.resources.getResourceName(
-                                                            R.drawable.outline_add_24
+                                                        imageResource(
+                                                            androidImageResource(
+                                                                R.drawable.outline_add_24
+                                                            )
                                                         )
                                                     )
                                                 },
@@ -131,10 +144,12 @@ object Calendar {
                                         },
                                         colors = filledVariantCardColors(),
                                         backgroundContent =
-                                        data.imageId?.let { id ->
+                                        data.imageId?.let {
                                             {
                                                 backgroundImage(
-                                                    protoLayoutResourceId = id,
+                                                    resource = imageResource(
+                                                        androidImageResource(R.drawable.photo_38)
+                                                    ),
                                                     contentScaleMode = CONTENT_SCALE_MODE_CROP
                                                 )
                                             }
@@ -149,17 +164,6 @@ object Calendar {
                 }
             )
         }
-
-    fun resources(context: Context) = resources {
-        addIdToImageMapping(
-            context.resources.getResourceName(R.drawable.outline_add_24),
-            R.drawable.outline_add_24
-        )
-        addIdToImageMapping(
-            context.resources.getResourceName(R.drawable.photo_38),
-            R.drawable.photo_38
-        )
-    }
 }
 
 @MultiRoundDevicesWithFontScalePreviews
@@ -170,11 +174,12 @@ internal fun calendar2Preview(context: Context) =
     calendarPreviewX(context, context.resources.getResourceName(R.drawable.photo_38))
 
 fun calendarPreviewX(context: Context, eventImageId: String? = null) =
-    TilePreviewData(Calendar.resources(context)) {
+    TilePreviewData { request ->
         TilePreviewHelper.singleTimelineEntryTileBuilder(
             Calendar.layout(
                 context,
-                it.deviceConfiguration,
+                request.scope,
+                request.deviceConfiguration,
                 Calendar.Event(
                     date = "25 July",
                     time = "6:30-7:30 PM",
@@ -188,38 +193,52 @@ fun calendarPreviewX(context: Context, eventImageId: String? = null) =
             .build()
     }
 
-class Calendar1TileService : BaseTileService() {
-    override fun layout(context: Context, deviceParameters: DeviceParameters): LayoutElement =
-        Calendar.layout(
-            context,
-            deviceParameters,
-            Calendar.Event(
-                date = "25 July",
-                time = "6:30-7:30 PM",
-                name = "Advanced Tennis Coaching with Christina Lloyd",
-                location = "216 Market Street",
-                imageId = null,
-                clickable = clickable()
-            )
+class Calendar1TileService : TileService() {
+    override fun onTileRequest(requestParams: RequestBuilders.TileRequest) =
+        Futures.immediateFuture(
+            TileBuilders.Tile.Builder()
+                .setTileTimeline(
+                    TimelineBuilders.Timeline.fromLayoutElement(
+                        Calendar.layout(
+                            this,
+                            requestParams.scope,
+                            requestParams.deviceConfiguration,
+                            Calendar.Event(
+                                date = "25 July",
+                                time = "6:30-7:30 PM",
+                                name = "Advanced Tennis Coaching with Christina Lloyd",
+                                location = "216 Market Street",
+                                imageId = null,
+                                clickable = clickable()
+                            )
+                        )
+                    )
+                )
+                .build()
         )
-
-    override fun resources(context: Context) = Calendar.resources(context)
 }
 
-class Calendar2TileService : BaseTileService() {
-    override fun layout(context: Context, deviceParameters: DeviceParameters): LayoutElement =
-        Calendar.layout(
-            context,
-            deviceParameters,
-            Calendar.Event(
-                date = "25 July",
-                time = "6:30-7:30 PM",
-                name = "Advanced Tennis Coaching with Christina Lloyd",
-                location = "216 Market Street",
-                imageId = context.resources.getResourceName(R.drawable.photo_38),
-                clickable = clickable()
-            )
+class Calendar2TileService : TileService() {
+    override fun onTileRequest(requestParams: RequestBuilders.TileRequest) =
+        Futures.immediateFuture(
+            TileBuilders.Tile.Builder()
+                .setTileTimeline(
+                    TimelineBuilders.Timeline.fromLayoutElement(
+                        Calendar.layout(
+                            this,
+                            requestParams.scope,
+                            requestParams.deviceConfiguration,
+                            Calendar.Event(
+                                date = "25 July",
+                                time = "6:30-7:30 PM",
+                                name = "Advanced Tennis Coaching with Christina Lloyd",
+                                location = "216 Market Street",
+                                imageId = resources.getResourceName(R.drawable.photo_38),
+                                clickable = clickable()
+                            )
+                        )
+                    )
+                )
+                .build()
         )
-
-    override fun resources(context: Context) = Calendar.resources(context)
 }

@@ -35,7 +35,11 @@ import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.Typography.TITLE_SMALL
 import androidx.wear.protolayout.material3.avatarImage
 import androidx.wear.protolayout.material3.buttonGroup
-import androidx.wear.protolayout.material3.materialScope
+import androidx.wear.protolayout.ProtoLayoutScope
+import androidx.wear.protolayout.TimelineBuilders
+import androidx.wear.protolayout.layout.androidImageResource
+import androidx.wear.protolayout.layout.imageResource
+import androidx.wear.protolayout.material3.materialScopeWithResources
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textButton
@@ -47,50 +51,48 @@ import androidx.wear.protolayout.modifiers.clip
 import androidx.wear.protolayout.modifiers.contentDescription
 import androidx.wear.protolayout.modifiers.padding
 import androidx.wear.protolayout.types.layoutString
+import androidx.wear.tiles.RequestBuilders
+import androidx.wear.tiles.TileBuilders
+import androidx.wear.tiles.TileService
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
-import com.example.wear.tiles.tools.addIdToImageMapping
 import com.example.wear.tiles.tools.column
 import com.example.wear.tiles.tools.isLargeScreen
-import com.example.wear.tiles.tools.resources
+import com.google.common.util.concurrent.Futures
 
 fun Context.mockContacts(): List<Contact> {
     return listOf(
         Contact(
             initials = "MS",
-            avatarId = resources.getResourceName(R.drawable.avatar_illustration_18),
             avatarResource = R.drawable.avatar_illustration_18
         ),
-        Contact(initials = "AB", avatarId = null, avatarResource = null),
+        Contact(initials = "AB", avatarResource = null),
         Contact(
             initials = "WW",
-            avatarId = resources.getResourceName(R.drawable.photo_17),
             avatarResource = R.drawable.photo_17
         ),
-        Contact(initials = "CD", avatarId = null, avatarResource = null),
+        Contact(initials = "CD", avatarResource = null),
         Contact(
             initials = "AD",
-            avatarId = resources.getResourceName(R.drawable.avatar_3d_24),
             avatarResource = R.drawable.avatar_3d_24
         ),
-        Contact(initials = "EF", avatarId = null, avatarResource = null)
+        Contact(initials = "EF", avatarResource = null)
     )
 }
 
 data class Contact(
     val initials: String,
     val clickable: Clickable = clickable(),
-    val avatarId: String?,
     @DrawableRes val avatarResource: Int?
 )
 
 @OptIn(ProtoLayoutExperimental::class)
 fun MaterialScope.contactButton(contact: Contact): LayoutElement {
-    if (contact.avatarId != null) {
+    if (contact.avatarResource != null) {
         return avatarImage(
-            protoLayoutResourceId = contact.avatarId,
+            resource = imageResource(androidImageResource(contact.avatarResource)),
             width = expand(),
             height = expand(),
             contentScaleMode = CONTENT_SCALE_MODE_CROP
@@ -144,12 +146,14 @@ object Social {
 
     fun layout(
         context: Context,
+        scope: ProtoLayoutScope,
         deviceParameters: DeviceParameters,
         data: SocialData
     ): LayoutElement {
-        return materialScope(
-            context = context,
-            deviceConfiguration = deviceParameters,
+        return materialScopeWithResources(
+            context,
+            scope,
+            deviceParameters,
             allowDynamicTheme = true
         ) {
             val (row1, row2) =
@@ -217,14 +221,6 @@ object Social {
             )
         }
     }
-
-    fun resources(context: Context, contacts: List<Contact>) = resources {
-        contacts.forEach {
-            if (it.avatarId != null && it.avatarResource != null) {
-                addIdToImageMapping(it.avatarId, it.avatarResource)
-            }
-        }
-    }
 }
 
 @MultiRoundDevicesWithFontScalePreviews
@@ -247,40 +243,64 @@ internal fun socialPreview6(context: Context) = socialPreviewN(context, 6)
 
 internal fun socialPreviewN(context: Context, n: Int): TilePreviewData {
     val contacts = context.mockContacts().take(n)
-    return TilePreviewData(Social.resources(context, contacts)) {
+    return TilePreviewData { request ->
         TilePreviewHelper.singleTimelineEntryTileBuilder(
-            Social.layout(context, it.deviceConfiguration, Social.SocialData(contacts))
+            Social.layout(context, request.scope, request.deviceConfiguration, Social.SocialData(contacts))
         )
             .build()
     }
 }
 
-class SocialTileService5 : BaseTileService() {
-    override fun layout(context: Context, deviceParameters: DeviceParameters): LayoutElement {
-        val contacts = context.mockContacts().take(5)
-        return Social.layout(context, deviceParameters, Social.SocialData(contacts))
-    }
-
-    override fun resources(context: Context) =
-        Social.resources(context, context.mockContacts().take(5))
+class SocialTileService5 : TileService() {
+    override fun onTileRequest(requestParams: RequestBuilders.TileRequest) =
+        Futures.immediateFuture(
+            TileBuilders.Tile.Builder()
+                .setTileTimeline(
+                    TimelineBuilders.Timeline.fromLayoutElement(
+                        Social.layout(
+                            this,
+                            requestParams.scope,
+                            requestParams.deviceConfiguration,
+                            Social.SocialData(mockContacts().take(5))
+                        )
+                    )
+                )
+                .build()
+        )
 }
 
-class SocialTileService6 : BaseTileService() {
-    override fun layout(context: Context, deviceParameters: DeviceParameters): LayoutElement {
-        val contacts = context.mockContacts().take(6)
-        return Social.layout(context, deviceParameters, Social.SocialData(contacts))
-    }
-
-    override fun resources(context: Context) =
-        Social.resources(context, context.mockContacts().take(6))
+class SocialTileService6 : TileService() {
+    override fun onTileRequest(requestParams: RequestBuilders.TileRequest) =
+        Futures.immediateFuture(
+            TileBuilders.Tile.Builder()
+                .setTileTimeline(
+                    TimelineBuilders.Timeline.fromLayoutElement(
+                        Social.layout(
+                            this,
+                            requestParams.scope,
+                            requestParams.deviceConfiguration,
+                            Social.SocialData(mockContacts().take(6))
+                        )
+                    )
+                )
+                .build()
+        )
 }
 
-class SocialTileService2 : BaseTileService() {
-    override fun layout(context: Context, deviceParameters: DeviceParameters): LayoutElement {
-        val contacts = context.mockContacts().take(2)
-        return Social.layout(context, deviceParameters, Social.SocialData(contacts))
-    }
-
-    override fun resources(context: Context) =
-        Social.resources(context, context.mockContacts().take(2))
+class SocialTileService2 : TileService() {
+    override fun onTileRequest(requestParams: RequestBuilders.TileRequest) =
+        Futures.immediateFuture(
+            TileBuilders.Tile.Builder()
+                .setTileTimeline(
+                    TimelineBuilders.Timeline.fromLayoutElement(
+                        Social.layout(
+                            this,
+                            requestParams.scope,
+                            requestParams.deviceConfiguration,
+                            Social.SocialData(mockContacts().take(2))
+                        )
+                    )
+                )
+                .build()
+        )
 }

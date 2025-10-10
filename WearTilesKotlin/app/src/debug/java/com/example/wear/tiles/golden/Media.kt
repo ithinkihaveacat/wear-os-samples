@@ -16,6 +16,7 @@
 package com.example.wear.tiles.golden
 
 import android.content.Context
+import androidx.annotation.DrawableRes
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.LayoutElementBuilders
@@ -29,20 +30,26 @@ import androidx.wear.protolayout.material3.ButtonStyle.Companion.smallButtonStyl
 import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.backgroundImage
 import androidx.wear.protolayout.material3.button
-import androidx.wear.protolayout.material3.materialScope
+import androidx.wear.protolayout.ProtoLayoutScope
+import androidx.wear.protolayout.TimelineBuilders
+import androidx.wear.protolayout.layout.androidImageResource
+import androidx.wear.protolayout.layout.imageResource
+import androidx.wear.protolayout.material3.materialScopeWithResources
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textEdgeButton
 import androidx.wear.protolayout.modifiers.clickable
 import androidx.wear.protolayout.types.layoutString
+import androidx.wear.tiles.RequestBuilders
+import androidx.wear.tiles.TileBuilders
+import androidx.wear.tiles.TileService
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
-import com.example.wear.tiles.tools.addIdToImageMapping
 import com.example.wear.tiles.tools.column
 import com.example.wear.tiles.tools.isLargeScreen
-import com.example.wear.tiles.tools.resources
+import com.google.common.util.concurrent.Futures
 
 private fun MaterialScope.playlistButton(
     deviceParameters: DeviceParameters,
@@ -61,10 +68,10 @@ private fun MaterialScope.playlistButton(
         },
         horizontalAlignment = LayoutElementBuilders.TEXT_ALIGN_START,
         backgroundContent =
-        playlist.imageId?.let { id ->
+        playlist.imageId?.let {
             {
                 backgroundImage(
-                    protoLayoutResourceId = id,
+                    resource = imageResource(androidImageResource(it)),
                     contentScaleMode = CONTENT_SCALE_MODE_CROP
                 )
             }
@@ -76,17 +83,18 @@ object Media {
 
     data class Playlist(
         val label: String,
-        val imageId: String? = null,
+        @DrawableRes val imageId: Int? = null,
         val clickable: Clickable = clickable()
     )
 
     fun layout(
         context: Context,
+        scope: ProtoLayoutScope,
         deviceParameters: DeviceParameters,
         playlist1: Playlist,
         playlist2: Playlist
     ) =
-        materialScope(context, deviceParameters) {
+        materialScopeWithResources(context, scope, deviceParameters) {
             primaryLayout(
                 titleSlot =
                 if (isLargeScreen()) {
@@ -111,57 +119,54 @@ object Media {
                 }
             )
         }
-
-    fun resources(context: Context) = resources {
-        addIdToImageMapping(
-            context.resources.getResourceName(R.drawable.photo_01),
-            R.drawable.photo_01
-        )
-        addIdToImageMapping(
-            context.resources.getResourceName(R.drawable.photo_11),
-            R.drawable.photo_11
-        )
-    }
 }
 
 @MultiRoundDevicesWithFontScalePreviews
 internal fun mediaPreview(context: Context) =
-    TilePreviewData(Media.resources(context)) {
+    TilePreviewData { request ->
         TilePreviewHelper.singleTimelineEntryTileBuilder(
             Media.layout(
                 context,
-                it.deviceConfiguration,
+                request.scope,
+                request.deviceConfiguration,
                 playlist1 =
                 Media.Playlist(
                     "Metal mix",
-                    imageId = context.resources.getResourceName(R.drawable.photo_01)
+                    imageId = R.drawable.photo_01
                 ),
                 playlist2 =
                 Media.Playlist(
                     "Chilled mix",
-                    imageId = context.resources.getResourceName(R.drawable.photo_11)
+                    imageId = R.drawable.photo_11
                 )
             )
         )
             .build()
     }
 
-class MediaTileService : BaseTileService() {
-    override fun layout(context: Context, deviceParameters: DeviceParameters): LayoutElement =
-        Media.layout(
-            context,
-            deviceParameters,
-            playlist1 =
-            Media.Playlist(
-                "Metal mix",
-                imageId = context.resources.getResourceName(R.drawable.photo_01)
-            ),
-            playlist2 =
-            Media.Playlist(
-                "Chilled mix",
-                imageId = context.resources.getResourceName(R.drawable.photo_11)
-            )
+class MediaTileService : TileService() {
+    override fun onTileRequest(requestParams: RequestBuilders.TileRequest) =
+        Futures.immediateFuture(
+            TileBuilders.Tile.Builder()
+                .setTileTimeline(
+                    TimelineBuilders.Timeline.fromLayoutElement(
+                        Media.layout(
+                            this,
+                            requestParams.scope,
+                            requestParams.deviceConfiguration,
+                            playlist1 =
+                            Media.Playlist(
+                                "Metal mix",
+                                imageId = R.drawable.photo_01
+                            ),
+                            playlist2 =
+                            Media.Playlist(
+                                "Chilled mix",
+                                imageId = R.drawable.photo_11
+                            )
+                        )
+                    )
+                )
+                .build()
         )
-
-    override fun resources(context: Context) = Media.resources(context)
 }

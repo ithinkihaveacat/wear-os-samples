@@ -32,7 +32,11 @@ import androidx.wear.protolayout.material3.Typography.NUMERAL_SMALL
 import androidx.wear.protolayout.material3.buttonGroup
 import androidx.wear.protolayout.material3.icon
 import androidx.wear.protolayout.material3.iconEdgeButton
-import androidx.wear.protolayout.material3.materialScope
+import androidx.wear.protolayout.ProtoLayoutScope
+import androidx.wear.protolayout.TimelineBuilders
+import androidx.wear.protolayout.layout.androidImageResource
+import androidx.wear.protolayout.layout.imageResource
+import androidx.wear.protolayout.material3.materialScopeWithResources
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textButton
@@ -42,19 +46,25 @@ import androidx.wear.protolayout.modifiers.clickable
 import androidx.wear.protolayout.modifiers.contentDescription
 import androidx.wear.protolayout.modifiers.padding
 import androidx.wear.protolayout.types.layoutString
+import androidx.wear.tiles.RequestBuilders
+import androidx.wear.tiles.TileBuilders
+import androidx.wear.tiles.TileService
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import com.example.wear.tiles.R
 import com.example.wear.tiles.tools.MultiRoundDevicesWithFontScalePreviews
-import com.example.wear.tiles.tools.addIdToImageMapping
 import com.example.wear.tiles.tools.column
 import com.example.wear.tiles.tools.isLargeScreen
-import com.example.wear.tiles.tools.resources
+import com.google.common.util.concurrent.Futures
 
 object Timer {
 
-    fun timer1Layout(context: Context, deviceParameters: DeviceParameters) =
-        materialScope(context, deviceParameters) {
+    fun timer1Layout(
+        context: Context,
+        scope: ProtoLayoutScope,
+        deviceParameters: DeviceParameters
+    ) =
+        materialScopeWithResources(context, scope, deviceParameters) {
             primaryLayout(
                 titleSlot = { text("Minutes".layoutString) },
                 mainSlot = {
@@ -91,15 +101,20 @@ object Timer {
                         colors = filledButtonColors(),
                         modifier = LayoutModifier.contentDescription("Add"),
                         iconContent = {
-                            icon(context.resources.getResourceName(R.drawable.outline_add_2_24))
+                            icon(imageResource(androidImageResource(R.drawable.outline_add_2_24)))
                         }
                     )
                 }
             )
         }
 
-    fun timer2Layout(context: Context, deviceParameters: DeviceParameters, clickable: Clickable) =
-        materialScope(context = context, deviceConfiguration = deviceParameters) {
+    fun timer2Layout(
+        context: Context,
+        scope: ProtoLayoutScope,
+        deviceParameters: DeviceParameters,
+        clickable: Clickable
+    ) =
+        materialScopeWithResources(context, scope, deviceParameters) {
             primaryLayout(
                 mainSlot = {
                     column {
@@ -133,19 +148,12 @@ object Timer {
                             ),
                         modifier = LayoutModifier.contentDescription("Plus"),
                         iconContent = {
-                            icon(context.resources.getResourceName(R.drawable.outline_add_2_24))
+                            icon(imageResource(androidImageResource(R.drawable.outline_add_2_24)))
                         }
                     )
                 }
             )
         }
-
-    fun resources(context: Context) = resources {
-        addIdToImageMapping(
-            context.resources.getResourceName(R.drawable.outline_add_2_24),
-            R.drawable.outline_add_2_24
-        )
-    }
 
     private fun MaterialScope.timerTextButton1(text: String) =
         textButton(
@@ -181,32 +189,53 @@ private fun MaterialScope.timerButton(firstLine: String?, secondLine: String? = 
 
 @MultiRoundDevicesWithFontScalePreviews
 fun timer1LayoutPreview(context: Context) =
-    TilePreviewData(Timer.resources(context)) {
+    TilePreviewData { request ->
         TilePreviewHelper.singleTimelineEntryTileBuilder(
-            Timer.timer1Layout(context, it.deviceConfiguration)
+            Timer.timer1Layout(context, request.scope, request.deviceConfiguration)
         )
             .build()
     }
 
 @MultiRoundDevicesWithFontScalePreviews
 fun timer2LayoutPreview(context: Context) =
-    TilePreviewData(Meditation.resources(context)) {
+    TilePreviewData { request ->
         TilePreviewHelper.singleTimelineEntryTileBuilder(
-            Timer.timer2Layout(context, it.deviceConfiguration, clickable())
+            Timer.timer2Layout(context, request.scope, request.deviceConfiguration, clickable())
         )
             .build()
     }
 
-class Timer1TileService : BaseTileService() {
-    override fun layout(context: Context, deviceParameters: DeviceParameters): LayoutElement =
-        Timer.timer1Layout(context, deviceParameters)
-
-    override fun resources(context: Context) = Timer.resources(context)
+class Timer1TileService : TileService() {
+    override fun onTileRequest(requestParams: RequestBuilders.TileRequest) =
+        Futures.immediateFuture(
+            TileBuilders.Tile.Builder()
+                .setTileTimeline(
+                    TimelineBuilders.Timeline.fromLayoutElement(
+                        Timer.timer1Layout(
+                            this,
+                            requestParams.scope,
+                            requestParams.deviceConfiguration
+                        )
+                    )
+                )
+                .build()
+        )
 }
 
-class Timer2TileService : BaseTileService() {
-    override fun layout(context: Context, deviceParameters: DeviceParameters): LayoutElement =
-        Timer.timer2Layout(context, deviceParameters, clickable())
-
-    override fun resources(context: Context) = Timer.resources(context)
+class Timer2TileService : TileService() {
+    override fun onTileRequest(requestParams: RequestBuilders.TileRequest) =
+        Futures.immediateFuture(
+            TileBuilders.Tile.Builder()
+                .setTileTimeline(
+                    TimelineBuilders.Timeline.fromLayoutElement(
+                        Timer.timer2Layout(
+                            this,
+                            requestParams.scope,
+                            requestParams.deviceConfiguration,
+                            clickable()
+                        )
+                    )
+                )
+                .build()
+        )
 }
