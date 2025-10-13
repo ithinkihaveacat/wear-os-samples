@@ -19,11 +19,9 @@ import android.content.Context
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.DimensionBuilders.weight
-import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
 import androidx.wear.protolayout.LayoutElementBuilders.TEXT_ALIGN_CENTER
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
 import androidx.wear.protolayout.ProtoLayoutScope
-import androidx.wear.protolayout.TimelineBuilders
 import androidx.wear.protolayout.layout.androidImageResource
 import androidx.wear.protolayout.layout.imageResource
 import androidx.wear.protolayout.material3.ButtonDefaults.filledButtonColors
@@ -42,6 +40,7 @@ import androidx.wear.protolayout.modifiers.LayoutModifier
 import androidx.wear.protolayout.modifiers.clickable
 import androidx.wear.protolayout.modifiers.clip
 import androidx.wear.protolayout.types.layoutString
+import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.RequestBuilders.TileRequest
 import androidx.wear.tiles.TileBuilders.Tile
 import androidx.wear.tiles.TileService
@@ -57,11 +56,11 @@ object Hike {
 
     fun layout(
         context: Context,
-        scope: ProtoLayoutScope,
         deviceParameters: DeviceParameters,
+        protoLayoutScope: ProtoLayoutScope,
         data: HikeData
-    ): LayoutElement =
-        materialScopeWithResources(context, scope, deviceParameters) {
+    ) =
+        materialScopeWithResources(context, protoLayoutScope, deviceParameters) {
             primaryLayout(
                 titleSlot = { text("Hike".layoutString) },
                 bottomSlot = {
@@ -118,32 +117,36 @@ object Hike {
 }
 
 @MultiRoundDevicesWithFontScalePreviews
-internal fun hikePreview(context: Context) =
-    TilePreviewData { request ->
-        TilePreviewHelper.singleTimelineEntryTileBuilder(
-            Hike.layout(
-                context,
-                request.scope,
-                request.deviceConfiguration,
-                Hike.HikeData(distance = "10", unit = "Miles", clickable = clickable())
+internal fun hikePreview(context: Context): TilePreviewData {
+    val protoLayoutScope = ProtoLayoutScope()
+    return TilePreviewData(
+        onTileRequest = { requestParams ->
+            TilePreviewHelper.singleTimelineEntryTileBuilder(
+                Hike.layout(
+                    context = context,
+                    deviceParameters = requestParams.deviceConfiguration,
+                    protoLayoutScope = protoLayoutScope,
+                    data = Hike.HikeData(distance = "10", unit = "Miles", clickable = clickable())
+                )
             )
-        ).build()
-    }
+                .build()
+        },
+        onTileResourceRequest = { protoLayoutScope.collectResources() }
+    )
+}
 
 class HikeTileService : TileService() {
-    override fun onTileRequest(requestParams: TileRequest): ListenableFuture<Tile> =
-        Futures.immediateFuture(
-            Tile.Builder()
-                .setTileTimeline(
-                    TimelineBuilders.Timeline.fromLayoutElement(
-                        Hike.layout(
-                            this,
-                            requestParams.scope,
-                            requestParams.deviceConfiguration,
-                            Hike.HikeData(distance = "10", unit = "Miles", clickable = clickable())
-                        )
-                    )
-                )
-                .build()
+    override fun onTileRequest(
+        requestParams: RequestBuilders.TileRequest
+    ): ListenableFuture<Tile?> {
+        val layout = Hike.layout(
+            this,
+            requestParams.deviceConfiguration,
+            requestParams.scope,
+            Hike.HikeData(distance = "10", unit = "Miles", clickable = clickable())
         )
+        val tile = TilePreviewHelper.singleTimelineEntryTileBuilder(layout)
+            .build()
+        return Futures.immediateFuture(tile)
+    }
 }
