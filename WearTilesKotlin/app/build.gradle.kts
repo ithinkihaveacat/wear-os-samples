@@ -21,14 +21,14 @@ plugins {
 }
 
 android {
-    compileSdk = 35
+    compileSdk = 36
 
     namespace = "com.example.wear.tiles"
 
     defaultConfig {
         applicationId = "com.example.wear.tiles"
         minSdk = 30
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
     }
@@ -73,6 +73,10 @@ dependencies {
     implementation(libs.androidx.wear.tiles)
     implementation(libs.androidx.wear.protolayout.material)
     implementation(libs.androidx.wear.protolayout.material3)
+
+    implementation("androidx.wear.compose.remote:remote-material3:1.0.0-SNAPSHOT")
+    implementation("androidx.glance.wear:wear-core:1.0.0-SNAPSHOT")
+    implementation("androidx.glance.wear:wear:1.0.0-SNAPSHOT")
 
     // Tooling dependencies for previewing tiles in Android Studio.
     implementation(libs.androidx.tiles.tooling)
