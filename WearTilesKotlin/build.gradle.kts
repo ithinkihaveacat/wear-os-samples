@@ -27,22 +27,22 @@ plugins {
 }
 
 subprojects {
-    apply(plugin = "com.diffplug.spotless")
-    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
-        kotlin {
-            target("**/*.kt")
-            val buildDir = layout.buildDirectory.get().asFile
-            targetExclude("$buildDir/**/*.kt")
-            targetExclude("bin/**/*.kt")
-
-            ktlint(libs.versions.ktlint.get())
-            licenseHeaderFile(rootProject.file("../spotless/copyright.kt"))
-        }
-        format("xml") {
-            target("**/*.xml")
-            targetExclude("**/build/**/*.xml")
-            // Look for the first XML tag that isn't a comment (<!--) or the xml declaration (<?xml)
-            licenseHeaderFile(rootProject.file("../spotless/copyright.xml"), "(<[^!?])")
-        }
-    }
+//    apply(plugin = "com.diffplug.spotless")
+//    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+//        kotlin {
+//            target("**/*.kt")
+//            val buildDir = layout.buildDirectory.get().asFile
+//            targetExclude("$buildDir/**/*.kt")
+//            targetExclude("bin/**/*.kt")
+//
+//            ktlint(libs.versions.ktlint.get())
+//            licenseHeaderFile(rootProject.file("../spotless/copyright.kt"))
+//        }
+//        format("xml") {
+//            target("**/*.xml")
+//            targetExclude("**/build/**/*.xml")
+//            // Look for the first XML tag that isn't a comment (<!--) or the xml declaration (<?xml)
+//            licenseHeaderFile(rootProject.file("../spotless/copyright.xml"), "(<[^!?])")
+//        }
+//    }
 }

@@ -42,5 +42,10 @@
                 android:resource="@drawable/tile_messaging" />
         </service>
 
+        <service
+            android:name=".glance.HelloWidgetService"
+            android:exported="true"
+            android:label="Glance Hello Widget">
+        </service>
     </application>
 </manifest>

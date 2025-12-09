@@ -46,7 +46,7 @@ fun getMockNetworkContacts() =
             name = "Ali C",
             avatarSource = AvatarSource.Network("$avatarPath/ali.png")
         ),
-        Contact(id = 1, initials = "JV", name = "Jyoti V", avatarSource = AvatarSource.None),
+        Contact(id = 1, initials = "QQ", name = "Jyoti V", avatarSource = AvatarSource.None),
         Contact(
             id = 2,
             initials = "TB",
@@ -66,7 +66,7 @@ fun getMockLocalContacts() =
             name = "Ali C",
             avatarSource = AvatarSource.Resource(R.drawable.ali)
         ),
-        Contact(id = 1, initials = "JV", name = "Jyoti V", avatarSource = AvatarSource.None),
+        Contact(id = 1, initials = "QQ", name = "Jyoti V", avatarSource = AvatarSource.None),
         Contact(
             id = 2,
             initials = "TB",

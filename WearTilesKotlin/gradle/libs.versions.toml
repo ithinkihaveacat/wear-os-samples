@@ -10,9 +10,11 @@ horologist = "0.7.12-alpha"
 org-jetbrains-kotlin = "2.1.21"
 wear-tooling-preview = "1.0.0"
 desugar-jdk = "2.1.5"
+androidx-glance = "1.1.0"
 
 [libraries]
 # AndroidX Wear & Compose
+androidx-glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "androidx-glance" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 androidx-tiles-tooling = { module = "androidx.wear.tiles:tiles-tooling", version.ref = "androidx-wear-tiles" }
 androidx-wear-protolayout-material = { module = "androidx.wear.protolayout:protolayout-material", version.ref = "androidx-wear-protolayout" }
