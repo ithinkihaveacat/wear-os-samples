@@ -82,7 +82,6 @@ dependencies {
     implementation("androidx.wear.compose.remote:remote-material3:1.0.0-SNAPSHOT")
     implementation("androidx.glance.wear:wear-core:1.0.0-SNAPSHOT")
     implementation("androidx.glance.wear:wear:1.0.0-SNAPSHOT")
-    implementation(libs.androidx.glance.appwidget)
 
     // Tooling dependencies for previewing tiles in Android Studio.
     implementation(libs.androidx.tiles.tooling)
