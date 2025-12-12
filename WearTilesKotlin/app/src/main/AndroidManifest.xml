@@ -43,9 +43,25 @@
         </service>
 
         <service
-            android:name=".glance.HelloWidgetService"
+            android:name="com.example.wear.tiles.glance.HelloWidgetService"
             android:exported="true"
-            android:label="Glance Hello Widget">
+            android:icon="@mipmap/bolt"
+            android:label="@string/hello_widget_label"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+
+            <intent-filter>
+                <action android:name="androidx.glance.wear.action.BIND_WIDGET_PROVIDER" />
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="androidx.glance.wear.widget.provider"
+                android:resource="@xml/hello_widget_info" />
+
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_messaging" />
         </service>
+
     </application>
 </manifest>

@@ -36,4 +36,7 @@
     <string name="tile_label_ski">Ski</string>
     <string name="tile_label_timer">Timer</string>
     <string name="tile_label_weather">Weather</string>
+    <string name="hello_widget_label">AX Hello widget</string>
+    <string name="hello_widget_description">AX Hello widget sample</string>
+    <string name="hello">Hello Wear Widget!</string>
 </resources>
