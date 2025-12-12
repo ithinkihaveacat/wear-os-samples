@@ -1,5 +1,6 @@
 package com.google.example.wear_widget
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.remote.creation.compose.capture.painter.painterRemoteColor
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
@@ -23,6 +24,7 @@ class HelloWidgetService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = HelloWidget()
 }
 
+@SuppressLint("RestrictedApi")
 class HelloWidget : GlanceWearWidget() {
     override suspend fun provideWidgetData(
         context: Context,
@@ -35,7 +37,7 @@ class HelloWidget : GlanceWearWidget() {
 
 @RemoteComposable
 @Composable
-@Suppress("RestrictedApiAndroidX")
+@SuppressLint("RestrictedApi")
 fun HelloWidgetContent() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
