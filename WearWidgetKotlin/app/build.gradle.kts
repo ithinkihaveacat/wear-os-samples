@@ -46,7 +46,6 @@ dependencies {
     
     // Transitive dependencies declared directly
     implementation("androidx.compose.runtime:runtime:1.9.4")
-    implementation("androidx.compose.ui:ui-text:1.9.4")
 
     debugImplementation(libs.ui.tooling)
 
