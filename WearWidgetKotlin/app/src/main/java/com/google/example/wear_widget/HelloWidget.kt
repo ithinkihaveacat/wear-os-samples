@@ -9,13 +9,15 @@ import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.layout.RemoteText
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
+import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.compose.remote.tooling.preview.RemotePreview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.glance.wear.GlanceWearWidget
 import androidx.glance.wear.GlanceWearWidgetService
 import androidx.glance.wear.WearWidgetData
@@ -50,11 +52,9 @@ fun HelloWidgetContent() {
     }
 }
 
-@Preview
+@WearPreviewDevices
 @Composable
 @SuppressLint("RestrictedApi")
-fun HelloWidgetPreview() {
-    RemotePreview {
-        HelloWidgetContent()
-    }
+fun HelloWidgetPreview() = RemotePreview {
+    HelloWidget()
 }

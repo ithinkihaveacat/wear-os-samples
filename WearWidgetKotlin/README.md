@@ -27,7 +27,11 @@ The documentation or help output for `jetpack-inspect` (and related `jetpack-*` 
 
 ## 2. Preview Dependencies and Configuration
 
-To enable Compose Previews for `HelloWidget` (specifically using `RemotePreview`), the tooling dependencies `androidx.compose.ui:ui-tooling-preview` and `androidx.compose.remote:remote-tooling-preview` are required.
+To enable Compose Previews for `HelloWidget`, specifically using `RemotePreview` combined with `@WearPreviewDevices` for multi-device preview generation, the following tooling dependencies are required:
+
+- `androidx.compose.ui:ui-tooling-preview` (Core preview support)
+- `androidx.compose.remote:remote-tooling-preview` (Remote preview support)
+- `androidx.wear.compose:compose-ui-tooling` (Wear specific preview annotations like `@WearPreviewDevices`)
 
 ### Configuration Decision
 In this project, these dependencies are configured using `implementation()` rather than the more typical `debugImplementation()`.
@@ -35,6 +39,7 @@ In this project, these dependencies are configured using `implementation()` rath
 ```kotlin
 // app/build.gradle.kts
 implementation(libs.ui.tooling.preview)
+implementation(libs.wear.compose.ui.tooling)
 implementation(libs.remote.tooling.preview)
 ```
 
@@ -42,7 +47,7 @@ implementation(libs.remote.tooling.preview)
 The preview composable, `HelloWidgetPreview`, is defined in the same file as the production code (`HelloWidget.kt`), which resides in the `main` source set.
 - The `main` source set is compiled for **all** build variants (debug and release).
 - If `debugImplementation` were used, the preview dependencies would only be available in the `debug` variant.
-- Consequently, the `release` build would fail to compile because `HelloWidget.kt` (in `main`) would try to import preview classes that are missing in the release classpath.
+- Consequently, the `release` build would fail to compile because `HelloWidget.kt` (in `main`) would try to import preview classes (like `RemotePreview` and `@WearPreviewDevices`) that are missing in the release classpath.
 
 ### Implications
 Using `implementation()` means these tooling libraries are included in the release APK. This increases the APK size and includes code that is not needed for the production app.
