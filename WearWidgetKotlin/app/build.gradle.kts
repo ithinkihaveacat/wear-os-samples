@@ -60,4 +60,6 @@ dependencies {
 
     // Tooling dependencies for previewing tiles in Android Studio.
     debugImplementation(libs.androidx.ui.tooling)
+    implementation(libs.ui.tooling.preview)
+    implementation(libs.remote.tooling.preview)
 }

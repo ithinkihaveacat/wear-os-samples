@@ -14,6 +14,8 @@ import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.remote.tooling.preview.RemotePreview
 import androidx.glance.wear.GlanceWearWidget
 import androidx.glance.wear.GlanceWearWidgetService
 import androidx.glance.wear.WearWidgetData
@@ -45,5 +47,14 @@ fun HelloWidgetContent() {
         verticalArrangement = RemoteArrangement.Center,
     ) {
         RemoteText(text = stringResource(R.string.hello), color = RemoteColor(Color.White))
+    }
+}
+
+@Preview
+@Composable
+@SuppressLint("RestrictedApi")
+fun HelloWidgetPreview() {
+    RemotePreview {
+        HelloWidgetContent()
     }
 }
