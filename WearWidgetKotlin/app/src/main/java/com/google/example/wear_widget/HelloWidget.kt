@@ -28,7 +28,7 @@ class HelloWidget : GlanceWearWidget() {
         context: Context,
         params: WearWidgetParams,
     ): WearWidgetData =
-        WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Red)) {
+        WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Blue)) {
             HelloWidgetContent()
         }
 }
