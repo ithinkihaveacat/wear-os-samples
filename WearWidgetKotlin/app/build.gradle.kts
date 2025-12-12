@@ -45,19 +45,19 @@ dependencies {
     implementation(libs.ui.graphics)
     
     // Transitive dependencies declared directly
-    implementation("androidx.compose.runtime:runtime:1.9.4")
+    implementation(libs.runtime)
 
     debugImplementation(libs.ui.tooling)
 
     // Java 8+ API desugaring
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     // Remote Compose Dependencies
-    implementation("androidx.compose.remote:remote-creation-compose:1.0.0-SNAPSHOT")
+    implementation(libs.remote.creation.compose)
 
-    implementation("androidx.glance.wear:wear-core:1.0.0-SNAPSHOT")
-    implementation("androidx.glance.wear:wear:1.0.0-SNAPSHOT")
+    implementation(libs.wear.core)
+    implementation(libs.wear)
 
     // Tooling dependencies for previewing tiles in Android Studio.
-    debugImplementation("androidx.compose.ui:ui-tooling:1.9.4")
+    debugImplementation(libs.androidx.ui.tooling)
 }

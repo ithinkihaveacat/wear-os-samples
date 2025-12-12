@@ -1,43 +1,28 @@
 [versions]
 agp = "9.0.0-beta04"
-playServicesWearable = "18.0.0"
+desugar_jdk_libs = "2.1.5"
+playServicesWearable = "19.0.0"
 kotlin = "2.0.21"
-composeBom = "2024.09.00"
-composeMaterial = "1.2.1"
-composeFoundation = "1.2.1"
-wearToolingPreview = "1.0.0"
-activityCompose = "1.8.0"
-coreSplashscreen = "1.0.1"
-tiles = "1.4.0"
-tilesMaterial = "1.4.0"
-tilesTooling = "1.4.0"
-tilesToolingPreview = "1.4.0"
-horologistComposeTools = "0.6.17"
-horologistTiles = "0.6.17"
-watchfaceComplicationsDataSourceKtx = "1.2.1"
-dependencyAnalysis = "3.4.1"
+composeBom = "2025.12.00"
+dependencyAnalysis = "3.5.1"
+remoteCreationCompose = "1.0.0-SNAPSHOT"
+runtime = "1.10.0"
+uiTooling = "1.10.0"
+wear = "1.0.0-SNAPSHOT"
+wearCore = "1.0.0-SNAPSHOT"
 
 [libraries]
+androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "uiTooling" }
+desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 play-services-wearable = { group = "com.google.android.gms", name = "play-services-wearable", version.ref = "playServicesWearable" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+remote-creation-compose = { module = "androidx.compose.remote:remote-creation-compose", version.ref = "remoteCreationCompose" }
+runtime = { module = "androidx.compose.runtime:runtime", version.ref = "runtime" }
 ui = { group = "androidx.compose.ui", name = "ui" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-compose-material = { group = "androidx.wear.compose", name = "compose-material", version.ref = "composeMaterial" }
-compose-foundation = { group = "androidx.wear.compose", name = "compose-foundation", version.ref = "composeFoundation" }
-wear-tooling-preview = { group = "androidx.wear", name = "wear-tooling-preview", version.ref = "wearToolingPreview" }
-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
-tiles = { group = "androidx.wear.tiles", name = "tiles", version.ref = "tiles" }
-tiles-material = { group = "androidx.wear.tiles", name = "tiles-material", version.ref = "tilesMaterial" }
-tiles-tooling = { group = "androidx.wear.tiles", name = "tiles-tooling", version.ref = "tilesTooling" }
-tiles-tooling-preview = { group = "androidx.wear.tiles", name = "tiles-tooling-preview", version.ref = "tilesToolingPreview" }
-horologist-compose-tools = { group = "com.google.android.horologist", name = "horologist-compose-tools", version.ref = "horologistComposeTools" }
-horologist-tiles = { group = "com.google.android.horologist", name = "horologist-tiles", version.ref = "horologistTiles" }
-watchface-complications-data-source-ktx = { group = "androidx.wear.watchface", name = "watchface-complications-data-source-ktx", version.ref = "watchfaceComplicationsDataSourceKtx" }
+wear = { module = "androidx.glance.wear:wear", version.ref = "wear" }
+wear-core = { module = "androidx.glance.wear:wear-core", version.ref = "wearCore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
