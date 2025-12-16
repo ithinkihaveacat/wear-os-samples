@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.compose.remote.tooling.preview.RemotePreview
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.glance.wear.GlanceWearWidget
 import androidx.glance.wear.GlanceWearWidgetService
@@ -29,6 +30,7 @@ import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.WearWidgetParams
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
 import androidx.wear.compose.ui.tooling.preview.WearPreviewSmallRound
+import androidx.wear.tooling.preview.devices.WearDevices
 
 class HelloWidgetService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = HelloWidget()
@@ -57,8 +59,20 @@ fun HelloWidgetContent() {
 }
 
 @OptIn(ExperimentalRemoteCreationApi::class)
-@WearPreviewSmallRound
-@WearPreviewLargeRound
+@Preview(
+    device = WearDevices.SMALL_ROUND,
+    backgroundColor = 0xff000000,
+    showBackground = true,
+    group = "Devices - Large Round",
+    showSystemUi = true,
+)
+@Preview(
+    device = WearDevices.LARGE_ROUND,
+    backgroundColor = 0xff000000,
+    showBackground = true,
+    group = "Devices - Large Round",
+    showSystemUi = true,
+)
 @Composable
 fun HelloWidgetPreview() {
     val content: @Composable @RemoteComposable () -> Unit = { HelloWidgetContent() }
