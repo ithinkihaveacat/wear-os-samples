@@ -11,7 +11,7 @@ uiTooling = "1.10.0"
 wear = "1.0.0-SNAPSHOT"
 wearCore = "1.0.0-SNAPSHOT"
 wearToolingPreview = "1.0.0"
-composeMaterial = "1.4.0"
+composeMaterial = "1.5.6"
 
 [libraries]
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "uiTooling" }

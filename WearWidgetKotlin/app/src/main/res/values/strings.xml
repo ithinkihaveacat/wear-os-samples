@@ -2,5 +2,5 @@
     <string name="app_name">WearWidgetKotlin</string>
     <string name="hello_widget_label">Wear Widget</string>
     <string name="hello_widget_description">AX Hello widget sample</string>
-    <string name="hello">Hello, Ida!</string>
+    <string name="hello">Hello, Clem!</string>
 </resources>

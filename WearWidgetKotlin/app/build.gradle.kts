@@ -67,6 +67,8 @@ dependencies {
     implementation(libs.wear.tooling.preview)
     implementation(libs.remote.tooling.preview)
 
+    implementation("androidx.compose.remote:remote-creation-core:1.0.0-SNAPSHOT")
+    implementation("androidx.compose.remote:remote-creation:1.0.0-SNAPSHOT")
 
     // Tooling dependencies for previewing tiles in Android Studio.
     implementation("androidx.wear.tiles:tiles-tooling:1.5.0")

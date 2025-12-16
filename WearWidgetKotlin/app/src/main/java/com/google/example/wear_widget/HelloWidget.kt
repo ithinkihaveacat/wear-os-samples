@@ -1,7 +1,10 @@
+@file:SuppressLint("RestrictedApi")
+
 package com.google.example.wear_widget
 
 import android.annotation.SuppressLint
 import android.content.Context
+import androidx.compose.remote.creation.ExperimentalRemoteCreationApi
 import androidx.compose.remote.creation.compose.capture.painter.painterRemoteColor
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
@@ -12,6 +15,7 @@ import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.state.RemoteColor
+import androidx.compose.remote.creation.profile.RcPlatformProfiles
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -23,12 +27,13 @@ import androidx.glance.wear.GlanceWearWidgetService
 import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.WearWidgetParams
+import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
+import androidx.wear.compose.ui.tooling.preview.WearPreviewSmallRound
 
 class HelloWidgetService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = HelloWidget()
 }
 
-@SuppressLint("RestrictedApi")
 class HelloWidget : GlanceWearWidget() {
     override suspend fun provideWidgetData(
         context: Context,
@@ -41,7 +46,6 @@ class HelloWidget : GlanceWearWidget() {
 
 @RemoteComposable
 @Composable
-@SuppressLint("RestrictedApi")
 fun HelloWidgetContent() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
@@ -52,9 +56,11 @@ fun HelloWidgetContent() {
     }
 }
 
-@WearPreviewDevices
+@OptIn(ExperimentalRemoteCreationApi::class)
+@WearPreviewSmallRound
+@WearPreviewLargeRound
 @Composable
-@SuppressLint("RestrictedApi")
-fun HelloWidgetPreview() = RemotePreview {
-    HelloWidget()
+fun HelloWidgetPreview() {
+    val content: @Composable @RemoteComposable () -> Unit = { HelloWidgetContent() }
+    RemotePreview(RcPlatformProfiles.WEAR_WIDGETS, content)
 }
