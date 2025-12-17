@@ -94,7 +94,7 @@ fun BoxSample3() {
 @Composable
 fun TextSample1() {
     RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.Green),
+        modifier = RemoteModifier.fillMaxSize().background(Color(0xFF006400)),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
