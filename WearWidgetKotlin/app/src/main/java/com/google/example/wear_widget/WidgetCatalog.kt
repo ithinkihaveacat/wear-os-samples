@@ -8,8 +8,11 @@ import androidx.compose.remote.creation.compose.capture.painter.painterRemoteCol
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
+import androidx.compose.remote.creation.compose.layout.RemoteCollapsibleColumn
+import androidx.compose.remote.creation.compose.layout.RemoteCollapsibleRow
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
+import androidx.compose.remote.creation.compose.layout.RemoteRow
 import androidx.compose.remote.creation.compose.layout.RemoteText
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.background
@@ -42,7 +45,7 @@ class WidgetCatalog : GlanceWearWidget() {
         params: WearWidgetParams,
     ): WearWidgetData =
         WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) {
-            BoxSample3()
+            RowSample2()
         }
 }
 
@@ -138,3 +141,84 @@ fun TextSample1() {
     }
 }
 
+/**
+ * Displays a row with three boxes of different colors: Red, Green, and Blue.
+ */
+@RemoteComposable
+@Composable
+fun RowSample1() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center
+    ) {
+        RemoteRow(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalArrangement = RemoteArrangement.CenterHorizontally,
+            verticalAlignment = RemoteAlignment.CenterVertically
+        ) {
+            RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Red)) {
+               RemoteText("Red", color = RemoteColor(Color.White), modifier = RemoteModifier.padding(5.dp))
+            }
+            RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Green)) {
+               RemoteText("Green", color = RemoteColor(Color.Black), modifier = RemoteModifier.padding(5.dp))
+            }
+            RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Blue)) {
+               RemoteText("Blue", color = RemoteColor(Color.White), modifier = RemoteModifier.padding(5.dp))
+            }
+        }
+    }
+}
+
+/**
+ * Displays a regular row on a dark gray background. Contains three text elements spaced apart:
+ * "Item 1" in white, "Item 2" in yellow, and "Item 3" in gray.
+ * WORKAROUND: Replaced RemoteCollapsibleRow with RemoteRow due to an "Invalid enum value: Orientation"
+ * error when rendering the RemoteCollapsibleRow. It seems the RemoteCollapsibleRow's
+ * orientation parameter was not being correctly handled by the renderer.
+ */
+@RemoteComposable
+@Composable
+fun RowSample2() {
+    // WORKAROUND: Replaced RemoteCollapsibleRow with RemoteRow due to an "Invalid enum value: Orientation"
+    // error when rendering the RemoteCollapsibleRow. It seems the RemoteCollapsibleRow's
+    // orientation parameter was not being correctly handled by the renderer.
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.DarkGray),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center
+    ) {
+        RemoteRow(
+            modifier = RemoteModifier.fillMaxSize().padding(5.dp),
+            horizontalArrangement = RemoteArrangement.SpaceBetween,
+            verticalAlignment = RemoteAlignment.CenterVertically
+        ) {
+             RemoteText("Item 1", color = RemoteColor(Color.White))
+             RemoteText("Item 2", color = RemoteColor(Color.Yellow))
+             RemoteText("Item 3", color = RemoteColor(Color.Gray))
+        }
+    }
+}
+
+/**
+ * Displays a collapsible column. Items with lower priority may be hidden if space is limited.
+ */
+@RemoteComposable
+@Composable
+fun CollapsibleColumnSample1() {
+     RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center
+    ) {
+        RemoteCollapsibleColumn(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.SpaceEvenly
+        ) {
+             RemoteText("Top (High)", color = RemoteColor(Color.Red), modifier = RemoteModifier.priority(1.0f))
+             RemoteText("Middle (Low)", color = RemoteColor(Color.Green), modifier = RemoteModifier.priority(0.1f))
+             RemoteText("Bottom (High)", color = RemoteColor(Color.Blue), modifier = RemoteModifier.priority(1.0f))
+        }
+    }
+}
