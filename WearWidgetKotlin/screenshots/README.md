@@ -75,18 +75,39 @@ To generate a screenshot for a sample:
     - **Retry:** If the capture is invalid (e.g., device was asleep), wake the
       device and retry the deploy/show/capture cycle 1-2 times.
 
-## 5. Artifacts
+## 5. Description Generation Process
+
+After capturing and verifying the screenshot, a descriptive text must be added to
+the source code. This description serves as "alt" text for the image, allowing
+users (and automated agents) to understand the visual output without viewing or
+downloading the image.
+
+1.  **Analyze Image:** Examine the generated screenshot. **The description must be
+    derived from the actual image, not inferred solely from the code.**
+2.  **Verify Consistency:** If the screenshot differs significantly from what the
+    code appears to define (e.g., wrong color, missing text, unexpected layout),
+    flag this as an error. Do not proceed until the discrepancy is resolved.
+3.  **Write Description:** Create a concise, literal, and "boring" description of
+    what is visible. Focus on colors, text content, alignment, and shapes. Avoid
+    poetic language.
+    - *Good:* "Displays a red bordered box with padding on a black background.
+      The text 'Box Sample 2' is white and centered."
+    - *Bad:* "A beautiful red box showcasing the power of padding."
+4.  **Update Code:** Add this description as a KDoc comment (`/** ... */`)
+    immediately above the corresponding function in `WidgetCatalog.kt`.
+
+## 6. Artifacts
 
 - **Directory:** All screenshots must be stored in the `screenshots/` directory.
 - **Filename:** `[FunctionName].png` (Case-sensitive match to the code).
 
-## 6. Future Compatibility
+## 7. Future Compatibility
 
 This structure is designed to support the future generation of an automated
 Markdown catalog. Adherence to the naming conventions (matching code function to
 image filename) is critical for this automation.
 
-## 7. Standardization Guidelines
+## 8. Standardization Guidelines
 
 - **Background:** Use `Color.Black` as the default background in
   `provideWidgetData` unless the sample specifically demonstrates background
