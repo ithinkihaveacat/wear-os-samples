@@ -90,3 +90,39 @@ fun BoxSample3() {
     }
 }
 
+@RemoteComposable
+@Composable
+fun TextSample1() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteColumn(
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteText(
+                text = "TextSample1",
+                color = RemoteColor(Color.White),
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+            RemoteText(
+                text = "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.",
+                color = RemoteColor(Color.LightGray),
+                fontSize = 14.sp,
+                maxLines = 2,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+            )
+            RemoteText(
+                text = "Version 1.0",
+                color = RemoteColor(Color.Cyan),
+                fontSize = 10.sp,
+                fontStyle = FontStyle.Italic
+            )
+        }
+    }
+}
+
