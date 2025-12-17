@@ -45,7 +45,7 @@ All sample code must be added to the following file:
   - Must be descriptive and numbered.
   - Use PascalCase.
   - Use underscores to "namespace" related groups if necessary (e.g.,
-    `Text_Style_1`, `Text_Wrapping_2`).
+    `Text_Style1`, `Text_Wrapping2`).
   - **Immutability:** Existing function names should generally not be changed to
     preserve the link with existing screenshots.
 - **Annotations:** All sample functions must be annotated with:
@@ -68,7 +68,7 @@ To generate a screenshot for a sample:
     - Ensure the screenshot filename matches the function name exactly (e.g.,
       `BoxSample1` -> `screenshots/BoxSample1.png`).
     - **Visual Check:** **CRITICAL:** Open and visually inspect the generated
-      image file. Verify it displays the *correct* widget content (check for
+      image file. Verify it displays the _correct_ widget content (check for
       expected text, colors, and layout). Ensure it is not showing a loading
       spinner, black screen, or the default watch face. **Do not assume the
       capture was successful without looking at the image.**
@@ -77,34 +77,35 @@ To generate a screenshot for a sample:
 
 ## 5. Description Generation Process
 
-After capturing and verifying the screenshot, a descriptive text must be added to
-the source code. This description serves as "alt" text for the image, allowing
-users (and automated agents) to understand the visual output without viewing or
-downloading the image.
+After capturing and verifying the screenshot, a descriptive text must be added
+to the source code. This description serves as "alt" text for the image,
+allowing users (and automated agents) to understand the visual output without
+viewing or downloading the image.
 
 **Important Rules for KDoc Descriptions:**
 
-- **Trigger:** These descriptions should *only* be added or modified when
+- **Trigger:** These descriptions should _only_ be added or modified when
   analyzing the **actual screenshot**.
-- **Prohibition:** Do *not* generate or update the KDoc description when simply
+- **Prohibition:** Do _not_ generate or update the KDoc description when simply
   writing or changing the code. (Comments inside the function body are
   permitted).
 - **Obsolescence:** If you make a code change that renders the existing KDoc
-  description inaccurate, **remove the KDoc completely**. Do *not* attempt to
+  description inaccurate, **remove the KDoc completely**. Do _not_ attempt to
   update it based on the code change. It should only be re-added later after a
   new screenshot is captured and analyzed.
 
-1.  **Analyze Image:** Examine the generated screenshot. **The description must be
-    derived from the actual image, not inferred solely from the code.**
-2.  **Verify Consistency:** If the screenshot differs significantly from what the
-    code appears to define (e.g., wrong color, missing text, unexpected layout),
-    flag this as an error. Do not proceed until the discrepancy is resolved.
-3.  **Write Description:** Create a concise, literal, and "boring" description of
-    what is visible. Focus on colors, text content, alignment, and shapes. Avoid
-    poetic language.
-    - *Good:* "Displays a red bordered box with padding on a black background.
+1.  **Analyze Image:** Examine the generated screenshot. **The description must
+    be derived from the actual image, not inferred solely from the code.**
+2.  **Verify Consistency:** If the screenshot differs significantly from what
+    the code appears to define (e.g., wrong color, missing text, unexpected
+    layout), flag this as an error. Do not proceed until the discrepancy is
+    resolved.
+3.  **Write Description:** Create a concise, literal, and "boring" description
+    of what is visible. Focus on colors, text content, alignment, and shapes.
+    Avoid poetic language.
+    - _Good:_ "Displays a red bordered box with padding on a black background.
       The text 'Box Sample 2' is white and centered."
-    - *Bad:* "A beautiful red box showcasing the power of padding."
+    - _Bad:_ "A beautiful red box showcasing the power of padding."
 4.  **Update Code:** Add this description as a KDoc comment (`/** ... */`)
     immediately above the corresponding function in `WidgetCatalog.kt`.
 
