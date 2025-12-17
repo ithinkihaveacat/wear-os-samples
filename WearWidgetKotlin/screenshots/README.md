@@ -82,6 +82,18 @@ the source code. This description serves as "alt" text for the image, allowing
 users (and automated agents) to understand the visual output without viewing or
 downloading the image.
 
+**Important Rules for KDoc Descriptions:**
+
+- **Trigger:** These descriptions should *only* be added or modified when
+  analyzing the **actual screenshot**.
+- **Prohibition:** Do *not* generate or update the KDoc description when simply
+  writing or changing the code. (Comments inside the function body are
+  permitted).
+- **Obsolescence:** If you make a code change that renders the existing KDoc
+  description inaccurate, **remove the KDoc completely**. Do *not* attempt to
+  update it based on the code change. It should only be re-added later after a
+  new screenshot is captured and analyzed.
+
 1.  **Analyze Image:** Examine the generated screenshot. **The description must be
     derived from the actual image, not inferred solely from the code.**
 2.  **Verify Consistency:** If the screenshot differs significantly from what the
