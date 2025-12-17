@@ -46,6 +46,9 @@ class WidgetCatalog : GlanceWearWidget() {
         }
 }
 
+/**
+ * Displays a dark gray box that fills the screen. The text "Box Sample 1" is white and centered.
+ */
 @RemoteComposable
 @Composable
 fun BoxSample1() {
@@ -59,6 +62,9 @@ fun BoxSample1() {
     }
 }
 
+/**
+ * Displays a red bordered box with padding on a black background. The text "Box Sample 2 (Border & Padding)" is white and centered.
+ */
 @RemoteComposable
 @Composable
 fun BoxSample2() {
@@ -72,6 +78,9 @@ fun BoxSample2() {
     }
 }
 
+/**
+ * Displays a blue box that fills the screen. The text "Box Sample 3 (Bottom End)" is yellow and positioned at the bottom end.
+ */
 @RemoteComposable
 @Composable
 fun BoxSample3() {
@@ -90,6 +99,9 @@ fun BoxSample3() {
     }
 }
 
+/**
+ * Displays a dark green box that fills the screen. It contains a column with "TextSample1" in white bold, wrapped light gray text, and "Version 1.0" in cyan italics.
+ */
 @RemoteComposable
 @Composable
 fun TextSample1() {
