@@ -8,6 +8,7 @@ import androidx.compose.remote.creation.compose.capture.painter.painterRemoteCol
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
+import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.layout.RemoteText
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
@@ -16,6 +17,9 @@ import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.glance.wear.GlanceWearWidget
 import androidx.glance.wear.GlanceWearWidgetService
 import androidx.glance.wear.WearWidgetData
@@ -32,7 +36,7 @@ class WidgetCatalog : GlanceWearWidget() {
         params: WearWidgetParams,
     ): WearWidgetData =
         WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Blue)) {
-            WidgetContent()
+            TextSample1()
         }
 }
 
@@ -45,5 +49,41 @@ fun WidgetContent() {
         verticalArrangement = RemoteArrangement.Center,
     ) {
         RemoteText(text = stringResource(R.string.hello), color = RemoteColor(Color.White))
+    }
+}
+
+@RemoteComposable
+@Composable
+fun TextSample1() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteColumn(
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteText(
+                text = "TextSample1",
+                color = RemoteColor(Color.White),
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+            RemoteText(
+                text = "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.",
+                color = RemoteColor(Color.LightGray),
+                fontSize = 14.sp,
+                maxLines = 2,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+            )
+            RemoteText(
+                text = "Version 1.0",
+                color = RemoteColor(Color.Cyan),
+                fontSize = 10.sp,
+                fontStyle = FontStyle.Italic
+            )
+        }
     }
 }
