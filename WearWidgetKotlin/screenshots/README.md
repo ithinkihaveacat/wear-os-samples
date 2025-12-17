@@ -67,8 +67,11 @@ To generate a screenshot for a sample:
 5.  **Verify:**
     - Ensure the screenshot filename matches the function name exactly (e.g.,
       `BoxSample1` -> `screenshots/BoxSample1.png`).
-    - **Visual Check:** Verify the screenshot actually displays the widget
-      content and not a loading state, black screen, or watch face.
+    - **Visual Check:** **CRITICAL:** Open and visually inspect the generated
+      image file. Verify it displays the *correct* widget content (check for
+      expected text, colors, and layout). Ensure it is not showing a loading
+      spinner, black screen, or the default watch face. **Do not assume the
+      capture was successful without looking at the image.**
     - **Retry:** If the capture is invalid (e.g., device was asleep), wake the
       device and retry the deploy/show/capture cycle 1-2 times.
 
