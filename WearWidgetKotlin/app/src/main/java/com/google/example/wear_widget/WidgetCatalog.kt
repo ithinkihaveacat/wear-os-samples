@@ -45,7 +45,7 @@ class WidgetCatalog : GlanceWearWidget() {
         params: WearWidgetParams,
     ): WearWidgetData =
         WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) {
-            RowSample2()
+            TextSample1WithMargin()
         }
 }
 
@@ -110,6 +110,45 @@ fun BoxSample3() {
 fun TextSample1() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(Color(0xFF006400)),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteColumn(
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteText(
+                text = "TextSample1",
+                color = RemoteColor(Color.White),
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+            RemoteText(
+                text = "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.",
+                color = RemoteColor(Color.LightGray),
+                fontSize = 14.sp,
+                maxLines = 2,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+            )
+            RemoteText(
+                text = "Version 1.0",
+                color = RemoteColor(Color.Cyan),
+                fontSize = 10.sp,
+                fontStyle = FontStyle.Italic
+            )
+        }
+    }
+}
+
+/**
+ * Displays a dark green box with a large margin. The text inside is cut off, showing "TextSampl" on the first line, "e1" on the second, and "This is a long..." on the third. The title "Wear Widget" appears above the box.
+ */
+@RemoteComposable
+@Composable
+fun TextSample1WithMargin() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color(0xFF006400)).padding(30.dp),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
