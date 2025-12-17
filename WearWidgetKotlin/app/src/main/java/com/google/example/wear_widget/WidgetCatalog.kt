@@ -45,8 +45,32 @@ class WidgetCatalog : GlanceWearWidget() {
         params: WearWidgetParams,
     ): WearWidgetData =
         WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) {
-            RowSample2()
+            CollapsibleRowSample2()
         }
+}
+
+/**
+ * This is a test case to reproduce the bug in RemoteCollapsibleRow.
+ * It is expected to fail with an "Invalid enum value: Orientation" error.
+ */
+@RemoteComposable
+@Composable
+fun CollapsibleRowSample2() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.DarkGray),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center
+    ) {
+        RemoteCollapsibleRow(
+            modifier = RemoteModifier.fillMaxSize().padding(5.dp),
+            horizontalArrangement = RemoteArrangement.SpaceBetween,
+            verticalAlignment = RemoteAlignment.CenterVertically
+        ) {
+            RemoteText("High Priority", color = RemoteColor(Color.White), modifier = RemoteModifier.priority(2.0f))
+            RemoteText("Medium Priority", color = RemoteColor(Color.Yellow), modifier = RemoteModifier.priority(1.0f))
+            RemoteText("Low Priority", color = RemoteColor(Color.Gray), modifier = RemoteModifier.priority(0.5f))
+        }
+    }
 }
 
 /**
