@@ -4,7 +4,7 @@ package com.google.example.wear_widget
 
 import android.annotation.SuppressLint
 import android.content.Context
-import androidx.compose.remote.creation.compose.capture.painter.painterRemoteColor
+import androidx.compose.remote.creation.compose.painter.painterRemoteColor
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
@@ -19,6 +19,7 @@ import androidx.compose.remote.creation.compose.modifier.border
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.padding
 import androidx.compose.remote.creation.compose.modifier.size
+import androidx.compose.remote.creation.compose.state.RemoteBoolean
 import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.asRdp
 import androidx.compose.remote.creation.compose.state.rdp
@@ -38,6 +39,7 @@ import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.WearWidgetParams
 import androidx.wear.compose.remote.material3.RemoteButton
+import androidx.wear.compose.remote.material3.RemoteButtonColors
 import androidx.wear.compose.remote.material3.RemoteButtonDefaults
 import androidx.wear.compose.remote.material3.RemoteIcon
 import androidx.wear.compose.remote.material3.buttonSizeModifier
@@ -53,7 +55,7 @@ class WidgetCatalog : GlanceWearWidget() {
         params: WearWidgetParams,
     ): WearWidgetData =
         WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) {
-            ButtonSample1()
+            ButtonSample7()
         }
 }
 
@@ -381,5 +383,90 @@ fun ButtonSample3() {
             secondaryLabel = { MaterialRemoteText("Secondary Label".rs) },
             label = { MaterialRemoteText("Primary Label".rs) },
         )
+    }
+}
+
+/**
+ * A UI screenshot on a black background. At the top, white text reads "Wear Widget." Centered below
+ * is a large, bright red rounded button with bold yellow text that reads "Custom Colors." Simple
+ * layout with generous margins.
+ */
+@RemoteComposable
+@Composable
+fun ButtonSample4() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteButton(
+            modifier = RemoteModifier.buttonSizeModifier(),
+            colors = RemoteButtonColors(
+                containerColor = RemoteColor(Color.Red),
+                contentColor = RemoteColor(Color.Yellow),
+                secondaryContentColor = RemoteColor(Color.Yellow),
+                iconColor = RemoteColor(Color.Yellow),
+                disabledContainerColor = RemoteColor(Color.Gray),
+                disabledContentColor = RemoteColor(Color.LightGray),
+                disabledSecondaryContentColor = RemoteColor(Color.LightGray),
+                disabledIconColor = RemoteColor(Color.LightGray)
+            )
+        ) {
+            MaterialRemoteText("Custom Colors".rs)
+        }
+    }
+}
+
+/**
+ * Black UI screen featuring white text at the top reading "Wear Widget". In the center, a dark gray
+ * rounded rectangular button displays the text "Disabled Button" in a light gray, muted font.
+ */
+@RemoteComposable
+@Composable
+fun ButtonSample6() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteButton(
+            modifier = RemoteModifier.buttonSizeModifier(),
+            enabled = RemoteBoolean(false)
+        ) {
+            MaterialRemoteText("Disabled Button".rs)
+        }
+    }
+}
+
+/**
+ * Black UI featuring "Wear Widget" in white text at the top. Two side-by-side, light lavender
+ * pill-shaped buttons are centered below, labeled "Yes" and "No" in dark purple text. Symmetrical
+ * layout with substantial black margins around the elements.
+ */
+@RemoteComposable
+@Composable
+fun ButtonSample7() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteRow(
+            modifier = RemoteModifier.padding(horizontal = 11.dp),
+            horizontalArrangement = RemoteArrangement.CenterHorizontally,
+            verticalAlignment = RemoteAlignment.CenterVertically,
+        ) {
+             RemoteButton(
+                 modifier = RemoteModifier.weight(1f)
+             ) {
+                 MaterialRemoteText("Yes".rs)
+             }
+             RemoteBox(RemoteModifier.size(4.dp.asRdp())) // Spacing
+             RemoteButton(
+                 modifier = RemoteModifier.weight(1f)
+             ) {
+                 MaterialRemoteText("No".rs)
+             }
+        }
     }
 }

@@ -5,7 +5,7 @@ package com.google.example.wear_widget
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.remote.creation.ExperimentalRemoteCreationApi
-import androidx.compose.remote.creation.compose.capture.painter.painterRemoteColor
+import androidx.compose.remote.creation.compose.painter.painterRemoteColor
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
