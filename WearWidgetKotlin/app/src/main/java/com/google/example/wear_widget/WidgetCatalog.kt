@@ -9,7 +9,6 @@ import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteCollapsibleColumn
-import androidx.compose.remote.creation.compose.layout.RemoteCollapsibleRow
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.layout.RemoteRow
@@ -23,7 +22,6 @@ import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.asRdp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -50,7 +48,9 @@ class WidgetCatalog : GlanceWearWidget() {
 }
 
 /**
- * Displays a dark gray box that fills the screen. The text "Box Sample 1" is white and centered.
+ * UI on a black background. At the top, "Wear Widget" is centered in white. Below it, a large dark
+ * grey rectangular box is centered horizontally with significant side margins, containing the white
+ * text "Box Sample 1" in its center.
  */
 @RemoteComposable
 @Composable
@@ -66,23 +66,33 @@ fun BoxSample1() {
 }
 
 /**
- * Displays a red bordered box with padding on a black background. The text "Box Sample 2 (Border & Padding)" is white and centered.
+ * "Wear Widget" header at the top on a black background. A central rectangle with a thin red border
+ * contains the white text "Box Sample 2 (Border & Padding)". The layout shows padding between the
+ * text and the red border, all horizontally centered.
  */
 @RemoteComposable
 @Composable
 fun BoxSample2() {
     // Box with padding and border
     RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().padding(20.dp).border(width = 2.dp.asRdp(), color = Color.Red),
+        modifier =
+            RemoteModifier.fillMaxSize()
+                .padding(20.dp)
+                .border(width = 2.dp.asRdp(), color = Color.Red),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
-        RemoteText(text = "Box Sample 2\n(Border & Padding)", color = RemoteColor(Color.White), textAlign = TextAlign.Center)
+        RemoteText(
+            text = "Box Sample 2\n(Border & Padding)",
+            color = RemoteColor(Color.White),
+            textAlign = TextAlign.Center,
+        )
     }
 }
 
 /**
- * Displays a blue box that fills the screen. The text "Box Sample 3 (Bottom End)" is yellow and positioned at the bottom end.
+ * Black background with white text "Wear Widget" at the top. Below, a solid blue rectangular box
+ * contains yellow text in its bottom-right corner: "Box Sample 3 (Bottom End)".
  */
 @RemoteComposable
 @Composable
@@ -97,13 +107,15 @@ fun BoxSample3() {
             modifier = RemoteModifier.padding(10.dp),
             text = "Box Sample 3\n(Bottom End)",
             color = RemoteColor(Color.Yellow),
-            textAlign = TextAlign.End
+            textAlign = TextAlign.End,
         )
     }
 }
 
 /**
- * Displays a dark green box that fills the screen. It contains a column with "TextSample1" in white bold, wrapped light gray text, and "Version 1.0" in cyan italics.
+ * UI screen with "Wear Widget" header on a black background. A central green rectangle contains
+ * bold white "TextSample1", truncated light-grey text "This is a long text that should wrap to
+ * multiple li...", and small cyan italicized "Version 1.0" at the bottom.
  */
 @RemoteComposable
 @Composable
@@ -121,28 +133,31 @@ fun TextSample1() {
                 text = "TextSample1",
                 color = RemoteColor(Color.White),
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
             RemoteText(
-                text = "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.",
+                text =
+                    "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.",
                 color = RemoteColor(Color.LightGray),
                 fontSize = 14.sp,
                 maxLines = 2,
                 overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
             )
             RemoteText(
                 text = "Version 1.0",
                 color = RemoteColor(Color.Cyan),
                 fontSize = 10.sp,
-                fontStyle = FontStyle.Italic
+                fontStyle = FontStyle.Italic,
             )
         }
     }
 }
 
 /**
- * Displays a dark green box with a large margin. The text inside is cut off, showing "TextSampl" on the first line, "e1" on the second, and "This is a long..." on the third. The title "Wear Widget" appears above the box.
+ * Black background with white "Wear Widget" header. A central dark green rectangle contains white
+ * text: "TextSampl" wrapped to "e1" on the second line. Below, smaller text "This is a long" is
+ * partially clipped by the rectangle's bottom edge.
  */
 @RemoteComposable
 @Composable
@@ -160,28 +175,31 @@ fun TextSample1WithMargin() {
                 text = "TextSample1",
                 color = RemoteColor(Color.White),
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
             RemoteText(
-                text = "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.",
+                text =
+                    "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.",
                 color = RemoteColor(Color.LightGray),
                 fontSize = 14.sp,
                 maxLines = 2,
                 overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
             )
             RemoteText(
                 text = "Version 1.0",
                 color = RemoteColor(Color.Cyan),
                 fontSize = 10.sp,
-                fontStyle = FontStyle.Italic
+                fontStyle = FontStyle.Italic,
             )
         }
     }
 }
 
 /**
- * Displays a row with three boxes of different colors: Red, Green, and Blue.
+ * "Wear Widget" header in white text centered at the top. Below, three horizontal rectangles: red
+ * with white "Red", green with black "Green", and blue with white "Blue". All elements centered on
+ * a black background with large margins.
  */
 @RemoteComposable
 @Composable
@@ -189,75 +207,100 @@ fun RowSample1() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(Color.Black),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center
+        verticalArrangement = RemoteArrangement.Center,
     ) {
         RemoteRow(
             modifier = RemoteModifier.fillMaxSize(),
             horizontalArrangement = RemoteArrangement.CenterHorizontally,
-            verticalAlignment = RemoteAlignment.CenterVertically
+            verticalAlignment = RemoteAlignment.CenterVertically,
         ) {
             RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Red)) {
-               RemoteText("Red", color = RemoteColor(Color.White), modifier = RemoteModifier.padding(5.dp))
+                RemoteText(
+                    "Red",
+                    color = RemoteColor(Color.White),
+                    modifier = RemoteModifier.padding(5.dp),
+                )
             }
             RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Green)) {
-               RemoteText("Green", color = RemoteColor(Color.Black), modifier = RemoteModifier.padding(5.dp))
+                RemoteText(
+                    "Green",
+                    color = RemoteColor(Color.Black),
+                    modifier = RemoteModifier.padding(5.dp),
+                )
             }
             RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Blue)) {
-               RemoteText("Blue", color = RemoteColor(Color.White), modifier = RemoteModifier.padding(5.dp))
+                RemoteText(
+                    "Blue",
+                    color = RemoteColor(Color.White),
+                    modifier = RemoteModifier.padding(5.dp),
+                )
             }
         }
     }
 }
 
 /**
- * Displays a regular row on a dark gray background. Contains three text elements spaced apart:
- * "Item 1" in white, "Item 2" in yellow, and "Item 3" in gray.
- * WORKAROUND: Replaced RemoteCollapsibleRow with RemoteRow due to an "Invalid enum value: Orientation"
- * error when rendering the RemoteCollapsibleRow. It seems the RemoteCollapsibleRow's
+ * White title "Wear Widget" centered at the top on a black background. Below, a gray rectangle
+ * contains three horizontal labels: "Item 1" in white, "Item 2" in yellow, and "Item 3" in light
+ * gray, centered with wide margins.
+ *
+ * WORKAROUND: Replaced RemoteCollapsibleRow with RemoteRow due to an "Invalid enum value:
+ * Orientation" error when rendering the RemoteCollapsibleRow. It seems the RemoteCollapsibleRow's
  * orientation parameter was not being correctly handled by the renderer.
  */
 @RemoteComposable
 @Composable
 fun RowSample2() {
-    // WORKAROUND: Replaced RemoteCollapsibleRow with RemoteRow due to an "Invalid enum value: Orientation"
+    // WORKAROUND: Replaced RemoteCollapsibleRow with RemoteRow due to an "Invalid enum value:
+    // Orientation"
     // error when rendering the RemoteCollapsibleRow. It seems the RemoteCollapsibleRow's
     // orientation parameter was not being correctly handled by the renderer.
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(Color.DarkGray),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center
+        verticalArrangement = RemoteArrangement.Center,
     ) {
         RemoteRow(
             modifier = RemoteModifier.fillMaxSize().padding(5.dp),
             horizontalArrangement = RemoteArrangement.SpaceBetween,
-            verticalAlignment = RemoteAlignment.CenterVertically
+            verticalAlignment = RemoteAlignment.CenterVertically,
         ) {
-             RemoteText("Item 1", color = RemoteColor(Color.White))
-             RemoteText("Item 2", color = RemoteColor(Color.Yellow))
-             RemoteText("Item 3", color = RemoteColor(Color.Gray))
+            RemoteText("Item 1", color = RemoteColor(Color.White))
+            RemoteText("Item 2", color = RemoteColor(Color.Yellow))
+            RemoteText("Item 3", color = RemoteColor(Color.Gray))
         }
     }
 }
 
-/**
- * Displays a collapsible column. Items with lower priority may be hidden if space is limited.
- */
+/** Displays a collapsible column. Items with lower priority may be hidden if space is limited. */
 @RemoteComposable
 @Composable
 fun CollapsibleColumnSample1() {
-     RemoteBox(
+    RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(Color.Black),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center
+        verticalArrangement = RemoteArrangement.Center,
     ) {
         RemoteCollapsibleColumn(
             modifier = RemoteModifier.fillMaxSize(),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.SpaceEvenly
+            verticalArrangement = RemoteArrangement.SpaceEvenly,
         ) {
-             RemoteText("Top (High)", color = RemoteColor(Color.Red), modifier = RemoteModifier.priority(1.0f))
-             RemoteText("Middle (Low)", color = RemoteColor(Color.Green), modifier = RemoteModifier.priority(0.1f))
-             RemoteText("Bottom (High)", color = RemoteColor(Color.Blue), modifier = RemoteModifier.priority(1.0f))
+            RemoteText(
+                "Top (High)",
+                color = RemoteColor(Color.Red),
+                modifier = RemoteModifier.priority(1.0f),
+            )
+            RemoteText(
+                "Middle (Low)",
+                color = RemoteColor(Color.Green),
+                modifier = RemoteModifier.priority(0.1f),
+            )
+            RemoteText(
+                "Bottom (High)",
+                color = RemoteColor(Color.Blue),
+                modifier = RemoteModifier.priority(1.0f),
+            )
         }
     }
 }
