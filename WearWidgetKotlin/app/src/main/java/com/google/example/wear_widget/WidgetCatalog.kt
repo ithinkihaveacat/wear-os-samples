@@ -45,6 +45,9 @@ import androidx.wear.compose.remote.material3.RemoteIcon
 import androidx.wear.compose.remote.material3.buttonSizeModifier
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 
+import androidx.wear.compose.remote.material3.RemoteButtonGroup
+import androidx.wear.compose.remote.material3.RemoteButtonGroupDefaults
+
 class WidgetCatalogService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = WidgetCatalog()
 }
@@ -53,9 +56,9 @@ class WidgetCatalog : GlanceWearWidget() {
     override suspend fun provideWidgetData(
         context: Context,
         params: WearWidgetParams,
-    ): WearWidgetData =
+    ): WearWidgetData = 
         WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) {
-            ButtonSample7()
+            ButtonSample8()
         }
 }
 
@@ -467,6 +470,35 @@ fun ButtonSample7() {
              ) {
                  MaterialRemoteText("No".rs)
              }
+        }
+    }
+}
+
+/**
+ * "Wear Widget" white title on black. Below are two side-by-side light purple rounded buttons with
+ * dark purple text. Left button: "Yes" above "Confir". Right button: "No" above "Cancel". Centered
+ * layout.
+ */
+@RemoteComposable
+@Composable
+fun ButtonSample8() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteButtonGroup {
+             RemoteButton(
+                 modifier = RemoteModifier.weight(1f),
+                 label = { MaterialRemoteText("Yes".rs) },
+                 secondaryLabel = { MaterialRemoteText("Confirm".rs) }
+             )
+             RemoteBox(RemoteModifier.size(RemoteButtonGroupDefaults.Spacing))
+             RemoteButton(
+                 modifier = RemoteModifier.weight(1f),
+                 label = { MaterialRemoteText("No".rs) },
+                 secondaryLabel = { MaterialRemoteText("Cancel".rs) }
+             )
         }
     }
 }
