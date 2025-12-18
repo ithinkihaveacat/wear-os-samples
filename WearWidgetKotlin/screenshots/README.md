@@ -94,18 +94,20 @@ viewing or downloading the image.
   update it based on the code change. It should only be re-added later after a
   new screenshot is captured and analyzed.
 
-1.  **Analyze Image:** Examine the generated screenshot. **The description must
-    be derived from the actual image, not inferred solely from the code.**
-2.  **Verify Consistency:** If the screenshot differs significantly from what
-    the code appears to define (e.g., wrong color, missing text, unexpected
-    layout), flag this as an error. Do not proceed until the discrepancy is
-    resolved.
-3.  **Write Description:** Create a concise, literal, and "boring" description
-    of what is visible. Focus on colors, text content, alignment, and shapes.
-    Avoid poetic language.
-    - _Good:_ "Displays a red bordered box with padding on a black background.
-      The text 'Box Sample 2' is white and centered."
-    - _Bad:_ "A beautiful red box showcasing the power of padding."
+1.  **Extract Description:** Use the `screenshot-describe` command-line tool to
+    generate a description from the verified screenshot.
+    ```bash
+    $ screenshot-describe BoxSample1.png
+    "Wear Widget" title in white at the top on a black background. A dark gray rectangle occupies the center, containing the white text "Box Sample 1".
+    ```
+2.  **Verify Consistency:** Ensure the generated description accurately reflects
+    the image and matches the intent of the code. If the screenshot differs
+    significantly from the code (e.g., wrong color), flag it as an error and
+    resolve the discrepancy before proceeding.
+3.  **Refine Description (Optional):** It is acceptable to make minor "tweaks"
+    to the generated description to ensure consistency across similar samples
+    (e.g., ensuring consistent color naming if the tool produces slightly
+    different results for two nearly identical images).
 4.  **Update Code:** Add this description as a KDoc comment (`/** ... */`)
     immediately above the corresponding function in `WidgetCatalog.kt`.
 
