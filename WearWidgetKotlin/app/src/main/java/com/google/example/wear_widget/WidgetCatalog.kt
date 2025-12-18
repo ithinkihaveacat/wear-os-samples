@@ -18,10 +18,15 @@ import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.border
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.padding
+import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.asRdp
+import androidx.compose.remote.creation.compose.state.rdp
+import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -32,6 +37,11 @@ import androidx.glance.wear.GlanceWearWidgetService
 import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.WearWidgetParams
+import androidx.wear.compose.remote.material3.RemoteButton
+import androidx.wear.compose.remote.material3.RemoteButtonDefaults
+import androidx.wear.compose.remote.material3.RemoteIcon
+import androidx.wear.compose.remote.material3.buttonSizeModifier
+import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 
 class WidgetCatalogService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = WidgetCatalog()
@@ -43,7 +53,7 @@ class WidgetCatalog : GlanceWearWidget() {
         params: WearWidgetParams,
     ): WearWidgetData =
         WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) {
-            TextSample1WithMargin()
+            ButtonSample1()
         }
 }
 
@@ -302,5 +312,74 @@ fun CollapsibleColumnSample1() {
                 modifier = RemoteModifier.priority(1.0f),
             )
         }
+    }
+}
+
+/**
+ * White text "Wear Widget" is at the top of a black background. A light lavender rounded button is
+ * centered below, containing dark purple text "Simple Button." The layout is minimalist with wide
+ * margins and a centered composition.
+ */
+@RemoteComposable
+@Composable
+fun ButtonSample1() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteButton(
+            modifier = RemoteModifier.buttonSizeModifier(),
+        ) {
+            MaterialRemoteText("Simple Button".rs)
+        }
+    }
+}
+
+/**
+ * A UI titled "Wear Widget" in white on a black background. Centered is a light purple rounded
+ * button featuring a dark purple Android tag icon and the two-line text "Button with Icon" in dark
+ * purple.
+ */
+@RemoteComposable
+@Composable
+fun ButtonSample2() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteButton(
+            modifier = RemoteModifier.buttonSizeModifier(),
+            icon = {
+                RemoteIcon(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
+                    contentDescription = "Icon".rs,
+                    modifier = RemoteModifier.size(RemoteButtonDefaults.IconSize),
+                )
+            },
+            label = { MaterialRemoteText("Button with Icon".rs) },
+        )
+    }
+}
+
+/**
+ * Black interface with white 'Wear Widget' text at the top. Centered is a light purple rounded
+ * button featuring 'Primary Label' in bold dark purple and 'Secondary Label' in regular purple,
+ * stacked vertically.
+ */
+@RemoteComposable
+@Composable
+fun ButtonSample3() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteButton(
+            modifier = RemoteModifier.buttonSizeModifier(),
+            secondaryLabel = { MaterialRemoteText("Secondary Label".rs) },
+            label = { MaterialRemoteText("Primary Label".rs) },
+        )
     }
 }
