@@ -130,3 +130,15 @@ image filename) is critical for this automation.
 - **Device Configuration:** Ideally, use a consistent Wear OS emulator
   configuration (e.g., standard round layout, consistent density) for all
   captures to ensure images are comparable.
+
+## 9. Implementation Guidelines
+
+- **API Visibility:** It is acceptable to more or less ignore visibility
+  warnings and annotations for now. Use methods that seem like they should be
+  part of the public API (e.g., convenience extension functions).
+- **Restricted APIs:** Use constructions like
+  `@file:SuppressLint("RestrictedApi")` to make the code available and
+  compilable. If various elements are protected by
+  `@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)`, feel free to ignore and
+  suppress the warning if it seems like a method that should be part of the
+  public API.
