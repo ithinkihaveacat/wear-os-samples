@@ -681,6 +681,61 @@ fun ButtonSample9() {
 }
 ```
 
+## CardSample1
+
+A dark screen displays "Wear Widget" in white at the top. Below, a rounded dark
+gray card contains a cyan Android-style icon on the left. To its right, white
+text reads "Card Title" followed by "Subtitle goes here" on two lines. The
+layout features generous margins within the card.
+
+![CardSample1](CardSample1.png)
+
+```kotlin
+/**
+ * A dark screen displays "Wear Widget" in white at the top. Below, a rounded dark gray card contains a cyan Android-style icon on the left. To its right, white text reads "Card Title" followed by "Subtitle goes here" on two lines. The layout features generous margins within the card.
+ */
+@RemoteComposable
+@Composable
+fun CardSample1() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteButton(
+            modifier = RemoteModifier.fillMaxSize().padding(10.dp),
+            enabled = RemoteBoolean(false), // act as container
+            colors =
+                RemoteButtonColors(
+                    containerColor = RemoteColor(Color.DarkGray),
+                    contentColor = RemoteColor(Color.White),
+                    secondaryContentColor = RemoteColor(Color.LightGray),
+                    iconColor = RemoteColor(Color.White),
+                    disabledContainerColor = RemoteColor(Color.DarkGray),
+                    disabledContentColor = RemoteColor(Color.White),
+                    disabledSecondaryContentColor = RemoteColor(Color.LightGray),
+                    disabledIconColor = RemoteColor(Color.White),
+                ),
+        ) {
+            RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically) {
+                RemoteIcon(
+                    imageVector =
+                        ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
+                    contentDescription = "Card Icon".rs,
+                    modifier = RemoteModifier.size(40.dp.asRdp()),
+                    tint = RemoteColor(Color.Cyan),
+                )
+                RemoteBox(RemoteModifier.size(10.dp.asRdp()))
+                RemoteColumn {
+                    MaterialRemoteText("Card Title".rs)
+                    MaterialRemoteText("Subtitle goes here".rs)
+                }
+            }
+        }
+    }
+}
+```
+
 ## CounterSample1
 
 A UI mockup on a black background. At the top, white text reads "Wear Widget."

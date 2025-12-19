@@ -63,7 +63,7 @@ class WidgetCatalog : GlanceWearWidget() {
         context: Context,
         params: WearWidgetParams,
     ): WearWidgetData =
-        WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) { CounterSample1() }
+        WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) { CardSample1() }
 }
 
 /**
@@ -718,8 +718,7 @@ fun GridSample1() {
 }
 
 /**
- * A simulated card on a black background. A dark gray rounded container holds a cyan icon on the
- * left and two lines of text (Title, Subtitle) on the right.
+ * A dark screen displays "Wear Widget" in white at the top. Below, a rounded dark gray card contains a cyan Android-style icon on the left. To its right, white text reads "Card Title" followed by "Subtitle goes here" on two lines. The layout features generous margins within the card.
  */
 @RemoteComposable
 @Composable
