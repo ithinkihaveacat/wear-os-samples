@@ -2,7 +2,9 @@
 
 This document tracks technical hurdles, API limitations, and known issues
 encountered while implementing the Wear Widget samples using the Remote Compose
-Material3 library.
+Material3 library. It focuses on documenting practical workarounds and necessary
+adaptations where the API diverges from expectations established by standard
+Compose, Wear OS Tiles, or general Android development paradigms.
 
 ## Essential APIs Are Restricted
 
@@ -73,7 +75,64 @@ accept `RemoteDp` and delegate to `padding(all.toPx())`.
 `RemoteArrangement.Center` is exclusively a `Vertical` type. Using it in a
 `RemoteRow` (which expects a `Horizontal` type) results in a type mismatch.
 
-**Workaround:** Use `RemoteArrangement.CenterHorizontally` for `RemoteRow`.
+This distinction is enforced strictly in the Remote Compose library. You must
+strictly match the axis of the arrangement to the container.
+
+**Example:**
+
+```kotlin
+// Incorrect: Fails Compilation
+RemoteRow(
+    modifier = RemoteModifier.fillMaxSize(),
+    // Error: Type mismatch. Required: Horizontal, Found: Vertical
+    horizontalArrangement = RemoteArrangement.Center,
+    verticalAlignment = RemoteAlignment.CenterVertically,
+) { ... }
+
+// Correct:
+RemoteRow(
+    modifier = RemoteModifier.fillMaxSize(),
+    // Correctly uses the Horizontal variant
+    horizontalArrangement = RemoteArrangement.CenterHorizontally,
+    verticalAlignment = RemoteAlignment.CenterVertically,
+) { ... }
+```
+
+**Workaround:** Always use `RemoteArrangement.CenterHorizontally` for
+`horizontalArrangement` (e.g., in `RemoteRow`) and `RemoteArrangement.Center`
+(or `CenterVertically`) for `verticalArrangement` (e.g., in `RemoteColumn`).
+
+## `RemoteBox` Parameter Alignment Divergence
+
+The `RemoteBox` API differs from the standard Jetpack Compose `Box` API regarding
+content alignment.
+
+**Standard Compose (`Box`):**
+Utilizes a single `contentAlignment` parameter of type `Alignment` to handle
+positioning on both axes.
+
+```kotlin
+Box(
+    modifier = Modifier.fillMaxSize(),
+    contentAlignment = Alignment.Center
+) { ... }
+```
+
+**Remote Compose (`RemoteBox`):**
+Separates positioning into two distinct parameters: `horizontalAlignment` and
+`verticalArrangement`. Note that the vertical axis uses `Arrangement` rather
+than `Alignment`.
+
+To achieve similar centering behavior in `RemoteBox`, you must specify both
+parameters using their respective types.
+
+```kotlin
+RemoteBox(
+    modifier = RemoteModifier.fillMaxSize(),
+    horizontalAlignment = RemoteAlignment.CenterHorizontally,
+    verticalArrangement = RemoteArrangement.Center,
+) { ... }
+```
 
 ## Single Element Varargs Fail in Named Parameters
 
@@ -83,11 +142,3 @@ error: "Assigning single elements to varargs in named form is prohibited."
 **Workaround:** Wrap the action in an array:
 `onClick = arrayOf(ValueChange(...))`.
 
-## Tile Rendering Is Stale After Install
-
-The Wear OS emulator often displays stale content even after a successful
-`adb install`.
-
-**Workaround:** Use `adb-tile-add` to force the system to refresh the tile's
-metadata and service binding, followed by `adb-tile-show` and a short delay
-before verifying the output.
