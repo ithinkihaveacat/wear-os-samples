@@ -4,15 +4,6 @@ This document tracks technical hurdles, API limitations, and known issues
 encountered while implementing the Wear Widget samples using the Remote Compose
 Material3 library.
 
-## Library Package Migration
-
-The `1.0.0-SNAPSHOT` version of the library moved `painterRemoteColor` from
-`androidx.compose.remote.creation.compose.capture.painter` to
-`androidx.compose.remote.creation.compose.painter`. This change required updates
-to existing code in the project.
-
-**Workaround:** Updated all imports to the new package path.
-
 ## Restricted `Boolean.rb` Extension
 
 The convenience extension property `Boolean.rb` (e.g., `false.rb`) fails to
