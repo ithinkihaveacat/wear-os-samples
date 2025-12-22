@@ -1,5 +1,5 @@
 [versions]
-agp = "9.0.0-beta05"
+agp = "9.1.0-alpha01"
 desugar_jdk_libs = "2.1.5"
 playServicesWearable = "19.0.0"
 kotlin = "2.2.21"

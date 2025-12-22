@@ -4,15 +4,28 @@ This document tracks technical hurdles, API limitations, and known issues
 encountered while implementing the Wear Widget samples using the Remote Compose
 Material3 library.
 
-## Restricted `Boolean.rb` Extension
+## Essential APIs Are Restricted
 
-The convenience extension property `Boolean.rb` (e.g., `false.rb`) fails to
-resolve, likely due to `@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)` constraints
-in the latest SNAPSHOT.
+A significant portion of the library's API surface is currently marked as
+restricted (`@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)`) in the SNAPSHOT
+version. This includes:
 
-**Workaround:** Use the public `RemoteBoolean(boolean)` constructor instead.
+-   **Convenience Extensions:** `.rs`, `.rf`, `.rb`, and `.asRdp()` for concise
+    type conversion.
+-   **Core Classes:** Essential components like `RemotePainter` and various
+    internal state wrappers.
 
-## Inflexible Color Customization in `RemoteButton`
+This is an omission; these APIs will be made public in a future release.
+
+**Workarounds:**
+
+1.  **(Recommended)** Suppress the lint error by adding
+    `@file:SuppressLint("RestrictedApi")` at the top of the file. This enables
+    access to the full API surface required for implementation.
+2.  For simple type conversions, use public constructors (e.g.,
+    `RemoteString("...")`) instead of extensions where possible.
+
+## `RemoteButtonColors` Customization Is Inflexible
 
 b/470339092
 
@@ -55,14 +68,14 @@ RemoteModifier.border(width = 10.dp.asRdp(), color = Color.Red)
 built-in `@Composable` conversion, or manually define extension functions that
 accept `RemoteDp` and delegate to `padding(all.toPx())`.
 
-## `RemoteArrangement` Ambiguity
+## `RemoteArrangement.Center` Is Ambiguous
 
 `RemoteArrangement.Center` is exclusively a `Vertical` type. Using it in a
 `RemoteRow` (which expects a `Horizontal` type) results in a type mismatch.
 
 **Workaround:** Use `RemoteArrangement.CenterHorizontally` for `RemoteRow`.
 
-## Named Vararg Limitation
+## Single Element Varargs Fail in Named Parameters
 
 Assigning a single `Action` to the named parameter `onClick` fails with a Kotlin
 error: "Assigning single elements to varargs in named form is prohibited."
@@ -70,7 +83,7 @@ error: "Assigning single elements to varargs in named form is prohibited."
 **Workaround:** Wrap the action in an array:
 `onClick = arrayOf(ValueChange(...))`.
 
-## Stale Tile Rendering
+## Tile Rendering Is Stale After Install
 
 The Wear OS emulator often displays stale content even after a successful
 `adb install`.
