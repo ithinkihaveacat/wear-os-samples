@@ -159,11 +159,17 @@ rather than `RemoteAlignment` constants (`Top`, `CenterVertically`, `Bottom`).
 
 ## Event Handling Uses Actions, Not Lambdas
 
-Event handlers in Remote Compose (like `onClick`) do not accept lambda functions (`{ ... }`) because the UI is rendered in a remote process that cannot execute local code. Instead, interactions are defined using declarative `Action` objects (e.g., `ValueChange`, `LaunchActivity`).
+Event handlers in Remote Compose (like `onClick`) do not accept lambda functions
+(`{ ... }`) because the UI is rendered in a remote process that cannot execute
+local code. Instead, interactions are defined using declarative `Action` objects
+(e.g., `ValueChange`, `LaunchActivity`).
 
-When assigning a single action to the `onClick` named parameter, you must wrap the action in an array.
+When assigning a single action to the `onClick` named parameter, you must wrap
+the action in an array.
 
-**The Issue:** `RemoteButton` defines `onClick` as a `vararg` parameter to support multiple actions. In Kotlin, you cannot assign a single element to a `vararg` parameter using named syntax without wrapping it.
+**The Issue:** `RemoteButton` defines `onClick` as a `vararg` parameter to
+support multiple actions. In Kotlin, you cannot assign a single element to a
+`vararg` parameter using named syntax without wrapping it.
 
 **Workaround:** Wrap single actions in an array using `arrayOf()`.
 
@@ -181,7 +187,9 @@ RemoteButton(
 
 **Passing an existing array:**
 
-If you have an array of actions, pass it directly. Do not use the spread operator (`*`) with named arguments, as it produces a "redundant spread operator" warning.
+If you have an array of actions, pass it directly. Do not use the spread
+operator (`*`) with named arguments, as it produces a "redundant spread
+operator" warning.
 
 ```kotlin
 val myActions = arrayOf(
@@ -195,7 +203,8 @@ RemoteButton(
 ) { ... }
 ```
 
-**Alternative:** You can pass the action as a **positional argument** (the first parameter) to avoid the array wrapper entirely:
+**Alternative:** You can pass the action as a **positional argument** (the first
+parameter) to avoid the array wrapper entirely:
 
 ```kotlin
 RemoteButton(
@@ -206,10 +215,28 @@ RemoteButton(
 
 **Implications of Declarative Actions:**
 
-Because `onClick` accepts a data object rather than a lambda, the execution model is fundamentally different from standard Compose. Actions are serialized instructions sent to the remote host (e.g., the Home screen):
+Because `onClick` accepts a data object rather than a lambda, the execution
+model is fundamentally different from standard Compose. Actions are serialized
+instructions sent to the remote host:
 
-1.  **No Arbitrary Code Execution:** You cannot execute standard Kotlin code inside the handler. Calls like `Log.d()`, `viewModel.update()`, or `Toast.makeText()` are impossible because the widget runs in a remote process that does not share your app's memory or code.
-2.  **Pre-calculated Logic:** All logic must be resolved at **composition time**. You cannot write `onClick = { if (isActive) doThis() else doThat() }`. Instead, you must conditionally pass the correct action object when the widget is built: `onClick = if (isActive) ActionA else ActionB`.
-3.  **State vs. Computation:** Actions like `ValueChange` do not "increment" a value dynamically in your code; they send an instruction to the remote host to update a specific state variable to a new value (which is often a pre-calculated expression).
-4.  **Serialization of Side Effects:** Complex objects like `PendingIntent` are "captured" during composition. The library stores them in a side-table and sends a simple reference index to the remote host. This means you cannot generate Intents dynamically *at the moment of the click*; they must be fully formed when the widget is composed.
-5.  **Limited API:** You are restricted to the specific side effects supported by the `Action` API (primarily `ValueChange` for internal state and `LaunchActivity`/`PendingIntent` for external interactions).
+1.  **No Arbitrary Code Execution:** You cannot execute standard Kotlin code
+    inside the handler. Calls like `Log.d()`, `viewModel.update()`, or
+    `Toast.makeText()` are impossible because the widget runs in a remote
+    process that does not share your app's memory or code.
+2.  **Pre-calculated Logic:** All logic must be resolved at **composition
+    time**. You cannot write
+    `onClick = { if (isActive) doThis() else doThat() }`. Instead, you must
+    conditionally pass the correct action object when the widget is built:
+    `onClick = if (isActive) ActionA else ActionB`.
+3.  **State vs. Computation:** Actions like `ValueChange` do not "increment" a
+    value dynamically in your code; they send an instruction to the remote host
+    to update a specific state variable to a new value (which is often a
+    pre-calculated expression).
+4.  **Serialization of Side Effects:** Complex objects like `PendingIntent` are
+    "captured" during composition. The library stores them in a side-table and
+    sends a simple reference index to the remote host. This means you cannot
+    generate Intents dynamically _at the moment of the click_; they must be
+    fully formed when the widget is composed.
+5.  **Limited API:** You are restricted to the specific side effects supported
+    by the `Action` API (primarily `ValueChange` for internal state and
+    `LaunchActivity`/`PendingIntent` for external interactions).
