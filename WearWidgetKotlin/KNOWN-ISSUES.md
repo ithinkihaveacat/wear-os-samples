@@ -72,6 +72,8 @@ accept `RemoteDp` and delegate to `padding(all.toPx())`.
 
 ## `RemoteArrangement.Center` Can Only Be Used in Vertical Contexts
 
+b/471153933
+
 If you're seeing a type mismatch when using `RemoteArrangement.Center` in a
 `RemoteRow`, use `RemoteArrangement.CenterHorizontally` instead. Unlike standard
 Compose where `Arrangement.Center` works for both axes, Remote Compose requires
