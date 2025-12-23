@@ -21,31 +21,28 @@ This is an omission; these APIs will be made public in a future release.
 
 **Workarounds:**
 
-1.  **(Recommended)** Suppress the lint error by adding
-    `@file:SuppressLint("RestrictedApi")` at the top of the file. This enables
-    access to the full API surface required for implementation.
-2.  For simple type conversions, use public constructors (e.g.,
-    `RemoteString("...")`) instead of extensions where possible.
+1. **(Recommended)** Suppress the lint error by adding
+   `@file:SuppressLint("RestrictedApi")` at the top of the file. This enables
+   access to the full API surface required for implementation.
+2. For simple type conversions, use public constructors (e.g.,
+   `RemoteString("...")`) instead of extensions where possible.
 
-## `RemoteButtonColors` Customization Is Inflexible
+## `RemoteButtonColors` Requires Explicit Definition
 
 b/470339092
 
-`RemoteButtonColors` is not a data class and therefore lacks a `copy()` method.
-Additionally, the standard `RemoteButtonDefaults.buttonColors()` factory does
-not accept parameters. This makes it impossible to "copy" and modify an existing
-configuration or override specific color slots from the default theme.
+**Symptom:** Changing a single color property (e.g., background) requires
+defining the colors for all states (enabled, disabled, content, etc.).
 
-To achieve simple customizations (e.g., changing just the background color),
-implementation requires:
+**Workaround:** Use the 8-argument `RemoteButtonColors` constructor to
+explicitly define your color theme.
 
-- Manually instantiating `RemoteButtonColors` using its verbose 8-argument
-  constructor.
-- Duplicating boilerplate code to explicitly handle disabled states and other
-  properties that are not being customized.
-
-**Workaround:** Manually instantiate `RemoteButtonColors` providing all 8
-arguments.
+**Context:** `RemoteButtonColors` is not a data class and therefore lacks a
+`copy()` method. Additionally, the standard
+`RemoteButtonDefaults.buttonColors()` factory does not accept parameters, making
+it impossible to "copy" and modify an existing configuration. This limitation
+does not apply to other similar constructions, such as `RemoteIconButton`,
+`RemoteTextButtonColors`, and `RemoteSolidColor`.
 
 ## `RemoteModifier.padding` Lacks `RemoteDp` Support
 
@@ -219,24 +216,23 @@ Because `onClick` accepts a data object rather than a lambda, the execution
 model is fundamentally different from standard Compose. Actions are serialized
 instructions sent to the remote host:
 
-1.  **No Arbitrary Code Execution:** You cannot execute standard Kotlin code
-    inside the handler. Calls like `Log.d()`, `viewModel.update()`, or
-    `Toast.makeText()` are impossible because the widget runs in a remote
-    process that does not share your app's memory or code.
-2.  **Pre-calculated Logic:** All logic must be resolved at **composition
-    time**. You cannot write
-    `onClick = { if (isActive) doThis() else doThat() }`. Instead, you must
-    conditionally pass the correct action object when the widget is built:
-    `onClick = if (isActive) ActionA else ActionB`.
-3.  **State vs. Computation:** Actions like `ValueChange` do not "increment" a
-    value dynamically in your code; they send an instruction to the remote host
-    to update a specific state variable to a new value (which is often a
-    pre-calculated expression).
-4.  **Serialization of Side Effects:** Complex objects like `PendingIntent` are
-    "captured" during composition. The library stores them in a side-table and
-    sends a simple reference index to the remote host. This means you cannot
-    generate Intents dynamically _at the moment of the click_; they must be
-    fully formed when the widget is composed.
-5.  **Limited API:** You are restricted to the specific side effects supported
-    by the `Action` API (primarily `ValueChange` for internal state and
-    `LaunchActivity`/`PendingIntent` for external interactions).
+1. **No Arbitrary Code Execution:** You cannot execute standard Kotlin code
+   inside the handler. Calls like `Log.d()`, `viewModel.update()`, or
+   `Toast.makeText()` are impossible because the widget runs in a remote process
+   that does not share your app's memory or code.
+2. **Pre-calculated Logic:** All logic must be resolved at **composition time**.
+   You cannot write `onClick = { if (isActive) doThis() else doThat() }`.
+   Instead, you must conditionally pass the correct action object when the
+   widget is built: `onClick = if (isActive) ActionA else ActionB`.
+3. **State vs. Computation:** Actions like `ValueChange` do not "increment" a
+   value dynamically in your code; they send an instruction to the remote host
+   to update a specific state variable to a new value (which is often a
+   pre-calculated expression).
+4. **Serialization of Side Effects:** Complex objects like `PendingIntent` are
+   "captured" during composition. The library stores them in a side-table and
+   sends a simple reference index to the remote host. This means you cannot
+   generate Intents dynamically _at the moment of the click_; they must be fully
+   formed when the widget is composed.
+5. **Limited API:** You are restricted to the specific side effects supported by
+   the `Action` API (primarily `ValueChange` for internal state and
+   `LaunchActivity`/`PendingIntent` for external interactions).
