@@ -71,12 +71,11 @@ accept `RemoteDp` and delegate to `padding(all.toPx())`.
 
 b/471153933
 
-If you're seeing a type mismatch when using `RemoteArrangement.Center` in a
-`RemoteRow`, use `RemoteArrangement.CenterHorizontally` instead. Unlike standard
-Compose where `Arrangement.Center` works for both axes, Remote Compose requires
-axis-specific constants for centering.
+**Symptom:** A type mismatch error occurs when using `RemoteArrangement.Center`
+in a `RemoteRow`.
 
-**Solution:**
+**Workaround:** Use `RemoteArrangement.CenterHorizontally` for horizontal
+centering.
 
 ```kotlin
 // For horizontal centering (RemoteRow):
@@ -86,7 +85,7 @@ RemoteRow(horizontalArrangement = RemoteArrangement.CenterHorizontally) { ... }
 RemoteColumn(verticalArrangement = RemoteArrangement.Center) { ... }
 ```
 
-**Why this differs from standard Compose:**
+**Context:**
 
 In standard Compose, `Arrangement.Center` implements `HorizontalOrVertical`,
 allowing it to be used in both `Row` and `Column`:
@@ -98,10 +97,9 @@ Column(verticalArrangement = Arrangement.Center) { ... }
 ```
 
 In Remote Compose, `RemoteArrangement.Center` is typed as
-`RemoteArrangement.Vertical` only. This limitation does not apply to
-`SpaceBetween`, `SpaceEvenly`, and `SpaceAround`; they can be used in both
-horizontal and vertical contexts because they implement the
-`HorizontalOrVertical` interface.
+`RemoteArrangement.Vertical` only. This limitation excludes `SpaceBetween`,
+`SpaceEvenly`, and `SpaceAround`, which implement the `HorizontalOrVertical`
+interface.
 
 ## `RemoteBox` Differs from Standard `Box`
 
@@ -158,83 +156,54 @@ rather than `RemoteAlignment` constants (`Top`, `CenterVertically`, `Bottom`).
 
 ## Event Handling Uses Actions, Not Lambdas
 
-Event handlers in Remote Compose (like `onClick`) do not accept lambda functions
-(`{ ... }`) because the UI is rendered in a remote process that cannot execute
-local code. Instead, interactions are defined using declarative `Action` objects
-(e.g., `ValueChange`, `LaunchActivity`).
+**Symptom:** Standard Compose syntax for event handling (lambdas) is not
+supported. Additionally, the `vararg` signature of `onClick` requires an array
+wrapper when assigning single actions using named arguments.
 
-When assigning a single action to the `onClick` named parameter, you must wrap
-the action in an array.
+**Workarounds:**
 
-**The Issue:** `RemoteButton` defines `onClick` as a `vararg` parameter to
-support multiple actions. In Kotlin, you cannot assign a single element to a
-`vararg` parameter using named syntax without wrapping it.
+1. **Use Declarative Actions:** Replace `{ ... }` with `Action` objects (e.g.,
+   `ValueChange`, `LaunchActivity`).
+2. **Handle Vararg Syntax:** When passing a single action to the named `onClick`
+   parameter, wrap it in `arrayOf()`. Alternatively, pass it as the first
+   positional argument to avoid the wrapper.
 
-**Workaround:** Wrap single actions in an array using `arrayOf()`.
+   ```kotlin
+   // 1. Wrapped in array (Named argument)
+   RemoteButton(
+       modifier = RemoteModifier.padding(10.dp),
+       onClick = arrayOf(ValueChange(count, count + 1))
+   ) { ... }
 
-```kotlin
-// Standard Compose (Not Supported)
-// Button(onClick = { count++ }) { ... }
+   // 2. Positional argument (No array needed)
+   RemoteButton(
+       ValueChange(count, count + 1),
+       modifier = RemoteModifier.padding(10.dp)
+   ) { ... }
+   ```
 
-// Remote Compose (Correct)
-RemoteButton(
-    // Must use named arguments for clarity with other params like 'modifier'
-    modifier = RemoteModifier.padding(10.dp),
-    onClick = arrayOf(ValueChange(count, count + 1)) // Wrapped in array
-) { ... }
-```
+   _Note: When passing an existing array of actions to the named parameter, pass
+   it directly without the spread operator (`_`).\*
 
-**Passing an existing array:**
+   ```kotlin
+   val myActions = arrayOf(ValueChange(...), LaunchActivity(...))
+   RemoteButton(onClick = myActions) { ... }
+   ```
 
-If you have an array of actions, pass it directly. Do not use the spread
-operator (`*`) with named arguments, as it produces a "redundant spread
-operator" warning.
-
-```kotlin
-val myActions = arrayOf(
-    ValueChange(count, count + 1),
-    LaunchActivity(...)
-)
-
-RemoteButton(
-    modifier = RemoteModifier.padding(10.dp),
-    onClick = myActions // Pass directly (no * needed)
-) { ... }
-```
-
-**Alternative:** You can pass the action as a **positional argument** (the first
-parameter) to avoid the array wrapper entirely:
-
-```kotlin
-RemoteButton(
-    ValueChange(count, count + 1), // No array needed!
-    modifier = RemoteModifier.padding(10.dp)
-) { ... }
-```
-
-**Implications of Declarative Actions:**
-
-Because `onClick` accepts a data object rather than a lambda, the execution
-model is fundamentally different from standard Compose. Actions are serialized
-instructions sent to the remote host:
+**Context:** Because widgets run in a remote process, they cannot execute local
+code (lambdas). Interactions are defined by serializable `Action` objects, which
+imposes several constraints:
 
 1. **No Arbitrary Code Execution:** You cannot execute standard Kotlin code
-   inside the handler. Calls like `Log.d()`, `viewModel.update()`, or
-   `Toast.makeText()` are impossible because the widget runs in a remote process
-   that does not share your app's memory or code.
-2. **Pre-calculated Logic:** All logic must be resolved at **composition time**.
-   You cannot write `onClick = { if (isActive) doThis() else doThat() }`.
-   Instead, you must conditionally pass the correct action object when the
-   widget is built: `onClick = if (isActive) ActionA else ActionB`.
-3. **State vs. Computation:** Actions like `ValueChange` do not "increment" a
-   value dynamically in your code; they send an instruction to the remote host
-   to update a specific state variable to a new value (which is often a
-   pre-calculated expression).
+   (e.g., `Log.d()`, `viewModel.update()`) inside the handler.
+2. **Pre-calculated Logic:** Logic must be resolved at **composition time**.
+   Instead of `onClick = { if (isActive) doThis() else doThat() }`, you must
+   conditionally pass the correct action object:
+   `onClick = if (isActive) ActionA else ActionB`.
+3. **State vs. Computation:** Actions like `ValueChange` do not increment values
+   dynamically; they send instructions to the remote host to update a state key
+   to a new value (often a pre-calculated expression).
 4. **Serialization of Side Effects:** Complex objects like `PendingIntent` are
-   "captured" during composition. The library stores them in a side-table and
-   sends a simple reference index to the remote host. This means you cannot
-   generate Intents dynamically _at the moment of the click_; they must be fully
-   formed when the widget is composed.
-5. **Limited API:** You are restricted to the specific side effects supported by
-   the `Action` API (primarily `ValueChange` for internal state and
-   `LaunchActivity`/`PendingIntent` for external interactions).
+   "captured" and serialized during composition, not at the moment of the click.
+5. **Limited API:** You are restricted to the side effects supported by the
+   `Action` API.
