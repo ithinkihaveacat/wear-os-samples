@@ -105,6 +105,8 @@ horizontal and vertical contexts because they implement the
 
 ## `RemoteBox` Differs from Standard `Box`
 
+b/471212869
+
 The `RemoteBox` API differs from standard Compose `Box` in two ways:
 
 1. **Parameter count:** `Box` uses a single `contentAlignment` parameter;
@@ -112,8 +114,8 @@ The `RemoteBox` API differs from standard Compose `Box` in two ways:
    parameters.
 
 2. **Vertical axis type:** `RemoteBox` uses `RemoteArrangement.Vertical` for
-   vertical positioning, whereas `RemoteRow` and `RemoteColumn` use
-   `RemoteAlignment` for their cross-axis parameters.
+   vertical positioning. This is inconsistent with `RemoteRow`, which uses
+   `RemoteAlignment.Vertical` for vertical positioning.
 
 **Standard Compose (`Box`):**
 
@@ -136,16 +138,16 @@ RemoteBox(
 
 **Comparison with `RemoteRow` and `RemoteColumn`:**
 
-`RemoteRow` and `RemoteColumn` use `RemoteAlignment` for their cross-axis
-parameters, consistent with standard Compose. `RemoteBox` uses
-`RemoteArrangement` for its vertical axis:
+`RemoteRow` and `RemoteColumn` use `RemoteAlignment` for their non-flow axes,
+consistent with standard Compose. `RemoteBox` uses `RemoteArrangement` for its
+vertical axis:
 
 <!-- markdownlint-disable MD013 -->
 
-| Container      | Main Axis                      | Cross Axis                   |
+| Container      | Horizontal Parameter           | Vertical Parameter           |
 | :------------- | :----------------------------- | :--------------------------- |
 | `RemoteRow`    | `RemoteArrangement.Horizontal` | `RemoteAlignment.Vertical`   |
-| `RemoteColumn` | `RemoteArrangement.Vertical`   | `RemoteAlignment.Horizontal` |
+| `RemoteColumn` | `RemoteAlignment.Horizontal`   | `RemoteArrangement.Vertical` |
 | `RemoteBox`    | `RemoteAlignment.Horizontal`   | `RemoteArrangement.Vertical` |
 
 <!-- markdownlint-enable MD013 -->

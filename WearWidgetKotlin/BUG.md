@@ -6,11 +6,10 @@
 
 ## Overview
 
-The `RemoteBox` composable in the Remote Compose Material3 library significantly
-diverges from the standard Compose `Box` API. This inconsistency creates
-friction for developers migrating existing Compose knowledge and code to Remote
-Compose, as it breaks established mental models regarding alignment and
-arrangement.
+The `RemoteBox` composable in the Remote Compose Material3 library diverges from
+the standard Compose `Box` API. This inconsistency creates friction for
+developers migrating existing Compose knowledge and code to Remote Compose, as
+it breaks established mental models regarding alignment and arrangement.
 
 ## Expected Behavior (Standard Compose)
 
@@ -33,8 +32,8 @@ inline fun Box(
 ## Actual Behavior (Remote Compose)
 
 The `RemoteBox` composable splits the alignment control into two separate
-parameters: `horizontalAlignment` and `verticalArrangement`. Crucially, it uses
-`RemoteArrangement.Vertical` for the vertical axis instead of
+parameters: `horizontalAlignment` and `verticalArrangement`. In particular, it
+uses `RemoteArrangement.Vertical` for the vertical axis instead of
 `RemoteAlignment.Vertical`.
 
 ```kotlin
@@ -51,35 +50,30 @@ public fun RemoteBox(
 
 ## Details & Analysis
 
-### 1. Parameter Split
+### 1. Decomposed Layout Configuration
 
 Standard `Box` uses one `contentAlignment` (e.g., `Alignment.Center`).
 `RemoteBox` requires defining `horizontalAlignment` and `verticalArrangement`
 separately.
 
-### 2. Type Mismatch (The Core Issue)
+### 2. Type Mismatch
 
 `RemoteBox` uses `RemoteArrangement` for the vertical axis.
 
-- **Alignment** defines how a smaller child is positioned within a larger parent
-  (e.g., Top, Center, Bottom).
-- **Arrangement** typically defines how _multiple_ children are distributed
-  relative to each other along a main axis (e.g., SpaceBetween, SpaceAround).
+- **Alignment** defines how a child is positioned within a parent (e.g., Top, Center, Bottom).
+- **Arrangement** defines how children are distributed relative to each other along a flow axis (e.g., SpaceBetween).
 
-Using `Arrangement` for a `Box`'s vertical positioning is semantically incorrect
-and inconsistent with `RemoteRow` and `RemoteColumn`, which correctly use
-`RemoteAlignment` for their cross-axis positioning.
+Conceptually, a `Box` stacks children on top of each other (z-axis); it does not "arrange" them in a sequence like a Row or Column. Therefore, an `Arrangement` parameter—which implies spacing logic—is ill-suited for a layout that lacks a flow direction.
 
-| Container       | Main Axis                      | Cross Axis / Positioning                                  |
+| Container       | Horizontal Parameter           | Vertical Parameter                                        |
 | :-------------- | :----------------------------- | :-------------------------------------------------------- |
 | `RemoteRow`     | `RemoteArrangement.Horizontal` | `RemoteAlignment.Vertical` (Correct)                      |
-| `RemoteColumn`  | `RemoteArrangement.Vertical`   | `RemoteAlignment.Horizontal` (Correct)                    |
-| **`RemoteBox`** | `RemoteAlignment.Horizontal`   | **`RemoteArrangement.Vertical` (Incorrect/Inconsistent)** |
+| `RemoteColumn`  | `RemoteAlignment.Horizontal`   | `RemoteArrangement.Vertical` (Correct)                    |
+| **`RemoteBox`** | `RemoteAlignment.Horizontal`   | **`RemoteArrangement.Vertical` (Inconsistent)**           |
 
-### 3. Source Code Verification
+### 3. Underlying Type Conversion Logic
 
-Inspection of `RemoteBox.kt` confirms the internal conversion logic maps
-`RemoteArrangement` to standard Compose `Alignment`:
+The internal implementation explicitly acknowledges this semantic mismatch by manually converting the `RemoteArrangement` type (intended for linear flow) back into the standard `Alignment` type (intended for positioning) required by the underlying system:
 
 ```kotlin
 // androidx/compose/remote/creation/compose/layout/RemoteBox.kt
