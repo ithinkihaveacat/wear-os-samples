@@ -6,7 +6,7 @@ Material3 library. It focuses on documenting practical workarounds and necessary
 adaptations where the API diverges from expectations established by standard
 Compose, Wear OS Tiles, or general Android development paradigms.
 
-## Essential APIs Are Restricted
+## Multiple APIs Are Restricted
 
 A significant portion of the library's API surface is currently marked as
 restricted (`@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)`) in the SNAPSHOT
