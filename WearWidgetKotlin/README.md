@@ -1,49 +1,50 @@
 # Developer Notes
 
+This repository provides sample code illustrating the use of new Wear Widget
+libraries (specifically `androidx.compose.remote` and related packages). These
+libraries are currently in active development.
+
 This document captures key learnings and configuration details to assist future
 development and avoid common pitfalls encountered during the initial setup of
 this project.
 
 ## 1. Using `jetpack-*` Commands with SNAPSHOTs
 
-When working with AndroidX libraries that are in active development or using
-snapshot versions (e.g., `1.0.0-SNAPSHOT`), the `jetpack-inspect` and related
-commands require explicit instruction to target the snapshot repository.
+For the Wear Widget libraries demonstrated in this sample (such as
+`androidx.compose.remote:remote-creation` and
+`androidx.wear.compose.remote:compose-material3`), you **must** use the
+`SNAPSHOT` version when using `jetpack-*` commands. These libraries are new and
+actively evolving, so the code in this repository relies on the latest snapshot
+builds.
 
-### The Issue
+### The Mechanism
 
 By default, `jetpack-inspect` attempts to resolve artifacts against the
-stable/release repositories. If you simply run:
+stable/release repositories. The `SNAPSHOT` argument explicitly instructs the
+tool to target the AndroidX snapshot repository instead.
+
+### The Requirement
+
+Because these specific libraries may not yet have a stable or beta release that
+matches the features used here, omitting the `SNAPSHOT` argument will likely
+result in the command failing or finding an older, incompatible version.
+
+## 2. Dependencies and Requirements
+
+### ProtoLayout Renderer
+
+This project requires `com.google.android.wearable.protolayout.renderer` version
+**1.5.7 or later** on the target device.
+
+You can verify the version installed on your device using the following command:
 
 ```bash
-jetpack-inspect androidx.compose.remote:remote-creation-compose
+adb shell dumpsys package com.google.android.wearable.protolayout.renderer | \
+  grep -m 1 versionName | \
+  awk -F= '{print $2}'
 ```
 
-It may fail or find an older version if the library is only available as a
-snapshot or if you specifically need the latest snapshot changes.
-
-### The Solution
-
-You must append the `SNAPSHOT` argument to the command. This tells the tool to
-look in the AndroidX snapshot repository.
-
-**Correct Usage:**
-
-```bash
-jetpack-inspect androidx.compose.remote:remote-creation-compose SNAPSHOT
-```
-
-### Documentation Suggestion
-
-The documentation or help output for `jetpack-inspect` (and related `jetpack-*`
-tools) should prominently mention the `SNAPSHOT` argument. A usage example
-specifically for snapshots would be very valuable, as it is a common requirement
-when working with cutting-edge Jetpack libraries. For example:
-
-> "To inspect a library version from the snapshot repository, append 'SNAPSHOT'
-> to the artifact name."
-
-## 2. Preview Dependencies and Configuration
+## 3. Preview Dependencies and Configuration
 
 To enable Compose Previews for `HelloWidget`, specifically using `RemotePreview`
 combined with `@WearPreviewDevices` for multi-device preview generation, the
