@@ -8,7 +8,58 @@ This document captures key learnings and configuration details to assist future
 development and avoid common pitfalls encountered during the initial setup of
 this project.
 
-## 1. Using `jetpack-*` Commands with SNAPSHOTs
+## Getting Started
+
+### Build and Install
+
+Build the project and install the debug APK for the HelloWidget (only) onto your
+connected device or emulator:
+
+```bash
+./gradlew :app:installDebug
+```
+
+### Add and Display the Tile
+
+Once the app is installed, you need to add the tile to the carousel to see it.
+There are three ways to do this:
+
+#### Option A: Manual (User Interface)
+
+Follow the standard Wear OS instructions to add a tile from the watch face:
+<https://support.google.com/wearos/answer/9314375>
+
+#### Option B: Android Studio
+
+Use the "run" configuration features in Android Studio as described in the Wear
+OS Tiles codelab: <https://developer.android.com/codelabs/wear-tiles#3>
+
+#### Option C: ADB Commands
+
+You can use ADB to programmatically add and show the tile. This is useful for
+automation.
+
+**1. Add the tile:**
+
+```bash
+adb shell am broadcast \
+  -a com.google.android.wearable.app.DEBUG_SURFACE \
+  --es operation add-tile \
+  --ecn component com.google.example.wear_widget/.HelloWidgetService
+```
+
+**2. Show the tile:**
+
+(Assuming this is the first tile added, it will be at index 0.)
+
+```bash
+adb shell am broadcast \
+  -a com.google.android.wearable.app.DEBUG_SYSUI \
+  --es operation show-tile \
+  --ei index 0
+```
+
+## Using `jetpack-*` Commands with SNAPSHOTs
 
 For the Wear Widget libraries demonstrated in this sample (such as
 `androidx.compose.remote:remote-creation` and
@@ -29,7 +80,7 @@ Because these specific libraries may not yet have a stable or beta release that
 matches the features used here, omitting the `SNAPSHOT` argument will likely
 result in the command failing or finding an older, incompatible version.
 
-## 2. Dependencies and Requirements
+## Dependencies and Requirements
 
 ### ProtoLayout Renderer
 
@@ -44,7 +95,7 @@ adb shell dumpsys package com.google.android.wearable.protolayout.renderer | \
   awk -F= '{print $2}'
 ```
 
-## 3. Preview Dependencies and Configuration
+## Preview Dependencies and Configuration
 
 To enable Compose Previews for `HelloWidget`, specifically using `RemotePreview`
 combined with `@WearPreviewDevices` for multi-device preview generation, the
