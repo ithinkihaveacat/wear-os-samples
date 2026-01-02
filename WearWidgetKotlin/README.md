@@ -232,6 +232,18 @@ source code analysis.
   screenshot. **Agents must use this tool to verify the visual output of their
   changes.**
 
+### Targeting Specific Devices
+
+All commands that interact with devices (including specialized scripts and
+`./gradlew` tasks) respect the `ANDROID_SERIAL` environment variable. When
+targeting a specific device among multiple connected ones, the recommended
+pattern is to prefix the command with the environment variable:
+
+```bash
+env ANDROID_SERIAL=<SERIAL_ID> adb-tile-add ...
+env ANDROID_SERIAL=<SERIAL_ID> ./gradlew :app:installDebug
+```
+
 ### Source Code Analysis
 
 - **`jetpack-inspect <ARTIFACT> SNAPSHOT`**: Downloads and extracts the source
