@@ -20,8 +20,7 @@ You can verify the version installed on your device using the following command:
 ```bash
 adb shell dumpsys package com.google.android.wearable.protolayout.renderer | \
   grep -m 1 versionName | \
-  awk -F=
-{print $2}
+  awk -F= '{print $2}'
 ```
 
 ## Getting Started
