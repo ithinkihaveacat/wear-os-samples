@@ -146,6 +146,23 @@ Because these specific libraries may not yet have a stable or beta release that
 matches the features used here, omitting the `SNAPSHOT` argument will likely
 result in the command failing or finding an older, incompatible version.
 
+### Type Conversions and Extension Functions
+
+When working with Remote UI components, you frequently need to convert standard
+Kotlin/Compose types (like `Color`, `Dp`, `String`, `Int`) into their `Remote`
+equivalents (like `RemoteColor`, `RemoteDp`, `RemoteString`, `RemoteInt`).
+
+The library provides convenient extension functions and properties for these
+conversions. **Use these extensions instead of manual constructors** to reduce
+boilerplate and improve readability:
+
+- **Colors:** `Color.Red.rc` (instead of `RemoteColor(Color.Red)`)
+- **Dimensions:** `10.rdp` or `10.dp.asRdp()` (instead of `RemoteDp(...)`)
+- **Strings:** `"Hello".rs` (instead of `RemoteString("Hello")`)
+- **Booleans:** `true.rb` (instead of `RemoteBoolean(true)`)
+- **Integers:** `1.ri` (instead of `RemoteInt(1)`)
+- **Floats:** `1f.rf` (instead of `RemoteFloat(1f)`)
+
 ### Preview Dependencies and Configuration
 
 To enable Compose Previews for `HelloWidget`, specifically using `RemotePreview`

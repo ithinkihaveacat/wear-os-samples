@@ -28,8 +28,12 @@ import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.RemoteDp
 import androidx.compose.remote.creation.compose.state.RemoteInt
 import androidx.compose.remote.creation.compose.state.asRdp
+import androidx.compose.remote.creation.compose.state.rb
+import androidx.compose.remote.creation.compose.state.rc
+import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
 import androidx.compose.remote.creation.compose.state.rf
+import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -87,11 +91,11 @@ fun SystemThemeComparisonSample() {
                 horizontalAlignment = RemoteAlignment.CenterHorizontally
             ) {
                 MaterialRemoteText("System Theme".rs)
-                RemoteBox(RemoteModifier.size(10.dp.asRdp()))
+                RemoteBox(RemoteModifier.size(10.rdp))
                 RemoteButton(onClick = arrayOf()) {
                     MaterialRemoteText("Primary Button".rs)
                 }
-                RemoteBox(RemoteModifier.size(10.dp.asRdp()))
+                RemoteBox(RemoteModifier.size(10.rdp))
                 RemoteButton(
                     onClick = arrayOf(),
                     colors = RemoteButtonColors(
@@ -99,10 +103,10 @@ fun SystemThemeComparisonSample() {
                         contentColor = RemoteMaterialTheme.colorScheme.onSecondary,
                         secondaryContentColor = RemoteMaterialTheme.colorScheme.onSecondary,
                         iconColor = RemoteMaterialTheme.colorScheme.onSecondary,
-                        disabledContainerColor = RemoteColor(Color.Gray),
-                        disabledContentColor = RemoteColor(Color.LightGray),
-                        disabledSecondaryContentColor = RemoteColor(Color.LightGray),
-                        disabledIconColor = RemoteColor(Color.LightGray)
+                        disabledContainerColor = Color.Gray.rc,
+                        disabledContentColor = Color.LightGray.rc,
+                        disabledSecondaryContentColor = Color.LightGray.rc,
+                        disabledIconColor = Color.LightGray.rc
                     )
                 ) {
                     MaterialRemoteText("Secondary Button".rs)
@@ -129,7 +133,7 @@ fun SystemThemeSample() {
                 horizontalAlignment = RemoteAlignment.CenterHorizontally
             ) {
                 MaterialRemoteText("System Theme".rs)
-                RemoteBox(RemoteModifier.size(10.dp.asRdp()))
+                RemoteBox(RemoteModifier.size(10.rdp))
                 RemoteButton(onClick = arrayOf()) {
                     MaterialRemoteText("Primary Button".rs)
                 }
@@ -147,21 +151,21 @@ fun AustralianThemeSample() {
     val australianColorScheme = object : RemoteColorScheme() {
         // Australian Flag Blue
         override val primary: RemoteColor
-            @RemoteComposable @Composable get() = RemoteColor(Color(0xFF00008B))
+            @RemoteComposable @Composable get() = Color(0xFF00008B).rc
         override val onPrimary: RemoteColor
-            @RemoteComposable @Composable get() = RemoteColor(Color.White)
+            @RemoteComposable @Composable get() = Color.White.rc
         
         // Australian Flag Red
         override val secondary: RemoteColor
-            @RemoteComposable @Composable get() = RemoteColor(Color(0xFFFF0000))
+            @RemoteComposable @Composable get() = Color(0xFFFF0000).rc
         override val onSecondary: RemoteColor
-            @RemoteComposable @Composable get() = RemoteColor(Color.White)
+            @RemoteComposable @Composable get() = Color.White.rc
             
         // White stars
         override val tertiary: RemoteColor
-             @RemoteComposable @Composable get() = RemoteColor(Color.White)
+             @RemoteComposable @Composable get() = Color.White.rc
         override val onTertiary: RemoteColor
-             @RemoteComposable @Composable get() = RemoteColor(Color.Black)
+             @RemoteComposable @Composable get() = Color.Black.rc
     }
 
     RemoteMaterialTheme(colorScheme = australianColorScheme) {
@@ -174,11 +178,11 @@ fun AustralianThemeSample() {
                 horizontalAlignment = RemoteAlignment.CenterHorizontally
             ) {
                 MaterialRemoteText("Aussie Theme".rs)
-                RemoteBox(RemoteModifier.size(10.dp.asRdp()))
+                RemoteBox(RemoteModifier.size(10.rdp))
                 RemoteButton(onClick = arrayOf()) {
                     MaterialRemoteText("Primary (Blue)".rs)
                 }
-                RemoteBox(RemoteModifier.size(10.dp.asRdp()))
+                RemoteBox(RemoteModifier.size(10.rdp))
                 RemoteButton(
                     onClick = arrayOf(),
                     colors = RemoteButtonColors(
@@ -186,10 +190,10 @@ fun AustralianThemeSample() {
                         contentColor = australianColorScheme.onSecondary,
                         secondaryContentColor = australianColorScheme.onSecondary,
                         iconColor = australianColorScheme.onSecondary,
-                        disabledContainerColor = RemoteColor(Color.Gray),
-                        disabledContentColor = RemoteColor(Color.LightGray),
-                        disabledSecondaryContentColor = RemoteColor(Color.LightGray),
-                        disabledIconColor = RemoteColor(Color.LightGray)
+                        disabledContainerColor = Color.Gray.rc,
+                        disabledContentColor = Color.LightGray.rc,
+                        disabledSecondaryContentColor = Color.LightGray.rc,
+                        disabledIconColor = Color.LightGray.rc
                     )
                 ) {
                     MaterialRemoteText("Secondary (Red)".rs)
@@ -213,7 +217,7 @@ fun BoxSample1() {
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
-        RemoteText(text = "Box Sample 1", color = RemoteColor(Color.White))
+        RemoteText(text = "Box Sample 1", color = Color.White.rc)
     }
 }
 
@@ -230,13 +234,13 @@ fun BoxSample2() {
         modifier =
             RemoteModifier.fillMaxSize()
                 .padding(20.dp)
-                .border(width = 2.dp.asRdp(), color = Color.Red),
+                .border(width = 2.rdp, color = Color.Red),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
         RemoteText(
             text = "Box Sample 2\n(Border & Padding)",
-            color = RemoteColor(Color.White),
+            color = Color.White.rc,
             textAlign = TextAlign.Center,
         )
     }
@@ -258,7 +262,7 @@ fun BoxSample3() {
         RemoteText(
             modifier = RemoteModifier.padding(10.dp),
             text = "Box Sample 3\n(Bottom End)",
-            color = RemoteColor(Color.Yellow),
+            color = Color.Yellow.rc,
             textAlign = TextAlign.End,
         )
     }
@@ -283,14 +287,14 @@ fun TextSample1() {
         ) {
             RemoteText(
                 text = "TextSample1",
-                color = RemoteColor(Color.White),
+                color = Color.White.rc,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
             )
             RemoteText(
                 text =
                     "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.",
-                color = RemoteColor(Color.LightGray),
+                color = Color.LightGray.rc,
                 fontSize = 14.sp,
                 maxLines = 2,
                 overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
@@ -298,7 +302,7 @@ fun TextSample1() {
             )
             RemoteText(
                 text = "Version 1.0",
-                color = RemoteColor(Color.Cyan),
+                color = Color.Cyan.rc,
                 fontSize = 10.sp,
                 fontStyle = FontStyle.Italic,
             )
@@ -325,14 +329,14 @@ fun TextSample1WithMargin() {
         ) {
             RemoteText(
                 text = "TextSample1",
-                color = RemoteColor(Color.White),
+                color = Color.White.rc,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
             )
             RemoteText(
                 text =
                     "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.",
-                color = RemoteColor(Color.LightGray),
+                color = Color.LightGray.rc,
                 fontSize = 14.sp,
                 maxLines = 2,
                 overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
@@ -340,7 +344,7 @@ fun TextSample1WithMargin() {
             )
             RemoteText(
                 text = "Version 1.0",
-                color = RemoteColor(Color.Cyan),
+                color = Color.Cyan.rc,
                 fontSize = 10.sp,
                 fontStyle = FontStyle.Italic,
             )
@@ -369,21 +373,21 @@ fun RowSample1() {
             RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Red)) {
                 RemoteText(
                     "Red",
-                    color = RemoteColor(Color.White),
+                    color = Color.White.rc,
                     modifier = RemoteModifier.padding(5.dp),
                 )
             }
             RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Green)) {
                 RemoteText(
                     "Green",
-                    color = RemoteColor(Color.Black),
+                    color = Color.Black.rc,
                     modifier = RemoteModifier.padding(5.dp),
                 )
             }
             RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Blue)) {
                 RemoteText(
                     "Blue",
-                    color = RemoteColor(Color.White),
+                    color = Color.White.rc,
                     modifier = RemoteModifier.padding(5.dp),
                 )
             }
@@ -417,9 +421,9 @@ fun RowSample2() {
             horizontalArrangement = RemoteArrangement.SpaceBetween,
             verticalAlignment = RemoteAlignment.CenterVertically,
         ) {
-            RemoteText("Item 1", color = RemoteColor(Color.White))
-            RemoteText("Item 2", color = RemoteColor(Color.Yellow))
-            RemoteText("Item 3", color = RemoteColor(Color.Gray))
+            RemoteText("Item 1", color = Color.White.rc)
+            RemoteText("Item 2", color = Color.Yellow.rc)
+            RemoteText("Item 3", color = Color.Gray.rc)
         }
     }
 }
@@ -440,17 +444,17 @@ fun CollapsibleColumnSample1() {
         ) {
             RemoteText(
                 "Top (High)",
-                color = RemoteColor(Color.Red),
+                color = Color.Red.rc,
                 modifier = RemoteModifier.priority(1.0f),
             )
             RemoteText(
                 "Middle (Low)",
-                color = RemoteColor(Color.Green),
+                color = Color.Green.rc,
                 modifier = RemoteModifier.priority(0.1f),
             )
             RemoteText(
                 "Bottom (High)",
-                color = RemoteColor(Color.Blue),
+                color = Color.Blue.rc,
                 modifier = RemoteModifier.priority(1.0f),
             )
         }
@@ -542,14 +546,14 @@ fun ButtonSample4() {
             modifier = RemoteModifier.buttonSizeModifier(),
             colors =
                 RemoteButtonColors(
-                    containerColor = RemoteColor(Color.Red),
-                    contentColor = RemoteColor(Color.Yellow),
-                    secondaryContentColor = RemoteColor(Color.Yellow),
-                    iconColor = RemoteColor(Color.Yellow),
-                    disabledContainerColor = RemoteColor(Color.Gray),
-                    disabledContentColor = RemoteColor(Color.LightGray),
-                    disabledSecondaryContentColor = RemoteColor(Color.LightGray),
-                    disabledIconColor = RemoteColor(Color.LightGray),
+                    containerColor = Color.Red.rc,
+                    contentColor = Color.Yellow.rc,
+                    secondaryContentColor = Color.Yellow.rc,
+                    iconColor = Color.Yellow.rc,
+                    disabledContainerColor = Color.Gray.rc,
+                    disabledContentColor = Color.LightGray.rc,
+                    disabledSecondaryContentColor = Color.LightGray.rc,
+                    disabledIconColor = Color.LightGray.rc,
                 ),
         ) {
             MaterialRemoteText("Custom Colors".rs)
@@ -571,7 +575,7 @@ fun ButtonSample6() {
     ) {
         RemoteButton(
             modifier = RemoteModifier.buttonSizeModifier(),
-            enabled = RemoteBoolean(false),
+            enabled = false.rb,
         ) {
             MaterialRemoteText("Disabled Button".rs)
         }
@@ -597,7 +601,7 @@ fun ButtonSample7() {
             verticalAlignment = RemoteAlignment.CenterVertically,
         ) {
             RemoteButton(modifier = RemoteModifier.weight(1f)) { MaterialRemoteText("Yes".rs) }
-            RemoteBox(RemoteModifier.size(4.dp.asRdp())) // Spacing
+            RemoteBox(RemoteModifier.size(4.rdp)) // Spacing
             RemoteButton(modifier = RemoteModifier.weight(1f)) { MaterialRemoteText("No".rs) }
         }
     }
@@ -641,14 +645,14 @@ fun ButtonSample8() {
 @Composable
 fun ButtonSample9() {
     val state = rememberRemoteIntValue { 0 }
-    val isToggled = state eq RemoteInt(1)
+    val isToggled = state eq 1.ri
 
     // Dynamic Color
-    val containerColor = isToggled.select(RemoteColor(Color.Red), RemoteColor(Color.Blue))
-    val contentColor = isToggled.select(RemoteColor(Color.White), RemoteColor(Color.Yellow))
+    val containerColor = isToggled.select(Color.Red.rc, Color.Blue.rc)
+    val contentColor = isToggled.select(Color.White.rc, Color.Yellow.rc)
 
     // Dynamic Shape (Radius)
-    val radiusDp = RemoteDp(isToggled.select(50f.rf, 8f.rf))
+    val radiusDp = isToggled.select(50f.rf, 8f.rf).asRemoteDp()
     val dynamicShape = RemoteRoundedCornerShape(radiusDp)
 
     // Dynamic Text
@@ -673,22 +677,22 @@ fun ButtonSample9() {
                 RemoteButton(
                     modifier =
                         RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
-                    onClick = arrayOf(ValueChange(state, state xor RemoteInt(1))),
+                    onClick = arrayOf(ValueChange(state, state xor 1.ri)),
                     colors =
                         RemoteButtonColors(
                             containerColor = containerColor,
                             contentColor = contentColor,
                             secondaryContentColor = contentColor,
                             iconColor = contentColor,
-                            disabledContainerColor = RemoteColor(Color.Gray),
-                            disabledContentColor = RemoteColor(Color.LightGray),
-                            disabledSecondaryContentColor = RemoteColor(Color.LightGray),
-                            disabledIconColor = RemoteColor(Color.LightGray),
+                            disabledContainerColor = Color.Gray.rc,
+                            disabledContentColor = Color.LightGray.rc,
+                            disabledSecondaryContentColor = Color.LightGray.rc,
+                            disabledIconColor = Color.LightGray.rc,
                         ),
                 ) {
                     MaterialRemoteText("Toggle".rs)
                 }
-                RemoteBox(RemoteModifier.size(4.dp.asRdp()))
+                RemoteBox(RemoteModifier.size(4.rdp))
                 // Button 2: Shape Shifter
                 RemoteButton(
                     modifier =
@@ -696,21 +700,21 @@ fun ButtonSample9() {
                     shape = dynamicShape,
                     colors =
                         RemoteButtonColors(
-                            containerColor = RemoteColor(Color.Magenta),
-                            contentColor = RemoteColor(Color.White),
-                            secondaryContentColor = RemoteColor(Color.White),
-                            iconColor = RemoteColor(Color.White),
-                            disabledContainerColor = RemoteColor(Color.Gray),
-                            disabledContentColor = RemoteColor(Color.LightGray),
-                            disabledSecondaryContentColor = RemoteColor(Color.LightGray),
-                            disabledIconColor = RemoteColor(Color.LightGray),
+                            containerColor = Color.Magenta.rc,
+                            contentColor = Color.White.rc,
+                            secondaryContentColor = Color.White.rc,
+                            iconColor = Color.White.rc,
+                            disabledContainerColor = Color.Gray.rc,
+                            disabledContentColor = Color.LightGray.rc,
+                            disabledSecondaryContentColor = Color.LightGray.rc,
+                            disabledIconColor = Color.LightGray.rc,
                         ),
                 ) {
                     MaterialRemoteText("Shape".rs)
                 }
             }
 
-            RemoteBox(RemoteModifier.size(4.dp.asRdp()))
+            RemoteBox(RemoteModifier.size(4.rdp))
 
             // Row 2
             RemoteRow(
@@ -723,32 +727,32 @@ fun ButtonSample9() {
                         RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
                     colors =
                         RemoteButtonColors(
-                            containerColor = RemoteColor(Color.DarkGray),
-                            contentColor = RemoteColor(Color.White),
-                            secondaryContentColor = RemoteColor(Color.White),
-                            iconColor = RemoteColor(Color.White),
-                            disabledContainerColor = RemoteColor(Color.Gray),
-                            disabledContentColor = RemoteColor(Color.LightGray),
-                            disabledSecondaryContentColor = RemoteColor(Color.LightGray),
-                            disabledIconColor = RemoteColor(Color.LightGray),
+                            containerColor = Color.DarkGray.rc,
+                            contentColor = Color.White.rc,
+                            secondaryContentColor = Color.White.rc,
+                            iconColor = Color.White.rc,
+                            disabledContainerColor = Color.Gray.rc,
+                            disabledContentColor = Color.LightGray.rc,
+                            disabledSecondaryContentColor = Color.LightGray.rc,
+                            disabledIconColor = Color.LightGray.rc,
                         ),
                 ) {
                     MaterialRemoteText(button3Text)
                 }
-                RemoteBox(RemoteModifier.size(4.dp.asRdp()))
+                RemoteBox(RemoteModifier.size(4.rdp))
                 // Button 4: Static
                 RemoteButton(
                     modifier = RemoteModifier.weight(1f).fillMaxSize(),
                     colors =
                         RemoteButtonColors(
-                            containerColor = RemoteColor(Color.Green),
-                            contentColor = RemoteColor(Color.Black),
-                            secondaryContentColor = RemoteColor(Color.Black),
-                            iconColor = RemoteColor(Color.Black),
-                            disabledContainerColor = RemoteColor(Color.Gray),
-                            disabledContentColor = RemoteColor(Color.LightGray),
-                            disabledSecondaryContentColor = RemoteColor(Color.LightGray),
-                            disabledIconColor = RemoteColor(Color.LightGray),
+                            containerColor = Color.Green.rc,
+                            contentColor = Color.Black.rc,
+                            secondaryContentColor = Color.Black.rc,
+                            iconColor = Color.Black.rc,
+                            disabledContainerColor = Color.Gray.rc,
+                            disabledContentColor = Color.LightGray.rc,
+                            disabledSecondaryContentColor = Color.LightGray.rc,
+                            disabledIconColor = Color.LightGray.rc,
                         ),
                 ) {
                     MaterialRemoteText("Fixed".rs)
@@ -777,22 +781,22 @@ fun IconSample1() {
             RemoteIcon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
                 contentDescription = "Small Red".rs,
-                modifier = RemoteModifier.size(24.dp.asRdp()),
-                tint = RemoteColor(Color.Red),
+                modifier = RemoteModifier.size(24.rdp),
+                tint = Color.Red.rc,
             )
-            RemoteBox(RemoteModifier.size(10.dp.asRdp()))
+            RemoteBox(RemoteModifier.size(10.rdp))
             RemoteIcon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
                 contentDescription = "Medium Green".rs,
-                modifier = RemoteModifier.size(48.dp.asRdp()),
-                tint = RemoteColor(Color.Green),
+                modifier = RemoteModifier.size(48.rdp),
+                tint = Color.Green.rc,
             )
-            RemoteBox(RemoteModifier.size(10.dp.asRdp()))
+            RemoteBox(RemoteModifier.size(10.rdp))
             RemoteIcon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
                 contentDescription = "Large Blue".rs,
-                modifier = RemoteModifier.size(72.dp.asRdp()),
-                tint = RemoteColor(Color.Blue),
+                modifier = RemoteModifier.size(72.rdp),
+                tint = Color.Blue.rc,
             )
         }
     }
@@ -820,14 +824,14 @@ fun GridSample1() {
                     horizontalAlignment = RemoteAlignment.CenterHorizontally,
                     verticalArrangement = RemoteArrangement.Center,
                 ) {
-                    RemoteText("1", color = RemoteColor(Color.White))
+                    RemoteText("1", color = Color.White.rc)
                 }
                 RemoteBox(
                     modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Blue),
                     horizontalAlignment = RemoteAlignment.CenterHorizontally,
                     verticalArrangement = RemoteArrangement.Center,
                 ) {
-                    RemoteText("2", color = RemoteColor(Color.White))
+                    RemoteText("2", color = Color.White.rc)
                 }
             }
             RemoteRow(modifier = RemoteModifier.weight(1f)) {
@@ -836,14 +840,14 @@ fun GridSample1() {
                     horizontalAlignment = RemoteAlignment.CenterHorizontally,
                     verticalArrangement = RemoteArrangement.Center,
                 ) {
-                    RemoteText("3", color = RemoteColor(Color.Black))
+                    RemoteText("3", color = Color.Black.rc)
                 }
                 RemoteBox(
                     modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Yellow),
                     horizontalAlignment = RemoteAlignment.CenterHorizontally,
                     verticalArrangement = RemoteArrangement.Center,
                 ) {
-                    RemoteText("4", color = RemoteColor(Color.Black))
+                    RemoteText("4", color = Color.Black.rc)
                 }
             }
         }
@@ -863,17 +867,17 @@ fun CardSample1() {
     ) {
         RemoteButton(
             modifier = RemoteModifier.fillMaxSize().padding(10.dp),
-            enabled = RemoteBoolean(false), // act as container
+            enabled = false.rb, // act as container
             colors =
                 RemoteButtonColors(
-                    containerColor = RemoteColor(Color.DarkGray),
-                    contentColor = RemoteColor(Color.White),
-                    secondaryContentColor = RemoteColor(Color.LightGray),
-                    iconColor = RemoteColor(Color.White),
-                    disabledContainerColor = RemoteColor(Color.DarkGray),
-                    disabledContentColor = RemoteColor(Color.White),
-                    disabledSecondaryContentColor = RemoteColor(Color.LightGray),
-                    disabledIconColor = RemoteColor(Color.White),
+                    containerColor = Color.DarkGray.rc,
+                    contentColor = Color.White.rc,
+                    secondaryContentColor = Color.LightGray.rc,
+                    iconColor = Color.White.rc,
+                    disabledContainerColor = Color.DarkGray.rc,
+                    disabledContentColor = Color.White.rc,
+                    disabledSecondaryContentColor = Color.LightGray.rc,
+                    disabledIconColor = Color.White.rc,
                 ),
         ) {
             RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically) {
@@ -881,10 +885,10 @@ fun CardSample1() {
                     imageVector =
                         ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
                     contentDescription = "Card Icon".rs,
-                    modifier = RemoteModifier.size(40.dp.asRdp()),
-                    tint = RemoteColor(Color.Cyan),
+                    modifier = RemoteModifier.size(40.rdp),
+                    tint = Color.Cyan.rc,
                 )
-                RemoteBox(RemoteModifier.size(10.dp.asRdp()))
+                RemoteBox(RemoteModifier.size(10.rdp))
                 RemoteColumn {
                     MaterialRemoteText("Card Title".rs)
                     MaterialRemoteText("Subtitle goes here".rs)
@@ -914,26 +918,26 @@ fun CounterSample1() {
             horizontalArrangement = RemoteArrangement.CenterHorizontally,
         ) {
             RemoteButton(
-                onClick = arrayOf(ValueChange(count, count - 1)),
-                modifier = RemoteModifier.size(40.dp.asRdp()),
+                onClick = arrayOf(ValueChange(count, count - 1.ri)),
+                modifier = RemoteModifier.size(40.rdp),
             ) {
                 MaterialRemoteText("-".rs)
             }
 
-            RemoteBox(RemoteModifier.size(10.dp.asRdp()))
+            RemoteBox(RemoteModifier.size(10.rdp))
 
             RemoteBox(modifier = RemoteModifier.background(Color.Red)) {
                 RemoteText(
                     text = count.toRemoteString(10, TextFromFloat.PAD_PRE_NONE),
-                    color = RemoteColor(Color.White),
+                    color = Color.White.rc,
                     fontSize = 24.sp,
                 )
             }
 
-            RemoteBox(RemoteModifier.size(10.dp.asRdp()))
+            RemoteBox(RemoteModifier.size(10.rdp))
             RemoteButton(
-                onClick = arrayOf(ValueChange(count, count + 1)),
-                modifier = RemoteModifier.size(40.dp.asRdp()),
+                onClick = arrayOf(ValueChange(count, count + 1.ri)),
+                modifier = RemoteModifier.size(40.rdp),
             ) {
                 MaterialRemoteText("+".rs)
             }
