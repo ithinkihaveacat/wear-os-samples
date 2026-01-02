@@ -211,3 +211,30 @@ For this simple sample, keeping the preview co-located and using
 `implementation()` was chosen for simplicity, but for a production app, the
 `debug` source set approach is generally preferred to keep the release APK
 optimized.
+
+## Agent Tooling Requirements
+
+Agents working on this codebase are required to utilize the following
+specialized shell scripts to ensure efficient development and reliable
+verification. These tools are designed to streamline device interaction and
+source code analysis.
+
+### Device Interaction and Verification
+
+- **`adb-tile-add <COMPONENT>`**: Registers a new tile service component on the
+  device and automatically displays it. This is the primary method for deploying
+  new widgets for testing.
+- **`adb-tile-show <INDEX>`**: Forces the carousel to scroll to the tile at the
+  specified index.
+- **`adb-screenshot <FILENAME>`**: Captures a screenshot of the connected device
+  and saves it to the local filesystem.
+- **`screenshot-describe <FILENAME>`**: Generates a text description of a
+  screenshot. **Agents must use this tool to verify the visual output of their
+  changes.**
+
+### Source Code Analysis
+
+- **`jetpack-inspect <ARTIFACT> SNAPSHOT`**: Downloads and extracts the source
+  code for AndroidX libraries. Since this project uses snapshot versions of the
+  Wear Widget libraries, agents **must** use this tool with the `SNAPSHOT`
+  argument to understand the underlying implementation and available APIs.
