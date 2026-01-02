@@ -75,6 +75,54 @@ adb shell am broadcast \
   --ei index 0
 ```
 
+## Exploring the Widget Catalog
+
+The `WidgetCatalog.kt` file contains various widget samples (e.g.,
+`ButtonSample9`, `CardSample1`). To display a specific sample on your device,
+follow these steps:
+
+### 1. Select a Sample
+
+Open `app/src/main/java/com/google/example/wear_widget/WidgetCatalog.kt` and
+locate the `provideWidgetData` method in the `WidgetCatalog` class. Update the
+lambda to call the composable function of the sample you wish to view.
+
+```kotlin
+override suspend fun provideWidgetData(
+    context: Context,
+    params: WearWidgetParams,
+): WearWidgetData =
+    // Change ButtonSample9() to the desired sample function
+    WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) { ButtonSample9() }
+```
+
+### 2. Build and Install
+
+Rebuild and install the application:
+
+```bash
+./gradlew :app:installDebug
+```
+
+### 3. Deploy and Verify
+
+Use the `adb-tile-add` script to register the catalog service and automatically
+show it on the device.
+
+```bash
+adb-tile-add com.google.example.wear_widget/.WidgetCatalogService
+```
+
+Finally, verify the tile is displayed correctly by taking a screenshot. The
+screenshot can be reviewed manually, but if the reader is an agent, they should
+use the `screenshot-describe` command. It is good practice to take a baseline
+screenshot before making changes to compare against.
+
+```bash
+adb-screenshot sample_verification.png
+screenshot-describe sample_verification.png
+```
+
 ## Development Guide
 
 ### Using `jetpack-*` Commands with SNAPSHOTs
