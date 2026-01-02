@@ -50,7 +50,9 @@ import androidx.wear.compose.remote.material3.RemoteButtonColors
 import androidx.wear.compose.remote.material3.RemoteButtonDefaults
 import androidx.wear.compose.remote.material3.RemoteButtonGroup
 import androidx.wear.compose.remote.material3.RemoteButtonGroupDefaults
+import androidx.wear.compose.remote.material3.RemoteColorScheme
 import androidx.wear.compose.remote.material3.RemoteIcon
+import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 import androidx.wear.compose.remote.material3.buttonSizeModifier
 
@@ -63,7 +65,138 @@ class WidgetCatalog : GlanceWearWidget() {
         context: Context,
         params: WearWidgetParams,
     ): WearWidgetData =
-        WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) { ButtonSample9() }
+        WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) {
+            SystemThemeComparisonSample()
+        }
+}
+
+/**
+ * A sample demonstrating the use of the System Theme with multiple components.
+ * This matches the structure of AustralianThemeSample for comparison.
+ */
+@RemoteComposable
+@Composable
+fun SystemThemeComparisonSample() {
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+             RemoteColumn(
+                horizontalAlignment = RemoteAlignment.CenterHorizontally
+            ) {
+                MaterialRemoteText("System Theme".rs)
+                RemoteBox(RemoteModifier.size(10.dp.asRdp()))
+                RemoteButton(onClick = arrayOf()) {
+                    MaterialRemoteText("Primary Button".rs)
+                }
+                RemoteBox(RemoteModifier.size(10.dp.asRdp()))
+                RemoteButton(
+                    onClick = arrayOf(),
+                    colors = RemoteButtonColors(
+                        containerColor = RemoteMaterialTheme.colorScheme.secondary,
+                        contentColor = RemoteMaterialTheme.colorScheme.onSecondary,
+                        secondaryContentColor = RemoteMaterialTheme.colorScheme.onSecondary,
+                        iconColor = RemoteMaterialTheme.colorScheme.onSecondary,
+                        disabledContainerColor = RemoteColor(Color.Gray),
+                        disabledContentColor = RemoteColor(Color.LightGray),
+                        disabledSecondaryContentColor = RemoteColor(Color.LightGray),
+                        disabledIconColor = RemoteColor(Color.LightGray)
+                    )
+                ) {
+                    MaterialRemoteText("Secondary Button".rs)
+                }
+            }
+        }
+    }
+}
+
+/**
+ * A sample demonstrating the use of the System Theme.
+ * The button should pick up the system's primary color.
+ */
+@RemoteComposable
+@Composable
+fun SystemThemeSample() {
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteColumn(
+                horizontalAlignment = RemoteAlignment.CenterHorizontally
+            ) {
+                MaterialRemoteText("System Theme".rs)
+                RemoteBox(RemoteModifier.size(10.dp.asRdp()))
+                RemoteButton(onClick = arrayOf()) {
+                    MaterialRemoteText("Primary Button".rs)
+                }
+            }
+        }
+    }
+}
+
+/**
+ * A sample demonstrating a custom theme (Australian Flag Colors).
+ */
+@RemoteComposable
+@Composable
+fun AustralianThemeSample() {
+    val australianColorScheme = object : RemoteColorScheme() {
+        // Australian Flag Blue
+        override val primary: RemoteColor
+            @RemoteComposable @Composable get() = RemoteColor(Color(0xFF00008B))
+        override val onPrimary: RemoteColor
+            @RemoteComposable @Composable get() = RemoteColor(Color.White)
+        
+        // Australian Flag Red
+        override val secondary: RemoteColor
+            @RemoteComposable @Composable get() = RemoteColor(Color(0xFFFF0000))
+        override val onSecondary: RemoteColor
+            @RemoteComposable @Composable get() = RemoteColor(Color.White)
+            
+        // White stars
+        override val tertiary: RemoteColor
+             @RemoteComposable @Composable get() = RemoteColor(Color.White)
+        override val onTertiary: RemoteColor
+             @RemoteComposable @Composable get() = RemoteColor(Color.Black)
+    }
+
+    RemoteMaterialTheme(colorScheme = australianColorScheme) {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+             RemoteColumn(
+                horizontalAlignment = RemoteAlignment.CenterHorizontally
+            ) {
+                MaterialRemoteText("Aussie Theme".rs)
+                RemoteBox(RemoteModifier.size(10.dp.asRdp()))
+                RemoteButton(onClick = arrayOf()) {
+                    MaterialRemoteText("Primary (Blue)".rs)
+                }
+                RemoteBox(RemoteModifier.size(10.dp.asRdp()))
+                RemoteButton(
+                    onClick = arrayOf(),
+                    colors = RemoteButtonColors(
+                        containerColor = australianColorScheme.secondary,
+                        contentColor = australianColorScheme.onSecondary,
+                        secondaryContentColor = australianColorScheme.onSecondary,
+                        iconColor = australianColorScheme.onSecondary,
+                        disabledContainerColor = RemoteColor(Color.Gray),
+                        disabledContentColor = RemoteColor(Color.LightGray),
+                        disabledSecondaryContentColor = RemoteColor(Color.LightGray),
+                        disabledIconColor = RemoteColor(Color.LightGray)
+                    )
+                ) {
+                    MaterialRemoteText("Secondary (Red)".rs)
+                }
+            }
+        }
+    }
 }
 
 /**
