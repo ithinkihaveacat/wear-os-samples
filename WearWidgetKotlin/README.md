@@ -8,6 +8,22 @@ This document captures key learnings and configuration details to assist future
 development and avoid common pitfalls encountered during the initial setup of
 this project.
 
+## Prerequisites
+
+### ProtoLayout Renderer
+
+This project requires `com.google.android.wearable.protolayout.renderer` version
+**1.5.7 or later** on the target device.
+
+You can verify the version installed on your device using the following command:
+
+```bash
+adb shell dumpsys package com.google.android.wearable.protolayout.renderer | \
+  grep -m 1 versionName | \
+  awk -F=
+{print $2}
+```
+
 ## Getting Started
 
 ### Build and Install
@@ -59,7 +75,9 @@ adb shell am broadcast \
   --ei index 0
 ```
 
-## Using `jetpack-*` Commands with SNAPSHOTs
+## Development Guide
+
+### Using `jetpack-*` Commands with SNAPSHOTs
 
 For the Wear Widget libraries demonstrated in this sample (such as
 `androidx.compose.remote:remote-creation` and
@@ -68,34 +86,19 @@ For the Wear Widget libraries demonstrated in this sample (such as
 actively evolving, so the code in this repository relies on the latest snapshot
 builds.
 
-### The Mechanism
+#### The Mechanism
 
 By default, `jetpack-inspect` attempts to resolve artifacts against the
 stable/release repositories. The `SNAPSHOT` argument explicitly instructs the
 tool to target the AndroidX snapshot repository instead.
 
-### The Requirement
+#### The Requirement
 
 Because these specific libraries may not yet have a stable or beta release that
 matches the features used here, omitting the `SNAPSHOT` argument will likely
 result in the command failing or finding an older, incompatible version.
 
-## Dependencies and Requirements
-
-### ProtoLayout Renderer
-
-This project requires `com.google.android.wearable.protolayout.renderer` version
-**1.5.7 or later** on the target device.
-
-You can verify the version installed on your device using the following command:
-
-```bash
-adb shell dumpsys package com.google.android.wearable.protolayout.renderer | \
-  grep -m 1 versionName | \
-  awk -F= '{print $2}'
-```
-
-## Preview Dependencies and Configuration
+### Preview Dependencies and Configuration
 
 To enable Compose Previews for `HelloWidget`, specifically using `RemotePreview`
 combined with `@WearPreviewDevices` for multi-device preview generation, the
@@ -106,7 +109,7 @@ following tooling dependencies are required:
 - `androidx.wear.compose:compose-ui-tooling` (Wear specific preview annotations
   like `@WearPreviewDevices`)
 
-### Configuration Decision
+#### Configuration Decision
 
 In this project, these dependencies are configured using `implementation()`
 rather than the more typical `debugImplementation()`.
@@ -118,7 +121,7 @@ implementation(libs.wear.compose.ui.tooling)
 implementation(libs.remote.tooling.preview)
 ```
 
-### Why?
+#### Why?
 
 The preview composable, `HelloWidgetPreview`, is defined in the same file as the
 production code (`HelloWidget.kt`), which resides in the `main` source set.
@@ -132,13 +135,13 @@ production code (`HelloWidget.kt`), which resides in the `main` source set.
   `RemotePreview` and `@WearPreviewDevices`) that are missing in the release
   classpath.
 
-### Implications
+#### Implications
 
 Using `implementation()` means these tooling libraries are included in the
 release APK. This increases the APK size and includes code that is not needed
 for the production app.
 
-### Alternative Approach (Debug Source Set)
+#### Alternative Approach (Debug Source Set)
 
 A cleaner alternative is to move the preview code to a dedicated `debug` source
 set:
