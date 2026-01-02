@@ -13,7 +13,7 @@ this project.
 ### ProtoLayout Renderer
 
 This project requires `com.google.android.wearable.protolayout.renderer` version
-**1.5.7 or later** on the target device.
+**1.5.7.43.851332805.dev or later** on the target device.
 
 You can verify the version installed on your device using the following command:
 
