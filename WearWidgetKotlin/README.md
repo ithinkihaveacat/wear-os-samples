@@ -247,6 +247,9 @@ source code analysis.
 - **`screenshot-describe <FILENAME>`**: Generates a text description of a
   screenshot. **Agents must use this tool to verify the visual output of their
   changes.**
+- **`screenshot-compare <FILE1> <FILE2>`**: Compares two screenshots using the
+  Gemini API. Identifies visual differences like layout shifts, color changes,
+  padding, or text updates.
 
 ### Targeting Specific Devices
 
