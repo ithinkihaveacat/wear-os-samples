@@ -70,7 +70,7 @@ class WidgetCatalog : GlanceWearWidget() {
         params: WearWidgetParams,
     ): WearWidgetData =
         WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) {
-            SystemThemeComparisonSample()
+            ButtonSample9()
         }
 }
 

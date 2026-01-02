@@ -790,3 +790,167 @@ fun CounterSample1() {
     }
 }
 ```
+
+## SystemThemeComparisonSample
+
+A sample demonstrating the use of the System Theme with multiple components. The
+screenshots show how the same code adapts to different system theme preferences
+(Theme #1: Yellow, Theme #2: Pink/Salmon).
+
+### Theme #1
+
+![SystemThemeComparisonSample_Theme1](SystemThemeComparisonSample_Theme1.png)
+
+### Theme #2
+
+![SystemThemeComparisonSample_Theme2](SystemThemeComparisonSample_Theme2.png)
+
+```kotlin
+/**
+ * A sample demonstrating the use of the System Theme with multiple components.
+ * This matches the structure of AustralianThemeSample for comparison.
+ */
+@RemoteComposable
+@Composable
+fun SystemThemeComparisonSample() {
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+             RemoteColumn(
+                horizontalAlignment = RemoteAlignment.CenterHorizontally
+            ) {
+                MaterialRemoteText("System Theme".rs)
+                RemoteBox(RemoteModifier.size(10.rdp))
+                RemoteButton(onClick = arrayOf()) {
+                    MaterialRemoteText("Primary Button".rs)
+                }
+                RemoteBox(RemoteModifier.size(10.rdp))
+                RemoteButton(
+                    onClick = arrayOf(),
+                    colors = RemoteButtonColors(
+                        containerColor = RemoteMaterialTheme.colorScheme.secondary,
+                        contentColor = RemoteMaterialTheme.colorScheme.onSecondary,
+                        secondaryContentColor = RemoteMaterialTheme.colorScheme.onSecondary,
+                        iconColor = RemoteMaterialTheme.colorScheme.onSecondary,
+                        disabledContainerColor = Color.Gray.rc,
+                        disabledContentColor = Color.LightGray.rc,
+                        disabledSecondaryContentColor = Color.LightGray.rc,
+                        disabledIconColor = Color.LightGray.rc
+                    )
+                ) {
+                    MaterialRemoteText("Secondary Button".rs)
+                }
+            }
+        }
+    }
+}
+```
+
+## SystemThemeSample
+
+A basic sample demonstrating the use of the System Theme. The button
+automatically picks up the system's primary color.
+
+![SystemThemeSample](SystemThemeSample.png)
+
+```kotlin
+/**
+ * A sample demonstrating the use of the System Theme.
+ * The button should pick up the system's primary color.
+ */
+@RemoteComposable
+@Composable
+fun SystemThemeSample() {
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteColumn(
+                horizontalAlignment = RemoteAlignment.CenterHorizontally
+            ) {
+                MaterialRemoteText("System Theme".rs)
+                RemoteBox(RemoteModifier.size(10.rdp))
+                RemoteButton(onClick = arrayOf()) {
+                    MaterialRemoteText("Primary Button".rs)
+                }
+            }
+        }
+    }
+}
+```
+
+## AustralianThemeSample
+
+A sample demonstrating a custom theme with hardcoded "brand" colors (Royal Blue,
+Red, and White from the Australian flag). This sample will look identical
+regardless of the user's system theme settings.
+
+![AustralianThemeSample](AustralianThemeSample.png)
+
+```kotlin
+/**
+ * A sample demonstrating a custom theme (Australian Flag Colors).
+ */
+@RemoteComposable
+@Composable
+fun AustralianThemeSample() {
+    val australianColorScheme = object : RemoteColorScheme() {
+        // Australian Flag Blue
+        override val primary: RemoteColor
+            @RemoteComposable @Composable get() = Color(0xFF00008B).rc
+        override val onPrimary: RemoteColor
+            @RemoteComposable @Composable get() = Color.White.rc
+
+        // Australian Flag Red
+        override val secondary: RemoteColor
+            @RemoteComposable @Composable get() = Color(0xFFFF0000).rc
+        override val onSecondary: RemoteColor
+            @RemoteComposable @Composable get() = Color.White.rc
+
+        // White stars
+        override val tertiary: RemoteColor
+             @RemoteComposable @Composable get() = Color.White.rc
+        override val onTertiary: RemoteColor
+             @RemoteComposable @Composable get() = Color.Black.rc
+    }
+
+    RemoteMaterialTheme(colorScheme = australianColorScheme) {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+             RemoteColumn(
+                horizontalAlignment = RemoteAlignment.CenterHorizontally
+            ) {
+                MaterialRemoteText("Aussie Theme".rs)
+                RemoteBox(RemoteModifier.size(10.rdp))
+                RemoteButton(onClick = arrayOf()) {
+                    MaterialRemoteText("Primary (Blue)".rs)
+                }
+                RemoteBox(RemoteModifier.size(10.rdp))
+                RemoteButton(
+                    onClick = arrayOf(),
+                    colors = RemoteButtonColors(
+                        containerColor = australianColorScheme.secondary,
+                        contentColor = australianColorScheme.onSecondary,
+                        secondaryContentColor = australianColorScheme.onSecondary,
+                        iconColor = australianColorScheme.onSecondary,
+                        disabledContainerColor = Color.Gray.rc,
+                        disabledContentColor = Color.LightGray.rc,
+                        disabledSecondaryContentColor = Color.LightGray.rc,
+                        disabledIconColor = Color.LightGray.rc
+                    )
+                ) {
+                    MaterialRemoteText("Secondary (Red)".rs)
+                }
+            }
+        }
+    }
+}
+```
