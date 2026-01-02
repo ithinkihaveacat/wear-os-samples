@@ -23,11 +23,7 @@ import androidx.compose.remote.creation.compose.modifier.padding
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.painter.painterRemoteColor
 import androidx.compose.remote.creation.compose.shapes.RemoteRoundedCornerShape
-import androidx.compose.remote.creation.compose.state.RemoteBoolean
 import androidx.compose.remote.creation.compose.state.RemoteColor
-import androidx.compose.remote.creation.compose.state.RemoteDp
-import androidx.compose.remote.creation.compose.state.RemoteInt
-import androidx.compose.remote.creation.compose.state.asRdp
 import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rdp
@@ -69,14 +65,12 @@ class WidgetCatalog : GlanceWearWidget() {
         context: Context,
         params: WearWidgetParams,
     ): WearWidgetData =
-        WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) {
-            ButtonSample9()
-        }
+        WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) { ButtonSample9() }
 }
 
 /**
- * A sample demonstrating the use of the System Theme with multiple components.
- * This matches the structure of AustralianThemeSample for comparison.
+ * A sample demonstrating the use of the System Theme with multiple components. This matches the
+ * structure of AustralianThemeSample for comparison.
  */
 @RemoteComposable
 @Composable
@@ -87,27 +81,24 @@ fun SystemThemeComparisonSample() {
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
         ) {
-             RemoteColumn(
-                horizontalAlignment = RemoteAlignment.CenterHorizontally
-            ) {
+            RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
                 MaterialRemoteText("System Theme".rs)
                 RemoteBox(RemoteModifier.size(10.rdp))
-                RemoteButton(onClick = arrayOf()) {
-                    MaterialRemoteText("Primary Button".rs)
-                }
+                RemoteButton(onClick = arrayOf()) { MaterialRemoteText("Primary Button".rs) }
                 RemoteBox(RemoteModifier.size(10.rdp))
                 RemoteButton(
                     onClick = arrayOf(),
-                    colors = RemoteButtonColors(
-                        containerColor = RemoteMaterialTheme.colorScheme.secondary,
-                        contentColor = RemoteMaterialTheme.colorScheme.onSecondary,
-                        secondaryContentColor = RemoteMaterialTheme.colorScheme.onSecondary,
-                        iconColor = RemoteMaterialTheme.colorScheme.onSecondary,
-                        disabledContainerColor = Color.Gray.rc,
-                        disabledContentColor = Color.LightGray.rc,
-                        disabledSecondaryContentColor = Color.LightGray.rc,
-                        disabledIconColor = Color.LightGray.rc
-                    )
+                    colors =
+                        RemoteButtonColors(
+                            containerColor = RemoteMaterialTheme.colorScheme.secondary,
+                            contentColor = RemoteMaterialTheme.colorScheme.onSecondary,
+                            secondaryContentColor = RemoteMaterialTheme.colorScheme.onSecondary,
+                            iconColor = RemoteMaterialTheme.colorScheme.onSecondary,
+                            disabledContainerColor = Color.Gray.rc,
+                            disabledContentColor = Color.LightGray.rc,
+                            disabledSecondaryContentColor = Color.LightGray.rc,
+                            disabledIconColor = Color.LightGray.rc,
+                        ),
                 ) {
                     MaterialRemoteText("Secondary Button".rs)
                 }
@@ -117,8 +108,8 @@ fun SystemThemeComparisonSample() {
 }
 
 /**
- * A sample demonstrating the use of the System Theme.
- * The button should pick up the system's primary color.
+ * A sample demonstrating the use of the System Theme. The button should pick up the system's
+ * primary color.
  */
 @RemoteComposable
 @Composable
@@ -129,44 +120,42 @@ fun SystemThemeSample() {
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
         ) {
-            RemoteColumn(
-                horizontalAlignment = RemoteAlignment.CenterHorizontally
-            ) {
+            RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
                 MaterialRemoteText("System Theme".rs)
                 RemoteBox(RemoteModifier.size(10.rdp))
-                RemoteButton(onClick = arrayOf()) {
-                    MaterialRemoteText("Primary Button".rs)
-                }
+                RemoteButton(onClick = arrayOf()) { MaterialRemoteText("Primary Button".rs) }
             }
         }
     }
 }
 
-/**
- * A sample demonstrating a custom theme (Australian Flag Colors).
- */
+/** A sample demonstrating a custom theme (Australian Flag Colors). */
 @RemoteComposable
 @Composable
 fun AustralianThemeSample() {
-    val australianColorScheme = object : RemoteColorScheme() {
-        // Australian Flag Blue
-        override val primary: RemoteColor
-            @RemoteComposable @Composable get() = Color(0xFF00008B).rc
-        override val onPrimary: RemoteColor
-            @RemoteComposable @Composable get() = Color.White.rc
-        
-        // Australian Flag Red
-        override val secondary: RemoteColor
-            @RemoteComposable @Composable get() = Color(0xFFFF0000).rc
-        override val onSecondary: RemoteColor
-            @RemoteComposable @Composable get() = Color.White.rc
-            
-        // White stars
-        override val tertiary: RemoteColor
-             @RemoteComposable @Composable get() = Color.White.rc
-        override val onTertiary: RemoteColor
-             @RemoteComposable @Composable get() = Color.Black.rc
-    }
+    val australianColorScheme =
+        object : RemoteColorScheme() {
+            // Australian Flag Blue
+            override val primary: RemoteColor
+                @RemoteComposable @Composable get() = Color(0xFF00008B).rc
+
+            override val onPrimary: RemoteColor
+                @RemoteComposable @Composable get() = Color.White.rc
+
+            // Australian Flag Red
+            override val secondary: RemoteColor
+                @RemoteComposable @Composable get() = Color(0xFFFF0000).rc
+
+            override val onSecondary: RemoteColor
+                @RemoteComposable @Composable get() = Color.White.rc
+
+            // White stars
+            override val tertiary: RemoteColor
+                @RemoteComposable @Composable get() = Color.White.rc
+
+            override val onTertiary: RemoteColor
+                @RemoteComposable @Composable get() = Color.Black.rc
+        }
 
     RemoteMaterialTheme(colorScheme = australianColorScheme) {
         RemoteBox(
@@ -174,27 +163,24 @@ fun AustralianThemeSample() {
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
         ) {
-             RemoteColumn(
-                horizontalAlignment = RemoteAlignment.CenterHorizontally
-            ) {
+            RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
                 MaterialRemoteText("Aussie Theme".rs)
                 RemoteBox(RemoteModifier.size(10.rdp))
-                RemoteButton(onClick = arrayOf()) {
-                    MaterialRemoteText("Primary (Blue)".rs)
-                }
+                RemoteButton(onClick = arrayOf()) { MaterialRemoteText("Primary (Blue)".rs) }
                 RemoteBox(RemoteModifier.size(10.rdp))
                 RemoteButton(
                     onClick = arrayOf(),
-                    colors = RemoteButtonColors(
-                        containerColor = australianColorScheme.secondary,
-                        contentColor = australianColorScheme.onSecondary,
-                        secondaryContentColor = australianColorScheme.onSecondary,
-                        iconColor = australianColorScheme.onSecondary,
-                        disabledContainerColor = Color.Gray.rc,
-                        disabledContentColor = Color.LightGray.rc,
-                        disabledSecondaryContentColor = Color.LightGray.rc,
-                        disabledIconColor = Color.LightGray.rc
-                    )
+                    colors =
+                        RemoteButtonColors(
+                            containerColor = australianColorScheme.secondary,
+                            contentColor = australianColorScheme.onSecondary,
+                            secondaryContentColor = australianColorScheme.onSecondary,
+                            iconColor = australianColorScheme.onSecondary,
+                            disabledContainerColor = Color.Gray.rc,
+                            disabledContentColor = Color.LightGray.rc,
+                            disabledSecondaryContentColor = Color.LightGray.rc,
+                            disabledIconColor = Color.LightGray.rc,
+                        ),
                 ) {
                     MaterialRemoteText("Secondary (Red)".rs)
                 }
@@ -232,9 +218,7 @@ fun BoxSample2() {
     // Box with padding and border
     RemoteBox(
         modifier =
-            RemoteModifier.fillMaxSize()
-                .padding(20.dp)
-                .border(width = 2.rdp, color = Color.Red),
+            RemoteModifier.fillMaxSize().padding(20.dp).border(width = 2.rdp, color = Color.Red),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
@@ -371,25 +355,13 @@ fun RowSample1() {
             verticalAlignment = RemoteAlignment.CenterVertically,
         ) {
             RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Red)) {
-                RemoteText(
-                    "Red",
-                    color = Color.White.rc,
-                    modifier = RemoteModifier.padding(5.dp),
-                )
+                RemoteText("Red", color = Color.White.rc, modifier = RemoteModifier.padding(5.dp))
             }
             RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Green)) {
-                RemoteText(
-                    "Green",
-                    color = Color.Black.rc,
-                    modifier = RemoteModifier.padding(5.dp),
-                )
+                RemoteText("Green", color = Color.Black.rc, modifier = RemoteModifier.padding(5.dp))
             }
             RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Blue)) {
-                RemoteText(
-                    "Blue",
-                    color = Color.White.rc,
-                    modifier = RemoteModifier.padding(5.dp),
-                )
+                RemoteText("Blue", color = Color.White.rc, modifier = RemoteModifier.padding(5.dp))
             }
         }
     }
@@ -442,11 +414,7 @@ fun CollapsibleColumnSample1() {
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.SpaceEvenly,
         ) {
-            RemoteText(
-                "Top (High)",
-                color = Color.Red.rc,
-                modifier = RemoteModifier.priority(1.0f),
-            )
+            RemoteText("Top (High)", color = Color.Red.rc, modifier = RemoteModifier.priority(1.0f))
             RemoteText(
                 "Middle (Low)",
                 color = Color.Green.rc,
@@ -573,10 +541,7 @@ fun ButtonSample6() {
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
-        RemoteButton(
-            modifier = RemoteModifier.buttonSizeModifier(),
-            enabled = false.rb,
-        ) {
+        RemoteButton(modifier = RemoteModifier.buttonSizeModifier(), enabled = false.rb) {
             MaterialRemoteText("Disabled Button".rs)
         }
     }
@@ -855,7 +820,10 @@ fun GridSample1() {
 }
 
 /**
- * A dark screen displays "Wear Widget" in white at the top. Below, a rounded dark gray card contains a cyan Android-style icon on the left. To its right, white text reads "Card Title" followed by "Subtitle goes here" on two lines. The layout features generous margins within the card.
+ * A dark screen displays "Wear Widget" in white at the top. Below, a rounded dark gray card
+ * contains a cyan Android-style icon on the left. To its right, white text reads "Card Title"
+ * followed by "Subtitle goes here" on two lines. The layout features generous margins within the
+ * card.
  */
 @RemoteComposable
 @Composable
