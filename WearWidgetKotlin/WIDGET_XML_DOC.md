@@ -37,9 +37,17 @@ Defines a supported size for the widget. At least one `<container>` is required.
 ## Key Findings & Implications
 
 ### 1. Surface Differentiation
-*   **Tiles (Legacy):** When binding via `androidx.wear.tiles.action.BIND_TILE_PROVIDER`, the system requests `containerType=0` (FULLSCREEN). Tiles largely ignore the `group` and `preferredType` attributes in the XML.
-*   **Widgets (New):** When binding via `androidx.glance.wear.action.BIND_WIDGET_PROVIDER`, the system respects the XML configuration for `SMALL` and `LARGE` types.
-*   **Binding Precedence:** If both intent filters are present, `adb-tile-add` defaults to the Tile protocol (`FULLSCREEN`). To test Widget-specific sizing (`SMALL`/`LARGE`), the `BIND_TILE_PROVIDER` intent filter must be removed from the `AndroidManifest.xml`.
+*   **Tiles (Legacy):** When binding via `androidx.wear.tiles.action.BIND_TILE_PROVIDER`, the system requests `containerType=0` (FULLSCREEN).
+*   **Widgets (New):** When binding via `androidx.glance.wear.action.BIND_WIDGET_PROVIDER`, the system respects the XML configuration for `SMALL` (2) and `LARGE` (1) types.
+
+**Binding Precedence Matrix:**
+| Intent Filters Declared | `adb-tile-add` Result | Container Type | Header Style |
+| :--- | :--- | :--- | :--- |
+| **Both** | Tile Mode | `0` (FULLSCREEN) | Icon + Label |
+| **Tile Only** | Tile Mode | `0` (FULLSCREEN) | Icon + Label |
+| **Widget Only** | Widget Mode | `1` (LARGE) or `2` (SMALL) | Icon Only |
+
+To test Widget-specific sizing and headers during development, you **must** remove the `BIND_TILE_PROVIDER` intent filter.
 
 ### 2. Grouping Behavior
 The `group` attribute allows the system to treat multiple services as different versions of the same widget. This is intended for seamless migration or providing different implementations for the same content without duplicating entries in the user's carousel. It defaults to the fully qualified class name of the service.

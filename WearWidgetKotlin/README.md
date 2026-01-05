@@ -128,21 +128,23 @@ The `WearWidgetProviderInfo` XML configuration allows specifying supported sizes
 
 ### Intent Filters and Binding Precedence
 
-A service can declare support for both the new Widget protocol and the legacy Tile protocol:
+The behavior of the widget depends on which intent filters are declared in `AndroidManifest.xml` and which tool is used to add the tile.
 
-```xml
-<intent-filter>
-    <action android:name="androidx.glance.wear.action.BIND_WIDGET_PROVIDER" />
-    <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
-</intent-filter>
-```
+1.  **Both Intents (`BIND_WIDGET_PROVIDER` + `BIND_TILE_PROVIDER`):**
+    *   **Behavior:** Tools like `adb-tile-add` default to the **Tile Protocol**.
+    *   **Result:** `containerType=0` (FULLSCREEN). The system displays the standard header (Icon + Label). XML sizing (`SMALL`/`LARGE`) is ignored.
 
-- **Both Present:** System tools (like `adb-tile-add`) and some surfaces often default to the Tile protocol. This results in a `containerType` of `FULLSCREEN` (0), effectively ignoring the `wearwidget-provider` XML sizing configuration.
-- **Widget Only:** Removing `BIND_TILE_PROVIDER` forces the system to use the Widget protocol. In this mode, `adb-tile-add` respects the `preferredType` defined in the XML (e.g., `SMALL` or `LARGE`).
+2.  **Tile Only (`BIND_TILE_PROVIDER`):**
+    *   **Behavior:** Forces the **Legacy Tile Protocol**.
+    *   **Result:** `containerType=0` (FULLSCREEN). Standard header (Icon + Label).
+
+3.  **Widget Only (`BIND_WIDGET_PROVIDER`):**
+    *   **Behavior:** Forces the **Widget Protocol**.
+    *   **Result:** `containerType=1` (LARGE) or `2` (SMALL), respecting the XML `preferredType`. The system displays a minimal header (Icon Only).
 
 ### Observable Differences
 
-When forcing the Widget protocol (by removing the Tile intent filter), you can observe distinct differences between the `SMALL` and `LARGE` types:
+When forcing the Widget protocol (State 3 above), you can observe distinct differences:
 
 - **Logcat:** The `WearWidgetParams` passed to `provideWidgetData` will report different `containerType` and dimensions.
   - **LARGE:** `containerType=1` (e.g., height ~96dp)

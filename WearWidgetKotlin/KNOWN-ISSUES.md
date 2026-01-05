@@ -207,3 +207,29 @@ imposes several constraints:
    "captured" and serialized during composition, not at the moment of the click.
 5. **Limited API:** You are restricted to the side effects supported by the
    `Action` API.
+
+## Cannot Test Widget Configurations via ADB
+
+b/473548453
+
+**Symptom:** When using `adb-tile-add` (or the `add-tile` broadcast) to test a
+service that supports both Tiles and Widgets, the system defaults to the legacy
+Tile protocol. This forces the widget into `FULLSCREEN` mode with a standard
+header, ignoring the `wearwidget-provider` XML configuration for `SMALL` or
+`LARGE` sizes and header preferences.
+
+**Workaround:** To test specific Widget configurations (e.g., verifying `SMALL`
+vs `LARGE` layouts or checking header appearance), you must temporarily force
+the Widget protocol:
+
+1. **Force Protocol:** Comment out the
+   `androidx.wear.tiles.action.BIND_TILE_PROVIDER` intent filter in your
+   `AndroidManifest.xml`.
+2. **Force Size:** Modify the `preferredType` attribute in your
+   `wearwidget-provider` XML resource to the desired size (e.g.,
+   `@integer/glance_wear_container_type_small`).
+3. **Rebuild & Deploy:** Re-install the app and use `adb-tile-add` again.
+
+**Context:** The current `add-tile` broadcast implementation does not support
+extras to explicitly request a binding protocol or container type. It defaults
+to the most backward-compatible option (Tiles) when multiple are available.
