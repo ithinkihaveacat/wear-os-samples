@@ -151,21 +151,12 @@ When forcing the Widget protocol (by removing the Tile intent filter), you can o
 
 ### Header Configuration
 
-The visibility of the widget title (e.g., "Wear Widget") in the system header is directly controlled by the `wearwidget-provider` XML configuration.
+The visibility of the widget title (e.g., "Wear Widget") in the system header is determined by the **Binding Protocol** (Tile vs. Widget), not the XML configuration.
 
-*   **Hide Title (Icon Only):** Define the `icon` attribute in the `<wearwidget-provider>` tag.
-    ```xml
-    <wearwidget-provider
-        ...
-        icon="@drawable/ic_launcher"
-        ...>
-    ```
-    *Result:* The system displays the specified icon centered at the top, and the text label is **hidden**.
+*   **Show Title (Tile Mode):** When the service is bound as a Tile (default for `adb-tile-add` if `BIND_TILE_PROVIDER` is present), the system displays the **icon and the text label**.
+*   **Hide Title (Widget Mode):** When the service is bound as a Widget (forced by removing `BIND_TILE_PROVIDER`), the system displays the **icon only**.
 
-*   **Show Title:** Remove the `icon` attribute from the `<wearwidget-provider>` tag.
-    *Result:* The system falls back to the service's icon and displays the `android:label` text (e.g., "Wear Widget") below or alongside it.
-
-**Verification:** You can verify this by modifying `app/src/main/res/xml/hello_widget_info.xml`, re-installing the app, and re-adding the tile using `adb-tile-add`.
+To achieve a "clean" look with no text title during development, you must force the Widget protocol by commenting out the `BIND_TILE_PROVIDER` intent filter in `AndroidManifest.xml`.
 
 ## Development Guide
 

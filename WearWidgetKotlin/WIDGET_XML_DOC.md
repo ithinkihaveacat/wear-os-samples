@@ -53,9 +53,12 @@ The `group` attribute allows the system to treat multiple services as different 
 The `previewImage` is highly recommended. The system uses this to provide immediate visual feedback in the widget/tile picker while the actual widget data is being fetched or rendered for the first time.
 
 ### 5. Header Logic (Icon vs Label)
-On current Wear OS implementations (e.g., Pixel Watch 3):
-*   If `icon` is defined in the `wearwidget-provider` XML, the header displays the **icon only**, suppressing the text label.
-*   If `icon` is omitted from the XML, the header displays the **service icon and the label** (from `android:label`).
+The visibility of the widget title in the system header is primarily determined by the **Binding Protocol**:
+
+*   **Tile Protocol (`BIND_TILE_PROVIDER`):** The system displays a standard header containing the **service icon and the label** (from `android:label`).
+*   **Widget Protocol (`BIND_WIDGET_PROVIDER`):** The system displays a minimal header containing the **icon only**. The widget content is expected to provide any necessary title or context.
+
+Note: Since `adb-tile-add` defaults to the Tile protocol if available, you will typically see the text label during development unless you force Widget-only binding.
 
 ### 6. Runtime Parameters
 The `WearWidgetParams` passed to `provideWidgetData` includes more than just dimensions. It also carries:
