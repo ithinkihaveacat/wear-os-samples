@@ -214,6 +214,7 @@ The behavior of the widget depends on which intent filters are declared in
    - **Behavior:** Tools like `adb-tile-add` default to the **Tile Protocol**.
    - **Result:** `containerType=0` (FULLSCREEN). The system displays the
      standard header (Icon + Label). XML sizing (`SMALL`/`LARGE`) is ignored.
+   - **Override:** Use `adb-tile-add --type SMALL` or `adb-tile-add --type LARGE` to force **Widget Mode**.
 
 2. **Tile Only (`BIND_TILE_PROVIDER`):**
    - **Behavior:** Forces the **Legacy Tile Protocol**.

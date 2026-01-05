@@ -43,11 +43,12 @@ Defines a supported size for the widget. At least one `<container>` is required.
 **Binding Precedence Matrix:**
 | Intent Filters Declared | `adb-tile-add` Result | Container Type | Header Style |
 | :--- | :--- | :--- | :--- |
-| **Both** | Tile Mode | `0` (FULLSCREEN) | Icon + Label |
+| **Both** | Tile Mode (Default) | `0` (FULLSCREEN) | Icon + Label |
+| **Both** | Widget Mode (with `--type`) | `1` (LARGE) or `2` (SMALL) | Icon Only |
 | **Tile Only** | Tile Mode | `0` (FULLSCREEN) | Icon + Label |
 | **Widget Only** | Widget Mode | `1` (LARGE) or `2` (SMALL) | Icon Only |
 
-To test Widget-specific sizing and headers during development, you **must** remove the `BIND_TILE_PROVIDER` intent filter.
+To test Widget-specific sizing and headers during development, use `adb-tile-add --type SMALL` or `adb-tile-add --type LARGE`.
 
 ### 2. Grouping Behavior
 The `group` attribute allows the system to treat multiple services as different versions of the same widget. This is intended for seamless migration or providing different implementations for the same content without duplicating entries in the user's carousel. It defaults to the fully qualified class name of the service.
