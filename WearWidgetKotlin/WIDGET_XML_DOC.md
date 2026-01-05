@@ -39,14 +39,27 @@ Defines a supported size for the widget. At least one `<container>` is required.
 ### 1. Surface Differentiation
 *   **Tiles (Legacy):** When binding via `androidx.wear.tiles.action.BIND_TILE_PROVIDER`, the system requests `containerType=0` (FULLSCREEN). Tiles largely ignore the `group` and `preferredType` attributes in the XML.
 *   **Widgets (New):** When binding via `androidx.glance.wear.action.BIND_WIDGET_PROVIDER`, the system respects the XML configuration for `SMALL` and `LARGE` types.
+*   **Binding Precedence:** If both intent filters are present, `adb-tile-add` defaults to the Tile protocol (`FULLSCREEN`). To test Widget-specific sizing (`SMALL`/`LARGE`), the `BIND_TILE_PROVIDER` intent filter must be removed from the `AndroidManifest.xml`.
 
 ### 2. Grouping Behavior
-The `group` attribute allows the system to treat multiple services as different versions of the same widget. This is intended for seamless migration or providing different implementations for the same content without duplicating entries in the user's carousel.
+The `group` attribute allows the system to treat multiple services as different versions of the same widget. This is intended for seamless migration or providing different implementations for the same content without duplicating entries in the user's carousel. It defaults to the fully qualified class name of the service.
 
 ### 3. Container Types
-*   **SMALL (2):** Typically represents a smaller, glanceable slot on the watch face or home screen.
-*   **LARGE (1):** Represents a larger area with more detail.
+*   **SMALL (2):** Typically represents a smaller slot (e.g., height ~72dp).
+*   **LARGE (1):** Represents a larger area (e.g., height ~96dp).
 *   **FULLSCREEN (0):** Reserved for legacy Tile compatibility. It **cannot** be declared in the `<container>` tag in XML (the parser will throw an exception).
 
 ### 4. Previews
 The `previewImage` is highly recommended. The system uses this to provide immediate visual feedback in the widget/tile picker while the actual widget data is being fetched or rendered for the first time.
+
+### 5. Header Logic (Icon vs Label)
+On current Wear OS implementations (e.g., Pixel Watch 3):
+*   If `icon` is defined in the `wearwidget-provider` XML, the header displays the **icon only**, suppressing the text label.
+*   If `icon` is omitted from the XML, the header displays the **service icon and the label** (from `android:label`).
+
+### 6. Runtime Parameters
+The `WearWidgetParams` passed to `provideWidgetData` includes more than just dimensions. It also carries:
+*   `horizontalPaddingDp` / `verticalPaddingDp`
+*   `cornerRadiusDp`
+*   `instanceId` (namespace and unique ID)
+
