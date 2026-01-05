@@ -122,6 +122,71 @@ adb-screenshot sample_verification.png
 screenshot-describe sample_verification.png
 ```
 
+## Widget Theming
+
+The visual presentation of Wear Widgets is governed by the `RemoteMaterialTheme` composable. This system allows widgets to adapt to the user's system theme (Dynamic Theming) or enforce a specific brand identity (Custom Theming).
+
+### Initialization
+
+All UI components for a given widget layout should be wrapped in a `RemoteMaterialTheme` composable. This functions as the entry point for the theming system.
+
+```kotlin
+@RemoteComposable
+@Composable
+fun MyWidgetContent() {
+    RemoteMaterialTheme {
+        // Content here inherits the theme
+        RemoteButton(...) { ... }
+    }
+}
+```
+
+### Dynamic Theming (System Theme)
+
+By default (when no `colorScheme` is provided), `RemoteMaterialTheme` uses the system's dynamic color scheme. The default `RemoteColorScheme` is pre-configured with tokens that the system renderer resolves to the user's active theme (e.g., based on their watch face colors).
+
+**This is the recommended approach** to ensure widgets feel like a native part of the user's experience.
+
+### Custom Theming (Fixed / Brand Colors)
+
+If a specific brand identity is required, you can provide a custom `RemoteColorScheme`. Create an object that inherits from `RemoteColorScheme` and overrides specific color roles.
+
+```kotlin
+val myCustomScheme = object : RemoteColorScheme() {
+    override val primary: RemoteColor
+        @RemoteComposable @Composable get() = Color(0xFF00008B).rc // Custom Blue
+
+    override val onPrimary: RemoteColor
+        @RemoteComposable @Composable get() = Color.White.rc
+
+    // ... override other roles as needed
+}
+
+@RemoteComposable
+@Composable
+fun MyCustomWidget() {
+    RemoteMaterialTheme(colorScheme = myCustomScheme) {
+        // Content here uses the custom colors
+    }
+}
+```
+
+### Customizing Component Colors
+
+You can also override colors for a specific component instance by passing a color object (e.g., `RemoteButtonColors`).
+
+```kotlin
+RemoteButton(
+    colors = RemoteButtonColors(
+        containerColor = Color.Red.rc,
+        contentColor = Color.White.rc,
+        // ... all other required color parameters must be set
+    )
+) { ... }
+```
+
+*Note: Helper functions like `filledTonalButtonColors()` may not be available in the snapshot version, requiring manual construction of color objects.*
+
 ## Widget vs. Tile Configuration
 
 The `WearWidgetProviderInfo` XML configuration allows specifying supported sizes (`SMALL`, `LARGE`) and other metadata. However, the system's behavior depends heavily on how the service is bound.
