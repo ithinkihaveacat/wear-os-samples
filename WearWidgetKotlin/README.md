@@ -124,11 +124,15 @@ screenshot-describe sample_verification.png
 
 ## Widget Theming
 
-The visual presentation of Wear Widgets is governed by the `RemoteMaterialTheme` composable. This system allows widgets to adapt to the user's system theme (Dynamic Theming) or enforce a specific brand identity (Custom Theming).
+The visual presentation of Wear Widgets is governed by the `RemoteMaterialTheme`
+composable. This system allows widgets to adapt to the user's system theme
+(Dynamic Theming) or enforce a specific brand identity (Custom Theming).
 
 ### Initialization
 
-All UI components for a given widget layout should be wrapped in a `RemoteMaterialTheme` composable. This functions as the entry point for the theming system.
+All UI components for a given widget layout should be wrapped in a
+`RemoteMaterialTheme` composable. This functions as the entry point for the
+theming system.
 
 ```kotlin
 @RemoteComposable
@@ -143,13 +147,19 @@ fun MyWidgetContent() {
 
 ### Dynamic Theming (System Theme)
 
-By default (when no `colorScheme` is provided), `RemoteMaterialTheme` uses the system's dynamic color scheme. The default `RemoteColorScheme` is pre-configured with tokens that the system renderer resolves to the user's active theme (e.g., based on their watch face colors).
+By default (when no `colorScheme` is provided), `RemoteMaterialTheme` uses the
+system's dynamic color scheme. The default `RemoteColorScheme` is pre-configured
+with tokens that the system renderer resolves to the user's active theme (e.g.,
+based on their watch face colors).
 
-**This is the recommended approach** to ensure widgets feel like a native part of the user's experience.
+**This is the recommended approach** to ensure widgets feel like a native part
+of the user's experience.
 
 ### Custom Theming (Fixed / Brand Colors)
 
-If a specific brand identity is required, you can provide a custom `RemoteColorScheme`. Create an object that inherits from `RemoteColorScheme` and overrides specific color roles.
+If a specific brand identity is required, you can provide a custom
+`RemoteColorScheme`. Create an object that inherits from `RemoteColorScheme` and
+overrides specific color roles.
 
 ```kotlin
 val myCustomScheme = object : RemoteColorScheme() {
@@ -173,7 +183,8 @@ fun MyCustomWidget() {
 
 ### Customizing Component Colors
 
-You can also override colors for a specific component instance by passing a color object (e.g., `RemoteButtonColors`).
+You can also override colors for a specific component instance by passing a
+color object (e.g., `RemoteButtonColors`).
 
 ```kotlin
 RemoteButton(
@@ -185,45 +196,61 @@ RemoteButton(
 ) { ... }
 ```
 
-*Note: Helper functions like `filledTonalButtonColors()` may not be available in the snapshot version, requiring manual construction of color objects.*
+_Note: Helper functions like `filledTonalButtonColors()` may not be available in
+the snapshot version, requiring manual construction of color objects._
 
 ## Widget vs. Tile Configuration
 
-The `WearWidgetProviderInfo` XML configuration allows specifying supported sizes (`SMALL`, `LARGE`) and other metadata. However, the system's behavior depends heavily on how the service is bound.
+The `WearWidgetProviderInfo` XML configuration allows specifying supported sizes
+(`SMALL`, `LARGE`) and other metadata. However, the system's behavior depends
+heavily on how the service is bound.
 
 ### Intent Filters and Binding Precedence
 
-The behavior of the widget depends on which intent filters are declared in `AndroidManifest.xml` and which tool is used to add the tile.
+The behavior of the widget depends on which intent filters are declared in
+`AndroidManifest.xml` and which tool is used to add the tile.
 
-1.  **Both Intents (`BIND_WIDGET_PROVIDER` + `BIND_TILE_PROVIDER`):**
-    *   **Behavior:** Tools like `adb-tile-add` default to the **Tile Protocol**.
-    *   **Result:** `containerType=0` (FULLSCREEN). The system displays the standard header (Icon + Label). XML sizing (`SMALL`/`LARGE`) is ignored.
+1. **Both Intents (`BIND_WIDGET_PROVIDER` + `BIND_TILE_PROVIDER`):**
+   - **Behavior:** Tools like `adb-tile-add` default to the **Tile Protocol**.
+   - **Result:** `containerType=0` (FULLSCREEN). The system displays the
+     standard header (Icon + Label). XML sizing (`SMALL`/`LARGE`) is ignored.
 
-2.  **Tile Only (`BIND_TILE_PROVIDER`):**
-    *   **Behavior:** Forces the **Legacy Tile Protocol**.
-    *   **Result:** `containerType=0` (FULLSCREEN). Standard header (Icon + Label).
+2. **Tile Only (`BIND_TILE_PROVIDER`):**
+   - **Behavior:** Forces the **Legacy Tile Protocol**.
+   - **Result:** `containerType=0` (FULLSCREEN). Standard header (Icon + Label).
 
-3.  **Widget Only (`BIND_WIDGET_PROVIDER`):**
-    *   **Behavior:** Forces the **Widget Protocol**.
-    *   **Result:** `containerType=1` (LARGE) or `2` (SMALL), respecting the XML `preferredType`. The system displays a minimal header (Icon Only).
+3. **Widget Only (`BIND_WIDGET_PROVIDER`):**
+   - **Behavior:** Forces the **Widget Protocol**.
+   - **Result:** `containerType=1` (LARGE) or `2` (SMALL), respecting the XML
+     `preferredType`. The system displays a minimal header (Icon Only).
 
 ### Observable Differences
 
-When forcing the Widget protocol (State 3 above), you can observe distinct differences:
+When forcing the Widget protocol (State 3 above), you can observe distinct
+differences:
 
-- **Logcat:** The `WearWidgetParams` passed to `provideWidgetData` will report different `containerType` and dimensions.
+- **Logcat:** The `WearWidgetParams` passed to `provideWidgetData` will report
+  different `containerType` and dimensions.
   - **LARGE:** `containerType=1` (e.g., height ~96dp)
   - **SMALL:** `containerType=2` (e.g., height ~72dp)
-- **Visual:** The `SMALL` variant typically renders with a shorter height, affecting the layout of centered content compared to the `LARGE` variant.
+- **Visual:** The `SMALL` variant typically renders with a shorter height,
+  affecting the layout of centered content compared to the `LARGE` variant.
 
 ### Header Configuration
 
-The visibility of the widget title (e.g., "Wear Widget") in the system header is determined by the **Binding Protocol** (Tile vs. Widget), not the XML configuration.
+The visibility of the widget title (e.g., "Wear Widget") in the system header is
+determined by the **Binding Protocol** (Tile vs. Widget), not the XML
+configuration.
 
-*   **Show Title (Tile Mode):** When the service is bound as a Tile (default for `adb-tile-add` if `BIND_TILE_PROVIDER` is present), the system displays the **icon and the text label**.
-*   **Hide Title (Widget Mode):** When the service is bound as a Widget (forced by removing `BIND_TILE_PROVIDER`), the system displays the **icon only**.
+- **Show Title (Tile Mode):** When the service is bound as a Tile (default for
+  `adb-tile-add` if `BIND_TILE_PROVIDER` is present), the system displays the
+  **icon and the text label**.
+- **Hide Title (Widget Mode):** When the service is bound as a Widget (forced by
+  removing `BIND_TILE_PROVIDER`), the system displays the **icon only**.
 
-To achieve a "clean" look with no text title during development, you must force the Widget protocol by commenting out the `BIND_TILE_PROVIDER` intent filter in `AndroidManifest.xml`.
+To achieve a "clean" look with no text title during development, you must force
+the Widget protocol by commenting out the `BIND_TILE_PROVIDER` intent filter in
+`AndroidManifest.xml`.
 
 ## Development Guide
 
