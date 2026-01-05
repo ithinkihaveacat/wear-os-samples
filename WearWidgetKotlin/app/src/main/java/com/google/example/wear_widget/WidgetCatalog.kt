@@ -9,16 +9,25 @@ import androidx.compose.remote.creation.compose.action.ValueChange
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
+import androidx.compose.remote.creation.compose.layout.RemoteCanvas
 import androidx.compose.remote.creation.compose.layout.RemoteCollapsibleColumn
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
+import androidx.compose.remote.creation.compose.layout.RemoteColumnScope
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
+import androidx.compose.remote.creation.compose.layout.RemoteOffset
 import androidx.compose.remote.creation.compose.layout.RemoteRow
+import androidx.compose.remote.creation.compose.layout.RemoteRowScope
+import androidx.compose.remote.creation.compose.layout.RemoteSize
 import androidx.compose.remote.creation.compose.layout.RemoteText
+import androidx.compose.remote.creation.compose.layout.rotate
+import androidx.compose.remote.creation.compose.layout.translate
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.animationSpec
 import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.border
+import androidx.compose.remote.creation.compose.modifier.fillMaxHeight
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
+import androidx.compose.remote.creation.compose.modifier.fillMaxWidth
 import androidx.compose.remote.creation.compose.modifier.padding
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.painter.painterRemoteColor
@@ -33,6 +42,8 @@ import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontStyle
@@ -65,7 +76,9 @@ class WidgetCatalog : GlanceWearWidget() {
         context: Context,
         params: WearWidgetParams,
     ): WearWidgetData =
-        WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) { ButtonSample9() }
+        WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) {
+            Material3ThemeSample()
+        }
 }
 
 /**
@@ -909,6 +922,183 @@ fun CounterSample1() {
             ) {
                 MaterialRemoteText("+".rs)
             }
+        }
+    }
+}
+
+/**
+ * A dark screen with "Wear Widget" text under a green Android logo icon. Below the text, there is a
+ * grid of color tiles arranged in rows. These tiles include various shades of red, purple, blue,
+ * brown, grey, and white. There are two black tiles in the bottom row.
+ */
+@RemoteComposable
+@Composable
+fun Material3ThemeSample() {
+    RemoteMaterialTheme {
+        RemoteColumn(modifier = RemoteModifier.fillMaxSize()) {
+            RemoteColorRow {
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.error)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.errorDim)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.errorContainer)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.onError)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.onErrorContainer)
+            }
+            RemoteColorRow {
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.primary)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.primaryDim)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.primaryContainer)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.onPrimary)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.onPrimaryContainer)
+            }
+            RemoteColorRow {
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.secondary)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.secondaryDim)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.secondaryContainer)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.onSecondary)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.onSecondaryContainer)
+            }
+            RemoteColorRow {
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.tertiary)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.tertiaryDim)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.tertiaryContainer)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.onTertiary)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.onTertiaryContainer)
+            }
+            RemoteColorRow {
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.surfaceContainer)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.surfaceContainerLow)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.surfaceContainerHigh)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.onSurface)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            RemoteColorRow {
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.outline)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.outlineVariant)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.background)
+                RemoteColorBox(RemoteMaterialTheme.colorScheme.onBackground)
+            }
+        }
+    }
+}
+
+@RemoteComposable
+@Composable
+private fun RemoteColumnScope.RemoteColorRow(
+    content: @RemoteComposable @Composable RemoteRowScope.() -> Unit
+) {
+    RemoteRow(modifier = RemoteModifier.fillMaxWidth().weight(1f), content = content)
+}
+
+@RemoteComposable
+@Composable
+private fun RemoteRowScope.RemoteColorBox(color: RemoteColor) {
+    RemoteBox(modifier = RemoteModifier.fillMaxHeight().weight(1f).background(color))
+}
+
+/**
+ * In a black UI, the Android logo and the text “Wear Widget” appear at the top. Below, a large red
+ * circle is centered above a horizontal blue rectangle.
+ */
+@RemoteComposable
+@Composable
+fun CanvasSample1() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+            val width = remote.component.width
+            val height = remote.component.height
+            val centerX = width / 2f.rf
+            val centerY = height / 2f.rf
+
+            // Draw a circle
+            drawCircle(color = Color.Red, radius = 50f.rf, center = RemoteOffset(centerX, centerY))
+
+            // Draw a rect
+            drawRect(
+                color = Color.Blue,
+                topLeft = RemoteOffset(centerX - 100f.rf, centerY + 60f.rf),
+                size = RemoteSize(200f.rf, 50f.rf),
+            )
+        }
+    }
+}
+
+/**
+ * A screenshot against a black background. At the top, a circular light-green icon with a
+ * dark-green Android logo sits above the white text "Wear Widget." Centered below, a large
+ * dark-grey rectangle features a bright yellow equilateral triangle in its middle.
+ */
+@RemoteComposable
+@Composable
+fun CanvasSample2() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.DarkGray),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+            val width = remote.component.width
+            val height = remote.component.height
+            val centerX = width / 2f.rf
+            val centerY = height / 2f.rf
+
+            // Draw a triangle path
+            val path =
+                Path().apply {
+                    moveTo(0f, -50f)
+                    lineTo(50f, 50f)
+                    lineTo(-50f, 50f)
+                    close()
+                }
+
+            drawContext.transform.translate(centerX, centerY)
+            drawPath(path = path, color = Color.Yellow)
+        }
+    }
+}
+
+/**
+ * On a black background, a light green Android icon is centered at the top. Below it is the white
+ * text "Wear Widget," and further down is a neon green diamond-shaped button with the white text
+ * "Rotated" in the center.
+ */
+@RemoteComposable
+@Composable
+fun CanvasSample3() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+            val width = remote.component.width
+            val height = remote.component.height
+            val centerX = width / 2f.rf
+            val centerY = height / 2f.rf
+
+            rotate(45f.rf, centerX, centerY) {
+                drawRect(
+                    color = Color.Green,
+                    topLeft = RemoteOffset(centerX - 40f.rf, centerY - 40f.rf),
+                    size = RemoteSize(80f.rf, 80f.rf),
+                )
+            }
+
+            // Anchored Text
+            drawAnchoredText(
+                text = "Rotated".rs,
+                color = Color.White,
+                anchor = RemoteOffset(centerX, centerY),
+                panx = 0f.rf,
+                pany = 0f.rf, // Center
+                alpha = 1f.rf,
+                drawStyle = Fill,
+                typeface = null, // Typeface.DEFAULT
+                textSize = 20f.rf,
+            )
         }
     }
 }
