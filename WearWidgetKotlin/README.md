@@ -122,6 +122,51 @@ adb-screenshot sample_verification.png
 screenshot-describe sample_verification.png
 ```
 
+## Widget vs. Tile Configuration
+
+The `WearWidgetProviderInfo` XML configuration allows specifying supported sizes (`SMALL`, `LARGE`) and other metadata. However, the system's behavior depends heavily on how the service is bound.
+
+### Intent Filters and Binding Precedence
+
+A service can declare support for both the new Widget protocol and the legacy Tile protocol:
+
+```xml
+<intent-filter>
+    <action android:name="androidx.glance.wear.action.BIND_WIDGET_PROVIDER" />
+    <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+</intent-filter>
+```
+
+- **Both Present:** System tools (like `adb-tile-add`) and some surfaces often default to the Tile protocol. This results in a `containerType` of `FULLSCREEN` (0), effectively ignoring the `wearwidget-provider` XML sizing configuration.
+- **Widget Only:** Removing `BIND_TILE_PROVIDER` forces the system to use the Widget protocol. In this mode, `adb-tile-add` respects the `preferredType` defined in the XML (e.g., `SMALL` or `LARGE`).
+
+### Observable Differences
+
+When forcing the Widget protocol (by removing the Tile intent filter), you can observe distinct differences between the `SMALL` and `LARGE` types:
+
+- **Logcat:** The `WearWidgetParams` passed to `provideWidgetData` will report different `containerType` and dimensions.
+  - **LARGE:** `containerType=1` (e.g., height ~96dp)
+  - **SMALL:** `containerType=2` (e.g., height ~72dp)
+- **Visual:** The `SMALL` variant typically renders with a shorter height, affecting the layout of centered content compared to the `LARGE` variant.
+
+### Header Configuration
+
+The visibility of the widget title (e.g., "Wear Widget") in the system header is directly controlled by the `wearwidget-provider` XML configuration.
+
+*   **Hide Title (Icon Only):** Define the `icon` attribute in the `<wearwidget-provider>` tag.
+    ```xml
+    <wearwidget-provider
+        ...
+        icon="@drawable/ic_launcher"
+        ...>
+    ```
+    *Result:* The system displays the specified icon centered at the top, and the text label is **hidden**.
+
+*   **Show Title:** Remove the `icon` attribute from the `<wearwidget-provider>` tag.
+    *Result:* The system falls back to the service's icon and displays the `android:label` text (e.g., "Wear Widget") below or alongside it.
+
+**Verification:** You can verify this by modifying `app/src/main/res/xml/hello_widget_info.xml`, re-installing the app, and re-adding the tile using `adb-tile-add`.
+
 ## Development Guide
 
 ### Using `jetpack-*` Commands with SNAPSHOTs

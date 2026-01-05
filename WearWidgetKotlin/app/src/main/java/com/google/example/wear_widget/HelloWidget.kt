@@ -4,6 +4,7 @@ package com.google.example.wear_widget
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.compose.remote.creation.ExperimentalRemoteCreationApi
 import androidx.compose.remote.creation.compose.painter.painterRemoteColor
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
@@ -34,10 +35,16 @@ class HelloWidget : GlanceWearWidget() {
     override suspend fun provideWidgetData(
         context: Context,
         params: WearWidgetParams,
-    ): WearWidgetData =
-        WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Blue)) {
+    ): WearWidgetData {
+        Log.d(
+            "HelloWidget",
+            "provideWidgetData: containerType=${params.containerType}, " +
+                "width=${params.widthDp}, height=${params.heightDp}"
+        )
+        return WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Blue)) {
             HelloWidgetContent()
         }
+    }
 }
 
 @RemoteComposable

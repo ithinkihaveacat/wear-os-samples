@@ -15,7 +15,7 @@
   -->
 <wearwidget-provider
     description="@string/hello_widget_description"
-    group="catalog"
+    group="investigation_group"
     icon="@drawable/ic_launcher"
     label="@string/hello_widget_label"
     preferredType="@integer/glance_wear_container_type_small">
