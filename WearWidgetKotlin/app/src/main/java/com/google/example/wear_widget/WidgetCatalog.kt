@@ -82,7 +82,7 @@ class WidgetCatalog : GlanceWearWidget() {
         context: Context,
         params: WearWidgetParams,
     ): WearWidgetData =
-        WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) {
+        WearWidgetDocument(backgroundColor = Color.Black) {
             ButtonSample1()
         }
 }

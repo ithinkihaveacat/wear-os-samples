@@ -41,7 +41,7 @@ class HelloWidget : GlanceWearWidget() {
             "provideWidgetData: containerType=${params.containerType}, " +
                 "width=${params.widthDp}, height=${params.heightDp}"
         )
-        return WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Blue)) {
+        return WearWidgetDocument(backgroundColor = Color.Blue) {
             HelloWidgetContent()
         }
     }
