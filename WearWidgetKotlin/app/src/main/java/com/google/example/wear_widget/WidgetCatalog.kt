@@ -21,6 +21,7 @@ import androidx.compose.remote.creation.compose.layout.RemoteSize
 import androidx.compose.remote.creation.compose.layout.RemoteText
 import androidx.compose.remote.creation.compose.layout.rotate
 import androidx.compose.remote.creation.compose.layout.translate
+import androidx.compose.remote.creation.compose.modifier.BlurEffect
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.animationSpec
 import androidx.compose.remote.creation.compose.modifier.background
@@ -28,9 +29,13 @@ import androidx.compose.remote.creation.compose.modifier.border
 import androidx.compose.remote.creation.compose.modifier.fillMaxHeight
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.fillMaxWidth
+import androidx.compose.remote.creation.compose.modifier.graphicsLayer
 import androidx.compose.remote.creation.compose.modifier.padding
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.painter.painterRemoteColor
+import androidx.compose.remote.creation.compose.shaders.RemoteBrush
+import androidx.compose.remote.creation.compose.shaders.RemoteLinearGradient
+import androidx.compose.remote.creation.compose.shaders.linearGradient
 import androidx.compose.remote.creation.compose.shapes.RemoteRoundedCornerShape
 import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.rb
@@ -77,8 +82,30 @@ class WidgetCatalog : GlanceWearWidget() {
         params: WearWidgetParams,
     ): WearWidgetData =
         WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) {
-            Material3ThemeSample()
+            GradientBackgroundSample()
         }
+}
+
+/**
+ * A sample demonstrating a crash when using Infinite offset for gradient end.
+ */
+@RemoteComposable
+@Composable
+fun GradientBackgroundSampleCrash() {
+    val gradient = RemoteBrush.linearGradient(
+        colors = listOf(Color.Red, Color.Blue),
+        start = RemoteOffset.Zero,
+        end = RemoteOffset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
+    )
+    RemoteBox(
+        modifier = RemoteModifier
+            .fillMaxSize()
+            .background(brush = gradient),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center
+    ) {
+        MaterialRemoteText("Gradient Crash".rs)
+    }
 }
 
 /**
@@ -112,9 +139,7 @@ fun SystemThemeComparisonSample() {
                             disabledSecondaryContentColor = Color.LightGray.rc,
                             disabledIconColor = Color.LightGray.rc,
                         ),
-                ) {
-                    MaterialRemoteText("Secondary Button".rs)
-                }
+                ) { MaterialRemoteText("Secondary Button".rs) }
             }
         }
     }
@@ -194,9 +219,7 @@ fun AustralianThemeSample() {
                             disabledSecondaryContentColor = Color.LightGray.rc,
                             disabledIconColor = Color.LightGray.rc,
                         ),
-                ) {
-                    MaterialRemoteText("Secondary (Red)".rs)
-                }
+                ) { MaterialRemoteText("Secondary (Red)".rs) }
             }
         }
     }
@@ -1099,6 +1122,83 @@ fun CanvasSample3() {
                 typeface = null, // Typeface.DEFAULT
                 textSize = 20f.rf,
             )
+        }
+    }
+}
+
+/**
+ * In a vertical layout on a black background, a small Android icon sits above the white text "Wear
+ * Widget." Below, a large rectangular box with a red-to-blue linear gradient contains the white
+ * text "Gradient Background" centered inside.
+ */
+@RemoteComposable
+@Composable
+fun GradientBackgroundSample() {
+    val gradient = RemoteLinearGradient(
+        colors = listOf(Color.Red, Color.Blue),
+        start = RemoteOffset.Zero,
+        end = null
+    )
+    RemoteBox(
+        modifier = RemoteModifier
+            .fillMaxSize()
+            .background(brush = gradient),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center
+    ) {
+        MaterialRemoteText("Gradient Background".rs)
+    }
+}
+
+/**
+ * A sample demonstrating a Blur Effect using RemoteModifier.graphicsLayer.
+ */
+@RemoteComposable
+@Composable
+fun BlurSample() {
+    RemoteBox(
+        modifier = RemoteModifier
+            .fillMaxSize()
+            .background(Color.Black),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center
+    ) {
+        // A red box with a blur effect applied
+        RemoteBox(
+            modifier = RemoteModifier
+                .size(100.rdp)
+                .background(Color.Red)
+                .graphicsLayer(renderEffect = BlurEffect(radiusX = 10f, radiusY = 10f))
+        )
+        
+        // Text overlay (not blurred because it's a sibling, not child of the blurred box)
+        MaterialRemoteText("Blurred Box".rs)
+    }
+}
+
+/**
+ * A sample demonstrating Opacity using RemoteModifier.graphicsLayer.
+ */
+@RemoteComposable
+@Composable
+fun OpacitySample() {
+     RemoteBox(
+        modifier = RemoteModifier
+            .fillMaxSize()
+            .background(Color.Black),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center
+    ) {
+        // A red box with 50% opacity
+        RemoteBox(
+            modifier = RemoteModifier
+                .size(100.rdp)
+                .background(Color.Red)
+                .graphicsLayer(alpha = 0.5f.rf),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center
+        ) {
+             MaterialRemoteText("50%".rs)
         }
     }
 }
