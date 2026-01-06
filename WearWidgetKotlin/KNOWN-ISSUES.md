@@ -210,8 +210,6 @@ imposes several constraints:
 
 ## `RemoteModifier.graphicsLayer` Rendering Failures
 
-b/473745800
-
 **Symptom:** The tile fails to load and does not appear (or shows a black screen)
 when using `RemoteModifier.graphicsLayer`. Logs indicate a "Failed to render and
 attach the tile" error.
@@ -231,3 +229,28 @@ attach the tile" error.
 **Context:** The current snapshot of the library and/or the
 `ProtoLayoutRenderer` (version 1.5.7.dev) appears to have incomplete support for
 these graphics layer operations.
+
+## Crash using `RemoteBrush.linearGradient` with `Offset.Infinite`
+
+b/473617206
+
+**Symptom:** Passing `RemoteOffset(Float.POSITIVE_INFINITY, ...)` to
+`RemoteBrush.linearGradient` causes the System UI process to crash with an
+`IllegalArgumentException`.
+
+**Workaround:** Instantiate `RemoteLinearGradient` directly and pass `null` for
+the `end` parameter. This triggers the fallback logic that correctly uses the
+component's bounds.
+
+```kotlin
+// CRASHES:
+RemoteBrush.linearGradient(..., end = RemoteOffset(Float.POSITIVE_INFINITY, ...))
+
+// WORKS:
+RemoteLinearGradient(..., end = null)
+```
+
+**Context:** The underlying `RemoteLinearGradient` implementation does not handle
+infinite values for the `end` parameter, passing them directly to the native
+Android `LinearGradient`, which rejects them. Passing `null` activates the
+correct logic to use the component's size.
