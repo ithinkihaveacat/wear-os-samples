@@ -332,7 +332,7 @@ This codebase requires specialized shell scripts for efficient development.
 
 *   **`adb-tile-add <COMPONENT>`**: Registers and displays a new tile service.
 *   **`adb-tile-show <INDEX>`**: Scrolls to a specific tile index.
-*   **`adb-screenshot <FILENAME>`**: Captures a screenshot.
+*   **`adb-screenshot <FILENAME>`**: Captures a screenshot. (Note: Wait a few seconds after showing a tile to ensure rendering is complete before capturing.)
 *   **`screenshot-describe <FILENAME>`**: Generates a text description of a screenshot (for agents).
 *   **`screenshot-compare <IMAGE1> <IMAGE2> [PROMPT]`**: Compares two screenshots using the Gemini API to identify visual differences like layout shifts, color changes, padding, or text updates.
 *   **`jetpack-inspect <ARTIFACT> SNAPSHOT`**: Downloads source code for AndroidX libraries. **Must** use `SNAPSHOT` for these libraries.

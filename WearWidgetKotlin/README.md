@@ -94,6 +94,8 @@ show it on the device.
 adb-tile-add com.google.example.wear_widget/.WidgetCatalogService
 ```
 
+**Note:** After running `adb-tile-add` (or any command to show the tile), **wait at least 3 seconds** before taking a screenshot. There is often a rendering delay. If the screenshot does not look as expected (verify using `screenshot-describe` or `screenshot-compare`), wait a bit longer and retake it. In rare cases, running the command sequence again may be necessary, but usually, waiting and retaking is sufficient.
+
 Finally, verify the tile is displayed correctly by taking a screenshot. The
 screenshot can be reviewed manually, but if the reader is an agent, they should
 use the `screenshot-describe` command. It is good practice to take a baseline
