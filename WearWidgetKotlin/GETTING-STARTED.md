@@ -36,6 +36,8 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven {
+            // The number in the URL (14666938) is essentially a version number. 
+            // We recommend using this specific number for now.
             url = uri("https://androidx.dev/snapshots/builds/14666938/artifacts/repository")
         }
     }
@@ -62,6 +64,138 @@ dependencies {
     implementation("androidx.wear.tiles:tiles-tooling-preview:1.5.0")
     debugImplementation("androidx.wear.tiles:tiles-renderer:1.5.0")
 }
+```
+
+## Building a Hello World Widget
+
+A Wear Widget consists of a service extending `GlanceWearWidgetService` and a widget class extending `GlanceWearWidget`. The UI is defined using `@RemoteComposable` functions.
+
+### 1. Define the Service
+
+The service is the entry point that the system binds to.
+
+```kotlin
+class HelloWidgetService : GlanceWearWidgetService() {
+    override val widget: GlanceWearWidget = HelloWidget()
+}
+```
+
+### 2. Define the Widget
+
+The widget class provides the data and layout for the widget.
+
+```kotlin
+class HelloWidget : GlanceWearWidget() {
+    override suspend fun provideWidgetData(
+        context: Context,
+        params: WearWidgetParams,
+    ): WearWidgetData {
+        return WearWidgetDocument(backgroundColor = Color.Blue) {
+            HelloWidgetContent()
+        }
+    }
+}
+```
+
+### 3. Define the Content
+
+The content is built using Remote Compose components.
+
+```kotlin
+@RemoteComposable
+@Composable
+fun HelloWidgetContent() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteText(
+            text = "Hello World", 
+            color = RemoteColor(Color.White)
+        )
+    }
+}
+```
+
+### 4. Create the Widget Configuration XML
+
+Create a new file `res/xml/hello_widget_info.xml` to define the widget's properties and supported sizes.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<wearwidget-provider
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/hello_widget_description"
+    android:icon="@drawable/ic_launcher"
+    android:label="@string/hello_widget_label"
+    android:preferredType="small">
+
+    <container android:type="small" />
+    <container android:type="large" />
+
+</wearwidget-provider>
+```
+
+### 5. Register in AndroidManifest.xml
+
+Register the service in your `AndroidManifest.xml` with the required intent filters and metadata.
+
+```xml
+<service
+    android:name=".HelloWidgetService"
+    android:exported="true"
+    android:icon="@drawable/ic_launcher"
+    android:label="@string/hello_widget_label"
+    android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+
+    <intent-filter>
+        <action android:name="androidx.glance.wear.action.BIND_WIDGET_PROVIDER" />
+        <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+    </intent-filter>
+
+    <meta-data
+        android:name="androidx.glance.wear.widget.provider"
+        android:resource="@xml/hello_widget_info" />
+
+    <meta-data
+        android:name="androidx.wear.tiles.PREVIEW"
+        android:resource="@drawable/tile_preview" />
+</service>
+```
+
+### 6. Build and Deploy
+
+#### Build and Install
+
+Build the project and install the debug APK onto your connected device or emulator:
+
+```bash
+./gradlew :app:installDebug
+```
+
+#### Add and Display the Tile
+
+Once the app is installed, you can use ADB to programmatically add and show the tile.
+
+**1. Add the tile:**
+
+```bash
+adb shell am broadcast \
+  -a com.google.android.wearable.app.DEBUG_SURFACE \
+  --es operation add-tile \
+  --ecn component com.google.example.wear_widget/.HelloWidgetService
+```
+
+**2. Show the tile:**
+
+(Assuming this is the first tile added, it will be at index 0.)
+
+```bash
+adb shell am broadcast \
+  -a com.google.android.wearable.app.DEBUG_SYSUI \
+  --es operation show-tile \
+  --ei index 0
 ```
 
 ## Widget Theming
