@@ -210,21 +210,21 @@ imposes several constraints:
 
 ## `RemoteModifier.graphicsLayer` Rendering Failures
 
-**Symptom:** The tile fails to load and does not appear (or shows a black screen)
-when using `RemoteModifier.graphicsLayer`. Logs indicate a "Failed to render and
-attach the tile" error.
+**Symptom:** The tile fails to load and does not appear (or shows a black
+screen) when using `RemoteModifier.graphicsLayer`. Logs indicate a "Failed to
+render and attach the tile" error.
 
 **Affected Properties:**
 
--   `renderEffect` (used for Blur)
--   `alpha` (used for Opacity)
+- `renderEffect` (used for Blur)
+- `alpha` (used for Opacity)
 
 **Workarounds:**
 
--   **For Opacity:** Apply alpha directly to the color instead of using the
-    modifier (e.g., `Color.Red.copy(alpha = 0.5f).rc`).
--   **For Blur:** There is no known workaround at this time. Avoid using blur
-    effects until supported by the library/renderer.
+- **For Opacity:** Apply alpha directly to the color instead of using the
+  modifier (e.g., `Color.Red.copy(alpha = 0.5f).rc`).
+- **For Blur:** There is no known workaround at this time. Avoid using blur
+  effects until supported by the library/renderer.
 
 **Context:** The current snapshot of the library and/or the
 `ProtoLayoutRenderer` (version 1.5.7.dev) appears to have incomplete support for
@@ -250,7 +250,7 @@ RemoteBrush.linearGradient(..., end = RemoteOffset(Float.POSITIVE_INFINITY, ...)
 RemoteLinearGradient(..., end = null)
 ```
 
-**Context:** The underlying `RemoteLinearGradient` implementation does not handle
-infinite values for the `end` parameter, passing them directly to the native
-Android `LinearGradient`, which rejects them. Passing `null` activates the
-correct logic to use the component's size.
+**Context:** The underlying `RemoteLinearGradient` implementation does not
+handle infinite values for the `end` parameter, passing them directly to the
+native Android `LinearGradient`, which rejects them. Passing `null` activates
+the correct logic to use the component's size.
