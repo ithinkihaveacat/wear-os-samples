@@ -183,7 +183,7 @@ wrapper when assigning single actions using named arguments.
    ```
 
    _Note: When passing an existing array of actions to the named parameter, pass
-   it directly without the spread operator (`_`).\*
+   it directly without the spread operator (`*`)._
 
    ```kotlin
    val myActions = arrayOf(ValueChange(...), LaunchActivity(...))
@@ -207,3 +207,27 @@ imposes several constraints:
    "captured" and serialized during composition, not at the moment of the click.
 5. **Limited API:** You are restricted to the side effects supported by the
    `Action` API.
+
+## `RemoteModifier.graphicsLayer` Rendering Failures
+
+b/473745800
+
+**Symptom:** The tile fails to load and does not appear (or shows a black screen)
+when using `RemoteModifier.graphicsLayer`. Logs indicate a "Failed to render and
+attach the tile" error.
+
+**Affected Properties:**
+
+-   `renderEffect` (used for Blur)
+-   `alpha` (used for Opacity)
+
+**Workarounds:**
+
+-   **For Opacity:** Apply alpha directly to the color instead of using the
+    modifier (e.g., `Color.Red.copy(alpha = 0.5f).rc`).
+-   **For Blur:** There is no known workaround at this time. Avoid using blur
+    effects until supported by the library/renderer.
+
+**Context:** The current snapshot of the library and/or the
+`ProtoLayoutRenderer` (version 1.5.7.dev) appears to have incomplete support for
+these graphics layer operations.
