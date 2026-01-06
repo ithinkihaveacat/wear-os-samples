@@ -56,6 +56,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.layer.CompositingStrategy
 import androidx.glance.wear.GlanceWearWidget
 import androidx.glance.wear.GlanceWearWidgetService
 import androidx.glance.wear.WearWidgetData
@@ -82,7 +83,7 @@ class WidgetCatalog : GlanceWearWidget() {
         params: WearWidgetParams,
     ): WearWidgetData =
         WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) {
-            GradientBackgroundSample()
+            ButtonSample1()
         }
 }
 
@@ -1147,58 +1148,5 @@ fun GradientBackgroundSample() {
         verticalArrangement = RemoteArrangement.Center
     ) {
         MaterialRemoteText("Gradient Background".rs)
-    }
-}
-
-/**
- * A sample demonstrating a Blur Effect using RemoteModifier.graphicsLayer.
- */
-@RemoteComposable
-@Composable
-fun BlurSample() {
-    RemoteBox(
-        modifier = RemoteModifier
-            .fillMaxSize()
-            .background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center
-    ) {
-        // A red box with a blur effect applied
-        RemoteBox(
-            modifier = RemoteModifier
-                .size(100.rdp)
-                .background(Color.Red)
-                .graphicsLayer(renderEffect = BlurEffect(radiusX = 10f, radiusY = 10f))
-        )
-        
-        // Text overlay (not blurred because it's a sibling, not child of the blurred box)
-        MaterialRemoteText("Blurred Box".rs)
-    }
-}
-
-/**
- * A sample demonstrating Opacity using RemoteModifier.graphicsLayer.
- */
-@RemoteComposable
-@Composable
-fun OpacitySample() {
-     RemoteBox(
-        modifier = RemoteModifier
-            .fillMaxSize()
-            .background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center
-    ) {
-        // A red box with 50% opacity
-        RemoteBox(
-            modifier = RemoteModifier
-                .size(100.rdp)
-                .background(Color.Red)
-                .graphicsLayer(alpha = 0.5f.rf),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center
-        ) {
-             MaterialRemoteText("50%".rs)
-        }
     }
 }

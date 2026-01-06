@@ -1264,3 +1264,40 @@ fun CanvasSample3() {
     }
 }
 ```
+
+## GradientBackgroundSample
+
+In a vertical layout on a black background, a small Android icon sits above the white text "Wear
+Widget." Below, a large rectangular box with a red-to-blue linear gradient contains the white
+text "Gradient Background" centered inside.
+
+![GradientBackgroundSample](GradientBackgroundSample.png)
+
+```kotlin
+/**
+ * In a vertical layout on a black background, a small Android icon sits above the white text "Wear
+ * Widget." Below, a large rectangular box with a red-to-blue linear gradient contains the white
+ * text "Gradient Background" centered inside.
+ */
+@RemoteComposable
+@Composable
+fun GradientBackgroundSample() {
+    val gradient = RemoteLinearGradient(
+        colors = listOf(Color.Red, Color.Blue),
+        start = RemoteOffset.Zero,
+        end = null
+    )
+    RemoteBox(
+        modifier = RemoteModifier
+            .fillMaxSize()
+            .background(brush = gradient),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center
+    ) {
+        MaterialRemoteText("Gradient Background".rs)
+    }
+}
+```
+
+
+
