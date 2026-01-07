@@ -162,6 +162,10 @@ Register the service in your `AndroidManifest.xml` with the required intent filt
         android:name="androidx.wear.tiles.PREVIEW"
         android:resource="@drawable/tile_preview" />
 </service>
+
+**Supporting Tiles and Widgets**
+
+To support both standard Wear OS Tiles and new Wear Widgets within the same service, you must declare intent actions for both protocols. Note that both use the `com.google.android.wearable.permission.BIND_TILE_PROVIDER` permission. This is because, at the operating system level, both are managed by the Tile Manager, which requires this specific permission to bind to the service. The system distinguishes between the legacy Tile protocol and the new Widget protocol during discovery using the specific intent actions: `BIND_TILE_PROVIDER` and `BIND_WIDGET_PROVIDER` respectively.
 ```
 
 ### 6. Build and Deploy
