@@ -5,7 +5,8 @@ playServicesWearable = "19.0.0"
 kotlin = "2.2.21"
 composeBom = "2025.12.00"
 dependencyAnalysis = "3.5.1"
-remoteCompose = "1.0.0-SNAPSHOT"
+remoteComposeSnapshot = "1.0.0-SNAPSHOT"
+remoteComposeAlpha = "1.0.0-alpha01"
 runtime = "1.10.0"
 uiTooling = "1.10.0"
 wear = "1.0.0-SNAPSHOT"
@@ -18,7 +19,9 @@ androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref =
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 play-services-wearable = { group = "com.google.android.gms", name = "play-services-wearable", version.ref = "playServicesWearable" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-remote-creation-compose = { module = "androidx.compose.remote:remote-creation-compose", version.ref = "remoteCompose" }
+remote-creation-compose = { module = "androidx.compose.remote:remote-creation-compose", version.ref = "remoteComposeAlpha" }
+remote-creation = { module = "androidx.compose.remote:remote-creation", version.ref = "remoteComposeAlpha" }
+remote-creation-core = { module = "androidx.compose.remote:remote-creation-core", version.ref = "remoteComposeAlpha" }
 runtime = { module = "androidx.compose.runtime:runtime", version.ref = "runtime" }
 ui = { group = "androidx.compose.ui", name = "ui" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -28,9 +31,9 @@ wear = { module = "androidx.glance.wear:wear", version.ref = "wear" }
 wear-core = { module = "androidx.glance.wear:wear-core", version.ref = "wearCore" }
 wear-tooling-preview = { module = "androidx.wear:wear-tooling-preview", version.ref = "wearToolingPreview" }
 wear-compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling", version.ref = "composeMaterial" }
-remote-tooling-preview = { module = "androidx.compose.remote:remote-tooling-preview", version.ref = "remoteCompose" }
-remote-material3 = { module = "androidx.wear.compose.remote:remote-material3", version.ref = "remoteCompose" }
-remote-core = { module = "androidx.compose.remote:remote-core", version.ref = "remoteCompose" }
+remote-tooling-preview = { module = "androidx.compose.remote:remote-tooling-preview", version.ref = "remoteComposeAlpha" }
+remote-material3 = { module = "androidx.wear.compose.remote:remote-material3", version.ref = "remoteComposeSnapshot" }
+remote-core = { module = "androidx.compose.remote:remote-core", version.ref = "remoteComposeAlpha" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
