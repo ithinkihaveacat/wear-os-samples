@@ -80,6 +80,8 @@ dependencies {
 
     // Libraries still on SNAPSHOT
     implementation("androidx.wear.compose.remote:remote-material3:1.0.0-SNAPSHOT")
+    implementation("androidx.glance.wear:wear:1.0.0-SNAPSHOT")
+    implementation("androidx.glance.wear:wear-core:1.0.0-SNAPSHOT")
 
     // Support for Wear Tiles
     implementation("androidx.wear.tiles:tiles:1.5.0")
@@ -97,6 +99,8 @@ dependencies {
 A Wear Widget consists of a service extending `GlanceWearWidgetService` and a
 widget class extending `GlanceWearWidget`. The UI is defined using
 `@RemoteComposable` functions.
+
+**Note:** You must add `@file:SuppressLint("RestrictedApi")` to the top of your Kotlin file to use the Alpha APIs.
 
 ### 1. Define the Service
 
@@ -154,14 +158,13 @@ properties and supported sizes.
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <wearwidget-provider
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:description="@string/hello_widget_description"
-    android:icon="@drawable/ic_launcher"
-    android:label="@string/hello_widget_label"
-    android:preferredType="small">
+    description="@string/hello_widget_description"
+    icon="@mipmap/ic_launcher"
+    label="@string/hello_widget_label"
+    preferredType="@integer/glance_wear_container_type_small">
 
-    <container android:type="small" />
-    <container android:type="large" />
+    <container type="@integer/glance_wear_container_type_small" />
+    <container type="@integer/glance_wear_container_type_large" />
 
 </wearwidget-provider>
 ```
@@ -169,13 +172,13 @@ properties and supported sizes.
 ### 5. Register in AndroidManifest.xml
 
 Register the service in your `AndroidManifest.xml` with the required intent
-filters and metadata.
+filters and metadata. Note that you will need to provide a `@drawable/tile_preview` image resource.
 
 ```xml
 <service
     android:name=".HelloWidgetService"
     android:exported="true"
-    android:icon="@drawable/ic_launcher"
+    android:icon="@mipmap/ic_launcher"
     android:label="@string/hello_widget_label"
     android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
 
@@ -233,6 +236,10 @@ adb shell am broadcast \
   --es operation show-tile \
   --ei index 0
 ```
+
+**Outcome:** Following these steps will add a new Hello World widget to your device. You can verify it by swiping through the tile carousel.
+
+![Hello World Widget](screenshots/hello_world_widget.png)
 
 ## Core Concepts and Implementation
 
