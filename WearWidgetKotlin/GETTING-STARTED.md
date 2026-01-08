@@ -460,6 +460,57 @@ This codebase requires specialized shell scripts for efficient development.
   AndroidX libraries. Use `ALPHA` for migrated libraries (e.g., `remote-core`)
   and `SNAPSHOT` for those still in development.
 
+## Troubleshooting
+
+### Build Failure: minSdk version conflict
+
+**Symptom:** The build fails with a manifest merger error indicating that a
+library's `minSdk` (e.g., 29) is higher than the application's `minSdk` (e.g.,
+26).
+
+**Resolution:**
+
+1. **Option 1 (Recommended):** Increase the app's `minSdk` to 29 or higher in
+   `build.gradle.kts`.
+2. **Option 2:** Use the `overrideLibrary` marker to suppress the error.
+
+To use `overrideLibrary`, add the `tools` namespace and the attribute to your
+`AndroidManifest.xml`. You may need to list multiple libraries if the conflict
+propagates.
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-sdk tools:overrideLibrary="androidx.wear.compose.remote.material3, androidx.glance.wear.core, androidx.glance.wear"/>
+    ...
+</manifest>
+```
+
+For more information, see
+[Override uses-sdk for imported libraries](https://developer.android.com/build/manage-manifests#override_uses-sdk_for_imported_libraries).
+
+### Runtime Issue: Blank Screen (Package Name Restriction)
+
+**Symptom:** The widget adds successfully but displays as a completely black
+screen.
+
+![Blank Widget](screenshots/widget_blank.png)
+
+**Cause:** The renderer enforces a package name allowlist. If your package is
+not on the list, the UI will not render.
+
+**Diagnosis:** Check the device logs for the error "Provider is not allowlisted
+for Remote Compose".
+
+**Log Extract:**
+
+```text
+01-08 06:21:02.164 10032 28409 28409 E ProtoTilesTileRendererImpl: Error getting tile response com.example.android.wearable.composestarter/.HelloWidgetService
+01-08 06:21:02.164 10032 28409 28409 E ProtoTilesTileRendererImpl: java.util.concurrent.ExecutionException: awk: Provider is not allowlisted for Remote Compose. com.example.android.wearable.composestarter/.HelloWidgetService
+01-08 06:21:02.164 10032 28409 28409 E ProtoTilesTileRendererImpl: Caused by: awk: Provider is not allowlisted for Remote Compose. com.example.android.wearable.composestarter/.HelloWidgetService
+```
+
 ## Known Issues and Limitations
 
 This section tracks technical hurdles and API limitations in the current
