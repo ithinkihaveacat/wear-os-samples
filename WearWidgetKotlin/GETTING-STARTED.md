@@ -100,7 +100,8 @@ A Wear Widget consists of a service extending `GlanceWearWidgetService` and a
 widget class extending `GlanceWearWidget`. The UI is defined using
 `@RemoteComposable` functions.
 
-**Note:** You must add `@file:SuppressLint("RestrictedApi")` to the top of your Kotlin file to use the Alpha APIs.
+**Note:** You must add `@file:SuppressLint("RestrictedApi")` to the top of your
+Kotlin file to use the Alpha APIs.
 
 ### 1. Define the Service
 
@@ -201,7 +202,10 @@ properties and supported sizes.
 Register the service in your `AndroidManifest.xml` with the required intent
 filters and metadata.
 
-**Note:** You will need to provide a `@drawable/tile_preview` image resource. For a quick start, you can create a simple vector drawable in `res/drawable/tile_preview.xml` or temporarily reference an existing icon (e.g., `@mipmap/ic_launcher` if accessible as a drawable).
+**Note:** You will need to provide a `@drawable/tile_preview` image resource.
+For a quick start, you can create a simple vector drawable in
+`res/drawable/tile_preview.xml` or temporarily reference an existing icon (e.g.,
+`@mipmap/ic_launcher` if accessible as a drawable).
 
 ```xml
 <service
@@ -248,7 +252,9 @@ tile.
 
 **1. Add the tile:**
 
-Replace `com.google.example.wear_widget` with your app's package name (e.g., `com.example.myapp`) and ensure the service path (`.HelloWidgetService`) is correct.
+Replace `com.google.example.wear_widget` with your app's package name (e.g.,
+`com.example.myapp`) and ensure the service path (`.HelloWidgetService`) is
+correct.
 
 ```bash
 adb shell am broadcast \
@@ -268,7 +274,8 @@ adb shell am broadcast \
   --ei index 0
 ```
 
-**Outcome:** Following these steps will add a new Hello World widget to your device. You can verify it by swiping through the tile carousel.
+**Outcome:** Following these steps will add a new Hello World widget to your
+device. You can verify it by swiping through the tile carousel.
 
 ![Hello World Widget](screenshots/hello_world_widget.png)
 
