@@ -707,3 +707,19 @@ adb-tile-add --type LARGE "$COMPONENT"
 currently tied to the `GlanceWearWidgetService` lifecycle. Rapid service
 restarts can cause a new service to start before the previous one has fully
 released the DataStore file lock.
+
+### Preview Limitations
+
+b/431932822
+
+**Symptom:** When using `@Preview` or `@WearPreviewDevices` with
+`RemotePreview`, Android Studio may not display all defined previews correctly,
+especially when multiple previews are in the same file. You might encounter
+issues such as only the first preview rendering, or previews not updating as
+expected.
+
+**Workaround:** Deploying the widget to an emulator or physical device provides
+the most reliable method to confirm the appearance and behavior.
+
+**Context:** These are known limitations related to the Android Studio preview
+tooling for Compose-based UIs, including Remote Compose.

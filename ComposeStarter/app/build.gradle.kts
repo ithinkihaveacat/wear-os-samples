@@ -88,6 +88,24 @@ dependencies {
     // https://issuetracker.google.com/issues/new?component=1077552&template=1598429&pli=1
     implementation(libs.wear.compose.material)
 
+    // Core Wear Widget / Remote Compose libraries (ALPHA)
+    implementation("androidx.compose.remote:remote-creation-compose:1.0.0-alpha01")
+    implementation("androidx.compose.remote:remote-core:1.0.0-alpha01")
+
+    // Libraries still on SNAPSHOT
+    implementation("androidx.wear.compose.remote:remote-material3:1.0.0-SNAPSHOT")
+    implementation("androidx.glance.wear:wear:1.0.0-SNAPSHOT")
+    implementation("androidx.glance.wear:wear-core:1.0.0-SNAPSHOT")
+
+    // Support for Wear Tiles
+    implementation("androidx.wear.tiles:tiles:1.5.0")
+
+    // Tooling for previews (optional, but recommended)
+    implementation("androidx.compose.remote:remote-tooling-preview:1.0.0-alpha01")
+    implementation("androidx.wear.compose:compose-ui-tooling:1.5.6")
+    implementation("androidx.wear.tiles:tiles-tooling-preview:1.5.0")
+    debugImplementation("androidx.wear.tiles:tiles-renderer:1.5.0")
+
     // Foundation is additive, so you can use the mobile version in your Wear OS app.
     implementation(libs.wear.compose.foundation)
     implementation(libs.androidx.material.icons.core)

@@ -29,6 +29,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            // Required for libraries still on SNAPSHOT (e.g., remote-material3)
+            url = uri("https://androidx.dev/snapshots/builds/14666938/artifacts/repository")
+        }
     }
 }
 
