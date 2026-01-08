@@ -588,3 +588,26 @@ RemoteLinearGradient(..., end = null)
 handle infinite values for the `end` parameter, passing them directly to the
 native Android `LinearGradient`, which rejects them. Passing `null` activates
 the correct logic to use the component's size.
+
+### Rapid Tile Re-addition Causes Crash (DataStore Conflict)
+
+b/474292165
+
+**Symptom:** The app process crashes with
+`IllegalStateException: There are multiple DataStores active`. This may occur
+during development or QA when using automated scripts to rapidly remove and
+re-add widgets (or switch widget types) via ADB.
+
+**Workaround:** Force-stop the app process between remove and add commands to
+ensure the DataStore lock is released.
+
+```bash
+adb-tile-remove "$COMPONENT"
+adb shell am force-stop com.google.example.wear_widget
+adb-tile-add --type LARGE "$COMPONENT"
+```
+
+**Context:** The `WearWidgetCache` maintains a `DataStore` instance that is
+currently tied to the `GlanceWearWidgetService` lifecycle. Rapid service
+restarts can cause a new service to start before the previous one has fully
+released the DataStore file lock.
