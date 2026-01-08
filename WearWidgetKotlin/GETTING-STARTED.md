@@ -107,6 +107,11 @@ widget class extending `GlanceWearWidget`. The UI is defined using
 The service is the entry point that the system binds to.
 
 ```kotlin
+import android.annotation.SuppressLint
+import androidx.glance.wear.GlanceWearWidget
+import androidx.glance.wear.GlanceWearWidgetService
+
+@SuppressLint("RestrictedApi")
 class HelloWidgetService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = HelloWidget()
 }
@@ -117,6 +122,15 @@ class HelloWidgetService : GlanceWearWidgetService() {
 The widget class provides the data and layout for the widget.
 
 ```kotlin
+import android.annotation.SuppressLint
+import android.content.Context
+import androidx.compose.ui.graphics.Color
+import androidx.glance.wear.GlanceWearWidget
+import androidx.glance.wear.WearWidgetData
+import androidx.glance.wear.WearWidgetDocument
+import androidx.glance.wear.WearWidgetParams
+
+@SuppressLint("RestrictedApi")
 class HelloWidget : GlanceWearWidget() {
     override suspend fun provideWidgetData(
         context: Context,
@@ -134,6 +148,19 @@ class HelloWidget : GlanceWearWidget() {
 The content is built using Remote Compose components.
 
 ```kotlin
+import android.annotation.SuppressLint
+import androidx.compose.remote.creation.compose.layout.RemoteBox
+import androidx.compose.remote.creation.compose.layout.RemoteComposable
+import androidx.compose.remote.creation.compose.layout.RemoteAlignment
+import androidx.compose.remote.creation.compose.layout.RemoteArrangement
+import androidx.compose.remote.creation.compose.layout.RemoteText
+import androidx.compose.remote.creation.compose.modifier.RemoteModifier
+import androidx.compose.remote.creation.compose.modifier.fillMaxSize
+import androidx.compose.remote.creation.compose.state.RemoteColor
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+
+@SuppressLint("RestrictedApi")
 @RemoteComposable
 @Composable
 fun HelloWidgetContent() {
@@ -172,7 +199,9 @@ properties and supported sizes.
 ### 5. Register in AndroidManifest.xml
 
 Register the service in your `AndroidManifest.xml` with the required intent
-filters and metadata. Note that you will need to provide a `@drawable/tile_preview` image resource.
+filters and metadata.
+
+**Note:** You will need to provide a `@drawable/tile_preview` image resource. For a quick start, you can create a simple vector drawable in `res/drawable/tile_preview.xml` or temporarily reference an existing icon (e.g., `@mipmap/ic_launcher` if accessible as a drawable).
 
 ```xml
 <service
@@ -218,6 +247,8 @@ Once the app is installed, you can use ADB to programmatically add and show the
 tile.
 
 **1. Add the tile:**
+
+Replace `com.google.example.wear_widget` with your app's package name (e.g., `com.example.myapp`) and ensure the service path (`.HelloWidgetService`) is correct.
 
 ```bash
 adb shell am broadcast \
@@ -352,14 +383,14 @@ and metadata.
 
 ```xml
 <wearwidget-provider
-    android:label="@string/widget_label"
-    android:description="@string/widget_desc"
-    android:icon="@drawable/ic_widget"
-    android:preferredType="small">
+    label="@string/widget_label"
+    description="@string/widget_desc"
+    icon="@drawable/ic_widget"
+    preferredType="small">
 
     <!-- Defines supported sizes. "small" is ~72dp, "large" is ~96dp -->
-    <container android:type="small" />
-    <container android:type="large" />
+    <container type="small" />
+    <container type="large" />
 
 </wearwidget-provider>
 ```
