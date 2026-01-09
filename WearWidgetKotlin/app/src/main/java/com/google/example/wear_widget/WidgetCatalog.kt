@@ -3,9 +3,12 @@
 package com.google.example.wear_widget
 
 import android.annotation.SuppressLint
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import androidx.compose.remote.core.operations.TextFromFloat
 import androidx.compose.remote.creation.compose.action.ValueChange
+import androidx.compose.remote.creation.compose.action.pendingIntentAction
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
@@ -83,7 +86,7 @@ class WidgetCatalog : GlanceWearWidget() {
         params: WearWidgetParams,
     ): WearWidgetData =
         WearWidgetDocument(backgroundColor = Color.Black) {
-            ButtonSample1()
+            PendingIntentSample()
         }
 }
 
@@ -1148,5 +1151,37 @@ fun GradientBackgroundSample() {
         verticalArrangement = RemoteArrangement.Center
     ) {
         MaterialRemoteText("Gradient Background".rs)
+    }
+}
+
+/**
+ * A sample demonstrating how to launch an Activity using a PendingIntent.
+ * Displays a button that opens the main activity of the app when clicked.
+ */
+@RemoteComposable
+@Composable
+fun PendingIntentSample() {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val intent = Intent(context, MainActivity::class.java).apply {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    }
+    val pendingIntent = PendingIntent.getActivity(
+        context,
+        0,
+        intent,
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+    )
+
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteButton(
+            modifier = RemoteModifier.buttonSizeModifier(),
+            onClick = arrayOf(pendingIntentAction(pendingIntent))
+        ) {
+            MaterialRemoteText("Open App".rs)
+        }
     }
 }
