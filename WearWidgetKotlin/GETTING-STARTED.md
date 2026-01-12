@@ -228,10 +228,6 @@ For a quick start, you can create a simple vector drawable in
         android:name="androidx.wear.tiles.PREVIEW"
         android:resource="@drawable/tile_preview" />
 </service>
-
-**Supporting Tiles and Widgets**
-
-To support both standard Wear OS Tiles and new Wear Widgets within the same service, you must declare intent actions for both protocols. Note that both use the `com.google.android.wearable.permission.BIND_TILE_PROVIDER` permission. This is because, at the operating system level, both are managed by the Tile Manager, which requires this specific permission to bind to the service. The system distinguishes between the legacy Tile protocol and the new Widget protocol during discovery using the specific intent actions: `BIND_TILE_PROVIDER` and `BIND_WIDGET_PROVIDER` respectively.
 ```
 
 ### 6. Build and Deploy
@@ -279,9 +275,14 @@ device. You can verify it by swiping through the tile carousel.
 
 ![Hello World Widget](screenshots/hello_world_widget.png)
 
-## Core Concepts and Implementation
+## Technical Guide
 
-### Event Handling: Actions vs. Lambdas
+This section covers the architecture of building a Remote UI and how that UI
+integrates with the Wear OS system.
+
+### Remote UI Programming Model
+
+#### Event Handling: Actions vs. Lambdas
 
 Because widgets run in a remote process, they cannot execute local code
 (lambdas). Standard Compose syntax for event handling is replaced by
@@ -325,7 +326,7 @@ objects, which imposes several constraints:
    _Note: When passing an existing array of actions to the named parameter, pass
    it directly without the spread operator (`*`)._
 
-### Theming
+#### Theming
 
 The visual presentation of Wear Widgets is governed by the `RemoteMaterialTheme`
 composable. This system allows widgets to adapt to the user's system theme
@@ -358,7 +359,7 @@ fun MyCustomWidget() {
 }
 ```
 
-### Type Conversions
+#### Type Conversions
 
 When working with Remote UI components, you frequently need to convert standard
 Kotlin/Compose types (like `Color`, `Dp`, `String`, `Int`) into their `Remote`
@@ -371,58 +372,115 @@ equivalents. Use the provided extension functions to reduce boilerplate:
 - **Integers:** `1.ri` (instead of `RemoteInt(1)`)
 - **Floats:** `1f.rf` (instead of `RemoteFloat(1f)`)
 
-### Component Gallery
+#### Component Gallery
 
 For a visual overview of the available components and layout samples (including
 `RemoteBox`, `RemoteButton`, `RemoteCanvas`, and more) along with their
 corresponding code, please refer to the
 **[Widget Component Gallery](screenshots/SAMPLES.md)**.
 
-## Configuration and Integration
+### System Integration & Capabilities
 
-### XML Configuration and Manifest
+Integrating a Wear Widget into the system requires establishing a contract
+between your app and the Wear OS surface. This contract defines what your widget
+_can_ do and how the system _connects_ to it.
 
-The `wearwidget-provider` XML configuration (referenced in `AndroidManifest.xml`
-via `androidx.glance.wear.widget.provider`) defines the widget's supported sizes
-and metadata.
+#### Defining Capabilities (XML)
 
-**XML Format Specification (`res/xml/widget_info.xml`)**
+The `wearwidget-provider` XML file serves as the source of truth for your
+widget's supported configurations. It explicitly tells the system which
+container types your implementation can handle.
+
+**File:** `res/xml/hello_widget_info.xml`
 
 ```xml
 <wearwidget-provider
     label="@string/widget_label"
     description="@string/widget_desc"
     icon="@drawable/ic_widget"
-    preferredType="small">
+    preferredType="SMALL">
 
-    <!-- Defines supported sizes. "small" is ~72dp, "large" is ~96dp -->
-    <container type="small" />
-    <container type="large" />
+    <!-- Defines supported sizes. -->
+    <container type="SMALL" />
+    <container type="LARGE" />
 
 </wearwidget-provider>
 ```
 
-### Binding Protocols (Widgets vs. Tiles)
+- **`container`:** Declares a supported size. `SMALL` (~72dp height) and `LARGE`
+  (~96dp height) are the standard Widget sizes.
+- **`preferredType`:** Specifies the default size used if the system doesn't
+  request a specific one (e.g., when falling back from a legacy surface).
 
-The system's behavior depends heavily on how the service is bound (Tile Protocol
-vs. Widget Protocol). This is determined by the Intent Filters in your Manifest
-and how the widget is added (e.g., via ADB).
+#### The Binding Contract (Manifest)
 
-| Intent Filters Declared | `adb-tile-add` Result       | Container Type             | Header Style |
-| :---------------------- | :-------------------------- | :------------------------- | :----------- |
-| **Both**                | Tile Mode (Default)         | `0` (FULLSCREEN)           | Icon + Label |
-| **Both**                | Widget Mode (with `--type`) | `1` (LARGE) or `2` (SMALL) | Icon Only    |
-| **Tile Only**           | Tile Mode                   | `0` (FULLSCREEN)           | Icon + Label |
-| **Widget Only**         | Widget Mode                 | `1` (LARGE) or `2` (SMALL) | Icon Only    |
+The system binds to your widget through a Service. To support the transition
+from legacy Tiles to modern Widgets, this service supports two different
+protocols.
 
-- **Tile Protocol (Legacy):** Requests `containerType=0` (FULLSCREEN). Displays
-  a standard header (Icon + Label).
-- **Widget Protocol (New):** Respects XML configuration for `SMALL`/`LARGE`.
-  Displays a minimal header (Icon Only).
+**File:** `AndroidManifest.xml`
 
-**Recommendation:** To achieve a "clean" widget look during development, force
-the Widget protocol by commenting out the `BIND_TILE_PROVIDER` intent filter or
-using `adb-tile-add --type SMALL`.
+```xml
+<service
+    android:name=".HelloWidgetService"
+    android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"
+    ...>
+
+    <intent-filter>
+        <!-- Protocol 1: The Modern Widget Interface -->
+        <action android:name="androidx.glance.wear.action.BIND_WIDGET_PROVIDER" />
+        <!-- Protocol 2: The Legacy Tile Interface (Backward Compatibility) -->
+        <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+    </intent-filter>
+
+    <meta-data
+        android:name="androidx.glance.wear.widget.provider"
+        android:resource="@xml/hello_widget_info" />
+    ...
+</service>
+```
+
+- **Permissions:** The `BIND_TILE_PROVIDER` permission is required for security;
+  only authorized system services holding this permission can bind to your
+  provider.
+- **Protocol Dispatch:** The `GlanceWearWidgetService` base class automatically
+  handles the handshake by inspecting the incoming action to return the correct
+  interface:
+  - `BIND_WIDGET_PROVIDER`: Returns the modern `IWearWidgetProvider` binder.
+    This protocol supports the `SMALL` and `LARGE` container sizes.
+  - `BIND_TILE_PROVIDER`: Returns the legacy `TileProvider` binder. This ensures
+    your widget remains visible on the standard Tile Carousel (rendering as
+    `FULLSCREEN`).
+
+### Rendering Behavior and Evolution
+
+The Wear Widget ecosystem is currently in an Early Access phase. Understanding
+how your content appears involves understanding both the **current limitations**
+of the rendering environment and the **target state** as tooling improves.
+
+While you define capabilities for both `SMALL` and `LARGE`, the actual runtime
+behavior depends on the device's capabilities and the stage of the rollout.
+
+#### Ecosystem Roadmap
+
+| Platform            | Current EAP State                                                                                                              | Target State / Future Tooling                                                                                                                |
+| :------------------ | :----------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Emulator**        | **Tile Mode Only:** Renders as `FULLSCREEN` Tile (Icon + Label header). Ignores `--type` flags.                                | **Full Widget Support:** A new standalone renderer app (coming soon) will enable testing of `SMALL` and `LARGE` modes directly on emulators. |
+| **Physical Device** | **Widget Mode Supported:** Renders as `SMALL` or `LARGE` Widget (Minimal header) when requested via `adb-tile-add --type ...`. | **Production Ready:** System surfaces (like the Vertical Feed) will automatically request the optimal size for the context.                  |
+
+#### Developer Recommendation
+
+- **For Integration Testing:** Use standard Emulators. Verify basic connectivity
+  and logic, but expect the UI to look like a full-screen Tile
+  (`containerType=0`).
+- **For Layout Verification:** Use a Physical Device with the `adb-tile-add`
+  command to verify your layouts in the correct constraints:
+  - `adb-tile-add --type SMALL <COMPONENT>`
+  - `adb-tile-add --type LARGE <COMPONENT>`
+
+This transitional behavior ensures your widget works today on existing surfaces
+(as a Tile) while lighting up with the new, compact Widget experience on
+supported devices and future tools.
 
 ## Developer Workflow and Tools
 
