@@ -17,14 +17,11 @@ on a different device—than where the application code runs. UI is defined by a
 displayed.
 
 Wear widgets align with Modern Android Development by adopting a declarative DSL
-similar to Compose. However, while the developer mental model is consistent with
-Compose, the remote architecture imposes nuances that become apparent during
-implementation. These departures from standard behavior typically stem from the
-UI being executed by a separate system player. For instance, instead of passing
-standard code lambdas to `onClick` listeners, developers must provide
-serializable `Action` objects such as `ValueChange` or `SendIntent`, as the
-logic must be packaged into the UI 'document' before being sent to the remote
-process.
+similar to Compose. While the developer mental model remains consistent, the
+remote architecture introduces nuances because the UI is displayed by a separate
+system player. These architectural departures—particularly regarding how logic
+and interactions are handled—are detailed in the
+[Event Handling](#event-handling:-actions-vs.-lambdas) section below.
 
 ## Prerequisites and Setup
 
@@ -46,14 +43,13 @@ adb shell dumpsys package com.google.android.wearable.protolayout.renderer | \
 ### Gradle Configuration
 
 While these libraries are in active development, many have recently transitioned
-to **ALPHA** releases available on Google Maven. Some newer or more experimental
-components may still require the **AndroidX Snapshot repository**.
+to **ALPHA** releases available on Google Maven. Some components still require
+the **AndroidX Snapshot repository**.
 
-**1. Configure Repositories**
+**1\. Configure Repositories**
 
-Ensure `google()` is in your repository list. If you need components that
-haven't reached alpha yet, add the specific snapshot repository to your
-`settings.gradle.kts` (or `build.gradle`) file:
+Ensure `google()` is in your repository list. Add the specific snapshot
+repository to your `settings.gradle.kts` (or `build.gradle`) file:
 
 ```kotlin
 dependencyResolutionManagement {
@@ -82,9 +78,6 @@ dependencies {
     implementation("androidx.wear.compose.remote:remote-material3:1.0.0-SNAPSHOT")
     implementation("androidx.glance.wear:wear:1.0.0-SNAPSHOT")
     implementation("androidx.glance.wear:wear-core:1.0.0-SNAPSHOT")
-
-    // Support for Wear Tiles
-    implementation("androidx.wear.tiles:tiles:1.5.0")
 
     // Tooling for previews (optional, but recommended)
     implementation("androidx.compose.remote:remote-tooling-preview:1.0.0-alpha01")
@@ -158,12 +151,12 @@ import androidx.compose.remote.creation.compose.layout.RemoteText
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.state.RemoteColor
+import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 @SuppressLint("RestrictedApi")
-@RemoteComposable
-@Composable
+@RemoteComposable @Composable
 fun HelloWidgetContent() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
@@ -172,7 +165,7 @@ fun HelloWidgetContent() {
     ) {
         RemoteText(
             text = "Hello World",
-            color = RemoteColor(Color.White)
+            color = Color.White.rc
         )
     }
 }
@@ -189,10 +182,10 @@ properties and supported sizes.
     description="@string/hello_widget_description"
     icon="@mipmap/ic_launcher"
     label="@string/hello_widget_label"
-    preferredType="@integer/glance_wear_container_type_small">
+    preferredType="SMALL">
 
-    <container type="@integer/glance_wear_container_type_small" />
-    <container type="@integer/glance_wear_container_type_large" />
+    <container type="SMALL" />
+    <container type="LARGE" />
 
 </wearwidget-provider>
 ```
@@ -282,12 +275,15 @@ integrates with the Wear OS system.
 
 ### Remote UI Programming Model
 
-#### Event Handling: Actions vs. Lambdas
+#### Event Handling: Actions vs. Lambdas {#event-handling:-actions-vs.-lambdas}
 
 Because widgets run in a remote process, they cannot execute local code
 (lambdas). Standard Compose syntax for event handling is replaced by
-**Declarative Actions**. Interactions are defined by serializable `Action`
-objects, which imposes several constraints:
+**Declarative Actions**. Instead of passing standard code lambdas to onClick
+listeners, developers must provide serializable `Action` objects (such as
+`ValueChange` or `PendingIntentAction`), as the logic must be packaged into the
+UI 'document' before being sent to the remote process. This remote execution
+model imposes several constraints:
 
 1. **No Arbitrary Code Execution:** You cannot execute standard Kotlin code
    (e.g., `Log.d()`, `viewModel.update()`) inside the handler.
@@ -452,21 +448,24 @@ protocols.
     your widget remains visible on the standard Tile Carousel (rendering as
     `FULLSCREEN`).
 
-### Rendering Behavior and Evolution
+### Current and Future Renderers
 
-The Wear Widget ecosystem is currently in an Early Access phase. Understanding
-how your content appears involves understanding both the **current limitations**
-of the rendering environment and the **target state** as tooling improves.
+The Wear Widget ecosystem is currently in an Early Access phase, and the
+available renderer is quite limited. An updated renderer will soon be available
+with more capabilities, and in the near future both emulators and physical
+devices from different OEMs will be able to replicate the production experience
+(including vertically scrolling views of heterogenous widgets).
 
 While you define capabilities for both `SMALL` and `LARGE`, the actual runtime
 behavior depends on the device's capabilities and the stage of the rollout.
 
 #### Ecosystem Roadmap
 
-| Platform            | Current EAP State                                                                                                              | Target State / Future Tooling                                                                                                                |
-| :------------------ | :----------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Emulator**        | **Tile Mode Only:** Renders as `FULLSCREEN` Tile (Icon + Label header). Ignores `--type` flags.                                | **Full Widget Support:** A new standalone renderer app (coming soon) will enable testing of `SMALL` and `LARGE` modes directly on emulators. |
-| **Physical Device** | **Widget Mode Supported:** Renders as `SMALL` or `LARGE` Widget (Minimal header) when requested via `adb-tile-add --type ...`. | **Production Ready:** System surfaces (like the Vertical Feed) will automatically request the optimal size for the context.                  |
+| Platform              | Now                                                                                              | Feb 2026                                                                                                                                | \~Sep 2026 |
+| :-------------------- | :----------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------- | :--------- |
+| **Emulator**          | **Tile Mode Only:** Renders as `FULLSCREEN` Tile (Icon \+ Label header). Ignores `--type` flags. | **Widget Support:** A new standalone renderer app (coming soon) will enable testing of `SMALL` and `LARGE` modes directly on emulators. | **?**      |
+| **Pixel Watch 3 & 4** | **Tile Mode Only:** Renders as `FULLSCREEN` Tile (Icon \+ Label header). Ignores `--type` flags. | **Widget Support:** A new standalone renderer app (coming soon) will enable testing of `SMALL` and `LARGE` modes directly on emulators. | **?**      |
+| **Galaxy Watch ?**    | **Tile Mode Only:** Renders as `FULLSCREEN` Tile (Icon \+ Label header). Ignores `--type` flags. | **?**                                                                                                                                   | **?**      |
 
 #### Developer Recommendation
 
@@ -536,7 +535,9 @@ library's `minSdk` (e.g., 29) is higher than the application's `minSdk` (e.g.,
 
 1. **Option 1 (Recommended):** Increase the app's `minSdk` to 29 or higher in
    `build.gradle.kts`.
-2. **Option 2:** Use the `overrideLibrary` marker to suppress the error.
+2. **Option 2:** If you can't increase your app's `minSdk`, use the
+   `overrideLibrary` marker to suppress the error at build time, _and_
+   conditionally enable widgets using resource qualifier checks at runtime.
 
 To use `overrideLibrary`, add the `tools` namespace and the attribute to your
 `AndroidManifest.xml`. You may need to list multiple libraries if the conflict
@@ -553,6 +554,44 @@ propagates.
 
 For more information, see
 [Override uses-sdk for imported libraries](https://developer.android.com/build/manage-manifests#override_uses-sdk_for_imported_libraries).
+
+To conditionally enable or disable the widget service at runtime, define a
+boolean resource that defaults to `false` in the main `values` folder. You then
+override this value to `true` in a version-specific folder (e.g., `values-v33`).
+By referencing this boolean in the `android:enabled` attribute, the system
+automatically disables the service on older devices, preventing them from
+loading incompatible classes.
+
+**Disable by default (`res/values/bools.xml`)**
+
+```xml
+<resources>
+    <bool name="is_widgets_enabled">false</bool>
+</resources>
+```
+
+**Enable for specific API level (`res/values-v33/bools.xml`)** _Replace `v33`
+with your target API level._
+
+```xml
+<resources>
+    <bool name="is_widgets_enabled">true</bool>
+</resources>
+```
+
+**Apply to Manifest (`AndroidManifest.xml`)**
+
+```xml
+<service
+    android:name=".WidgetCatalogService"
+    android:enabled="@bool/is_widgets_enabled"
+    ...>
+</service>
+```
+
+For more details on how this attribute controls the instantiation of components,
+see the documentation for
+[android:enabled](https://developer.android.com/guide/topics/manifest/application-element#enabled).
 
 ### Runtime Issue: Blank Screen (Package Name Restriction)
 
