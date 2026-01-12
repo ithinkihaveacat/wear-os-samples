@@ -444,7 +444,13 @@ fun HelloWidgetPreview() {
 
 ### Developer Tools
 
-This codebase requires specialized shell scripts for efficient development.
+You may find some of the tools in the following directory useful for development
+(especially agent-assisted development):  
+To ease development of widgets, we created some scripts hosted on
+[github](https://github.com/ithinkihaveacat/dotfiles/tree/master/bin%20) which
+you may find useful during development:
+
+[https://github.com/ithinkihaveacat/dotfiles/tree/master/bin](https://github.com/ithinkihaveacat/dotfiles/tree/master/bin)
 
 - **`adb-tile-add <COMPONENT>`**: Registers and displays a new tile service.
 - **`adb-tile-show <INDEX>`**: Scrolls to a specific tile index.
@@ -501,7 +507,9 @@ screen.
 not on the list, the UI will not render.
 
 **Diagnosis:** Check the device logs for the error "Provider is not allowlisted
-for Remote Compose".
+for Remote Compose". If this error is found, provide to Google the package name
+you are using if it is different from the one used from the main app (which has
+been allowlisted for you).
 
 **Log Extract:**
 
@@ -518,33 +526,15 @@ SNAPSHOT version.
 
 ### Multiple APIs Are Restricted
 
+[b/474354218](http://b/474354218)
+
 Many APIs (e.g., `.rs`, `.rf`, `RemotePainter`) are currently marked as
 `@RestrictTo(LIBRARY_GROUP)`.
 
-**Workarounds:**
-
-1. **(Recommended)** Suppress the lint error by adding
-   `@file:SuppressLint("RestrictedApi")` at the top of the file. This enables
-   access to the full API surface required for implementation.
-2. For simple type conversions, use public constructors (e.g.,
-   `RemoteString("...")`) instead of extensions where possible.
-
-### `RemoteButtonColors` Requires Explicit Definition
-
-b/470339092
-
-**Symptom:** Changing a single color property (e.g., background) requires
-defining the colors for all states (enabled, disabled, content, etc.).
-
-**Workaround:** Use the 8-argument `RemoteButtonColors` constructor to
-explicitly define your color theme.
-
-**Context:** `RemoteButtonColors` is not a data class and therefore lacks a
-`copy()` method. Additionally, the standard
-`RemoteButtonDefaults.buttonColors()` factory does not accept parameters, making
-it impossible to "copy" and modify an existing configuration. This limitation
-does not apply to other similar constructions, such as `RemoteIconButton`,
-`RemoteTextButtonColors`, and `RemoteSolidColor`.
+**Workaround:** Suppress the lint error by adding
+`@file:SuppressLint("RestrictedApi")` at the top of each file (or
+`@SuppressLint("RestrictedApi")` immediately above a function). This enables
+access to the full API surface.
 
 ### `RemoteModifier.padding` Lacks `RemoteDp` Support
 
@@ -640,6 +630,8 @@ rather than `RemoteAlignment` constants (`Top`, `CenterVertically`, `Bottom`).
 
 ### `RemoteModifier.graphicsLayer` Rendering Failures
 
+[b/473745800](http://b/473745800)
+
 **Symptom:** The tile fails to load and does not appear (or shows a black
 screen) when using `RemoteModifier.graphicsLayer`. Logs indicate a "Failed to
 render and attach the tile" error.
@@ -657,8 +649,8 @@ render and attach the tile" error.
   effects until supported by the library/renderer.
 
 **Context:** The current snapshot of the library and/or the
-`ProtoLayoutRenderer` (version 1.5.7.dev) appears to have incomplete support for
-these graphics layer operations.
+`ProtoLayoutRenderer` (version 1.5.7.dev) does not support these graphics layer
+operations.
 
 ### Crash using `RemoteBrush.linearGradient` with `Offset.Infinite`
 
@@ -708,7 +700,7 @@ currently tied to the `GlanceWearWidgetService` lifecycle. Rapid service
 restarts can cause a new service to start before the previous one has fully
 released the DataStore file lock.
 
-### Preview Limitations
+### Android Studio Preview Limitations
 
 b/431932822
 
@@ -723,3 +715,10 @@ the most reliable method to confirm the appearance and behavior.
 
 **Context:** These are known limitations related to the Android Studio preview
 tooling for Compose-based UIs, including Remote Compose.
+
+## Feedback
+
+## Updates
+
+_This section will be updated with updates, e.g. new lib version availability
+and fixes_
