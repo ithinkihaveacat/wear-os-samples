@@ -18,10 +18,10 @@
     group="hello"
     icon="@drawable/ic_launcher"
     label="@string/hello_widget_label"
-    preferredType="@integer/glance_wear_container_type_small">
+    preferredType="SMALL">
 
-    <container type="@integer/glance_wear_container_type_small" />
+    <container type="SMALL" />
 
-    <container type="@integer/glance_wear_container_type_large" />
+    <container type="LARGE" />
 
 </wearwidget-provider>
