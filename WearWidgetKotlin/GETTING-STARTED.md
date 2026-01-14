@@ -375,6 +375,22 @@ For a visual overview of the available components and layout samples (including
 corresponding code, please refer to the
 **[Widget Component Gallery](screenshots/SAMPLES.md)**.
 
+#### Triggering Updates from App Code
+
+While client-side state changes can update the widget instantly, you often need
+to push new data from your application (e.g., from a background worker or after
+a network response). You can request a widget refresh using the
+`triggerUpdate` method on your `GlanceWearWidget` implementation.
+
+```kotlin
+// In an Activity, Worker, or other app component
+val componentName = ComponentName(context, HelloWidgetService::class.java)
+HelloWidget().triggerUpdate(context, componentName)
+```
+
+Calling this will cause the system to re-bind to your `GlanceWearWidgetService`
+and call `provideWidgetData` again to fetch the latest UI.
+
 ### System Integration & Capabilities
 
 Integrating a Wear Widget into the system requires establishing a contract
@@ -616,10 +632,47 @@ been allowlisted for you).
 01-08 06:21:02.164 10032 28409 28409 E ProtoTilesTileRendererImpl: Caused by: awk: Provider is not allowlisted for Remote Compose. com.example.android.wearable.composestarter/.HelloWidgetService
 ```
 
+## Feature Comparison: Tiles vs. Widgets
+
+While Wear Widgets share some conceptual similarities with Tiles (both render on
+a remote system surface), their capabilities and development models differ
+significantly.
+
+| Feature                   | Wear OS Tiles (ProtoLayout)                                                                                               | Wear Widgets (Remote Compose)                                                                                                                  |
+| :------------------------ | :------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Development Model**     | Imperative Builder Pattern (`LayoutElementBuilders`)                                                                      | Declarative, Compose-like DSL (`RemoteText`, `RemoteColumn`)                                                                                   |
+| **Vertical Scrolling**    | **Not Supported.** Fixed height (screen height).                                                                          | **Support Planned.** Content can exceed screen height. (See Known Issues).                                                                           |
+| **State & Interactivity** | Server-side driven. Interactions (`LoadAction`) trigger a full service callback to refresh the UI.                        | Client-side driven. Declarative state (`rememberRemoteIntValue`) and actions (`ValueChange`) allow instant UI updates without app round-trips. |
+| **Dynamic Data**          | **Streaming Support.** Can bind directly to platform data (e.g., Heart Rate) via `DynamicBuilders` for real-time updates. | **State Driven.** Updates are driven by state changes or app pushes. No direct platform sensor binding yet.                                    |
+| **Update Scheduling**     | **Timeline Support.** Can pre-schedule future layouts (e.g., calendar events) to update automatically without waking the app.| **Real-time.** Updates are immediate and must be initiated by app code. No native mechanism to pre-cache future layouts.                      |
+| **Curved Layouts**        | **Native Support.** dedicated `Arc` containers and components (`ArcText`) for circular screens.                           | **Not Required.** Widgets use standard linear layouts (`RemoteRow`) and do not aim to hug the screen curvature.                                |
+| **Transitions**           | **Granular Control.** Explicit APIs for `EnterTransition` and `ExitTransition`.                                           | **Animation Specs.** Uses generic `animationSpec` on modifiers. Granular transition control is less relevant in this model.                    |
+| **Advanced Animations**   | **Lottie Supported.** Natively supports Lottie via `AndroidLottieResourceByResId`.                                        | **Not Supported.** No native Lottie component.                                                                                                 |
+| **Text Formatting**       | **Spannable Support.** Supports mixed styles (bold, italic) and inline images via `Spannable`.                            | **Uniform Style.** `RemoteText` accepts a single string. Styles apply to the whole text. No `AnnotatedString` support yet.                     |
+| **Lifecycle**             | **Manual & Event-Driven.** Requires explicitly overriding callbacks like `onTileAddEvent` and `onTileRemoveEvent` in `TileService` to track presence in the carousel. | **Automated.** `GlanceWearWidgetService` manages sessions internally, removing the need to manually handle `onTileAdd`/`remove`. Developer focus is solely on providing the UI definition. |
+| **Resource Management**   | **Versioning Protocol.** Uses `onTileResourcesRequest` to serve and version resources (images) independently of the layout.| **Direct Binding.** Resources are handled transparently within the composition, similar to standard Compose (e.g., `R.drawable`).              |
+| **Telemetry / Tracking**  | **Built-in Callback.** `onRecentInteractionEventsAsync` provides a stream of recent click events.                         | **Manual.** No dedicated callback. To track interactions, use `PendingIntent` actions (e.g., targeting a `BroadcastReceiver`) to manually log events.  |
+
 ## Known Issues and Limitations
 
 This section tracks technical hurdles and API limitations in the current
 SNAPSHOT version.
+
+### Vertical Scrolling is Currently Disabled
+
+**Symptom:** Content that exceeds the screen height is clipped, and the user
+cannot scroll to view it.
+
+**Context:** While the `RemoteModifier.verticalScroll(state)` API exists in the
+library, the underlying renderer in the current Alpha/Snapshot build does not
+yet fully support scrollable containers.
+
+**Affected APIs:**
+
+- `RemoteModifier.verticalScroll`
+- `rememberRemoteScrollState`
+
+**Status:** Full scrolling support is expected in an upcoming renderer update.
 
 ### Multiple APIs Are Restricted
 
