@@ -34,7 +34,9 @@ import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.fillMaxWidth
 import androidx.compose.remote.creation.compose.modifier.graphicsLayer
 import androidx.compose.remote.creation.compose.modifier.padding
+import androidx.compose.remote.creation.compose.modifier.rememberRemoteScrollState
 import androidx.compose.remote.creation.compose.modifier.size
+import androidx.compose.remote.creation.compose.modifier.verticalScroll
 import androidx.compose.remote.creation.compose.painter.painterRemoteColor
 import androidx.compose.remote.creation.compose.shaders.RemoteBrush
 import androidx.compose.remote.creation.compose.shaders.RemoteLinearGradient
@@ -85,8 +87,8 @@ class WidgetCatalog : GlanceWearWidget() {
         context: Context,
         params: WearWidgetParams,
     ): WearWidgetData =
-        WearWidgetDocument(backgroundColor = Color.Black) {
-            PendingIntentSample()
+        WearWidgetDocument(backgroundColor = Color.White) {
+            MixedStyleSample()
         }
 }
 
@@ -1182,6 +1184,69 @@ fun PendingIntentSample() {
             onClick = arrayOf(pendingIntentAction(pendingIntent))
         ) {
             MaterialRemoteText("Open App".rs)
+        }
+    }
+}
+
+/**
+ * A sample demonstrating vertical scrolling.
+ */
+@RemoteComposable
+@Composable
+fun VerticalScrollSample() {
+    val scrollState = rememberRemoteScrollState()
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Top,
+    ) {
+        RemoteColumn(
+            modifier = RemoteModifier.fillMaxWidth().verticalScroll(scrollState),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Top
+        ) {
+            MaterialRemoteText("Header".rs)
+            RemoteBox(RemoteModifier.size(10.rdp))
+            for (i in 0 until 10) {
+                MaterialRemoteText(("Item " + i).rs)
+                RemoteBox(RemoteModifier.size(10.rdp))
+            }
+            MaterialRemoteText("Footer".rs)
+        }
+    }
+}
+
+/**
+ * A sample demonstrating a workaround for mixed text styles.
+ * Since RemoteText applies styles to the entire string, we use a RemoteRow
+ * to compose multiple RemoteText components with different styles side-by-side.
+ */
+@RemoteComposable
+@Composable
+fun MixedStyleSample() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.White),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteRow(
+            verticalAlignment = RemoteAlignment.CenterVertically,
+            horizontalArrangement = RemoteArrangement.CenterHorizontally
+        ) {
+            // First part: Bold Red Text
+            RemoteText(
+                text = "Mixed ".rs,
+                color = Color.Red.rc,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+            // Second part: Italic Blue Text
+            RemoteText(
+                text = "Styles".rs,
+                color = Color.Blue.rc,
+                fontSize = 20.sp,
+                fontStyle = FontStyle.Italic
+            )
         }
     }
 }
