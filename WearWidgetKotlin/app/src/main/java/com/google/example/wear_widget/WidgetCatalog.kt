@@ -2,6 +2,8 @@
 
 package com.google.example.wear_widget
 
+import androidx.compose.remote.creation.compose.state.RemotePaint
+import android.graphics.Paint
 import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Context
@@ -87,9 +89,49 @@ class WidgetCatalog : GlanceWearWidget() {
         context: Context,
         params: WearWidgetParams,
     ): WearWidgetData =
-        WearWidgetDocument(backgroundColor = Color.White) {
-            MixedStyleSample()
+        WearWidgetDocument(backgroundColor = Color.Black) {
+            ButtonSample9()
         }
+}
+
+@RemoteComposable
+@Composable
+fun CanvasSample3() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+            val width = remote.component.width
+            val height = remote.component.height
+            val centerX = width / 2f.rf
+            val centerY = height / 2f.rf
+
+            translate(centerX, centerY) {
+                rotate(45f.rf) {
+                    translate(-centerX, -centerY) {
+                        drawRect(
+                            paint = RemotePaint().apply { remoteColor = Color.Green.rc },
+                            topLeft = RemoteOffset(centerX - 40f.rf, centerY - 40f.rf),
+                            size = RemoteSize(80f.rf, 80f.rf),
+                        )
+                    }
+                }
+            }
+
+            // Anchored Text
+            drawAnchoredText(
+                text = "Rotated".rs,
+                anchorX = centerX,
+                anchorY = centerY,
+                paint = RemotePaint().apply {
+                    remoteColor = Color.White.rc
+                    textSize = 40f
+                }
+            )
+        }
+    }
 }
 
 /**
@@ -1043,11 +1085,15 @@ fun CanvasSample1() {
             val centerY = height / 2f.rf
 
             // Draw a circle
-            drawCircle(color = Color.Red, radius = 50f.rf, center = RemoteOffset(centerX, centerY))
+            drawCircle(
+                paint = RemotePaint().apply { remoteColor = Color.Red.rc },
+                radius = 50f.rf,
+                center = RemoteOffset(centerX, centerY)
+            )
 
             // Draw a rect
             drawRect(
-                color = Color.Blue,
+                paint = RemotePaint().apply { remoteColor = Color.Blue.rc },
                 topLeft = RemoteOffset(centerX - 100f.rf, centerY + 60f.rf),
                 size = RemoteSize(200f.rf, 50f.rf),
             )
@@ -1083,54 +1129,17 @@ fun CanvasSample2() {
                     close()
                 }
 
-            drawContext.transform.translate(centerX, centerY)
-            drawPath(path = path, color = Color.Yellow)
-        }
-    }
-}
-
-/**
- * On a black background, a light green Android icon is centered at the top. Below it is the white
- * text "Wear Widget," and further down is a neon green diamond-shaped button with the white text
- * "Rotated" in the center.
- */
-@RemoteComposable
-@Composable
-fun CanvasSample3() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
-            val width = remote.component.width
-            val height = remote.component.height
-            val centerX = width / 2f.rf
-            val centerY = height / 2f.rf
-
-            rotate(45f.rf, centerX, centerY) {
-                drawRect(
-                    color = Color.Green,
-                    topLeft = RemoteOffset(centerX - 40f.rf, centerY - 40f.rf),
-                    size = RemoteSize(80f.rf, 80f.rf),
+            translate(centerX, centerY) {
+                drawPath(
+                    path = path,
+                    paint = RemotePaint().apply { remoteColor = Color.Yellow.rc }
                 )
             }
-
-            // Anchored Text
-            drawAnchoredText(
-                text = "Rotated".rs,
-                color = Color.White,
-                anchor = RemoteOffset(centerX, centerY),
-                panx = 0f.rf,
-                pany = 0f.rf, // Center
-                alpha = 1f.rf,
-                drawStyle = Fill,
-                typeface = null, // Typeface.DEFAULT
-                textSize = 20f.rf,
-            )
         }
     }
 }
+
+
 
 /**
  * In a vertical layout on a black background, a small Android icon sits above the white text "Wear
