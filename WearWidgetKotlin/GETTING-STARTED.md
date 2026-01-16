@@ -427,7 +427,9 @@ to reduce boilerplate:
 #### Understanding Remote Dimensions (`RemoteDp`)
 
 Remote Compose introduces `RemoteDp` to distinguish between **immediate** and
-**deferred** layout resolution.
+**deferred** layout resolution. Developers should specify `RemoteDp` where
+possible to ensure dimensions are resolved correctly by the renderer at display
+time, maintaining visual consistency.
 
 - **`Dp` (Immediate):** Standard Compose `Dp` values are resolved to raw pixels
   _immediately_ during composition, using the app's current `LocalDensity`. This
@@ -913,6 +915,21 @@ ensure the DataStore lock is released.
 adb-tile-remove "$COMPONENT"
 adb shell am force-stop com.google.example.wear_widget
 adb-tile-add --type LARGE "$COMPONENT"
+```
+
+### Configuration Changes Cause Transient Crashes (DataStore Conflict)
+
+**Symptom:** Changing system display settings (such as "Display size" or "Font
+size") while a widget is active may cause the application process to crash with
+`IllegalStateException: There are multiple DataStores active`. The widget may
+appear blank or show a loading state.
+
+**Workaround:** The system typically restarts the service automatically, and the
+widget should recover. If the widget remains blank, force-stop the application
+to release the file lock:
+
+```shell
+adb shell am force-stop com.google.example.wear_widget
 ```
 
 ### Android Studio Preview Limitations
