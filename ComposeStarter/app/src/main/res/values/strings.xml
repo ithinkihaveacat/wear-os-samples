@@ -23,7 +23,4 @@
     <string name="example_card_title">Example Title</string>
     <string name="example_card_content">Example Content\nMore Lines\nAnd More</string>
     <string name="example_button_text">Example Button</string>
-
-    <string name="hello_widget_label">Hello Widget</string>
-    <string name="hello_widget_description">A simple Hello World widget</string>
 </resources>
