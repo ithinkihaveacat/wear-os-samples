@@ -589,6 +589,8 @@ physical device for the most reliable experience and highest fidelity.
 
 ## Feedback
 
+## Troubleshooting
+
 ### Build Failure: minSdk version conflict
 
 **Symptom:** The build fails with a manifest merger error indicating that a
@@ -690,17 +692,18 @@ you).
 
 #### Cause 2: DataStore Conflict
 
-Rapidly removing and re-adding a widget (e.g., during automated testing or
-type-switching via ADB) can cause a crash in the application process due to
-overlapping `DataStore` instances. This prevents the tile from rendering
-correctly.
+Certain operations—such as rapidly removing and re-adding a widget (e.g., during
+automated testing) or changing system display settings—can cause a crash in the
+application process due to overlapping `DataStore` instances. This prevents the
+tile from rendering correctly.
 
 **Diagnosis:** Search the logs for a fatal `IllegalStateException` with the
 message:
 `There are multiple DataStores active for the same file: .../androidx_glance_wear_widget_cache.pb`.
 
-**Resolution:** Force-stop the application process between the remove and add
-steps to ensure the previous service has fully released the file lock.
+**Resolution:** Force-stop the application process to ensure the previous
+service has fully released the file lock. If this occurs during automated
+testing, add a force-stop command between the remove and add steps.
 
 **Log Extract:**
 
@@ -899,17 +902,25 @@ RemoteBrush.linearGradient(..., end = RemoteOffset(Float.POSITIVE_INFINITY, ...)
 RemoteLinearGradient(..., end = null)
 ```
 
-### Rapid Tile Re-addition Causes Crash (DataStore Conflict)
+### Multiple DataStores Active Crash (DataStore Conflict)
 
 b/474292165
 
 **Symptom:** The app process crashes with
-`IllegalStateException: There are multiple DataStores active`. This may occur
-during development or QA when using automated scripts to rapidly remove and
-re-add widgets (or switch widget types) via ADB.
+`IllegalStateException: There are multiple DataStores active`. This can occur
+under two primary conditions:
 
-**Workaround:** Force-stop the app process between remove and add commands to
-ensure the DataStore lock is released.
+1. **Rapid Re-addition:** When using automated scripts to rapidly remove and
+   re-add widgets (or switch widget types) via ADB.
+2. **Configuration Changes:** When changing system display settings (such as
+   "Display size" or "Font size") while a widget is active.
+
+In both cases, the widget may appear blank, show a loading state, or fail to
+render.
+
+**Workaround:** Force-stop the application process to release the file lock. For
+automated testing, ensure a force-stop is included between the remove and add
+commands:
 
 ```shell
 adb-tile-remove "$COMPONENT"
@@ -917,20 +928,8 @@ adb shell am force-stop com.google.example.wear_widget
 adb-tile-add --type LARGE "$COMPONENT"
 ```
 
-### Configuration Changes Cause Transient Crashes (DataStore Conflict)
-
-**Symptom:** Changing system display settings (such as "Display size" or "Font
-size") while a widget is active may cause the application process to crash with
-`IllegalStateException: There are multiple DataStores active`. The widget may
-appear blank or show a loading state.
-
-**Workaround:** The system typically restarts the service automatically, and the
-widget should recover. If the widget remains blank, force-stop the application
-to release the file lock:
-
-```shell
-adb shell am force-stop com.google.example.wear_widget
-```
+The system typically restarts the service automatically after configuration
+changes, but a manual force-stop may be necessary if it remains blank.
 
 ### Android Studio Preview Limitations
 
