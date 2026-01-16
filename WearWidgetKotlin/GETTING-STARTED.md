@@ -424,6 +424,31 @@ to reduce boilerplate:
 - **Integers:** `1.ri` (instead of `RemoteInt(1)`)
 - **Floats:** `1f.rf` (instead of `RemoteFloat(1f)`)
 
+#### Understanding Remote Dimensions (`RemoteDp`)
+
+Remote Compose introduces `RemoteDp` to distinguish between **immediate** and
+**deferred** layout resolution.
+
+- **`Dp` (Immediate):** Standard Compose `Dp` values are resolved to raw pixels
+  _immediately_ during composition, using the app's current `LocalDensity`. This
+  "bakes" the specific pixel value into the document sent to the System UI.
+- **`RemoteDp` (Deferred):** `RemoteDp` values (e.g., `10.rdp`) are serialized
+  as **data instructions** (e.g., "apply 10dp spacing"). The final pixel value
+  is calculated by the _System UI_ (the renderer) at display time, ensuring it
+  matches the exact density of the viewing surface.
+
+**Why is `RemoteDp` needed?** It separates the _definition_ of the UI from its
+_execution_. This allows the System UI to cache, resize, or adapt the layout
+(e.g., for different screen densities) without constantly waking up your
+application to recalculate pixels.
+
+**Best Practice:** Use `.rdp` (e.g., `10.rdp`) for structural layout modifiers
+like `.size()`, `.width()`, and `.border()` whenever possible.
+
+_Note: As mentioned in "Known Issues", some modifiers like `.padding()`
+currently only accept `Dp`. These will resolve to absolute pixel units at
+composition time._
+
 #### Component Gallery
 
 For a visual overview of the available components and layout samples (including
@@ -744,8 +769,20 @@ RemoteModifier.border(width = 10.dp.asRdp(), color = Color.Red)
 ```
 
 **Workaround:** Use standard Compose `Dp` (e.g., `11.dp`) which utilizes a
-built-in `@Composable` conversion, or manually define extension functions that
-accept `RemoteDp` and delegate to `padding(all.toPx())`.
+built-in `@Composable` conversion. Alternatively, you can manually wrap the
+value in a `RemotePaddingValues` object, though this still performs immediate
+resolution internally:
+
+```kotlin
+// Option 1: Standard Compose Dp
+RemoteModifier.padding(10.dp)
+
+// Option 2: Explicit RemotePaddingValues wrapper
+RemoteModifier.padding(RemotePaddingValues(all = 10.rdp))
+```
+
+You can also manually define extension functions that accept `RemoteDp` and
+delegate to `padding(all.toPx())`.
 
 ### `RemoteArrangement.Center` Can Only Be Used in Vertical Contexts
 
