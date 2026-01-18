@@ -2,12 +2,11 @@
 
 package com.google.example.wear_widget
 
-import androidx.compose.remote.creation.compose.state.RemotePaint
-import android.graphics.Paint
 import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import androidx.compose.remote.core.RemoteContext
 import androidx.compose.remote.core.operations.TextFromFloat
 import androidx.compose.remote.creation.compose.action.ValueChange
 import androidx.compose.remote.creation.compose.action.pendingIntentAction
@@ -26,7 +25,6 @@ import androidx.compose.remote.creation.compose.layout.RemoteSize
 import androidx.compose.remote.creation.compose.layout.RemoteText
 import androidx.compose.remote.creation.compose.layout.rotate
 import androidx.compose.remote.creation.compose.layout.translate
-import androidx.compose.remote.creation.compose.modifier.BlurEffect
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.animationSpec
 import androidx.compose.remote.creation.compose.modifier.background
@@ -34,17 +32,17 @@ import androidx.compose.remote.creation.compose.modifier.border
 import androidx.compose.remote.creation.compose.modifier.fillMaxHeight
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.fillMaxWidth
-import androidx.compose.remote.creation.compose.modifier.graphicsLayer
 import androidx.compose.remote.creation.compose.modifier.padding
 import androidx.compose.remote.creation.compose.modifier.rememberRemoteScrollState
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.modifier.verticalScroll
-import androidx.compose.remote.creation.compose.painter.painterRemoteColor
 import androidx.compose.remote.creation.compose.shaders.RemoteBrush
 import androidx.compose.remote.creation.compose.shaders.RemoteLinearGradient
 import androidx.compose.remote.creation.compose.shaders.linearGradient
 import androidx.compose.remote.creation.compose.shapes.RemoteRoundedCornerShape
 import androidx.compose.remote.creation.compose.state.RemoteColor
+import androidx.compose.remote.creation.compose.state.RemoteFloat
+import androidx.compose.remote.creation.compose.state.RemotePaint
 import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rdp
@@ -55,7 +53,6 @@ import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontStyle
@@ -63,7 +60,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.graphics.layer.CompositingStrategy
 import androidx.glance.wear.GlanceWearWidget
 import androidx.glance.wear.GlanceWearWidgetService
 import androidx.glance.wear.WearWidgetData
@@ -88,10 +84,7 @@ class WidgetCatalog : GlanceWearWidget() {
     override suspend fun provideWidgetData(
         context: Context,
         params: WearWidgetParams,
-    ): WearWidgetData =
-        WearWidgetDocument(backgroundColor = Color.Black) {
-            ButtonSample9()
-        }
+    ): WearWidgetData = WearWidgetDocument(backgroundColor = Color.Black) { ButtonSample9() }
 }
 
 @RemoteComposable
@@ -125,32 +118,30 @@ fun CanvasSample3() {
                 text = "Rotated".rs,
                 anchorX = centerX,
                 anchorY = centerY,
-                paint = RemotePaint().apply {
-                    remoteColor = Color.White.rc
-                    textSize = 40f
-                }
+                paint =
+                    RemotePaint().apply {
+                        remoteColor = Color.White.rc
+                        textSize = 40f
+                    },
             )
         }
     }
 }
 
-/**
- * A sample demonstrating a crash when using Infinite offset for gradient end.
- */
+/** A sample demonstrating a crash when using Infinite offset for gradient end. */
 @RemoteComposable
 @Composable
 fun GradientBackgroundSampleCrash() {
-    val gradient = RemoteBrush.linearGradient(
-        colors = listOf(Color.Red, Color.Blue),
-        start = RemoteOffset.Zero,
-        end = RemoteOffset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
-    )
+    val gradient =
+        RemoteBrush.linearGradient(
+            colors = listOf(Color.Red, Color.Blue),
+            start = RemoteOffset.Zero,
+            end = RemoteOffset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY),
+        )
     RemoteBox(
-        modifier = RemoteModifier
-            .fillMaxSize()
-            .background(brush = gradient),
+        modifier = RemoteModifier.fillMaxSize().background(brush = gradient),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center
+        verticalArrangement = RemoteArrangement.Center,
     ) {
         MaterialRemoteText("Gradient Crash".rs)
     }
@@ -187,7 +178,9 @@ fun SystemThemeComparisonSample() {
                             disabledSecondaryContentColor = Color.LightGray.rc,
                             disabledIconColor = Color.LightGray.rc,
                         ),
-                ) { MaterialRemoteText("Secondary Button".rs) }
+                ) {
+                    MaterialRemoteText("Secondary Button".rs)
+                }
             }
         }
     }
@@ -267,7 +260,9 @@ fun AustralianThemeSample() {
                             disabledSecondaryContentColor = Color.LightGray.rc,
                             disabledIconColor = Color.LightGray.rc,
                         ),
-                ) { MaterialRemoteText("Secondary (Red)".rs) }
+                ) {
+                    MaterialRemoteText("Secondary (Red)".rs)
+                }
             }
         }
     }
@@ -1088,7 +1083,7 @@ fun CanvasSample1() {
             drawCircle(
                 paint = RemotePaint().apply { remoteColor = Color.Red.rc },
                 radius = 50f.rf,
-                center = RemoteOffset(centerX, centerY)
+                center = RemoteOffset(centerX, centerY),
             )
 
             // Draw a rect
@@ -1130,16 +1125,11 @@ fun CanvasSample2() {
                 }
 
             translate(centerX, centerY) {
-                drawPath(
-                    path = path,
-                    paint = RemotePaint().apply { remoteColor = Color.Yellow.rc }
-                )
+                drawPath(path = path, paint = RemotePaint().apply { remoteColor = Color.Yellow.rc })
             }
         }
     }
 }
-
-
 
 /**
  * In a vertical layout on a black background, a small Android icon sits above the white text "Wear
@@ -1149,39 +1139,38 @@ fun CanvasSample2() {
 @RemoteComposable
 @Composable
 fun GradientBackgroundSample() {
-    val gradient = RemoteLinearGradient(
-        colors = listOf(Color.Red, Color.Blue),
-        start = RemoteOffset.Zero,
-        end = null
-    )
+    val gradient =
+        RemoteLinearGradient(
+            colors = listOf(Color.Red, Color.Blue),
+            start = RemoteOffset.Zero,
+            end = null,
+        )
     RemoteBox(
-        modifier = RemoteModifier
-            .fillMaxSize()
-            .background(brush = gradient),
+        modifier = RemoteModifier.fillMaxSize().background(brush = gradient),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center
+        verticalArrangement = RemoteArrangement.Center,
     ) {
         MaterialRemoteText("Gradient Background".rs)
     }
 }
 
 /**
- * A sample demonstrating how to launch an Activity using a PendingIntent.
- * Displays a button that opens the main activity of the app when clicked.
+ * A sample demonstrating how to launch an Activity using a PendingIntent. Displays a button that
+ * opens the main activity of the app when clicked.
  */
 @RemoteComposable
 @Composable
 fun PendingIntentSample() {
     val context = androidx.compose.ui.platform.LocalContext.current
-    val intent = Intent(context, MainActivity::class.java).apply {
-        flags = Intent.FLAG_ACTIVITY_NEW_TASK
-    }
-    val pendingIntent = PendingIntent.getActivity(
-        context,
-        0,
-        intent,
-        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-    )
+    val intent =
+        Intent(context, MainActivity::class.java).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
+    val pendingIntent =
+        PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+        )
 
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(Color.Black),
@@ -1190,16 +1179,14 @@ fun PendingIntentSample() {
     ) {
         RemoteButton(
             modifier = RemoteModifier.buttonSizeModifier(),
-            onClick = arrayOf(pendingIntentAction(pendingIntent))
+            onClick = arrayOf(pendingIntentAction(pendingIntent)),
         ) {
             MaterialRemoteText("Open App".rs)
         }
     }
 }
 
-/**
- * A sample demonstrating vertical scrolling.
- */
+/** A sample demonstrating vertical scrolling. */
 @RemoteComposable
 @Composable
 fun VerticalScrollSample() {
@@ -1212,7 +1199,7 @@ fun VerticalScrollSample() {
         RemoteColumn(
             modifier = RemoteModifier.fillMaxWidth().verticalScroll(scrollState),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Top
+            verticalArrangement = RemoteArrangement.Top,
         ) {
             MaterialRemoteText("Header".rs)
             RemoteBox(RemoteModifier.size(10.rdp))
@@ -1226,9 +1213,9 @@ fun VerticalScrollSample() {
 }
 
 /**
- * A sample demonstrating a workaround for mixed text styles.
- * Since RemoteText applies styles to the entire string, we use a RemoteRow
- * to compose multiple RemoteText components with different styles side-by-side.
+ * A sample demonstrating a workaround for mixed text styles. Since RemoteText applies styles to the
+ * entire string, we use a RemoteRow to compose multiple RemoteText components with different styles
+ * side-by-side.
  */
 @RemoteComposable
 @Composable
@@ -1240,21 +1227,49 @@ fun MixedStyleSample() {
     ) {
         RemoteRow(
             verticalAlignment = RemoteAlignment.CenterVertically,
-            horizontalArrangement = RemoteArrangement.CenterHorizontally
+            horizontalArrangement = RemoteArrangement.CenterHorizontally,
         ) {
             // First part: Bold Red Text
             RemoteText(
                 text = "Mixed ".rs,
                 color = Color.Red.rc,
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
             // Second part: Italic Blue Text
             RemoteText(
                 text = "Styles".rs,
                 color = Color.Blue.rc,
                 fontSize = 20.sp,
-                fontStyle = FontStyle.Italic
+                fontStyle = FontStyle.Italic,
+            )
+        }
+    }
+}
+
+@RemoteComposable
+@Composable
+fun ConditionalRadiusSample() {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize()) {
+        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+            // 1. Get Width and Density
+            val widthPx = remote.component.width
+            val density = RemoteFloat(RemoteContext.FLOAT_DENSITY)
+
+            // 2. Calculate Condition (Width > 200dp?)
+            val widthDp = widthPx / density
+            val isWide = widthDp gt 200f.rf
+
+            // 3. Select Value (15dp if wide, 10dp if narrow) and convert to RemoteDp
+            val radiusDp = isWide.select(15f.rf, 10f.rf).asRemoteDp()
+            val radiusPx = radiusDp.toPx()
+
+            // 4. Use the value (Converting back to Px for drawing commands)
+            drawRoundRect(
+                paint = RemotePaint().apply { remoteColor = Color.Blue.rc },
+                topLeft = RemoteOffset.Zero,
+                size = RemoteSize(widthPx, remote.component.height),
+                cornerRadius = RemoteOffset(radiusPx, radiusPx),
             )
         }
     }
