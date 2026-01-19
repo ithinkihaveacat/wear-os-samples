@@ -1,0 +1,181 @@
+# Wear OS Tile UI Components Catalog
+
+This catalog provides a visual reference and code samples for various UI components supported by
+Wear OS tiles using the Material 3 library.
+
+## textButton
+
+![textButton](textButton.png)
+
+An oval-shaped button with the text "Text Button".
+
+```kotlin
+primaryLayout(
+    mainSlot = {
+        textButton(
+            onClick = clickable(id = "text_button_click"),
+            labelContent = { text("Text Button".layoutString) }
+        )
+    }
+)
+```
+
+## iconButton
+
+![iconButton](iconButton.png)
+
+Text message icon in a light blue circle.
+
+```kotlin
+primaryLayout(
+    mainSlot = {
+        iconButton(
+            onClick = clickable(id = "icon_button_click"),
+            iconContent = {
+                icon(
+                    protoLayoutResourceId =
+                    context.resources.getResourceName(R.drawable.ic_message_24)
+                )
+            }
+        )
+    }
+)
+```
+
+## avatarButton
+
+![avatarButton](avatarButton.png)
+
+A rounded button with a circular avatar of a smiling woman on the left, and the text "Avatar Button"
+and "Secondary Label" on the right.
+
+```kotlin
+primaryLayout(
+    mainSlot = {
+        avatarButton(
+            onClick = clickable(id = "avatar_button_click"),
+            avatarContent = {
+                avatarImage(
+                    protoLayoutResourceId = context.resources.getResourceName(R.drawable.ali),
+                    contentScaleMode = CONTENT_SCALE_MODE_CROP
+                )
+            },
+            labelContent = { text("Avatar Button".layoutString) },
+            secondaryLabelContent = { text("Secondary Label".layoutString) }
+        )
+    }
+)
+```
+
+## imageButton
+
+![imageButton](imageButton.png)
+
+A circular image showing a white daisy in a field of tall, golden grass.
+
+```kotlin
+primaryLayout(
+    mainSlot = {
+        imageButton(
+            onClick = clickable(id = "image_button_click"),
+            backgroundContent = {
+                backgroundImage(
+                    protoLayoutResourceId =
+                    context.resources.getResourceName(R.drawable.photo_14)
+                )
+            }
+        )
+    }
+)
+```
+
+## compactButton
+
+![compactButton](compactButton.png)
+
+A button labeled "Compact" with a chat bubble icon.
+
+```kotlin
+primaryLayout(
+    mainSlot = {
+        compactButton(
+            onClick = clickable(id = "compact_button_click"),
+            iconContent = {
+                 icon(
+                    protoLayoutResourceId =
+                    context.resources.getResourceName(R.drawable.ic_message_24)
+                )
+            },
+            labelContent = { text("Compact".layoutString) }
+        )
+    }
+)
+```
+
+## button
+
+![button](button.png)
+
+A light purple, rounded button with a speech bubble icon, "Button" as the primary label, and
+"Secondary Label" below it.
+
+```kotlin
+primaryLayout(
+    mainSlot = {
+        button(
+            onClick = clickable(id = "button_click"),
+            labelContent = { text("Button".layoutString) },
+            secondaryLabelContent = { text("Secondary Label".layoutString) },
+            iconContent = {
+                icon(
+                    protoLayoutResourceId =
+                    context.resources.getResourceName(R.drawable.ic_message_24)
+                )
+            }
+        )
+    }
+)
+```
+
+## iconEdgeButton
+
+![iconEdgeButton](iconEdgeButton.png)
+
+The word "Content" is centered on the screen. Below it, at the bottom, is a large, light purple-gray
+pill-shaped button with a message icon.
+
+```kotlin
+primaryLayout(
+    mainSlot = { text("Content".layoutString) },
+    bottomSlot = {
+        iconEdgeButton(
+            onClick = clickable(id = "icon_edge_button_click"),
+            iconContent = {
+                icon(
+                    protoLayoutResourceId =
+                    context.resources.getResourceName(R.drawable.ic_message_24)
+                )
+            }
+        )
+    }
+)
+```
+
+## textEdgeButton
+
+![textEdgeButton](textEdgeButton.png)
+
+A rounded button labeled "Edge Button" at the bottom of the screen, with the word "Content" centered
+above it.
+
+```kotlin
+primaryLayout(
+    mainSlot = { text("Content".layoutString) },
+    bottomSlot = {
+        textEdgeButton(
+            onClick = clickable(id = "text_edge_button_click"),
+            labelContent = { text("Edge Button".layoutString) }
+        )
+    }
+)
+```
