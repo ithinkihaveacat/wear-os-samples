@@ -10,12 +10,12 @@ import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.TimelineBuilders
 import androidx.wear.protolayout.expression.ProtoLayoutExperimental
 import androidx.wear.protolayout.material3.MaterialScope
-import androidx.wear.protolayout.material3.CardDefaults
 import androidx.wear.protolayout.material3.appCard
 import androidx.wear.protolayout.material3.avatarButton
 import androidx.wear.protolayout.material3.avatarImage
 import androidx.wear.protolayout.material3.backgroundImage
 import androidx.wear.protolayout.material3.button
+import androidx.wear.protolayout.material3.circularProgressIndicator
 import androidx.wear.protolayout.material3.compactButton
 import androidx.wear.protolayout.material3.graphicDataCard
 import androidx.wear.protolayout.material3.icon
@@ -25,6 +25,7 @@ import androidx.wear.protolayout.material3.iconEdgeButton
 import androidx.wear.protolayout.material3.imageButton
 import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
+import androidx.wear.protolayout.material3.segmentedCircularProgressIndicator
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textButton
 import androidx.wear.protolayout.material3.textDataCard
@@ -41,7 +42,7 @@ import com.google.android.horologist.tiles.SuspendingTileService
 import java.util.UUID
 
 class CatalogService : SuspendingTileService() {
-    private val RESOURCES_VERSION = "7"
+    private val RESOURCES_VERSION = "8"
 
     @OptIn(ProtoLayoutExperimental::class)
     override suspend fun tileRequest(requestParams: RequestBuilders.TileRequest): TileBuilders.Tile {
@@ -63,6 +64,8 @@ class CatalogService : SuspendingTileService() {
                 "textDataCard" -> textDataCardLayout(this@CatalogService)
                 "iconDataCard" -> iconDataCardLayout(this@CatalogService)
                 "graphicDataCard" -> graphicDataCardLayout(this@CatalogService)
+                "circularProgressIndicator" -> circularProgressIndicatorLayout()
+                "segmentedCircularProgressIndicator" -> segmentedCircularProgressIndicatorLayout()
                 else -> iconButtonLayout(this@CatalogService)
             }
         }
@@ -327,6 +330,41 @@ class CatalogService : SuspendingTileService() {
                     },
                     title = { text("Graphic Data".layoutString) },
                     content = { text("Content".layoutString) }
+                )
+            }
+        )
+
+    private fun MaterialScope.circularProgressIndicatorLayout(): LayoutElementBuilders.LayoutElement =
+        primaryLayout(
+            mainSlot = {
+                graphicDataCard(
+                    onClick = clickable(id = "circular_progress_click"),
+                    graphic = {
+                        circularProgressIndicator(
+                            staticProgress = 0.75f,
+                            startAngleDegrees = 0f,
+                            endAngleDegrees = 360f
+                        )
+                    },
+                    title = { text("75%".layoutString) },
+                    content = { text("Progress".layoutString) }
+                )
+            }
+        )
+
+    private fun MaterialScope.segmentedCircularProgressIndicatorLayout(): LayoutElementBuilders.LayoutElement =
+        primaryLayout(
+            mainSlot = {
+                graphicDataCard(
+                    onClick = clickable(id = "segmented_progress_click"),
+                    graphic = {
+                        segmentedCircularProgressIndicator(
+                            segmentCount = 5,
+                            staticProgress = 0.6f
+                        )
+                    },
+                    title = { text("3/5".layoutString) },
+                    content = { text("Segments".layoutString) }
                 )
             }
         )

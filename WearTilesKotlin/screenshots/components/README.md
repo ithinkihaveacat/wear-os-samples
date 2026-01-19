@@ -294,6 +294,55 @@ primaryLayout(
 )
 ```
 
+## circularProgressIndicator
+
+![circularProgressIndicator](circularProgressIndicator.png)
+
+A circular progress indicator showing 75% progress.
+
+```kotlin
+primaryLayout(
+    mainSlot = {
+        graphicDataCard(
+            onClick = clickable(id = "circular_progress_click"),
+            graphic = {
+                circularProgressIndicator(
+                    staticProgress = 0.75f,
+                    startAngleDegrees = 0f,
+                    endAngleDegrees = 360f
+                )
+            },
+            title = { text("75%".layoutString) },
+            content = { text("Progress".layoutString) }
+        )
+    }
+)
+```
+
+## segmentedCircularProgressIndicator
+
+![segmentedCircularProgressIndicator](segmentedCircularProgressIndicator.png)
+
+Pill-shaped progress indicator showing 3 of 5 segments complete, with text "3/5 Segments".
+
+```kotlin
+primaryLayout(
+    mainSlot = {
+        graphicDataCard(
+            onClick = clickable(id = "segmented_progress_click"),
+            graphic = {
+                segmentedCircularProgressIndicator(
+                    segmentCount = 5,
+                    staticProgress = 0.6f
+                )
+            },
+            title = { text("3/5".layoutString) },
+            content = { text("Segments".layoutString) }
+        )
+    }
+)
+```
+
 ## How this catalog was generated
 
 This catalog is generated using a combination of a dedicated `CatalogService` and automated capture
