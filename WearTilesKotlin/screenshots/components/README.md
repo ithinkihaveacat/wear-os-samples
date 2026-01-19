@@ -293,3 +293,56 @@ primaryLayout(
     }
 )
 ```
+
+## How this catalog was generated
+
+This catalog is generated using a combination of a dedicated `CatalogService` and automated capture
+tools.
+
+### Involved Files
+
+<!-- markdownlint-disable-next-line MD013 -->
+
+- `app/src/main/java/com/example/wear/tiles/CatalogService.kt`: A `TileService` that provides the
+layouts for each component. It uses a `materialScope` to select the layout based on the current
+state.
+<!-- markdownlint-disable-next-line MD013 -->
+- `app/src/main/java/com/example/wear/tiles/CatalogReceiver.kt`: A `BroadcastReceiver` that listens
+for `com.example.wear.tiles.SET_LAYOUT` intents to switch the active component.
+<!-- markdownlint-disable-next-line MD013 -->
+- `app/src/main/java/com/example/wear/tiles/CatalogDataStore.kt`: Uses Jetpack DataStore to persist
+  the name of the currently displayed layout.
+
+### Generation Process
+
+1. **Trigger Switch**: Send an ADB broadcast to change the active layout:
+
+   ```bash
+   adb shell am broadcast -a com.example.wear.tiles.SET_LAYOUT \
+     --es layout <COMPONENT_NAME> com.example.wear.tiles
+   ```
+
+2. **Monitor Update**: Wear OS typically enforces a delay (approx. 18 seconds) for background tile
+   updates. Monitor the logs for the `tileRequest` to ensure the new layout is processed:
+
+   ```bash
+   adb logcat -s CatalogService
+   ```
+
+3. **Capture Screenshot**: Once the log confirms the request is processed, capture the screen:
+
+   ```bash
+   # Using the adb-screenshot skill tool
+   scripts/adb-screenshot screenshots/components/<COMPONENT_NAME>.png
+   ```
+
+4. **Generate Description**: Use an AI-based tool to generate a concise description of the
+   component, instructing it to ignore the system status bar elements:
+
+   <!-- markdownlint-disable-next-line MD013 -->
+
+   ```bash
+   # Using the screenshot-describe skill tool with a custom prompt
+   prompt="Generate concise alt text describing the UI component in the center or bottom of this screenshot. Ignore the white circle and lightning bolt icon at the top."
+   scripts/screenshot-describe screenshots/components/<COMPONENT_NAME>.png "$prompt"
+   ```
