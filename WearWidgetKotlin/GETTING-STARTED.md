@@ -737,26 +737,27 @@ significantly.
 | **Resource Management**   | **Versioned.** Uses `onTileResourcesRequest` to serve and version resources (images) independently of the layout.                                                     | **Direct Binding.** Resources are handled transparently within the composition, similar to standard Compose (e.g., `R.drawable`).                                                          |
 | **Telemetry / Tracking**  | **Built-in Callback.** `onRecentInteractionEventsAsync` provides a stream of recent click events.                                                                     | **Support Planned.**                                                                                                                                                                       |
 
-## Migrating from Legacy Tiles
+## Adding Widget Support to Existing Tiles
 
-Migrating from an existing `TileService` to a modern Wear Widget is a
-seamless process for your users; they won't need to do anything or even be aware
-that a change has occurred. The system uses the `group` attribute to uniquely
-identify the widget, allowing it to recognize that a modern Widget and a legacy
-Tile are in fact the same logical component even as you swap out the renderer.
+Adding modern Widget support to an existing `TileService` is a seamless process
+for your users. By using the `group` attribute, you can link your new
+implementation to the old one. This enables the system to recognize that they
+form a single logical component, allowing you to provide a high-fidelity Widget
+on supported surfaces, while preserving the user's carousel configuration and
+maintaining your existing `TileService` for use in situations where this
+provides the best user experience.
 
-### Side-by-Side Migration (Recommended)
+### Side-by-Side Upgrade (Recommended)
 
-This approach allows you to ship the new widget code alongside the old tile
-code, using a feature flag in the manifest to control which one is active. This
-is the safest way to migrate because it allows for an instant rollback if issues
-arise.
+This approach is the most robust because it preserves your existing high-quality
+Tile implementation for legacy devices while adding modern Widget support for
+newer ones.
 
 1. **Create New Code:** Implement your new `NewWidgetService` (extending
    `GlanceWearWidgetService`) and its XML configuration.
 2. **Link Identity:** In your new widget's XML configuration (e.g.,
    `res/xml/new_widget_info.xml`), set the `group` attribute to the **exact
-   fully qualified class name** of the old service.
+   fully qualified class name** of your existing `TileService`.
 
    ```xml
    <wearwidget-provider
@@ -765,33 +766,28 @@ arise.
        ... >
    ```
 
-3. **Update Manifest:**
-   - Find the `OldTileService` entry and set `android:enabled="false"`.
-   - Add the `NewWidgetService` entry and set `android:enabled="true"`.
+3. **Update Manifest:** Ensure **both** services remain enabled
+   (`android:enabled="true"`).
 
-**Trade-offs:**
+When a widget is added in this way, the system will use the high-fidelity Widget
+on supported Wear 7+ surfaces and fall back to your native `ProtoLayout` Tile on
+older platforms, ensuring an optimal experience across all devices.
 
-- **Pros:** Safe, reversible, and preserves the Git history of the old code.
-- **Cons:** The XML configuration will permanently reference the old class name
-  (`group="...OldTileService"`), which might be confusing to future developers.
+### In-place Upgrade (Strongly Discouraged)
 
-### In-place Replacement
+While you can technically convert your existing `TileService` to a
+`GlanceWearWidgetService` in place, this is **strongly discouraged**.
 
-If you prefer a clean slate and are confident in the new implementation, you can
-simply replace the code in place.
-
-1. **Rewrite Code:** Delete the contents of `OldTileService.kt` and rewrite it
-   to extend `GlanceWearWidgetService`.
+1. **Rewrite Code:** Update your `OldTileService.kt` to extend
+   `GlanceWearWidgetService`.
 2. **Update Manifest:** Add the required `<intent-filter>` for
-   `androidx.glance.wear.action.BIND_WIDGET_PROVIDER` and the `<meta-data>`
-   pointing to your new widget XML.
-3. **XML Config:** You do _not_ need to specify a `group` attribute, because the
-   class name remains the same.
+   `androidx.glance.wear.action.BIND_WIDGET_PROVIDER`.
 
-**Trade-offs:**
-
-- **Pros:** Clean codebase with no "dead" classes or confusing group aliases.
-- **Cons:** Destructive change that is harder to revert.
+**Why this is discouraged:** An in-place upgrade effectively retires your custom
+`ProtoLayout` Tile. On older devices, the system would be forced to use the
+"Widget-as-Tile" compatibility mode, which is generally less polished than a
+purpose-built Tile. Maintaining separate implementations ensures the highest
+quality experience across Wear devices.
 
 ### Advanced: Runtime Switching
 
