@@ -238,8 +238,12 @@ When defining your widget's metadata, follow these guidelines:
     label="@string/hello_widget_label"
     preferredType="SMALL">
 
-    <container type="SMALL" />
-    <container type="LARGE" />
+    <container
+        type="SMALL"
+        previewImage="@drawable/tile_preview" />
+    <container
+        type="LARGE"
+        previewImage="@drawable/tile_preview" />
 </wearwidget-provider>
 ```
 

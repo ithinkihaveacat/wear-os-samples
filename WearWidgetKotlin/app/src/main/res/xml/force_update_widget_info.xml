@@ -5,7 +5,11 @@
     label="Favorite Widget"
     preferredType="SMALL">
 
-    <container type="SMALL" />
-    <container type="LARGE" />
+    <container
+        type="SMALL"
+        previewImage="@drawable/tile_preview" />
+    <container
+        type="LARGE"
+        previewImage="@drawable/tile_preview" />
 
 </wearwidget-provider>
