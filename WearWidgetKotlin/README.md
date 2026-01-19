@@ -3,111 +3,124 @@
 This repository provides sample code illustrating the use of new Wear Widget
 libraries (specifically `androidx.compose.remote` and related packages).
 
-For general information on how to build Wear Widgets, including prerequisites, dependencies, and configuration, please refer to [GETTING-STARTED.md](GETTING-STARTED.md).
+## Documentation
 
-## Getting Started with this Sample
+- [Getting Started](docs/GETTING-STARTED.md): Detailed guide on building Wear
+  Widgets.
+- [Components](docs/COMPONENTS.md): Catalog of available components.
 
-### Build and Install
+## Available Skills
 
-Build the project and install the debug APK for the HelloWidget (only) onto your
-connected device or emulator:
+This repository includes specialized skills to assist with development. These
+are located in the `.gemini/skills` directory and are designed to work with
+agents from various providers:
+
+- **`jetpack`**: Manage AndroidX libraries.
+- **`emumanager`**: Manage Android emulators.
+- **`ai-analysis`**: AI-powered analysis tools.
+- **`adb`**: Wear OS specific ADB commands.
+
+## Quick Start
+
+### 1. Prerequisites: Install the Renderer
+
+**Critical:** To display Wear Widgets correctly, your Wear OS device or emulator
+must have a compatible version of the `protolayout` renderer installed.
+
+1. **Check Device Architecture:**
+
+   ```bash
+   adb shell getprop ro.product.cpu.abi
+   ```
+
+   _(e.g., `arm64-v8a` for most physical devices/Mac emulators, `x86_64` for
+   Intel/AMD emulators)_
+
+2. **Check Build Type:**
+
+   ```bash
+   adb shell getprop ro.build.type
+   ```
+
+   _(Returns `releasekey` for user builds or `testkey` for userdebug builds)_
+
+3. **Install the Renderer:** Locate the correct APK in the `renderer/` directory
+   (or provided path) matching your ABI and build type.
+
+   ```bash
+   # Example
+   adb install -g -t -r renderer/renderer_..._arm64-v8a_releasekey_...apk
+   ```
+
+4. **Restart System UI:**
+
+   ```bash
+   adb shell am force-stop com.google.android.wearable.sysui
+   ```
+
+### 2. Build and Install the App
 
 ```bash
 ./gradlew :app:installDebug
 ```
 
-### Add and Display the Tile
+### 3. Add and Display the Tile
 
-Once the app is installed, you need to add the tile to the carousel to see it.
-There are three ways to do this:
+You can add the tile manually via the watch interface (long press on watch face
+-> add tile) or use ADB for automation.
 
-#### Option A: Manual (User Interface)
+**Using ADB:**
 
-Follow the standard Wear OS instructions to add a tile from the watch face:
-<https://support.google.com/wearos/answer/9314375>
-
-#### Option B: Android Studio
-
-Use the "run" configuration features in Android Studio as described in the Wear
-OS Tiles codelab: <https://developer.android.com/codelabs/wear-tiles#3>
-
-#### Option C: ADB Commands
-
-You can use ADB to programmatically add and show the tile. This is useful for
-automation.
-
-**1. Add the tile:**
-
+````bash
+# Add the HelloWidget
 ```bash
 adb shell am broadcast \
   -a com.google.android.wearable.app.DEBUG_SURFACE \
   --es operation add-tile \
   --ecn component com.google.example.wear_widget/.HelloWidgetService
-```
 
-**2. Show the tile:**
-
-(Assuming this is the first tile added, it will be at index 0.)
-
+# Show the tile (assuming index 0)
 ```bash
 adb shell am broadcast \
   -a com.google.android.wearable.app.DEBUG_SYSUI \
   --es operation show-tile \
   --ei index 0
-```
+````
 
-## Exploring the Widget Catalog
+## Exploring the Catalogs
 
-The `WidgetCatalog.kt` file contains various widget samples (e.g.,
-`ButtonSample9`, `CardSample1`). To display a specific sample on your device, 
-follow these steps:
+This sample includes two catalogs: `WidgetCatalog` (full widgets) and
+`ComponentCatalog` (individual components).
 
-### 1. Select a Sample
+### Component Catalog (Recommended)
 
-Open `app/src/main/java/com/google/example/wear_widget/WidgetCatalog.kt` and
-locate the `provideWidgetData` method in the `WidgetCatalog` class. Update the
-lambda to call the composable function of the sample you wish to view.
-
-```kotlin
-override suspend fun provideWidgetData(
-    context: Context,
-    params: WearWidgetParams,
-): WearWidgetData =
-    // Change ButtonSample9() to the desired sample function
-    WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) { ButtonSample9() }
-```
-
-### 2. Build and Install
-
-Rebuild and install the application:
+Use the included `widget-switch` script to quickly browse different components
+without code changes.
 
 ```bash
-./gradlew :app:installDebug
+# Initialize
+./widget-switch --init
+
+# Switch layouts
+./widget-switch textButton
+./widget-switch appCard
 ```
 
-### 3. Deploy and Verify
+### Widget Catalog
 
-Use the `adb-tile-add` script to register the catalog service and automatically
-show it on the device.
+To modify the main `WidgetCatalog`, edit
+`app/src/main/java/com/google/example/wear_widget/WidgetCatalog.kt` to select a
+different sample in `provideWidgetData`.
 
-```bash
-adb-tile-add com.google.example.wear_widget/.WidgetCatalogService
-```
+## Troubleshooting
 
-**Note:** After running `adb-tile-add` (or any command to show the tile), **wait at least 3 seconds** before taking a screenshot. There is often a rendering delay. If the screenshot does not look as expected (verify using `screenshot-describe` or `screenshot-compare`), wait a bit longer and retake it. In rare cases, running the command sequence again may be necessary, but usually, waiting and retaking is sufficient.
+**Issue: Blank Widget** If the widget appears blank, especially after switching
+rapidly:
 
-Finally, verify the tile is displayed correctly by taking a screenshot. The
-screenshot can be reviewed manually, but if the reader is an agent, they should
-use the `screenshot-describe` command. It is good practice to take a baseline
-screenshot before making changes to compare against.
+1. Force-stop the app:
 
-```bash
-adb-screenshot sample_verification.png
-screenshot-describe sample_verification.png
-```
+   ```bash
+   adb shell am force-stop com.google.example.wear_widget
+   ```
 
-## Sample Visuals
-
-You can find screenshots of various samples in the `screenshots/` directory. These can help you visualize what the samples look like without deploying them.
-
-```
+2. Re-add the tile.
