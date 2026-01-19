@@ -2,11 +2,15 @@ package com.example.wear.tiles
 
 import android.util.Log
 import android.content.Context
+import androidx.annotation.OptIn
 import androidx.wear.protolayout.LayoutElementBuilders
+import androidx.wear.protolayout.LayoutElementBuilders.CONTENT_SCALE_MODE_CROP
 import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.TimelineBuilders
+import androidx.wear.protolayout.expression.ProtoLayoutExperimental
 import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.avatarButton
+import androidx.wear.protolayout.material3.avatarImage
 import androidx.wear.protolayout.material3.backgroundImage
 import androidx.wear.protolayout.material3.button
 import androidx.wear.protolayout.material3.compactButton
@@ -20,7 +24,6 @@ import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textButton
 import androidx.wear.protolayout.material3.textEdgeButton
 import androidx.wear.protolayout.modifiers.clickable
-import androidx.wear.protolayout.modifiers.clip
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.TileBuilders
@@ -29,8 +32,9 @@ import com.google.android.horologist.tiles.SuspendingTileService
 import java.util.UUID
 
 class CatalogService : SuspendingTileService() {
-    private val RESOURCES_VERSION = "5"
+    private val RESOURCES_VERSION = "6"
 
+    @OptIn(ProtoLayoutExperimental::class)
     override suspend fun tileRequest(requestParams: RequestBuilders.TileRequest): TileBuilders.Tile {
         val state = getCatalogState()
         Log.d("CatalogService", "tileRequest: processing request for layout '${state.layoutName}'")
@@ -78,11 +82,11 @@ class CatalogService : SuspendingTileService() {
                     .build()
             )
             .addIdToImageMapping(
-                this.resources.getResourceName(R.drawable.avatar1),
+                this.resources.getResourceName(R.drawable.ali),
                 ResourceBuilders.ImageResource.Builder()
                     .setAndroidResourceByResId(
                         ResourceBuilders.AndroidImageResourceByResId.Builder()
-                            .setResourceId(R.drawable.avatar1)
+                            .setResourceId(R.drawable.ali)
                             .build()
                     )
                     .build()
@@ -125,15 +129,16 @@ class CatalogService : SuspendingTileService() {
             }
         )
 
+    @OptIn(ProtoLayoutExperimental::class)
     private fun MaterialScope.avatarButtonLayout(context: Context): LayoutElementBuilders.LayoutElement =
         primaryLayout(
             mainSlot = {
                 avatarButton(
                     onClick = clickable(id = "avatar_button_click"),
                     avatarContent = {
-                        icon(
-                            protoLayoutResourceId =
-                            context.resources.getResourceName(R.drawable.avatar1)
+                        avatarImage(
+                            protoLayoutResourceId = context.resources.getResourceName(R.drawable.ali),
+                            contentScaleMode = CONTENT_SCALE_MODE_CROP
                         )
                     },
                     labelContent = { text("Avatar Button".layoutString) },
