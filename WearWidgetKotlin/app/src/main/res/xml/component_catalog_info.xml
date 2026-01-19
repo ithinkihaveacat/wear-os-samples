@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wearwidget-provider
+    description="Component Catalog Description"
+    icon="@drawable/ic_launcher"
+    label="Component Catalog"
+    preferredType="SMALL">
+    <container type="SMALL" />
+    <container type="LARGE" />
+</wearwidget-provider>

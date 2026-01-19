@@ -1,0 +1,63 @@
+# Wear Widget Component Catalog Plan
+
+This document outlines the plan to implement a comprehensive catalog of Wear
+Widget components, matching the existing ProtoLayout (Tiles) catalog where
+applicable.
+
+## Component Mapping
+
+The following table maps existing ProtoLayout Material3 components (from
+`WearTilesKotlin`) to their Wear Widget (Remote Compose) equivalents.
+
+| ProtoLayout Component                | Wear Widget Component             | Status         | Notes                                                                   |
+| :----------------------------------- | :-------------------------------- | :------------- | :---------------------------------------------------------------------- |
+| `textButton`                         | `RemoteButton`                    | ✅ Implemented | Use `RemoteButton` with text content.                                   |
+| `iconButton` | `RemoteButton` | ✅ Implemented | Use `RemoteButton` with `RemoteIcon` content. |
+| `avatarButton`                       | `RemoteButton`                    | ⬜ Planned     | Use `RemoteButton` with `RemoteImage` content (cropped).                |
+| `imageButton`                        | `RemoteButton`                    | ⬜ Planned     | Use `RemoteButton` with background image.                               |
+| `compactButton`                      | `RemoteButton`                    | ⬜ Planned     | Use small size modifiers.                                               |
+| `button`                             | `RemoteButton`                    | ✅ Implemented | Standard `RemoteButton` usage.                                          |
+| `iconEdgeButton` | N/A | ❌ Skipped | Edge buttons do not exist in Wear Widgets. |
+| `textEdgeButton` | N/A | ❌ Skipped | Edge buttons do not exist in Wear Widgets. |
+| `titleCard`                          | `RemoteCard`                      | ⬜ Planned     | Use `RemoteCard` with title slots.                                      |
+| `appCard`                            | `RemoteCard`                      | ⬜ Planned     | Use `RemoteCard` with app-specific slots (time, avatar, etc.).          |
+| `textDataCard`                       | `RemoteCard`                      | ⬜ Planned     | Use `RemoteCard` for data display.                                      |
+| `iconDataCard`                       | `RemoteCard`                      | ⬜ Planned     | Use `RemoteCard` with icon slot.                                        |
+| `graphicDataCard`                    | `RemoteCard`                      | ⬜ Planned     | Use `RemoteCard` with graphic slot.                                     |
+| `circularProgressIndicator`          | `RemoteCircularProgressIndicator` | ⬜ Planned     | Standard circular progress.                                             |
+| `segmentedCircularProgressIndicator` | `RemoteCircularProgressIndicator` | ⬜ Planned     | Use segmented properties.                                               |
+
+## Additional Components
+
+These are core Remote Compose components that should also be demonstrated, even
+if they don't have a direct "Material Component" counterpart in the Tiles
+catalog (which focuses on high-level M3 components).
+
+- `RemoteText` (Basic text styling)
+- `RemoteIcon` (Vector/Drawable rendering)
+- `RemoteImage` (Bitmap rendering)
+- `RemoteBox` (Layout primitives)
+- `RemoteRow` (Layout primitives)
+- `RemoteColumn` (Layout primitives)
+- `RemoteCanvas` (Custom drawing)
+
+## Implementation Plan
+
+1. **Phase 1: Basic Inputs (Buttons)**
+   - Implement `iconButton`, `avatarButton`, `imageButton`, `compactButton`.
+   - Verify `EdgeButton` availability.
+
+2. **Phase 2: Cards**
+   - Implement `titleCard`, `appCard`.
+   - Implement Data Cards (`textDataCard`, `iconDataCard`, `graphicDataCard`).
+
+3. **Phase 3: Progress & Graphics**
+   - Implement `circularProgressIndicator`.
+   - Implement `segmentedCircularProgressIndicator`.
+   - Add `RemoteCanvas` samples (already partially present in
+     `WidgetCatalog.kt`).
+
+4. **Phase 4: Documentation**
+   - Generate screenshots for all new components.
+   - Create a `README.md` in `screenshots/components/` similar to the Tiles
+     project.
