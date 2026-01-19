@@ -43,6 +43,13 @@ import androidx.wear.compose.remote.material3.RemoteIcon
 import androidx.wear.compose.remote.material3.RemoteImage
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 
+import androidx.compose.remote.creation.compose.action.ValueChange
+import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
+import androidx.compose.remote.creation.compose.state.ri
+import androidx.compose.remote.creation.compose.modifier.animationSpec
+import androidx.compose.remote.creation.compose.modifier.background
+import androidx.compose.remote.creation.compose.modifier.clickable
+
 class ComponentCatalogService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = ComponentCatalog()
 }
@@ -66,11 +73,47 @@ class ComponentCatalog : GlanceWearWidget() {
                 "circularProgressIndicator" -> ComponentCatalogCircularProgressIndicatorSample()
                 "segmentedCircularProgressIndicator" -> ComponentCatalogSegmentedCircularProgressIndicatorSample()
                 "fullBleedImage" -> ComponentCatalogFullBleedImageSample()
+                "animatedBox" -> ComponentCatalogAnimatedBoxSample()
                 else -> ComponentCatalogTextButtonSample()
             }
         }
     }
 }
+
+// ... existing samples ...
+
+@RemoteComposable
+@Composable
+fun ComponentCatalogAnimatedBoxSample() {
+    // Define a remote state key for toggling
+    val state = rememberRemoteIntValue { 0 }
+    val isToggled = state eq 1.ri
+
+    // Derive animated properties based on the remote state
+    val containerColor = isToggled.select(Color.Red.rc, Color.Blue.rc)
+    val boxSize = isToggled.select(120f.rf, 60f.rf).asRemoteDp()
+
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteBox(
+            modifier = RemoteModifier
+                // Apply the animated size
+                .size(boxSize)
+                // Enable tween animations for all property changes on this element
+                .animationSpec(enabled = true)
+                // Apply the animated color
+                .background(containerColor)
+                // Toggle the state key on click
+                .clickable(
+                    actions = arrayOf(ValueChange(state, state xor 1.ri))
+                )
+        )
+    }
+}
+
 
 @RemoteComposable
 @Composable

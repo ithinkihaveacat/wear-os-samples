@@ -234,3 +234,43 @@ RemoteBox(
     }
 }
 ```
+
+## animatedBox
+
+![animatedBox](animatedBox.png)
+
+A box that animates between sizes and colors when clicked.
+
+```kotlin
+@RemoteComposable
+@Composable
+fun ComponentCatalogAnimatedBoxSample() {
+    // Define a remote state key for toggling
+    val state = rememberRemoteIntValue { 0 }
+    val isToggled = state eq 1.ri
+
+    // Derive animated properties based on the remote state
+    val containerColor = isToggled.select(Color.Red.rc, Color.Blue.rc)
+    val boxSize = isToggled.select(120f.rf, 60f.rf).asRemoteDp()
+
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteBox(
+            modifier = RemoteModifier
+                // Apply the animated size
+                .size(boxSize)
+                // Enable tween animations for all property changes on this element
+                .animationSpec(enabled = true)
+                // Apply the animated color
+                .background(containerColor)
+                // Toggle the state key on click
+                .clickable(
+                    actions = arrayOf(ValueChange(state, state xor 1.ri))
+                )
+        )
+    }
+}
+```

@@ -27,6 +27,7 @@ The following table maps existing ProtoLayout Material3 components (from
 | `circularProgressIndicator`          | `RemoteCard`                      | ✅ Implemented | Simulated using `RemoteCard` layout (icon + text) as `RemoteCircularProgressIndicator` is unavailable. |
 | `segmentedCircularProgressIndicator` | `RemoteCard`                      | ✅ Implemented | Simulated using `RemoteCard` layout.                                    |
 | `fullBleedImage`                     | `RemoteImage`                     | ✅ Implemented | Full-screen image with overlay text.                                    |
+| `animatedBox`                        | `RemoteBox`                       | ✅ Implemented | Interactive box with property animations (color, size).                 |
 
 ## Additional Components
 
