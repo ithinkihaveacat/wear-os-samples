@@ -12,11 +12,13 @@ import androidx.wear.protolayout.material3.button
 import androidx.wear.protolayout.material3.compactButton
 import androidx.wear.protolayout.material3.icon
 import androidx.wear.protolayout.material3.iconButton
+import androidx.wear.protolayout.material3.iconEdgeButton
 import androidx.wear.protolayout.material3.imageButton
 import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textButton
+import androidx.wear.protolayout.material3.textEdgeButton
 import androidx.wear.protolayout.modifiers.clickable
 import androidx.wear.protolayout.modifiers.clip
 import androidx.wear.protolayout.types.layoutString
@@ -27,7 +29,7 @@ import com.google.android.horologist.tiles.SuspendingTileService
 import java.util.UUID
 
 class CatalogService : SuspendingTileService() {
-    private val RESOURCES_VERSION = "4"
+    private val RESOURCES_VERSION = "5"
 
     override suspend fun tileRequest(requestParams: RequestBuilders.TileRequest): TileBuilders.Tile {
         val state = getCatalogState()
@@ -41,6 +43,8 @@ class CatalogService : SuspendingTileService() {
                 "imageButton" -> imageButtonLayout(this@CatalogService)
                 "compactButton" -> compactButtonLayout(this@CatalogService)
                 "button" -> buttonLayout(this@CatalogService)
+                "iconEdgeButton" -> iconEdgeButtonLayout(this@CatalogService)
+                "textEdgeButton" -> textEdgeButtonLayout()
                 else -> iconButtonLayout(this@CatalogService)
             }
         }
@@ -182,6 +186,33 @@ class CatalogService : SuspendingTileService() {
                             context.resources.getResourceName(R.drawable.ic_message_24)
                         )
                     }
+                )
+            }
+        )
+
+    private fun MaterialScope.iconEdgeButtonLayout(context: Context): LayoutElementBuilders.LayoutElement =
+        primaryLayout(
+            mainSlot = { text("Content".layoutString) },
+            bottomSlot = {
+                iconEdgeButton(
+                    onClick = clickable(id = "icon_edge_button_click"),
+                    iconContent = {
+                        icon(
+                            protoLayoutResourceId =
+                            context.resources.getResourceName(R.drawable.ic_message_24)
+                        )
+                    }
+                )
+            }
+        )
+
+    private fun MaterialScope.textEdgeButtonLayout(): LayoutElementBuilders.LayoutElement =
+        primaryLayout(
+            mainSlot = { text("Content".layoutString) },
+            bottomSlot = {
+                textEdgeButton(
+                    onClick = clickable(id = "text_edge_button_click"),
+                    labelContent = { text("Edge Button".layoutString) }
                 )
             }
         )
