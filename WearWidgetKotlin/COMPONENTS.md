@@ -13,14 +13,14 @@ The following table maps existing ProtoLayout Material3 components (from
 | :----------------------------------- | :-------------------------------- | :------------- | :---------------------------------------------------------------------- |
 | `textButton`                         | `RemoteButton`                    | ✅ Implemented | Use `RemoteButton` with text content.                                   |
 | `iconButton` | `RemoteButton` | ✅ Implemented | Use `RemoteButton` with `RemoteIcon` content. |
-| `avatarButton`                       | `RemoteButton`                    | ⬜ Planned     | Use `RemoteButton` with `RemoteImage` content (cropped).                |
-| `imageButton`                        | `RemoteButton`                    | ⬜ Planned     | Use `RemoteButton` with background image.                               |
-| `compactButton`                      | `RemoteButton`                    | ⬜ Planned     | Use small size modifiers.                                               |
+| `avatarButton`                       | `RemoteButton`                    | ⚠️ Issue     | Renders as black screen; issue tracked with TODO in source.            |
+| `imageButton`                        | `RemoteButton`                    | ✅ Implemented | Use `RemoteBox` + `RemoteImage` as background.                          |
+| `compactButton`                      | `RemoteButton`                    | ✅ Implemented | Use `RemoteButton` with `SmallIconSize`.                                |
 | `button`                             | `RemoteButton`                    | ✅ Implemented | Standard `RemoteButton` usage.                                          |
 | `iconEdgeButton` | N/A | ❌ Skipped | Edge buttons do not exist in Wear Widgets. |
 | `textEdgeButton` | N/A | ❌ Skipped | Edge buttons do not exist in Wear Widgets. |
-| `titleCard`                          | `RemoteCard`                      | ⬜ Planned     | Use `RemoteCard` with title slots.                                      |
-| `appCard`                            | `RemoteCard`                      | ⬜ Planned     | Use `RemoteCard` with app-specific slots (time, avatar, etc.).          |
+| `titleCard`                          | `RemoteCard`                      | ✅ Implemented | Use `RemoteCard` with title slots.                                      |
+| `appCard`                            | `RemoteCard`                      | ✅ Implemented | Use `RemoteCard` with app-specific slots (time, avatar, etc.).          |
 | `textDataCard`                       | `RemoteCard`                      | ⬜ Planned     | Use `RemoteCard` for data display.                                      |
 | `iconDataCard`                       | `RemoteCard`                      | ⬜ Planned     | Use `RemoteCard` with icon slot.                                        |
 | `graphicDataCard`                    | `RemoteCard`                      | ⬜ Planned     | Use `RemoteCard` with graphic slot.                                     |

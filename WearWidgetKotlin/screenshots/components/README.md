@@ -74,3 +74,64 @@ RemoteButton(
     label = { MaterialRemoteText("Compact".rs) }
 )
 ```
+
+## titleCard
+
+![titleCard](titleCard.png)
+
+A simple card with a title and content text.
+
+```kotlin
+RemoteButton(
+    onClick = arrayOf(),
+    modifier = RemoteModifier.padding(horizontal = 10.dp)
+) {
+    RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
+        MaterialRemoteText(
+            text = "Title Card".rs,
+            fontWeight = FontWeight.Bold
+        )
+        MaterialRemoteText(
+            text = "Content".rs
+        )
+    }
+}
+```
+
+## appCard
+
+![appCard](appCard.png)
+
+A card displaying application-specific content, such as a message notification.
+
+```kotlin
+RemoteButton(
+    onClick = arrayOf(),
+    modifier = RemoteModifier.padding(horizontal = 10.dp)
+) {
+    RemoteColumn(modifier = RemoteModifier.padding(8.dp)) {
+        RemoteRow(
+            verticalAlignment = RemoteAlignment.CenterVertically,
+            modifier = RemoteModifier.fillMaxWidth()
+        ) {
+            RemoteImage(
+                bitmap = ImageBitmap.imageResource(id = R.drawable.ali),
+                contentDescription = "Avatar".rs,
+                contentScale = ContentScale.Crop,
+                modifier = RemoteModifier.size(24.rdp).clip(RoundedCornerShape(percent = 50))
+            )
+            RemoteBox(modifier = RemoteModifier.size(8.rdp))
+            MaterialRemoteText("Ali".rs)
+            RemoteBox(modifier = RemoteModifier.size(20.rdp)) 
+            MaterialRemoteText("2:03 PM".rs)
+        }
+        MaterialRemoteText(
+            text = "Dinner in SF".rs,
+            fontWeight = FontWeight.Bold
+        )
+        MaterialRemoteText(
+            text = "Let's try that new restaurant.".rs
+        )
+    }
+}
+```

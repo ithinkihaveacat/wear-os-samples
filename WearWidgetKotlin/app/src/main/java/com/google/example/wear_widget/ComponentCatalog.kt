@@ -4,25 +4,22 @@ package com.google.example.wear_widget
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
+import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.layout.RemoteRow
-import androidx.compose.remote.creation.compose.modifier.RemoteModifier
-import androidx.compose.remote.creation.compose.modifier.clip
-import androidx.compose.remote.creation.compose.modifier.fillMaxSize
-import androidx.compose.remote.creation.compose.modifier.size
-import androidx.compose.remote.creation.compose.state.RemoteBitmap
+import androidx.compose.remote.creation.compose.modifier.*
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.asRdp
+import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -30,6 +27,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.glance.wear.GlanceWearWidget
 import androidx.glance.wear.GlanceWearWidgetService
@@ -52,6 +50,7 @@ class ComponentCatalog : GlanceWearWidget() {
         params: WearWidgetParams,
     ): WearWidgetData {
         val state = context.getComponentCatalogState()
+        Log.d("ComponentCatalog", "provideWidgetData: layoutName='${state.layoutName}'")
         return WearWidgetDocument(backgroundColor = Color.Black) {
             when (state.layoutName) {
                 "textButton" -> ComponentCatalogTextButtonSample()
@@ -59,6 +58,8 @@ class ComponentCatalog : GlanceWearWidget() {
                 "avatarButton" -> ComponentCatalogAvatarButtonSample()
                 "imageButton" -> ComponentCatalogImageButtonSample()
                 "compactButton" -> ComponentCatalogCompactButtonSample()
+                "titleCard" -> ComponentCatalogTitleCardSample()
+                "appCard" -> ComponentCatalogAppCardSample()
                 else -> ComponentCatalogTextButtonSample()
             }
         }
@@ -121,9 +122,6 @@ fun ComponentCatalogAvatarButtonSample() {
                 // Spacer
                 RemoteBox(modifier = RemoteModifier.size(8.dp.asRdp())) 
                 // Texts
-                // Note: Without RemoteColumn, we can't stack text easily inside RemoteButton's RowScope unless we add a Column.
-                // But RemoteButton expects a single slot usually?
-                // Let's just put the Avatar and "Avatar Button" text for now.
                 MaterialRemoteText("Avatar Button".rs)
             }
         }
@@ -166,7 +164,6 @@ fun ComponentCatalogCompactButtonSample() {
     ) {
         RemoteButton(
             onClick = arrayOf(),
-            // modifier = RemoteModifier.size(48.rdp), // Simulating compact size if specialized modifier missing
              icon = {
                 RemoteIcon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_message_24),
@@ -176,5 +173,68 @@ fun ComponentCatalogCompactButtonSample() {
             },
             label = { MaterialRemoteText("Compact".rs) }
         )
+    }
+}
+
+@RemoteComposable
+@Composable
+fun ComponentCatalogTitleCardSample() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center
+    ) {
+        // Simplified Title Card: Standard RemoteButton with column content
+        RemoteButton(
+            onClick = arrayOf() // Clickable for now to test rendering
+        ) {
+            RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
+                MaterialRemoteText(
+                    text = "Title Card".rs,
+                    fontWeight = FontWeight.Bold
+                )
+                MaterialRemoteText(
+                    text = "Content".rs
+                )
+            }
+        }
+    }
+}
+
+@RemoteComposable
+@Composable
+fun ComponentCatalogAppCardSample() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center
+    ) {
+        RemoteButton(
+            onClick = arrayOf()
+        ) {
+            RemoteColumn {
+                RemoteRow(
+                    verticalAlignment = RemoteAlignment.CenterVertically
+                ) {
+                    RemoteImage(
+                        bitmap = ImageBitmap.imageResource(id = R.drawable.ali),
+                        contentDescription = "Avatar".rs,
+                        contentScale = ContentScale.Crop,
+                        modifier = RemoteModifier.size(24.rdp).clip(RoundedCornerShape(percent = 50))
+                    )
+                    RemoteBox(modifier = RemoteModifier.size(8.rdp))
+                    MaterialRemoteText("Ali".rs)
+                    RemoteBox(modifier = RemoteModifier.size(20.rdp)) 
+                    MaterialRemoteText("2:03 PM".rs)
+                }
+                MaterialRemoteText(
+                    text = "Dinner in SF".rs,
+                    fontWeight = FontWeight.Bold
+                )
+                MaterialRemoteText(
+                    text = "Let's try that new restaurant.".rs
+                )
+            }
+        }
     }
 }
