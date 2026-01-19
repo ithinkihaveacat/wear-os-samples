@@ -10,9 +10,11 @@ horologist = "0.7.12-alpha"
 org-jetbrains-kotlin = "2.1.21"
 wear-tooling-preview = "1.0.0"
 desugar-jdk = "2.1.5"
+datastore = "1.1.2"
 
 [libraries]
 # AndroidX Wear & Compose
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 androidx-tiles-tooling = { module = "androidx.wear.tiles:tiles-tooling", version.ref = "androidx-wear-tiles" }
 androidx-wear-protolayout-material = { module = "androidx.wear.protolayout:protolayout-material", version.ref = "androidx-wear-protolayout" }

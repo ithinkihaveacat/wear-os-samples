@@ -61,6 +61,7 @@ android {
 dependencies {
     // Horologist provides helpful wrappers for Tiles development
     implementation(libs.horologist.tiles)
+    implementation(libs.androidx.datastore.preferences)
 
     // Coil for asynchronous image loading
     implementation(libs.coil)

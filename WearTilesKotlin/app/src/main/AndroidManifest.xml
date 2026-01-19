@@ -42,5 +42,23 @@
                 android:resource="@drawable/tile_messaging" />
         </service>
 
+        <service
+            android:name="com.example.wear.tiles.CatalogService"
+            android:exported="true"
+            android:label="@string/tile_catalog_label"
+            android:description="@string/tile_catalog_description"
+            android:icon="@mipmap/bolt"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name=".CatalogReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.wear.tiles.SET_LAYOUT" />
+            </intent-filter>
+        </receiver>
+
     </application>
 </manifest>
