@@ -988,6 +988,24 @@ expected.
 **Workaround:** Deploying the widget to an emulator or physical device provides
 the most reliable method to confirm the appearance and behavior.
 
+### `drawArc` `useCenter` Parameter Requires Static Boolean
+
+**Symptom:** You encounter a compilation error when trying to pass a
+`RemoteBoolean` to the `useCenter` parameter of `drawArc` in `RemoteCanvas` or
+`RemoteDrawScope`.
+
+**Workaround:** Use `drawConditionally` to toggle between two separate `drawArc`
+calls with static `Boolean` values:
+
+```kotlin
+drawConditionally(isToggled) {
+    drawArc(..., useCenter = true)
+}
+drawConditionally(isToggled.not()) {
+    drawArc(..., useCenter = false)
+}
+```
+
 ## Updates
 
 _This section will be updated with updates, e.g. new lib version availability
