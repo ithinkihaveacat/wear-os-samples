@@ -112,7 +112,7 @@ LAYOUT="$1"
 WAIT="${2:-1.5}"
 
 # Validate layout name
-VALID_LAYOUTS="textButton iconButton avatarButton imageButton compactButton titleCard appCard circularProgressIndicator segmentedCircularProgressIndicator fullBleedImage animatedBox"
+VALID_LAYOUTS="textButton iconButton avatarButton imageButton compactButton titleCard appCard textDataCard iconDataCard graphicDataCard circularProgressIndicator segmentedCircularProgressIndicator fullBleedImage animatedBox"
 if ! echo "$VALID_LAYOUTS" | grep -qw "$LAYOUT"; then
     echo "$(basename "$0"): unknown layout '$LAYOUT'" >&2
     echo "Use --list to see available layouts" >&2

@@ -32,6 +32,31 @@ RemoteButton(
 }
 ```
 
+## avatarButton
+
+![avatarButton](avatarButton.png)
+
+A button with a rounded avatar image and text.
+
+```kotlin
+RemoteButton(
+    onClick = arrayOf()
+) {
+    RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically) {
+        RemoteImage(
+            bitmap = ImageBitmap.imageResource(id = R.drawable.ali),
+            contentDescription = "Avatar".rs,
+            contentScale = ContentScale.Crop,
+            modifier = RemoteModifier.size(RemoteButtonDefaults.LargeIconSize).clip(RoundedCornerShape(percent = 50))
+        )
+        // Spacer
+        RemoteBox(modifier = RemoteModifier.size(8.dp.asRdp())) 
+        // Texts
+        MaterialRemoteText("Avatar Button".rs)
+    }
+}
+```
+
 ## imageButton
 
 ![imageButton](imageButton.png)
@@ -136,36 +161,170 @@ RemoteButton(
 }
 ```
 
-## circularProgressIndicator
+## textDataCard
 
-![circularProgressIndicator](circularProgressIndicator.png)
+![textDataCard](textDataCard.png)
 
-A card displaying progress with an icon and percentage.
+A rounded card displaying labeled text data.
 
 ```kotlin
 RemoteButton(
     onClick = arrayOf(),
-    modifier = RemoteModifier.padding(horizontal = 10.dp)
+    colors = RemoteButtonColors(
+        containerColor = Color.DarkGray.rc,
+        contentColor = Color.LightGray.rc,
+        secondaryContentColor = Color.White.rc,
+        iconColor = Color.White.rc,
+        disabledContainerColor = Color.DarkGray.rc,
+        disabledContentColor = Color.LightGray.rc,
+        disabledSecondaryContentColor = Color.White.rc,
+        disabledIconColor = Color.White.rc
+    )
 ) {
-    RemoteColumn(
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        modifier = RemoteModifier.padding(8.dp)
+    RemoteColumn {
+        MaterialRemoteText("Text Data".rs)
+        MaterialRemoteText(
+            text = "Content".rs,
+            color = Color.White.rc
+        )
+    }
+}
+```
+
+## iconDataCard
+
+![iconDataCard](iconDataCard.png)
+
+A rounded card displaying text data alongside an icon.
+
+```kotlin
+RemoteButton(
+    onClick = arrayOf(),
+    colors = RemoteButtonColors(
+        containerColor = Color.DarkGray.rc,
+        contentColor = Color.LightGray.rc,
+        secondaryContentColor = Color.White.rc,
+        iconColor = Color.White.rc,
+        disabledContainerColor = Color.DarkGray.rc,
+        disabledContentColor = Color.LightGray.rc,
+        disabledSecondaryContentColor = Color.White.rc,
+        disabledIconColor = Color.White.rc
+    )
+) {
+    RemoteColumn {
+        MaterialRemoteText("Icon Data".rs)
+        MaterialRemoteText(
+            text = "Content".rs,
+            color = Color.White.rc
+        )
+    }
+    RemoteBox(modifier = RemoteModifier.size(8.rdp))
+    RemoteIcon(
+        imageVector = ImageVector.vectorResource(id = R.drawable.ic_message_24),
+        contentDescription = "Message".rs,
+        modifier = RemoteModifier.size(RemoteButtonDefaults.SmallIconSize)
+    )
+}
+```
+
+## graphicDataCard
+
+![graphicDataCard](graphicDataCard.png)
+
+A rounded card displaying a large graphic icon and text content.
+
+```kotlin
+RemoteButton(
+    onClick = arrayOf(),
+    colors = RemoteButtonColors(
+        containerColor = Color.DarkGray.rc,
+        contentColor = Color.LightGray.rc,
+        secondaryContentColor = Color.White.rc,
+        iconColor = Color.White.rc,
+        disabledContainerColor = Color.DarkGray.rc,
+        disabledContentColor = Color.LightGray.rc,
+        disabledSecondaryContentColor = Color.White.rc,
+        disabledIconColor = Color.White.rc
+    )
+) {
+    RemoteIcon(
+        imageVector = ImageVector.vectorResource(id = R.drawable.ic_run_24),
+        contentDescription = "Run".rs,
+        modifier = RemoteModifier.size(RemoteButtonDefaults.LargeIconSize)
+    )
+    RemoteBox(modifier = RemoteModifier.size(8.rdp))
+    RemoteColumn {
+        MaterialRemoteText("Graphic Data".rs)
+        MaterialRemoteText(
+            text = "Content".rs,
+            color = Color.White.rc
+        )
+    }
+}
+```
+
+## circularProgressIndicator
+
+![circularProgressIndicator](circularProgressIndicator.png)
+
+A custom drawn circular progress indicator using `RemoteCanvas`.
+
+```kotlin
+RemoteBox(
+    modifier = RemoteModifier.size(100.rdp),
+) {
+    RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+        val width = remote.component.width
+        val height = remote.component.height
+        val centerX = width / 2f.rf
+        val centerY = height / 2f.rf
+        val strokeWidth = 10f.rf
+        val radius = (width / 2f.rf) - (strokeWidth / 2f.rf)
+
+        // Track
+        drawCircle(
+            paint = RemotePaint().apply {
+                remoteColor = Color.DarkGray.rc
+                style = Paint.Style.STROKE
+                this.strokeWidth = strokeWidth.toFloat()
+                isAntiAlias = true
+            },
+            center = RemoteOffset(centerX, centerY),
+            radius = radius
+        )
+
+        // Progress (75% = 270 degrees)
+        drawArc(
+            paint = RemotePaint().apply {
+                remoteColor = Color.Red.rc
+                style = Paint.Style.STROKE
+                this.strokeWidth = strokeWidth.toFloat()
+                strokeCap = Paint.Cap.ROUND
+                isAntiAlias = true
+            },
+            startAngle = -90f.rf,
+            sweepAngle = 270f.rf,
+            useCenter = false,
+            topLeft = RemoteOffset(strokeWidth / 2f.rf, strokeWidth / 2f.rf),
+            size = RemoteSize(width - strokeWidth, height - strokeWidth)
+        )
+    }
+    RemoteBox(
+         modifier = RemoteModifier.fillMaxSize(),
+         horizontalAlignment = RemoteAlignment.CenterHorizontally,
+         verticalArrangement = RemoteArrangement.Center
     ) {
-        RemoteIcon(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_run_24),
-            contentDescription = "Run".rs,
-            modifier = RemoteModifier.size(RemoteButtonDefaults.LargeIconSize)
-        )
-        RemoteBox(modifier = RemoteModifier.size(4.dp.asRdp()))
-        MaterialRemoteText(
-            text = "75%".rs,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black.rc
-        )
-        MaterialRemoteText(
-            text = "Progress".rs,
-            color = Color.DarkGray.rc
-        )
+        RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
+            MaterialRemoteText(
+                text = "75%".rs,
+                fontWeight = FontWeight.Bold,
+                color = Color.White.rc
+            )
+            MaterialRemoteText(
+                text = "Progress".rs,
+                color = Color.LightGray.rc
+            )
+        }
     }
 }
 ```
@@ -174,32 +333,76 @@ RemoteButton(
 
 ![segmentedCircularProgressIndicator](segmentedCircularProgressIndicator.png)
 
-A card displaying segmented progress.
+A segmented circular progress indicator drawn with `RemoteCanvas`.
 
 ```kotlin
-RemoteButton(
-    onClick = arrayOf(),
-    modifier = RemoteModifier.padding(horizontal = 10.dp)
+RemoteBox(
+    modifier = RemoteModifier.size(100.rdp),
 ) {
-    RemoteColumn(
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        modifier = RemoteModifier.padding(8.dp)
+    RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+        val width = remote.component.width
+        val height = remote.component.height
+        val strokeWidth = 10f.rf
+        val gap = 8f.rf
+        val segments = 5f.rf
+        val activeSegments = 3f.rf
+        val totalSweep = 360f.rf
+        val segmentSweep = (totalSweep - (gap * segments)) / segments
+
+        // Active segments
+        loop(0f.rf, activeSegments, 1f.rf) { i ->
+            val startAngle = -90f.rf + (i * (segmentSweep + gap))
+            drawArc(
+                paint = RemotePaint().apply {
+                    remoteColor = Color.Red.rc
+                    style = Paint.Style.STROKE
+                    this.strokeWidth = strokeWidth.toFloat()
+                    strokeCap = Paint.Cap.ROUND
+                    isAntiAlias = true
+                },
+                startAngle = startAngle,
+                sweepAngle = segmentSweep,
+                useCenter = false,
+                topLeft = RemoteOffset(strokeWidth / 2f.rf, strokeWidth / 2f.rf),
+                size = RemoteSize(width - strokeWidth, height - strokeWidth)
+            )
+        }
+
+        // Inactive segments
+        loop(activeSegments, segments, 1f.rf) { i ->
+            val startAngle = -90f.rf + (i * (segmentSweep + gap))
+            drawArc(
+                paint = RemotePaint().apply {
+                    remoteColor = Color.DarkGray.rc
+                    style = Paint.Style.STROKE
+                    this.strokeWidth = strokeWidth.toFloat()
+                    strokeCap = Paint.Cap.ROUND
+                    isAntiAlias = true
+                },
+                startAngle = startAngle,
+                sweepAngle = segmentSweep,
+                useCenter = false,
+                topLeft = RemoteOffset(strokeWidth / 2f.rf, strokeWidth / 2f.rf),
+                size = RemoteSize(width - strokeWidth, height - strokeWidth)
+            )
+        }
+    }
+    RemoteBox(
+         modifier = RemoteModifier.fillMaxSize(),
+         horizontalAlignment = RemoteAlignment.CenterHorizontally,
+         verticalArrangement = RemoteArrangement.Center
     ) {
-        RemoteIcon(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_run_24),
-            contentDescription = "Run".rs,
-            modifier = RemoteModifier.size(RemoteButtonDefaults.LargeIconSize)
-        )
-        RemoteBox(modifier = RemoteModifier.size(4.dp.asRdp()))
-        MaterialRemoteText(
-            text = "3/5".rs,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black.rc
-        )
-        MaterialRemoteText(
-            text = "Segments".rs,
-            color = Color.DarkGray.rc
-        )
+        RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
+            MaterialRemoteText(
+                text = "3/5".rs,
+                fontWeight = FontWeight.Bold,
+                color = Color.White.rc
+            )
+            MaterialRemoteText(
+                text = "Segments".rs,
+                color = Color.LightGray.rc
+            )
+        }
     }
 }
 ```

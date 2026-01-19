@@ -3,15 +3,19 @@
 package com.google.example.wear_widget
 
 import android.annotation.SuppressLint
+import android.graphics.Paint
 import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
+import androidx.compose.remote.creation.compose.layout.RemoteCanvas
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
+import androidx.compose.remote.creation.compose.layout.RemoteOffset
 import androidx.compose.remote.creation.compose.layout.RemoteRow
+import androidx.compose.remote.creation.compose.layout.RemoteSize
 import androidx.compose.remote.creation.compose.layout.RemoteText
 import androidx.compose.remote.creation.compose.modifier.*
 import androidx.compose.remote.creation.compose.state.RemoteBitmap
@@ -38,6 +42,7 @@ import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.WearWidgetParams
 import androidx.wear.compose.remote.material3.RemoteButton
+import androidx.wear.compose.remote.material3.RemoteButtonColors
 import androidx.wear.compose.remote.material3.RemoteButtonDefaults
 import androidx.wear.compose.remote.material3.RemoteIcon
 import androidx.wear.compose.remote.material3.RemoteImage
@@ -70,6 +75,9 @@ class ComponentCatalog : GlanceWearWidget() {
                 "compactButton" -> ComponentCatalogCompactButtonSample()
                 "titleCard" -> ComponentCatalogTitleCardSample()
                 "appCard" -> ComponentCatalogAppCardSample()
+                "textDataCard" -> ComponentCatalogTextDataCardSample()
+                "iconDataCard" -> ComponentCatalogIconDataCardSample()
+                "graphicDataCard" -> ComponentCatalogGraphicDataCardSample()
                 "circularProgressIndicator" -> ComponentCatalogCircularProgressIndicatorSample()
                 "segmentedCircularProgressIndicator" -> ComponentCatalogSegmentedCircularProgressIndicatorSample()
                 "fullBleedImage" -> ComponentCatalogFullBleedImageSample()
@@ -291,34 +299,65 @@ fun ComponentCatalogAppCardSample() {
 @Composable
 fun ComponentCatalogCircularProgressIndicatorSample() {
     RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
+        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center
     ) {
-        RemoteButton(
-            onClick = arrayOf(),
-            modifier = RemoteModifier.padding(horizontal = 10.dp)
+        RemoteBox(
+            modifier = RemoteModifier.size(100.rdp),
         ) {
-            RemoteColumn(
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                modifier = RemoteModifier.padding(8.dp)
+            RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+                val width = remote.component.width
+                val height = remote.component.height
+                val centerX = width / 2f.rf
+                val centerY = height / 2f.rf
+                val strokeWidth = 10f.rf
+                val radius = (width / 2f.rf) - (strokeWidth / 2f.rf)
+
+                // Track
+                drawCircle(
+                    paint = RemotePaint().apply {
+                        remoteColor = Color.DarkGray.rc
+                        style = Paint.Style.STROKE
+                        this.strokeWidth = strokeWidth.toFloat()
+                        isAntiAlias = true
+                    },
+                    center = RemoteOffset(centerX, centerY),
+                    radius = radius
+                )
+
+                // Progress (75% = 270 degrees)
+                drawArc(
+                    paint = RemotePaint().apply {
+                        remoteColor = Color.Red.rc
+                        style = Paint.Style.STROKE
+                        this.strokeWidth = strokeWidth.toFloat()
+                        strokeCap = Paint.Cap.ROUND
+                        isAntiAlias = true
+                    },
+                    startAngle = -90f.rf,
+                    sweepAngle = 270f.rf,
+                    useCenter = false,
+                    topLeft = RemoteOffset(strokeWidth / 2f.rf, strokeWidth / 2f.rf),
+                    size = RemoteSize(width - strokeWidth, height - strokeWidth)
+                )
+            }
+            RemoteBox(
+                 modifier = RemoteModifier.fillMaxSize(),
+                 horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                 verticalArrangement = RemoteArrangement.Center
             ) {
-                // Graphic: Using Icon since RemoteCircularProgressIndicator is unavailable
-                RemoteIcon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_run_24),
-                    contentDescription = "Run".rs,
-                    modifier = RemoteModifier.size(RemoteButtonDefaults.LargeIconSize)
-                )
-                RemoteBox(modifier = RemoteModifier.size(4.dp.asRdp()))
-                MaterialRemoteText(
-                    text = "75%".rs,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black.rc
-                )
-                MaterialRemoteText(
-                    text = "Progress".rs,
-                    color = Color.DarkGray.rc
-                )
+                RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
+                    MaterialRemoteText(
+                        text = "75%".rs,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White.rc
+                    )
+                    MaterialRemoteText(
+                        text = "Progress".rs,
+                        color = Color.LightGray.rc
+                    )
+                }
             }
         }
     }
@@ -328,33 +367,184 @@ fun ComponentCatalogCircularProgressIndicatorSample() {
 @Composable
 fun ComponentCatalogSegmentedCircularProgressIndicatorSample() {
     RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
+        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center
+    ) {
+        RemoteBox(
+            modifier = RemoteModifier.size(100.rdp),
+        ) {
+            RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+                val width = remote.component.width
+                val height = remote.component.height
+                val strokeWidth = 10f.rf
+                val gap = 8f.rf
+                val segments = 5f.rf
+                val activeSegments = 3f.rf
+                val totalSweep = 360f.rf
+                val segmentSweep = (totalSweep - (gap * segments)) / segments
+
+                // Active segments
+                loop(0f.rf, activeSegments, 1f.rf) { i ->
+                    val startAngle = -90f.rf + (i * (segmentSweep + gap))
+                    drawArc(
+                        paint = RemotePaint().apply {
+                            remoteColor = Color.Red.rc
+                            style = Paint.Style.STROKE
+                            this.strokeWidth = strokeWidth.toFloat()
+                            strokeCap = Paint.Cap.ROUND
+                            isAntiAlias = true
+                        },
+                        startAngle = startAngle,
+                        sweepAngle = segmentSweep,
+                        useCenter = false,
+                        topLeft = RemoteOffset(strokeWidth / 2f.rf, strokeWidth / 2f.rf),
+                        size = RemoteSize(width - strokeWidth, height - strokeWidth)
+                    )
+                }
+
+                // Inactive segments
+                loop(activeSegments, segments, 1f.rf) { i ->
+                    val startAngle = -90f.rf + (i * (segmentSweep + gap))
+                    drawArc(
+                        paint = RemotePaint().apply {
+                            remoteColor = Color.DarkGray.rc
+                            style = Paint.Style.STROKE
+                            this.strokeWidth = strokeWidth.toFloat()
+                            strokeCap = Paint.Cap.ROUND
+                            isAntiAlias = true
+                        },
+                        startAngle = startAngle,
+                        sweepAngle = segmentSweep,
+                        useCenter = false,
+                        topLeft = RemoteOffset(strokeWidth / 2f.rf, strokeWidth / 2f.rf),
+                        size = RemoteSize(width - strokeWidth, height - strokeWidth)
+                    )
+                }
+            }
+            RemoteBox(
+                 modifier = RemoteModifier.fillMaxSize(),
+                 horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                 verticalArrangement = RemoteArrangement.Center
+            ) {
+                RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
+                    MaterialRemoteText(
+                        text = "3/5".rs,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White.rc
+                    )
+                    MaterialRemoteText(
+                        text = "Segments".rs,
+                        color = Color.LightGray.rc
+                    )
+                }
+            }
+        }
+    }
+}
+
+@RemoteComposable
+@Composable
+fun ComponentCatalogTextDataCardSample() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center
     ) {
         RemoteButton(
             onClick = arrayOf(),
-            modifier = RemoteModifier.padding(horizontal = 10.dp)
+            colors = RemoteButtonColors(
+                containerColor = Color.DarkGray.rc,
+                contentColor = Color.LightGray.rc,
+                secondaryContentColor = Color.White.rc,
+                iconColor = Color.White.rc,
+                disabledContainerColor = Color.DarkGray.rc,
+                disabledContentColor = Color.LightGray.rc,
+                disabledSecondaryContentColor = Color.White.rc,
+                disabledIconColor = Color.White.rc
+            )
         ) {
-            RemoteColumn(
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                modifier = RemoteModifier.padding(8.dp)
-            ) {
-                // Graphic: Using Icon since RemoteCircularProgressIndicator is unavailable
-                RemoteIcon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_run_24),
-                    contentDescription = "Run".rs,
-                    modifier = RemoteModifier.size(RemoteButtonDefaults.LargeIconSize)
-                )
-                RemoteBox(modifier = RemoteModifier.size(4.dp.asRdp()))
+            RemoteColumn {
+                MaterialRemoteText("Text Data".rs)
                 MaterialRemoteText(
-                    text = "3/5".rs,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black.rc
+                    text = "Content".rs,
+                    color = Color.White.rc
                 )
+            }
+        }
+    }
+}
+
+@RemoteComposable
+@Composable
+fun ComponentCatalogIconDataCardSample() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center
+    ) {
+        RemoteButton(
+            onClick = arrayOf(),
+            colors = RemoteButtonColors(
+                containerColor = Color.DarkGray.rc,
+                contentColor = Color.LightGray.rc,
+                secondaryContentColor = Color.White.rc,
+                iconColor = Color.White.rc,
+                disabledContainerColor = Color.DarkGray.rc,
+                disabledContentColor = Color.LightGray.rc,
+                disabledSecondaryContentColor = Color.White.rc,
+                disabledIconColor = Color.White.rc
+            )
+        ) {
+            RemoteColumn {
+                MaterialRemoteText("Icon Data".rs)
                 MaterialRemoteText(
-                    text = "Segments".rs,
-                    color = Color.DarkGray.rc
+                    text = "Content".rs,
+                    color = Color.White.rc
+                )
+            }
+            RemoteBox(modifier = RemoteModifier.size(8.rdp))
+            RemoteIcon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_message_24),
+                contentDescription = "Message".rs,
+                modifier = RemoteModifier.size(RemoteButtonDefaults.SmallIconSize)
+            )
+        }
+    }
+}
+
+@RemoteComposable
+@Composable
+fun ComponentCatalogGraphicDataCardSample() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center
+    ) {
+        RemoteButton(
+            onClick = arrayOf(),
+            colors = RemoteButtonColors(
+                containerColor = Color.DarkGray.rc,
+                contentColor = Color.LightGray.rc,
+                secondaryContentColor = Color.White.rc,
+                iconColor = Color.White.rc,
+                disabledContainerColor = Color.DarkGray.rc,
+                disabledContentColor = Color.LightGray.rc,
+                disabledSecondaryContentColor = Color.White.rc,
+                disabledIconColor = Color.White.rc
+            )
+        ) {
+            RemoteIcon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_run_24),
+                contentDescription = "Run".rs,
+                modifier = RemoteModifier.size(RemoteButtonDefaults.LargeIconSize)
+            )
+            RemoteBox(modifier = RemoteModifier.size(8.rdp))
+            RemoteColumn {
+                MaterialRemoteText("Graphic Data".rs)
+                MaterialRemoteText(
+                    text = "Content".rs,
+                    color = Color.White.rc
                 )
             }
         }
