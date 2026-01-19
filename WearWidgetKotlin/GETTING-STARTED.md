@@ -882,26 +882,6 @@ render and attach the tile" error.
 `ProtoLayoutRenderer` (version 1.5.7.dev) does not support these graphics layer
 operations.
 
-### Crash using `RemoteBrush.linearGradient` with `Offset.Infinite`
-
-b/473617206
-
-**Symptom:** Passing `RemoteOffset(Float.POSITIVE_INFINITY, ...)` to
-`RemoteBrush.linearGradient` causes the System UI process to crash with an
-`IllegalArgumentException`.
-
-**Workaround:** Instantiate `RemoteLinearGradient` directly and pass `null` for
-the `end` parameter. This triggers the fallback logic that correctly uses the
-component's bounds.
-
-```kotlin
-// CRASHES:
-RemoteBrush.linearGradient(..., end = RemoteOffset(Float.POSITIVE_INFINITY, ...))
-
-// WORKS:
-RemoteLinearGradient(..., end = null)
-```
-
 ### Multiple DataStores Active Crash (DataStore Conflict)
 
 b/474292165

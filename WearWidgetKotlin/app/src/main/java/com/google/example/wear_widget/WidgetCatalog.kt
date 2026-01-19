@@ -36,7 +36,6 @@ import androidx.compose.remote.creation.compose.modifier.padding
 import androidx.compose.remote.creation.compose.modifier.rememberRemoteScrollState
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.modifier.verticalScroll
-import androidx.compose.remote.creation.compose.shaders.RemoteBrush
 import androidx.compose.remote.creation.compose.shaders.RemoteLinearGradient
 import androidx.compose.remote.creation.compose.shaders.linearGradient
 import androidx.compose.remote.creation.compose.shapes.RemoteRoundedCornerShape
@@ -125,25 +124,6 @@ fun CanvasSample3() {
                     },
             )
         }
-    }
-}
-
-/** A sample demonstrating a crash when using Infinite offset for gradient end. */
-@RemoteComposable
-@Composable
-fun GradientBackgroundSampleCrash() {
-    val gradient =
-        RemoteBrush.linearGradient(
-            colors = listOf(Color.Red, Color.Blue),
-            start = RemoteOffset.Zero,
-            end = RemoteOffset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY),
-        )
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(brush = gradient),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        MaterialRemoteText("Gradient Crash".rs)
     }
 }
 
