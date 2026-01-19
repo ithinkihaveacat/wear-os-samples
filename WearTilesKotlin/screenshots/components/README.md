@@ -179,3 +179,117 @@ primaryLayout(
     }
 )
 ```
+
+## titleCard
+
+![titleCard](titleCard.png)
+
+Rounded card with "Title Card" and "Content."
+
+```kotlin
+primaryLayout(
+    mainSlot = {
+        titleCard(
+            onClick = clickable(id = "title_card_click"),
+            title = { text("Title Card".layoutString) },
+            content = { text("Content".layoutString) }
+        )
+    }
+)
+```
+
+## appCard
+
+![appCard](appCard.png)
+
+A message bubble from Ali, with her profile picture, at 2:03 PM. The message says 'Dinner in SF' and
+'Let's try that new resta...' (truncated).
+
+```kotlin
+primaryLayout(
+    mainSlot = {
+        appCard(
+            onClick = clickable(id = "app_card_click"),
+            label = { text("Ali".layoutString) },
+            title = { text("Dinner in SF".layoutString, maxLines = 1) },
+            time = { text("2:03 PM".layoutString) },
+            avatar = {
+                avatarImage(
+                    protoLayoutResourceId = context.resources.getResourceName(R.drawable.ali),
+                    contentScaleMode = CONTENT_SCALE_MODE_CROP
+                )
+            },
+            content = { text("Let's try that new restaurant.".layoutString) }
+        )
+    }
+)
+```
+
+## textDataCard
+
+![textDataCard](textDataCard.png)
+
+A light-colored, rounded rectangular UI component displaying "Text ..." as a title and "Content" as
+a subtitle.
+
+```kotlin
+primaryLayout(
+    mainSlot = {
+        textDataCard(
+            onClick = clickable(id = "text_data_card_click"),
+            title = { text("Text Data".layoutString) },
+            content = { text("Content".layoutString) }
+        )
+    }
+)
+```
+
+## iconDataCard
+
+![iconDataCard](iconDataCard.png)
+
+A rounded rectangular UI component with a chat bubble icon, labeled "Icon Data" with "Content" below
+it.
+
+```kotlin
+primaryLayout(
+    mainSlot = {
+        iconDataCard(
+            onClick = clickable(id = "icon_data_card_click"),
+            title = { text("Icon Data".layoutString) },
+            content = { text("Content".layoutString) },
+            secondaryIcon = {
+                icon(
+                    protoLayoutResourceId =
+                    context.resources.getResourceName(R.drawable.ic_message_24)
+                )
+            }
+        )
+    }
+)
+```
+
+## graphicDataCard
+
+![graphicDataCard](graphicDataCard.png)
+
+A pill-shaped button or chip with a running person icon, displaying "Graphic Data" and "Content"
+below it.
+
+```kotlin
+primaryLayout(
+    mainSlot = {
+        graphicDataCard(
+            onClick = clickable(id = "graphic_data_card_click"),
+            graphic = {
+                icon(
+                    protoLayoutResourceId =
+                    context.resources.getResourceName(R.drawable.ic_run_24)
+                )
+            },
+            title = { text("Graphic Data".layoutString) },
+            content = { text("Content".layoutString) }
+        )
+    }
+)
+```
