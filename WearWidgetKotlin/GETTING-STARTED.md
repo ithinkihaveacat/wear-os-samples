@@ -737,6 +737,69 @@ significantly.
 | **Resource Management**   | **Versioned.** Uses `onTileResourcesRequest` to serve and version resources (images) independently of the layout.                                                     | **Direct Binding.** Resources are handled transparently within the composition, similar to standard Compose (e.g., `R.drawable`).                                                          |
 | **Telemetry / Tracking**  | **Built-in Callback.** `onRecentInteractionEventsAsync` provides a stream of recent click events.                                                                     | **Support Planned.**                                                                                                                                                                       |
 
+## Migrating from Legacy Tiles
+
+Migrating from an existing `TileService` to a modern Wear Widget is a
+seamless process for your users; they won't need to do anything or even be aware
+that a change has occurred. The system uses the `group` attribute to uniquely
+identify the widget, allowing it to recognize that a modern Widget and a legacy
+Tile are in fact the same logical component even as you swap out the renderer.
+
+### Side-by-Side Migration (Recommended)
+
+This approach allows you to ship the new widget code alongside the old tile
+code, using a feature flag in the manifest to control which one is active. This
+is the safest way to migrate because it allows for an instant rollback if issues
+arise.
+
+1. **Create New Code:** Implement your new `NewWidgetService` (extending
+   `GlanceWearWidgetService`) and its XML configuration.
+2. **Link Identity:** In your new widget's XML configuration (e.g.,
+   `res/xml/new_widget_info.xml`), set the `group` attribute to the **exact
+   fully qualified class name** of the old service.
+
+   ```xml
+   <wearwidget-provider
+       xmlns:android="http://schemas.android.com/apk/res/android"
+       group="com.example.OldTileService"
+       ... >
+   ```
+
+3. **Update Manifest:**
+   - Find the `OldTileService` entry and set `android:enabled="false"`.
+   - Add the `NewWidgetService` entry and set `android:enabled="true"`.
+
+**Trade-offs:**
+
+- **Pros:** Safe, reversible, and preserves the Git history of the old code.
+- **Cons:** The XML configuration will permanently reference the old class name
+  (`group="...OldTileService"`), which might be confusing to future developers.
+
+### In-place Replacement
+
+If you prefer a clean slate and are confident in the new implementation, you can
+simply replace the code in place.
+
+1. **Rewrite Code:** Delete the contents of `OldTileService.kt` and rewrite it
+   to extend `GlanceWearWidgetService`.
+2. **Update Manifest:** Add the required `<intent-filter>` for
+   `androidx.glance.wear.action.BIND_WIDGET_PROVIDER` and the `<meta-data>`
+   pointing to your new widget XML.
+3. **XML Config:** You do _not_ need to specify a `group` attribute, because the
+   class name remains the same.
+
+**Trade-offs:**
+
+- **Pros:** Clean codebase with no "dead" classes or confusing group aliases.
+- **Cons:** Destructive change that is harder to revert.
+
+### Advanced: Runtime Switching
+
+For advanced use cases like A/B testing or developer debug menus, you can use
+`PackageManager.setComponentEnabledSetting()` to toggle between the two services
+at runtime. However, we **recommend using the Manifest approach** for the actual
+release to ensure stability and avoid complex state management bugs.
+
 ## Known Issues and Limitations
 
 This section tracks technical hurdles and API limitations in the current
