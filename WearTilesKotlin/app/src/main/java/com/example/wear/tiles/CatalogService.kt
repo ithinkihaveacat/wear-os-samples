@@ -6,13 +6,19 @@ import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.TimelineBuilders
 import androidx.wear.protolayout.material3.MaterialScope
+import androidx.wear.protolayout.material3.avatarButton
+import androidx.wear.protolayout.material3.backgroundImage
+import androidx.wear.protolayout.material3.button
+import androidx.wear.protolayout.material3.compactButton
 import androidx.wear.protolayout.material3.icon
 import androidx.wear.protolayout.material3.iconButton
+import androidx.wear.protolayout.material3.imageButton
 import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textButton
 import androidx.wear.protolayout.modifiers.clickable
+import androidx.wear.protolayout.modifiers.clip
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.TileBuilders
@@ -21,7 +27,7 @@ import com.google.android.horologist.tiles.SuspendingTileService
 import java.util.UUID
 
 class CatalogService : SuspendingTileService() {
-    private val RESOURCES_VERSION = "3"
+    private val RESOURCES_VERSION = "4"
 
     override suspend fun tileRequest(requestParams: RequestBuilders.TileRequest): TileBuilders.Tile {
         val state = getCatalogState()
@@ -31,6 +37,10 @@ class CatalogService : SuspendingTileService() {
             when (state.layoutName) {
                 "textButton" -> textButtonLayout()
                 "iconButton" -> iconButtonLayout(this@CatalogService)
+                "avatarButton" -> avatarButtonLayout(this@CatalogService)
+                "imageButton" -> imageButtonLayout(this@CatalogService)
+                "compactButton" -> compactButtonLayout(this@CatalogService)
+                "button" -> buttonLayout(this@CatalogService)
                 else -> iconButtonLayout(this@CatalogService)
             }
         }
@@ -63,6 +73,26 @@ class CatalogService : SuspendingTileService() {
                     )
                     .build()
             )
+            .addIdToImageMapping(
+                this.resources.getResourceName(R.drawable.avatar1),
+                ResourceBuilders.ImageResource.Builder()
+                    .setAndroidResourceByResId(
+                        ResourceBuilders.AndroidImageResourceByResId.Builder()
+                            .setResourceId(R.drawable.avatar1)
+                            .build()
+                    )
+                    .build()
+            )
+            .addIdToImageMapping(
+                this.resources.getResourceName(R.drawable.photo_14),
+                ResourceBuilders.ImageResource.Builder()
+                    .setAndroidResourceByResId(
+                        ResourceBuilders.AndroidImageResourceByResId.Builder()
+                            .setResourceId(R.drawable.photo_14)
+                            .build()
+                    )
+                    .build()
+            )
             .build()
     }
 
@@ -81,6 +111,71 @@ class CatalogService : SuspendingTileService() {
             mainSlot = {
                 iconButton(
                     onClick = clickable(id = "icon_button_click"),
+                    iconContent = {
+                        icon(
+                            protoLayoutResourceId =
+                            context.resources.getResourceName(R.drawable.ic_message_24)
+                        )
+                    }
+                )
+            }
+        )
+
+    private fun MaterialScope.avatarButtonLayout(context: Context): LayoutElementBuilders.LayoutElement =
+        primaryLayout(
+            mainSlot = {
+                avatarButton(
+                    onClick = clickable(id = "avatar_button_click"),
+                    avatarContent = {
+                        icon(
+                            protoLayoutResourceId =
+                            context.resources.getResourceName(R.drawable.avatar1)
+                        )
+                    },
+                    labelContent = { text("Avatar Button".layoutString) },
+                    secondaryLabelContent = { text("Secondary Label".layoutString) }
+                )
+            }
+        )
+
+    private fun MaterialScope.imageButtonLayout(context: Context): LayoutElementBuilders.LayoutElement =
+        primaryLayout(
+            mainSlot = {
+                imageButton(
+                    onClick = clickable(id = "image_button_click"),
+                    backgroundContent = {
+                        backgroundImage(
+                            protoLayoutResourceId =
+                            context.resources.getResourceName(R.drawable.photo_14)
+                        )
+                    }
+                )
+            }
+        )
+
+    private fun MaterialScope.compactButtonLayout(context: Context): LayoutElementBuilders.LayoutElement =
+        primaryLayout(
+            mainSlot = {
+                compactButton(
+                    onClick = clickable(id = "compact_button_click"),
+                    iconContent = {
+                         icon(
+                            protoLayoutResourceId =
+                            context.resources.getResourceName(R.drawable.ic_message_24)
+                        )
+                    },
+                    labelContent = { text("Compact".layoutString) }
+                )
+            }
+        )
+
+    private fun MaterialScope.buttonLayout(context: Context): LayoutElementBuilders.LayoutElement =
+        primaryLayout(
+            mainSlot = {
+                button(
+                    onClick = clickable(id = "button_click"),
+                    labelContent = { text("Button".layoutString) },
+                    secondaryLabelContent = { text("Secondary Label".layoutString) },
                     iconContent = {
                         icon(
                             protoLayoutResourceId =
