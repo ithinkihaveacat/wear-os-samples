@@ -13,9 +13,11 @@ This section shows components that have a direct or close equivalent in both Til
 ### textButton
 
 | Tile | Widget |
-| :--- | :--- |
-| ![textButton](../WearTilesKotlin/screenshots/components/textButton.png) | ![textButton](../WearWidgetKotlin/screenshots/components/textButton.png) |
-| ```kotlin
+| :---: | :---: |
+| ![textButton](images/components/tiles/textButton.png) | ![textButton](images/components/widgets/textButton.png) |
+
+**Tile Implementation**
+```kotlin
 primaryLayout(
     mainSlot = {
         textButton(
@@ -24,18 +26,25 @@ primaryLayout(
         )
     }
 )
-``` | ```kotlin
+```
+
+**Widget Implementation**
+```kotlin
 RemoteButton(onClick = arrayOf()) {
     MaterialRemoteText(text = "Text Button".rs)
 }
-``` |
+```
+
+---
 
 ### iconButton
 
 | Tile | Widget |
-| :--- | :--- |
-| ![iconButton](../WearTilesKotlin/screenshots/components/iconButton.png) | ![iconButton](../WearWidgetKotlin/screenshots/components/iconButton.png) |
-| ```kotlin
+| :---: | :---: |
+| ![iconButton](images/components/tiles/iconButton.png) | ![iconButton](images/components/widgets/iconButton.png) |
+
+**Tile Implementation**
+```kotlin
 primaryLayout(
     mainSlot = {
         iconButton(
@@ -49,7 +58,10 @@ primaryLayout(
         )
     }
 )
-``` | ```kotlin
+```
+
+**Widget Implementation**
+```kotlin
 RemoteButton(
     onClick = arrayOf()
 ) {
@@ -59,14 +71,18 @@ RemoteButton(
         modifier = RemoteModifier.size(RemoteButtonDefaults.SmallIconSize)
     )
 }
-``` |
+```
+
+---
 
 ### avatarButton
 
 | Tile | Widget |
-| :--- | :--- |
-| ![avatarButton](../WearTilesKotlin/screenshots/components/avatarButton.png) | ![avatarButton](../WearWidgetKotlin/screenshots/components/avatarButton.png) |
-| ```kotlin
+| :---: | :---: |
+| ![avatarButton](images/components/tiles/avatarButton.png) | ![avatarButton](images/components/widgets/avatarButton.png) |
+
+**Tile Implementation**
+```kotlin
 primaryLayout(
     mainSlot = {
         avatarButton(
@@ -82,7 +98,10 @@ primaryLayout(
         )
     }
 )
-``` | ```kotlin
+```
+
+**Widget Implementation**
+```kotlin
 RemoteButton(
     onClick = arrayOf()
 ) {
@@ -97,14 +116,18 @@ RemoteButton(
         MaterialRemoteText("Avatar Button".rs)
     }
 }
-``` |
+```
+
+---
 
 ### imageButton
 
 | Tile | Widget |
-| :--- | :--- |
-| ![imageButton](../WearTilesKotlin/screenshots/components/imageButton.png) | ![imageButton](../WearWidgetKotlin/screenshots/components/imageButton.png) |
-| ```kotlin
+| :---: | :---: |
+| ![imageButton](images/components/tiles/imageButton.png) | ![imageButton](images/components/widgets/imageButton.png) |
+
+**Tile Implementation**
+```kotlin
 primaryLayout(
     mainSlot = {
         imageButton(
@@ -118,7 +141,10 @@ primaryLayout(
         )
     }
 )
-``` | ```kotlin
+```
+
+**Widget Implementation**
+```kotlin
 RemoteBox(
     modifier = RemoteModifier
         .size(60.rdp)
@@ -133,14 +159,18 @@ RemoteBox(
         modifier = RemoteModifier.fillMaxSize()
     )
 }
-``` |
+```
+
+---
 
 ### compactButton
 
 | Tile | Widget |
-| :--- | :--- |
-| ![compactButton](../WearTilesKotlin/screenshots/components/compactButton.png) | ![compactButton](../WearWidgetKotlin/screenshots/components/compactButton.png) |
-| ```kotlin
+| :---: | :---: |
+| ![compactButton](images/components/tiles/compactButton.png) | ![compactButton](images/components/widgets/compactButton.png) |
+
+**Tile Implementation**
+```kotlin
 primaryLayout(
     mainSlot = {
         compactButton(
@@ -155,7 +185,10 @@ primaryLayout(
         )
     }
 )
-``` | ```kotlin
+```
+
+**Widget Implementation**
+```kotlin
 RemoteButton(
     onClick = arrayOf(),
      icon = {
@@ -167,14 +200,18 @@ RemoteButton(
     },
     label = { MaterialRemoteText("Compact".rs) }
 )
-``` |
+```
+
+---
 
 ### titleCard
 
 | Tile | Widget |
-| :--- | :--- |
-| ![titleCard](../WearTilesKotlin/screenshots/components/titleCard.png) | ![titleCard](../WearWidgetKotlin/screenshots/components/titleCard.png) |
-| ```kotlin
+| :---: | :---: |
+| ![titleCard](images/components/tiles/titleCard.png) | ![titleCard](images/components/widgets/titleCard.png) |
+
+**Tile Implementation**
+```kotlin
 primaryLayout(
     mainSlot = {
         titleCard(
@@ -184,7 +221,10 @@ primaryLayout(
         )
     }
 )
-``` | ```kotlin
+```
+
+**Widget Implementation**
+```kotlin
 RemoteButton(
     onClick = arrayOf(),
     modifier = RemoteModifier.padding(horizontal = 10.dp)
@@ -199,14 +239,18 @@ RemoteButton(
         )
     }
 }
-``` |
+```
+
+---
 
 ### appCard
 
 | Tile | Widget |
-| :--- | :--- |
-| ![appCard](../WearTilesKotlin/screenshots/components/appCard.png) | ![appCard](../WearWidgetKotlin/screenshots/components/appCard.png) |
-| ```kotlin
+| :---: | :---: |
+| ![appCard](images/components/tiles/appCard.png) | ![appCard](images/components/widgets/appCard.png) |
+
+**Tile Implementation**
+```kotlin
 primaryLayout(
     mainSlot = {
         appCard(
@@ -224,7 +268,10 @@ primaryLayout(
         )
     }
 )
-``` | ```kotlin
+```
+
+**Widget Implementation**
+```kotlin
 RemoteButton(
     onClick = arrayOf(),
     modifier = RemoteModifier.padding(horizontal = 10.dp)
@@ -254,14 +301,18 @@ RemoteButton(
         )
     }
 }
-``` |
+```
+
+---
 
 ### textDataCard
 
 | Tile | Widget |
-| :--- | :--- |
-| ![textDataCard](../WearTilesKotlin/screenshots/components/textDataCard.png) | ![textDataCard](../WearWidgetKotlin/screenshots/components/textDataCard.png) |
-| ```kotlin
+| :---: | :---: |
+| ![textDataCard](images/components/tiles/textDataCard.png) | ![textDataCard](images/components/widgets/textDataCard.png) |
+
+**Tile Implementation**
+```kotlin
 primaryLayout(
     mainSlot = {
         textDataCard(
@@ -271,7 +322,10 @@ primaryLayout(
         )
     }
 )
-``` | ```kotlin
+```
+
+**Widget Implementation**
+```kotlin
 RemoteButton(
     onClick = arrayOf(),
     colors = RemoteButtonColors(
@@ -293,14 +347,18 @@ RemoteButton(
         )
     }
 }
-``` |
+```
+
+---
 
 ### iconDataCard
 
 | Tile | Widget |
-| :--- | :--- |
-| ![iconDataCard](../WearTilesKotlin/screenshots/components/iconDataCard.png) | ![iconDataCard](../WearWidgetKotlin/screenshots/components/iconDataCard.png) |
-| ```kotlin
+| :---: | :---: |
+| ![iconDataCard](images/components/tiles/iconDataCard.png) | ![iconDataCard](images/components/widgets/iconDataCard.png) |
+
+**Tile Implementation**
+```kotlin
 primaryLayout(
     mainSlot = {
         iconDataCard(
@@ -316,7 +374,10 @@ primaryLayout(
         )
     }
 )
-``` | ```kotlin
+```
+
+**Widget Implementation**
+```kotlin
 RemoteButton(
     onClick = arrayOf(),
     colors = RemoteButtonColors(
@@ -344,14 +405,18 @@ RemoteButton(
         modifier = RemoteModifier.size(RemoteButtonDefaults.SmallIconSize)
     )
 }
-``` |
+```
+
+---
 
 ### graphicDataCard
 
 | Tile | Widget |
-| :--- | :--- |
-| ![graphicDataCard](../WearTilesKotlin/screenshots/components/graphicDataCard.png) | ![graphicDataCard](../WearWidgetKotlin/screenshots/components/graphicDataCard.png) |
-| ```kotlin
+| :---: | :---: |
+| ![graphicDataCard](images/components/tiles/graphicDataCard.png) | ![graphicDataCard](images/components/widgets/graphicDataCard.png) |
+
+**Tile Implementation**
+```kotlin
 primaryLayout(
     mainSlot = {
         graphicDataCard(
@@ -367,7 +432,10 @@ primaryLayout(
         )
     }
 )
-``` | ```kotlin
+```
+
+**Widget Implementation**
+```kotlin
 RemoteButton(
     onClick = arrayOf(),
     colors = RemoteButtonColors(
@@ -395,14 +463,18 @@ RemoteButton(
         )
     }
 }
-``` |
+```
+
+---
 
 ### circularProgressIndicator
 
 | Tile | Widget |
-| :--- | :--- |
-| ![circularProgressIndicator](../WearTilesKotlin/screenshots/components/circularProgressIndicator.png) | ![circularProgressIndicator](../WearWidgetKotlin/screenshots/components/circularProgressIndicator.png) |
-| ```kotlin
+| :---: | :---: |
+| ![circularProgressIndicator](images/components/tiles/circularProgressIndicator.png) | ![circularProgressIndicator](images/components/widgets/circularProgressIndicator.png) |
+
+**Tile Implementation**
+```kotlin
 primaryLayout(
     mainSlot = {
         graphicDataCard(
@@ -419,7 +491,10 @@ primaryLayout(
         )
     }
 )
-``` | ```kotlin
+```
+
+**Widget Implementation**
+```kotlin
 RemoteBox(
     modifier = RemoteModifier.size(100.rdp),
 ) {
@@ -477,14 +552,18 @@ RemoteBox(
         }
     }
 }
-``` |
+```
+
+---
 
 ### segmentedCircularProgressIndicator
 
 | Tile | Widget |
-| :--- | :--- |
-| ![segmentedCircularProgressIndicator](../WearTilesKotlin/screenshots/components/segmentedCircularProgressIndicator.png) | ![segmentedCircularProgressIndicator](../WearWidgetKotlin/screenshots/components/segmentedCircularProgressIndicator.png) |
-| ```kotlin
+| :---: | :---: |
+| ![segmentedCircularProgressIndicator](images/components/tiles/segmentedCircularProgressIndicator.png) | ![segmentedCircularProgressIndicator](images/components/widgets/segmentedCircularProgressIndicator.png) |
+
+**Tile Implementation**
+```kotlin
 primaryLayout(
     mainSlot = {
         graphicDataCard(
@@ -500,7 +579,10 @@ primaryLayout(
         )
     }
 )
-``` | ```kotlin
+```
+
+**Widget Implementation**
+```kotlin
 RemoteBox(
     modifier = RemoteModifier.size(100.rdp),
 ) {
@@ -570,7 +652,7 @@ RemoteBox(
         }
     }
 }
-``` |
+```
 
 ## Tile-Only Components
 
@@ -578,7 +660,7 @@ These components are available in Tiles but do not have a direct one-to-one equi
 
 ### button
 
-![button](../WearTilesKotlin/screenshots/components/button.png)
+![button](images/components/tiles/button.png)
 
 A general-purpose button with icon, primary, and secondary labels.
 
@@ -602,7 +684,7 @@ primaryLayout(
 
 ### iconEdgeButton
 
-![iconEdgeButton](../WearTilesKotlin/screenshots/components/iconEdgeButton.png)
+![iconEdgeButton](images/components/tiles/iconEdgeButton.png)
 
 A button with an icon, intended to be placed at the edge of the screen (e.g., bottom).
 
@@ -625,7 +707,7 @@ primaryLayout(
 
 ### textEdgeButton
 
-![textEdgeButton](../WearTilesKotlin/screenshots/components/textEdgeButton.png)
+![textEdgeButton](images/components/tiles/textEdgeButton.png)
 
 A button with text, intended to be placed at the edge of the screen.
 
@@ -647,7 +729,7 @@ These components or concepts are unique to Widgets and do not have a direct equi
 
 ### fullBleedImage
 
-![fullBleedImage](../WearWidgetKotlin/screenshots/components/fullBleedImage.png)
+![fullBleedImage](images/components/widgets/fullBleedImage.png)
 
 A background image filling the component with overlaid text.
 
@@ -677,7 +759,7 @@ RemoteBox(
 
 ### animatedBox
 
-![animatedBox](../WearWidgetKotlin/screenshots/components/animatedBox.png)
+![animatedBox](images/components/widgets/animatedBox.png)
 
 A box that animates between sizes and colors when clicked, demonstrating stateful, animated widgets.
 
