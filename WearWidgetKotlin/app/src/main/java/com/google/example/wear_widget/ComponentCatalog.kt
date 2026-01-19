@@ -12,7 +12,10 @@ import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.layout.RemoteRow
+import androidx.compose.remote.creation.compose.layout.RemoteText
 import androidx.compose.remote.creation.compose.modifier.*
+import androidx.compose.remote.creation.compose.state.RemoteBitmap
+import androidx.compose.remote.creation.compose.state.RemotePaint
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.asRdp
@@ -60,6 +63,9 @@ class ComponentCatalog : GlanceWearWidget() {
                 "compactButton" -> ComponentCatalogCompactButtonSample()
                 "titleCard" -> ComponentCatalogTitleCardSample()
                 "appCard" -> ComponentCatalogAppCardSample()
+                "circularProgressIndicator" -> ComponentCatalogCircularProgressIndicatorSample()
+                "segmentedCircularProgressIndicator" -> ComponentCatalogSegmentedCircularProgressIndicatorSample()
+                "fullBleedImage" -> ComponentCatalogFullBleedImageSample()
                 else -> ComponentCatalogTextButtonSample()
             }
         }
@@ -184,9 +190,8 @@ fun ComponentCatalogTitleCardSample() {
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center
     ) {
-        // Simplified Title Card: Standard RemoteButton with column content
         RemoteButton(
-            onClick = arrayOf() // Clickable for now to test rendering
+            onClick = arrayOf()
         ) {
             RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
                 MaterialRemoteText(
@@ -235,6 +240,107 @@ fun ComponentCatalogAppCardSample() {
                     text = "Let's try that new restaurant.".rs
                 )
             }
+        }
+    }
+}
+
+@RemoteComposable
+@Composable
+fun ComponentCatalogCircularProgressIndicatorSample() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center
+    ) {
+        RemoteButton(
+            onClick = arrayOf(),
+            modifier = RemoteModifier.padding(horizontal = 10.dp)
+        ) {
+            RemoteColumn(
+                horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                modifier = RemoteModifier.padding(8.dp)
+            ) {
+                // Graphic: Using Icon since RemoteCircularProgressIndicator is unavailable
+                RemoteIcon(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_run_24),
+                    contentDescription = "Run".rs,
+                    modifier = RemoteModifier.size(RemoteButtonDefaults.LargeIconSize)
+                )
+                RemoteBox(modifier = RemoteModifier.size(4.dp.asRdp()))
+                MaterialRemoteText(
+                    text = "75%".rs,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black.rc
+                )
+                MaterialRemoteText(
+                    text = "Progress".rs,
+                    color = Color.DarkGray.rc
+                )
+            }
+        }
+    }
+}
+
+@RemoteComposable
+@Composable
+fun ComponentCatalogSegmentedCircularProgressIndicatorSample() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center
+    ) {
+        RemoteButton(
+            onClick = arrayOf(),
+            modifier = RemoteModifier.padding(horizontal = 10.dp)
+        ) {
+            RemoteColumn(
+                horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                modifier = RemoteModifier.padding(8.dp)
+            ) {
+                // Graphic: Using Icon since RemoteCircularProgressIndicator is unavailable
+                RemoteIcon(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_run_24),
+                    contentDescription = "Run".rs,
+                    modifier = RemoteModifier.size(RemoteButtonDefaults.LargeIconSize)
+                )
+                RemoteBox(modifier = RemoteModifier.size(4.dp.asRdp()))
+                MaterialRemoteText(
+                    text = "3/5".rs,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black.rc
+                )
+                MaterialRemoteText(
+                    text = "Segments".rs,
+                    color = Color.DarkGray.rc
+                )
+            }
+        }
+    }
+}
+
+@RemoteComposable
+@Composable
+fun ComponentCatalogFullBleedImageSample() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize()
+    ) {
+        RemoteImage(
+            bitmap = ImageBitmap.imageResource(id = R.drawable.photo_14),
+            contentDescription = "Background".rs,
+            contentScale = ContentScale.Crop,
+            modifier = RemoteModifier.fillMaxSize()
+        )
+        // Overlay Text
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center
+        ) {
+             MaterialRemoteText(
+                text = "Full Bleed".rs,
+                color = Color.White.rc,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }

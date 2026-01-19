@@ -135,3 +135,102 @@ RemoteButton(
     }
 }
 ```
+
+## circularProgressIndicator
+
+![circularProgressIndicator](circularProgressIndicator.png)
+
+A card displaying progress with an icon and percentage.
+
+```kotlin
+RemoteButton(
+    onClick = arrayOf(),
+    modifier = RemoteModifier.padding(horizontal = 10.dp)
+) {
+    RemoteColumn(
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        modifier = RemoteModifier.padding(8.dp)
+    ) {
+        RemoteIcon(
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_run_24),
+            contentDescription = "Run".rs,
+            modifier = RemoteModifier.size(RemoteButtonDefaults.LargeIconSize)
+        )
+        RemoteBox(modifier = RemoteModifier.size(4.dp.asRdp()))
+        MaterialRemoteText(
+            text = "75%".rs,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black.rc
+        )
+        MaterialRemoteText(
+            text = "Progress".rs,
+            color = Color.DarkGray.rc
+        )
+    }
+}
+```
+
+## segmentedCircularProgressIndicator
+
+![segmentedCircularProgressIndicator](segmentedCircularProgressIndicator.png)
+
+A card displaying segmented progress.
+
+```kotlin
+RemoteButton(
+    onClick = arrayOf(),
+    modifier = RemoteModifier.padding(horizontal = 10.dp)
+) {
+    RemoteColumn(
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        modifier = RemoteModifier.padding(8.dp)
+    ) {
+        RemoteIcon(
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_run_24),
+            contentDescription = "Run".rs,
+            modifier = RemoteModifier.size(RemoteButtonDefaults.LargeIconSize)
+        )
+        RemoteBox(modifier = RemoteModifier.size(4.dp.asRdp()))
+        MaterialRemoteText(
+            text = "3/5".rs,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black.rc
+        )
+        MaterialRemoteText(
+            text = "Segments".rs,
+            color = Color.DarkGray.rc
+        )
+    }
+}
+```
+
+## fullBleedImage
+
+![fullBleedImage](fullBleedImage.png)
+
+A background image filling the component with overlaid text.
+
+```kotlin
+RemoteBox(
+    modifier = RemoteModifier.fillMaxSize()
+) {
+    RemoteImage(
+        bitmap = ImageBitmap.imageResource(id = R.drawable.photo_14),
+        contentDescription = "Background".rs,
+        contentScale = ContentScale.Crop,
+        modifier = RemoteModifier.fillMaxSize()
+    )
+    // Overlay Text
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center
+    ) {
+         MaterialRemoteText(
+            text = "Full Bleed".rs,
+            color = Color.White.rc,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+```

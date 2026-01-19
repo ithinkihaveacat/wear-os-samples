@@ -24,8 +24,9 @@ The following table maps existing ProtoLayout Material3 components (from
 | `textDataCard`                       | `RemoteCard`                      | ⬜ Planned     | Use `RemoteCard` for data display.                                      |
 | `iconDataCard`                       | `RemoteCard`                      | ⬜ Planned     | Use `RemoteCard` with icon slot.                                        |
 | `graphicDataCard`                    | `RemoteCard`                      | ⬜ Planned     | Use `RemoteCard` with graphic slot.                                     |
-| `circularProgressIndicator`          | `RemoteCircularProgressIndicator` | ⬜ Planned     | Standard circular progress.                                             |
-| `segmentedCircularProgressIndicator` | `RemoteCircularProgressIndicator` | ⬜ Planned     | Use segmented properties.                                               |
+| `circularProgressIndicator`          | `RemoteCard`                      | ✅ Implemented | Simulated using `RemoteCard` layout (icon + text) as `RemoteCircularProgressIndicator` is unavailable. |
+| `segmentedCircularProgressIndicator` | `RemoteCard`                      | ✅ Implemented | Simulated using `RemoteCard` layout.                                    |
+| `fullBleedImage`                     | `RemoteImage`                     | ✅ Implemented | Full-screen image with overlay text.                                    |
 
 ## Additional Components
 
