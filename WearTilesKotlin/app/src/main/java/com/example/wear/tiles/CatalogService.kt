@@ -1,5 +1,6 @@
 package com.example.wear.tiles
 
+import android.util.Log
 import android.content.Context
 import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.ResourceBuilders
@@ -17,12 +18,15 @@ import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.TileBuilders
 import com.example.wear.tiles.R
 import com.google.android.horologist.tiles.SuspendingTileService
+import java.util.UUID
 
 class CatalogService : SuspendingTileService() {
     private val RESOURCES_VERSION = "3"
 
     override suspend fun tileRequest(requestParams: RequestBuilders.TileRequest): TileBuilders.Tile {
         val state = getCatalogState()
+        Log.d("CatalogService", "tileRequest: processing request for layout '${state.layoutName}'")
+        
         val layout = materialScope(this, requestParams.deviceConfiguration) {
             when (state.layoutName) {
                 "textButton" -> textButtonLayout()
@@ -31,8 +35,12 @@ class CatalogService : SuspendingTileService() {
             }
         }
         
+        // Use random version for debugging to force refresh
+        val resourcesVersion = UUID.randomUUID().toString()
+        Log.d("CatalogService", "tileRequest: generated tile with resource version $resourcesVersion")
+
         return TileBuilders.Tile.Builder()
-            .setResourcesVersion(RESOURCES_VERSION)
+            .setResourcesVersion(resourcesVersion)
             .setTileTimeline(
                 TimelineBuilders.Timeline.fromLayoutElement(layout)
             )
@@ -42,8 +50,9 @@ class CatalogService : SuspendingTileService() {
     override suspend fun resourcesRequest(
         requestParams: RequestBuilders.ResourcesRequest
     ): ResourceBuilders.Resources {
+        Log.d("CatalogService", "resourcesRequest: serving resources for version ${requestParams.version}")
         return ResourceBuilders.Resources.Builder()
-            .setVersion(RESOURCES_VERSION)
+            .setVersion(requestParams.version)
             .addIdToImageMapping(
                 this.resources.getResourceName(R.drawable.ic_message_24),
                 ResourceBuilders.ImageResource.Builder()
