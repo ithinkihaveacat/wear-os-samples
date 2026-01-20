@@ -365,9 +365,9 @@ the services your app provides
 ### Dual-Service Implementation (Recommended)
 
 This approach involves maintaining both a native Tile and a Widget. It is the
-recommended path for all production applications, whether you are migrating an
-existing app or starting from scratch. Providing two distinct services provides
-the best available user experience across all device generations.
+recommended path for all apps that have an existing Tile version of the Widget
+that's being added. Providing two distinct services provides the best possible
+user experience across different devices.
 
 - **Tile Service:** Extend `TileService` (creating a service if you do not
   already have one) and declare an intent filter for
