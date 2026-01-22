@@ -516,6 +516,19 @@ to reduce boilerplate:
 - **Integers:** `1.ri` (instead of `RemoteInt(1)`)
 - **Floats:** `1f.rf` (instead of `RemoteFloat(1f)`)
 
+#### Standard Compose vs. Remote Compose Deltas
+
+While Remote Compose aims to mirror the standard Compose API, the underlying architecture (separating UI definition from execution) necessitates some differences in modifier signatures and behavior. Being aware of these "deltas" can save significant debugging time.
+
+**Key Example: `RemoteModifier.clip()`**
+
+In standard Compose, `.clip(Shape)` infers the clipping bounds from the layout size automatically. In Remote Compose, the renderer may require explicit bounds to calculate the shape geometry, especially for shapes like `CircleShape`.
+
+- **Standard Compose:** `Modifier.clip(CircleShape)`
+- **Remote Compose:** `RemoteModifier.clip(CircleShape, DpSize(60.dp, 60.dp))`
+
+Always verify the signature of Remote API extensions if standard syntax behaves unexpectedly or fails to compile.
+
 #### Understanding Remote Dimensions (`RemoteDp`)
 
 Remote Compose introduces `RemoteDp` to distinguish between **immediate** and
