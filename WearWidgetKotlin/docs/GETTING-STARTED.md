@@ -516,19 +516,6 @@ to reduce boilerplate:
 - **Integers:** `1.ri` (instead of `RemoteInt(1)`)
 - **Floats:** `1f.rf` (instead of `RemoteFloat(1f)`)
 
-#### Standard Compose vs. Remote Compose Deltas
-
-While Remote Compose aims to mirror the standard Compose API, the underlying architecture (separating UI definition from execution) necessitates some differences in modifier signatures and behavior. Being aware of these "deltas" can save significant debugging time.
-
-**Key Example: `RemoteModifier.clip()`**
-
-In standard Compose, `.clip(Shape)` infers the clipping bounds from the layout size automatically. In Remote Compose, the renderer may require explicit bounds to calculate the shape geometry, especially for shapes like `CircleShape`.
-
-- **Standard Compose:** `Modifier.clip(CircleShape)`
-- **Remote Compose:** `RemoteModifier.clip(CircleShape, DpSize(60.dp, 60.dp))`
-
-Always verify the signature of Remote API extensions if standard syntax behaves unexpectedly or fails to compile.
-
 #### Understanding Remote Dimensions (`RemoteDp`)
 
 Remote Compose introduces `RemoteDp` to distinguish between **immediate** and
@@ -845,7 +832,7 @@ ALPHA/SNAPSHOT versions.
 
 ### Multiple APIs Are Restricted
 
-[b/474354218](http://b/474354218)
+b/474354218
 
 Many APIs (e.g., `.rs`, `.rf`, `RemotePainter`) are currently marked as
 `@RestrictTo(LIBRARY_GROUP)`.
@@ -854,6 +841,25 @@ Many APIs (e.g., `.rs`, `.rf`, `RemotePainter`) are currently marked as
 `@file:SuppressLint("RestrictedApi")` at the top of each file (or
 `@SuppressLint("RestrictedApi")` immediately above a function). This enables
 access to the full API surface.
+
+### `RemoteModifier.clip()` Requires Explicit Size for Relative Shapes
+
+b/477860914
+
+**Symptom:** Shapes that rely on the component's layout size, such as
+`RoundedCornerShape(percent = 50)` or `CircleShape`, may compile but fail to
+clip correctly at runtime (often rendering as a square). `CircleShape`
+specifically may fail to compile without an explicit size argument.
+
+**Workaround:** Provide an explicit `DpSize` to the modifier.
+
+```kotlin
+// Fails (renders as square)
+RemoteModifier.clip(RoundedCornerShape(percent = 50))
+
+// Works
+RemoteModifier.clip(CircleShape, DpSize(60.dp, 60.dp))
+```
 
 ### `RemoteModifier.padding` Lacks `RemoteDp` Support
 
