@@ -848,17 +848,19 @@ b/477860914
 
 **Symptom:** Shapes that rely on the component's layout size, such as
 `RoundedCornerShape(percent = 50)` or `CircleShape`, may compile but fail to
-clip correctly at runtime (often rendering as a square). `CircleShape`
-specifically may fail to compile without an explicit size argument.
+clip correctly at runtime (often rendering as a square).
 
-**Workaround:** Provide an explicit `DpSize` to the modifier.
+**Workaround:** Provide an explicit `DpSize` to the modifier. You should
+typically ensure this matches the component's size to avoid clipping artifacts.
 
 ```kotlin
 // Fails (renders as square)
 RemoteModifier.clip(RoundedCornerShape(percent = 50))
 
 // Works
-RemoteModifier.clip(CircleShape, DpSize(60.dp, 60.dp))
+RemoteModifier
+    .size(60.rdp)
+    .clip(CircleShape, DpSize(60.dp, 60.dp))
 ```
 
 ### `RemoteModifier.padding` Lacks `RemoteDp` Support
