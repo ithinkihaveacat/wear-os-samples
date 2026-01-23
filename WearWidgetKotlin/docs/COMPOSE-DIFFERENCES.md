@@ -18,6 +18,14 @@ process to be active. This separation allows the system to manage resources more
 efficiently, reducing unnecessary process wakeups and cross-process
 communication.
 
+### Analogy to DisplayList
+
+You can think of the "Recording Phase" as similar to building a declarative
+**DisplayList** (or `RenderNode`). Your app constructs a tree of drawing
+commands and state dependencies, which are then handed off to a separate
+renderer (the System UI process) for execution, much like how the main UI thread
+hands off work to the `RenderThread`.
+
 ## Compose Parallels and Similarities
 
 Despite the architectural differences necessitated by its remote nature, Remote
@@ -83,187 +91,88 @@ described above.
 
 ### Click Handling: Actions vs. Lambdas
 
-**The Difference:** Standard Compose uses lambdas for event handling, allowing
-arbitrary code execution. Remote Compose uses serializable `Action` objects.
+Standard Compose uses lambdas for event handling, allowing arbitrary code
+execution. Because the widget UI lives in the System process, it cannot call
+back into your app's lambdas synchronously. Remote Compose instead uses
+serializable **Action** objects (declarative instructions for the host).
 
-**Why:** The widget code runs in your app's process, but the UI lives in the
-System process. The System process cannot call back into your app's lambda to
-execute arbitrary code (like logging or network calls) synchronously.
-
-- **Standard Compose:**
-
-  ```kotlin
-  Modifier.clickable {
-      Log.d("Tag", "Clicked") // Arbitrary code
-      count.value++           // State mutation
-  }
-  ```
-
+- **Standard Compose:** `Modifier.clickable { count.value++ }`
 - **Remote Compose:**
-
-  ```kotlin
-  RemoteModifier.clickable(
-      actions = listOf(ValueChange(count, count + 1.ri)) // Declarative instruction
-  )
-  ```
+  `RemoteModifier.clickable(actions = listOf(ValueChange(count, count + 1.ri)))`
 
 ### Canvas Logic: Recorded vs. Executed
 
-**The Difference:** In Standard Compose, `Canvas` `onDraw` is executed every
-frame. In Remote Compose, drawing commands are _recorded_ once and replayed by
-the renderer.
+In Standard Compose, `Canvas` `onDraw` is executed every frame. Because the
+remote host executes drawing instructions independently of the app process,
+`RemoteCanvas` commands are **recorded** once and replayed. Dynamic behavior
+must be encoded using the `drawConditionally` DSL so it can be evaluated locally
+by the renderer.
 
-**Why:** Because the rendering host executes the drawing instructions
-independently of the app process, logic inside `RemoteCanvas` runs only at
-composition time. Any dynamic or state-dependent drawing behavior must be
-encoded using the `drawConditionally` DSL so it can be evaluated by the
-renderer.
-
-- **Standard Compose:**
-
-  ```kotlin
-  Canvas {
-      if (isActive) drawCircle(...) // Re-evaluates when isActive changes
-  }
-  ```
-
+- **Standard Compose:** `Canvas { if (isActive) drawCircle(...) }`
 - **Remote Compose:**
-
-  ```kotlin
-  RemoteCanvas {
-      // Must use DSL for remote logic
-      drawConditionally(isActive) {
-          drawCircle(...)
-      }
-  }
-  ```
+  `RemoteCanvas { drawConditionally(isActive) { drawCircle(...) } }`
 
 ### Strings: Interpolation vs. Concatenation
 
-**The Difference:** Standard Kotlin string templates (`"$value"`) cannot be used
-for dynamic text that changes on the remote side. Remote Compose requires
-constructing strings using the `.rs` extension and `toRemoteString()`.
+Standard Kotlin string templates (`"$value"`) are evaluated once in your app
+process. To update text based on a remote value without waking your app, the
+concatenation logic must be sent to the System process. Remote Compose requires
+constructing strings using the `.rs` and `toRemoteString()` extensions to build
+a dependency graph in the document.
 
-**Why:** String templates are evaluated once in your app process during
-composition. To update text based on a remote value without waking your app, the
-concatenation logic must be sent to the System process.
-
-**How it works:** The expression `"Prefix: ".rs + count.toRemoteString()` builds
-a dependency graph in the document. `count` is assigned a state ID, and the
-string concatenation becomes a "Merge" instruction dependent on that ID. When
-the state changes on the host (e.g., via a click action), the renderer
-re-evaluates the merge and repaints the text—all while your app process remains
-asleep.
-
-- **Standard Compose:**
-
-  ```kotlin
-  Text("Count: $count")
-  ```
-
-- **Remote Compose:**
-
-  ```kotlin
-  RemoteText("Count: ".rs + count.toRemoteString())
-  ```
+- **Standard Compose:** `Text("Count: $count")`
+- **Remote Compose:** `RemoteText("Count: ".rs + count.toRemoteString())`
 
 ### Branching Logic: `if` vs. `.select()`
 
-**The Difference:** Standard `if/else` statements cannot be used to
-conditionally set properties based on `RemoteBoolean` state. You must use the
-`.select()` operator (similar to a ternary operator).
-
-**Why:** The fundamental architecture of Remote Compose separates the
-**definition** of the UI (which happens once, in your app process) from its
-**execution** (which happens dynamically on the System UI).
-
-1. **Recording Phase:** Your Composable code runs only once to generate a static
-   "document" or blueprint. Calls like `.select()` do not execute logic
-   immediately; instead, they **record** a conditional instruction into the
-   document's dependency graph.
-2. **Execution Phase:** The System UI interprets this document. When state
-   changes (like a `RemoteBoolean` flipping), the System UI re-evaluates the
-   dependency graph and updates the screen without waking your app.
-
-A standard Kotlin `if (remoteBoolean)` statement attempts to evaluate
-immediately during the recording phase. Since the `RemoteBoolean`'s runtime
-value isn't known yet (and lives on the watch), standard branching cannot work.
+Standard `if/else` statements cannot be used to conditionally set properties
+based on `RemoteBoolean` state. You must use the `.select()` operator (similar
+to a ternary operator). Because standard Kotlin `if` is evaluated immediately
+during the recording phase—before the runtime value is known on the watch—the
+conditional logic must instead be encoded into the document's dependency graph.
 
 **Compiler Plugin Limitations:** While standard Compose uses a compiler plugin
 to manage recomposition, it cannot easily repurpose standard Kotlin control flow
 syntax (like `if`) for this use case. Transforming `if` statements into
 serialized remote instructions would require fundamentally changing the language
-semantics, which is beyond the capabilities of the current plugin architecture.
+semantics.
 
-- **Standard Compose:**
-
-  ```kotlin
-  val color = if (isError) Color.Red else Color.Green
-  ```
-
-- **Remote Compose:**
-
-  ```kotlin
-  val color = isError.select(Color.Red.rc, Color.Green.rc)
-  ```
+- **Standard Compose:** `val color = if (isError) Color.Red else Color.Green`
+- **Remote Compose:** `val color = isError.select(Color.Red.rc, Color.Green.rc)`
 
 ### Animation: Explicit vs. Implicit
 
-**The Difference:** Remote Compose uses
-`RemoteModifier.animationSpec(enabled = true)` to implicitly animate property
-changes, whereas Standard Compose typically uses explicit state-driven
-animations (e.g., `animateFloatAsState`).
-
-**Why:** The renderer handles property interpolation locally. The app process
-simply declares the desire to animate changes and sends the new end-state; the
-actual animation lifecycle is managed by the remote host.
+Remote Compose uses `RemoteModifier.animationSpec(enabled = true)` to implicitly
+animate property changes, whereas Standard Compose typically uses explicit
+state-driven animations (e.g., `animateFloatAsState`). The renderer handles
+property interpolation locally; the app process simply declares the desire to
+animate changes and sends the new end-state.
 
 - **Standard Compose:**
-
-  ```kotlin
-  val size by animateDpAsState(targetSize)
-  Modifier.size(size)
-  ```
-
+  `val size by animateDpAsState(targetSize); Modifier.size(size)`
 - **Remote Compose:**
-
-  ```kotlin
-  RemoteModifier
-      .size(targetSize)
-      .animationSpec(enabled = true)
-  ```
+  `RemoteModifier.size(targetSize).animationSpec(enabled = true)`
 
 ### State: Primitives vs. Remote Wrappers
 
-**The Difference:** Widget properties often require `RemoteInt`, `RemoteColor`,
-etc. (via `.ri`, `.rc` extensions) instead of raw primitives.
+Standard Compose `State<T>` objects hold actual values in the app process.
+Remote Compose properties instead require **references** (or "futures") like
+`RemoteInt` or `RemoteColor` (via `.ri`, `.rc` extensions). These are not
+containers for data; they are pointers to state that lives and changes on the
+remote host. This is why you cannot read their value directly in a standard
+Kotlin `if` statement during the recording phase.
 
-**Why:** These values are not just constants; they are handles to data that may
-live or change on the remote host.
-
-- **Standard Compose:**
-
-  ```kotlin
-  val color: Color = Color.Red
-  ```
-
-- **Remote Compose:**
-
-  ```kotlin
-  val color: RemoteColor = Color.Red.rc
-  ```
+- **Standard Compose:** `val color: Color = Color.Red`
+- **Remote Compose:** `val color: RemoteColor = Color.Red.rc`
 
 ### Recomposition: Local Scope vs. Remote Scope
 
-**The Difference:** Both systems are reactive, but they observe state in
-different scopes. Standard Compose tracks **local app state**; changes trigger
-the app to re-execute its code ("recompose"). Remote Compose constructs a
-dependency graph bound to **remote host state**; changes trigger the host to
-update the UI, but the app's composition logic is _not_ re-executed.
-
-**Why:** This allows the app to provide a document and then suspend. The host
-manages the UI lifecycle and state updates locally, evaluating the dependency
-graph to refresh the UI without involving the app process.
+Both systems are reactive, but observe state in different scopes. Standard
+Compose tracks **local app state**; changes trigger the app to re-execute its
+code ("recompose"). Remote Compose constructs a dependency graph bound to
+**remote host state**; changes trigger the host to refresh the UI locally
+without involving the app process. This allows the app to provide a document and
+then suspend.
 
 - **Standard Compose:** App State Change -> App Recomposes -> UI Update.
 - **Remote Compose:** Remote State Change -> Host Re-evaluates -> UI Update (App
