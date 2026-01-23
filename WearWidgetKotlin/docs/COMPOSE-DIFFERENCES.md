@@ -5,6 +5,19 @@ This document outlines key differences ("deltas") between the Remote Compose API
 differences to help developers distinguish between architectural necessities and
 temporary API gaps.
 
+## The Remote Architecture
+
+The fundamental difference lies in the architecture: Remote Compose separates
+the UI definition (Composition) from its execution (Rendering).
+
+In this model, your app logic acts as a "recorder," executing once to produce a
+serialized **document** of the UI and its dependency graph. This document is
+then transferred to the remote rendering host (the System UI), which handles all
+subsequent state updates and user interactions locally without requiring the app
+process to be active. This separation allows the system to manage resources more
+efficiently, reducing unnecessary process wakeups and cross-process
+communication.
+
 ## Compose Parallels and Similarities
 
 Despite the architectural differences necessitated by its remote nature, Remote
@@ -36,17 +49,37 @@ The core mental model and syntax are intentionally aligned.
   `rememberRemoteIntValue` etc.) to hold state across recompositions, mirroring
   the `remember { mutableStateOf(...) }` pattern in standard Compose.
 
+## Feature Differences
+
+While the mental model is similar, the "remote" nature of the execution imposes
+specific constraints on available features:
+
+- **Components:** The component library is a subset of Wear Compose. Complex,
+  interactive components (like `ScalingLazyColumn` or `SwipeToDismiss`) are
+  replaced by simpler remote equivalents or are not yet available.
+- **Theming:** `RemoteMaterialTheme` mirrors the structure of `MaterialTheme`
+  but relies on `RemoteColor` references. Dynamic color extraction from the
+  user's wallpaper or system theme is handled implicitly by the renderer rather
+  than explicitly in your code.
+- **Text & Typography:** `RemoteText` supports standard styling (color, size,
+  weight) but lacks support for `AnnotatedString` (rich text within a single
+  element) and custom paragraph styling. Font support is currently limited to
+  system fonts.
+- **Animation:** Detailed, frame-by-frame control via `Animatable` or
+  `updateTransition` is not supported. Animations are declarative: you specify
+  an `animationSpec` on a modifier (e.g., `RemoteModifier.size(...)`), and the
+  system handles the interpolation.
+- **Accessibility:** Semantics are supported via `RemoteModifier.semantics`, but
+  properties are serialized to the remote host. You cannot attach arbitrary
+  accessibility actions or delegates that execute code in your app process.
+- **Touch & Input:** Advanced gesture detection (`PointerInput`, `Draggable`) is
+  not supported. Interaction is limited to click events (`clickable`) that
+  trigger declarative Actions.
+
 ## Architectural Differences
 
-These differences stem from the fundamental architecture of Remote Compose,
-where the UI definition (Composition) happens in one process, but the execution
-and rendering happen in another (the System UI). In this model, your app logic
-acts as a "recorder," executing once to produce a serialized **document** of the
-UI and its dependency graph. This document is then transferred to the remote
-rendering host, which handles all subsequent state updates and user interactions
-locally without requiring the app process to be active. This separation allows
-the system to manage resources more efficiently, reducing unnecessary process
-wakeups and cross-process communication.
+The following differences stem directly from the recorder/renderer architecture
+described above.
 
 ### Click Handling: Actions vs. Lambdas
 
