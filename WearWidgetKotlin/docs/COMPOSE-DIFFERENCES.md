@@ -1,6 +1,6 @@
 # Remote Compose vs. Standard Compose
 
-This document outlines key differences ("deltas") between the
+This document outlines key differences between the
 [Remote Compose API](https://developer.android.com/jetpack/androidx/releases/compose-remote)
 (used for Wear Widgets) and
 [standard Jetpack Compose](https://developer.android.com/develop/ui/compose). It
@@ -22,7 +22,7 @@ communication.
 
 **Analogy to DisplayList:** You can think of the "Recording Phase" as similar to
 building a declarative DisplayList (or
-`[RenderNode](https://developer.android.com/reference/android/graphics/RenderNode)`).
+[`RenderNode`](https://developer.android.com/reference/android/graphics/RenderNode)).
 Your app constructs a tree of drawing commands and state dependencies, which are
 then handed off to a separate renderer (the System UI process) for execution,
 much like how the main UI thread hands off work to the `RenderThread`.
@@ -74,11 +74,11 @@ specific constraints on available features:
   than explicitly in your code.
 - **Text & Typography:** `RemoteText` supports standard styling (color, size,
   weight) but lacks support for
-  `[AnnotatedString](https://developer.android.com/reference/kotlin/androidx/compose/ui/text/AnnotatedString)`
+  [`AnnotatedString`](https://developer.android.com/reference/kotlin/androidx/compose/ui/text/AnnotatedString)
   (rich text within a single element) and custom paragraph styling. Font support
   is currently limited to system fonts.
 - **Animation:** Detailed, frame-by-frame control via
-  `[Animatable](https://developer.android.com/reference/kotlin/androidx/compose/animation/core/Animatable)`
+  [`Animatable`](https://developer.android.com/reference/kotlin/androidx/compose/animation/core/Animatable)
   or `updateTransition` is not supported. Animations are declarative: you
   specify an `animationSpec` on a modifier (e.g., `RemoteModifier.size(...)`),
   and the system handles the interpolation.
