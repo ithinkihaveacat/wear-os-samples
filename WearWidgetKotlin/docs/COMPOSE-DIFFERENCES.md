@@ -18,13 +18,11 @@ process to be active. This separation allows the system to manage resources more
 efficiently, reducing unnecessary process wakeups and cross-process
 communication.
 
-### Analogy to DisplayList
-
-You can think of the "Recording Phase" as similar to building a declarative
-**DisplayList** (or `RenderNode`). Your app constructs a tree of drawing
-commands and state dependencies, which are then handed off to a separate
-renderer (the System UI process) for execution, much like how the main UI thread
-hands off work to the `RenderThread`.
+**Analogy to DisplayList:** You can think of the "Recording Phase" as similar to
+building a declarative **DisplayList** (or `RenderNode`). Your app constructs a
+tree of drawing commands and state dependencies, which are then handed off to a
+separate renderer (the System UI process) for execution, much like how the main
+UI thread hands off work to the `RenderThread`.
 
 ## Compose Parallels and Similarities
 
