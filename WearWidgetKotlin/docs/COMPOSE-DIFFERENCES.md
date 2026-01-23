@@ -76,7 +76,8 @@ specific constraints on available features:
   weight) but lacks support for
   [`AnnotatedString`](https://developer.android.com/reference/kotlin/androidx/compose/ui/text/AnnotatedString)
   (rich text within a single element) and custom paragraph styling. Font support
-  is currently limited to system fonts.
+  is limited to generic font families (serif, sans-serif, monospace, cursive)
+  and bitmap fonts.
 - **Animation:** Detailed, frame-by-frame control via
   [`Animatable`](https://developer.android.com/reference/kotlin/androidx/compose/animation/core/Animatable)
   or `updateTransition` is not supported. Animations are declarative: you
@@ -124,11 +125,15 @@ by the renderer.
 Standard Kotlin string templates (`"$value"`) are evaluated once in your app
 process. To update text based on a remote value without waking your app, the
 concatenation logic must be sent to the System process. Remote Compose requires
-constructing strings using the `.rs` and `toRemoteString()` extensions to build
-a dependency graph in the document.
+constructing strings using the `.rs` extension and explicit format conversions
+to build a dependency graph in the document.
 
 - **Standard Compose:** `Text("Count: $count")`
-- **Remote Compose:** `RemoteText("Count: ".rs + count.toRemoteString())`
+- **Remote Compose:**
+  `RemoteText("Count: ".rs + count.toRemoteString(before = 3))`
+
+Note: `toRemoteString()` requires format parameters like `before` (digit count)
+and optionally `after` (decimal places) and `flags` (padding options).
 
 ### Branching Logic: `if` vs. `.select()`
 
