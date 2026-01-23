@@ -1,9 +1,11 @@
 # Remote Compose vs. Standard Compose
 
-This document outlines key differences ("deltas") between the Remote Compose API
-(used for Wear Widgets) and standard Jetpack Compose. It categorizes these
-differences to help developers distinguish between architectural necessities and
-temporary API gaps.
+This document outlines key differences ("deltas") between the
+[Remote Compose API](https://developer.android.com/jetpack/androidx/releases/compose-remote)
+(used for Wear Widgets) and
+[standard Jetpack Compose](https://developer.android.com/develop/ui/compose). It
+categorizes these differences to help developers distinguish between
+architectural necessities and temporary API gaps.
 
 ## The Remote Architecture
 
@@ -19,10 +21,11 @@ efficiently, reducing unnecessary process wakeups and cross-process
 communication.
 
 **Analogy to DisplayList:** You can think of the "Recording Phase" as similar to
-building a declarative **DisplayList** (or `RenderNode`). Your app constructs a
-tree of drawing commands and state dependencies, which are then handed off to a
-separate renderer (the System UI process) for execution, much like how the main
-UI thread hands off work to the `RenderThread`.
+building a declarative DisplayList (or
+`[RenderNode](https://developer.android.com/reference/android/graphics/RenderNode)`).
+Your app constructs a tree of drawing commands and state dependencies, which are
+then handed off to a separate renderer (the System UI process) for execution,
+much like how the main UI thread hands off work to the `RenderThread`.
 
 ## Compose Parallels and Similarities
 
@@ -30,19 +33,21 @@ Despite the architectural differences necessitated by its remote nature, Remote
 Compose is designed to feel immediately familiar to Jetpack Compose developers.
 The core mental model and syntax are intentionally aligned.
 
-- **Declarative UI Model:** Just like standard Compose, you describe _what_ the
-  UI should look like for a given state, rather than imperatively mutating
-  views. The framework handles the complexity of updating the display when state
-  changes.
+- **[Declarative UI Model](https://developer.android.com/develop/ui/compose/mental-model):**
+  Just like standard Compose, you describe _what_ the UI should look like for a
+  given state, rather than imperatively mutating views. The framework handles
+  the complexity of updating the display when state changes.
 - **Composable Tree Structure:** You build UIs by nesting composable functions.
   The structure of your code mirrors the structure of the UI, with parent
   composables (like `RemoteColumn`) containing children (like `RemoteText`).
-- **Modifier System:** Styling and layout are handled through a chainable
-  `Modifier` object (here, `RemoteModifier`). Concepts like padding, background,
-  and size work identically to their standard counterparts.
-- **Unidirectional Data Flow:** State flows down, and events flow up. Parent
-  composables pass data to children, and children report user interactions back
-  up to parents (via Actions), maintaining a clear separation of concerns.
+- **[Modifier System](https://developer.android.com/develop/ui/compose/modifiers):**
+  Styling and layout are handled through a chainable `Modifier` object (here,
+  `RemoteModifier`). Concepts like padding, background, and size work
+  identically to their standard counterparts.
+- **[Unidirectional Data Flow](https://developer.android.com/develop/ui/compose/architecture#udf):**
+  State flows down, and events flow up. Parent composables pass data to
+  children, and children report user interactions back up to parents (via
+  Actions), maintaining a clear separation of concerns.
 - **Component Parallels:** Most standard components have a direct remote
   equivalent with similar parameters. `Column` becomes `RemoteColumn`, `Row`
   becomes `RemoteRow`, `Box` becomes `RemoteBox`, and `Text` becomes
@@ -68,16 +73,20 @@ specific constraints on available features:
   user's wallpaper or system theme is handled implicitly by the renderer rather
   than explicitly in your code.
 - **Text & Typography:** `RemoteText` supports standard styling (color, size,
-  weight) but lacks support for `AnnotatedString` (rich text within a single
-  element) and custom paragraph styling. Font support is currently limited to
-  system fonts.
-- **Animation:** Detailed, frame-by-frame control via `Animatable` or
-  `updateTransition` is not supported. Animations are declarative: you specify
-  an `animationSpec` on a modifier (e.g., `RemoteModifier.size(...)`), and the
-  system handles the interpolation.
-- **Accessibility:** Semantics are supported via `RemoteModifier.semantics`, but
-  properties are serialized to the remote host. You cannot attach arbitrary
-  accessibility actions or delegates that execute code in your app process.
+  weight) but lacks support for
+  `[AnnotatedString](https://developer.android.com/reference/kotlin/androidx/compose/ui/text/AnnotatedString)`
+  (rich text within a single element) and custom paragraph styling. Font support
+  is currently limited to system fonts.
+- **Animation:** Detailed, frame-by-frame control via
+  `[Animatable](https://developer.android.com/reference/kotlin/androidx/compose/animation/core/Animatable)`
+  or `updateTransition` is not supported. Animations are declarative: you
+  specify an `animationSpec` on a modifier (e.g., `RemoteModifier.size(...)`),
+  and the system handles the interpolation.
+- **Accessibility:**
+  [Semantics](https://developer.android.com/develop/ui/compose/accessibility/semantics)
+  are supported via `RemoteModifier.semantics`, but properties are serialized to
+  the remote host. You cannot attach arbitrary accessibility actions or
+  delegates that execute code in your app process.
 - **Touch & Input:** Advanced gesture detection (`PointerInput`, `Draggable`) is
   not supported. Interaction is limited to click events (`clickable`) that
   trigger declarative Actions.
