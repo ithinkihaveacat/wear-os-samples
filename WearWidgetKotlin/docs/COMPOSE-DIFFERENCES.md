@@ -196,8 +196,8 @@ lifecycle to attach to on the remote host.
 
 ## Temporary Limitations (Bugs or Omissions)
 
-These differences appear to be gaps in the current API surface that may be
-resolved in future releases.
+These differences are gaps in the current API surface that may be resolved in
+future releases.
 
 ### `RemoteModifier.clip()` Signature
 
