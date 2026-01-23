@@ -5,6 +5,37 @@ This document outlines key differences ("deltas") between the Remote Compose API
 differences to help developers distinguish between architectural necessities and
 temporary API gaps.
 
+## Compose Parallels and Similarities
+
+Despite the architectural differences necessitated by its remote nature, Remote
+Compose is designed to feel immediately familiar to Jetpack Compose developers.
+The core mental model and syntax are intentionally aligned.
+
+- **Declarative UI Model:** Just like standard Compose, you describe _what_ the
+  UI should look like for a given state, rather than imperatively mutating
+  views. The framework handles the complexity of updating the display when state
+  changes.
+- **Composable Tree Structure:** You build UIs by nesting composable functions.
+  The structure of your code mirrors the structure of the UI, with parent
+  composables (like `RemoteColumn`) containing children (like `RemoteText`).
+- **Modifier System:** Styling and layout are handled through a chainable
+  `Modifier` object (here, `RemoteModifier`). Concepts like padding, background,
+  and size work identically to their standard counterparts.
+- **Unidirectional Data Flow:** State flows down, and events flow up. Parent
+  composables pass data to children, and children report user interactions back
+  up to parents (via Actions), maintaining a clear separation of concerns.
+- **Component Parallels:** Most standard components have a direct remote
+  equivalent with similar parameters. `Column` becomes `RemoteColumn`, `Row`
+  becomes `RemoteRow`, `Box` becomes `RemoteBox`, and `Text` becomes
+  `RemoteText`.
+- **Material Design Theming:** Theming works the same way, with a hierarchy of
+  color and typography provided by `RemoteMaterialTheme`. This allows for
+  consistent branding and design system implementation across your app and
+  widgets.
+- **State Management:** You use `remember` (specifically
+  `rememberRemoteIntValue` etc.) to hold state across recompositions, mirroring
+  the `remember { mutableStateOf(...) }` pattern in standard Compose.
+
 ## Architectural Differences
 
 These differences stem from the fundamental architecture of Remote Compose,
