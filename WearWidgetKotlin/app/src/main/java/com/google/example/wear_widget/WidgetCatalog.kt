@@ -1305,12 +1305,10 @@ fun TypographyScaleSample() {
 
                 RemoteBox(RemoteModifier.size(12.rdp))
 
-                // 3. Caption style applied manually
+                // 3. Caption style applied via 'style' parameter
                 MaterialRemoteText(
                     text = "Caption Style".rs,
-                    fontSize = myCaptionStyle.fontSize,
-                    fontStyle = myCaptionStyle.fontStyle,
-                    color = myCaptionStyle.color.rc
+                    style = myCaptionStyle
                 )
             }
         }
