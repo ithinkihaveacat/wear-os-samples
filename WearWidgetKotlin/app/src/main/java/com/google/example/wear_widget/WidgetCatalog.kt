@@ -57,6 +57,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.wear.GlanceWearWidget
@@ -83,7 +84,7 @@ class WidgetCatalog : GlanceWearWidget() {
     override suspend fun provideWidgetData(
         context: Context,
         params: WearWidgetParams,
-    ): WearWidgetData = WearWidgetDocument(backgroundColor = Color.Black) { ButtonSample9() }
+    ): WearWidgetData = WearWidgetDocument(backgroundColor = Color.Black) { TypographyScaleSample() }
 }
 
 @RemoteComposable
@@ -1251,6 +1252,67 @@ fun ConditionalRadiusSample() {
                 size = RemoteSize(widthPx, remote.component.height),
                 cornerRadius = RemoteOffset(radiusPx, radiusPx),
             )
+        }
+    }
+}
+
+/**
+ * A sample demonstrating how to achieve semantic styles using manual property application.
+ * Since the system typography is currently opaque and we want to avoid extra dependencies,
+ * we define our own app-level styles and apply them explicitly to RemoteText.
+ */
+/**
+ * A black screen displays a circular Android icon at the top, followed by "Wear Widget" in white
+ * text. Below, "Title Style" is prominent in large, cyan text. Next, "Default Body Style" appears
+ * in white, and finally, "Caption Style" in smaller, italicized white text, all vertically stacked
+ * and centered.
+ */
+@RemoteComposable
+@Composable
+fun TypographyScaleSample() {
+    // Define our own "semantic" styles
+    val myTitleStyle = TextStyle(
+        fontSize = 24.sp,
+        fontWeight = FontWeight.Bold,
+        color = Color.Cyan
+    )
+
+    val myCaptionStyle = TextStyle(
+        fontSize = 12.sp,
+        fontStyle = FontStyle.Italic,
+        color = Color.LightGray
+    )
+
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
+                // 1. Title style applied manually
+                MaterialRemoteText(
+                    text = "Title Style".rs,
+                    fontSize = myTitleStyle.fontSize,
+                    fontWeight = myTitleStyle.fontWeight,
+                    color = myTitleStyle.color.rc
+                )
+
+                RemoteBox(RemoteModifier.size(12.rdp))
+
+                // 2. Default style (bodyLarge) provided by RemoteMaterialTheme
+                MaterialRemoteText("Default Body Style".rs)
+
+                RemoteBox(RemoteModifier.size(12.rdp))
+
+                // 3. Caption style applied manually
+                MaterialRemoteText(
+                    text = "Caption Style".rs,
+                    fontSize = myCaptionStyle.fontSize,
+                    fontStyle = myCaptionStyle.fontStyle,
+                    color = myCaptionStyle.color.rc
+                )
+            }
         }
     }
 }
