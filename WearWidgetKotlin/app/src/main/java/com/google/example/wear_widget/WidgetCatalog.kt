@@ -84,7 +84,47 @@ class WidgetCatalog : GlanceWearWidget() {
     override suspend fun provideWidgetData(
         context: Context,
         params: WearWidgetParams,
-    ): WearWidgetData = WearWidgetDocument(backgroundColor = Color.Black) { TypographyScaleSample() }
+    ): WearWidgetData = WearWidgetDocument(backgroundColor = Color.Black) { SemanticStyleWorkaroundSample() }
+}
+
+/**
+ * A screen with a black background. At the top, an Android robot icon in a white circle. Below it, white text reads "Wear Widget," followed by "Semantic Styles Demo" in a larger font. At the bottom, a very large white "12:34" is displayed, indicating time. All elements are centrally aligned vertically.
+ */
+@RemoteComposable
+@Composable
+fun SemanticStyleWorkaroundSample() {
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteColumn(
+                modifier = RemoteModifier.fillMaxWidth(),
+                horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                verticalArrangement = RemoteArrangement.Center,
+            ) {
+                MaterialRemoteText(
+                    text = "Semantic Styles Demo".rs,
+                    style = MyWidgetTypography.titleLarge
+                )
+
+                RemoteBox(RemoteModifier.size(16.rdp))
+
+                MaterialRemoteText(
+                    text = "12:34".rs,
+                    style = MyWidgetTypography.numeralLarge
+                )
+
+                RemoteBox(RemoteModifier.size(12.rdp))
+
+                MaterialRemoteText(
+                    text = "Session complete".rs,
+                    style = MyWidgetTypography.titleMedium
+                )
+            }
+        }
+    }
 }
 
 @RemoteComposable
