@@ -1062,34 +1062,36 @@ drawConditionally(isToggled.not()) {
 
 b/478828032
 
-**Symptom:** Attempts to access semantic text styles from the theme (e.g.,
-`RemoteMaterialTheme.typography.titleLarge`) will fail to compile. While
-`MaterialRemoteText` automatically defaults to the `bodyLarge` style, there is
-no public API to explicitly select other pre-defined text styles from the theme.
-This differs from standard Jetpack Compose, where `MaterialTheme.typography` is
-a publicly accessible. In the remote version, `RemoteTypography` is an opaque
-object that does not expose its internal styles. This also means true semantic
-styling from the theme is not currently possible, and consequently, guaranteeing
-consistent typography with other system widgets is also not possible.
+**Symptom:** `RemoteMaterialTheme.colorScheme` exposes the system's dynamic
+colors (e.g., `RemoteMaterialTheme.colorScheme.primary`), however the
+`RemoteMaterialTheme.typography` object is currently opaque. Accessing semantic
+text styles directly (e.g., `RemoteMaterialTheme.typography.titleLarge`) causes
+a compilation error. This means you cannot use "semantic" text styles to
+`MaterialRemoteText` components.
 
-**Workaround:** The issue arises because the `RemoteTypography` object within
-the theme is "opaque"—it does not publicly expose its internal `TextStyle`
-properties (`.titleLarge`, `.bodyMedium`, etc.) to your app's code.
+**Temporary Workaround: Use Local Typography Definitions**
 
-The recommended workaround is to create a local, publicly accessible copy of the
-official Material 3 typography definitions. This can be done programmatically by
-creating an object that instantiates the standard (non-remote)
-`androidx.wear.compose.material3.Typography` class and exposes its styles. This
-approach ensures your widget uses the correct, up-to-date styles from the
-library without requiring you to define them manually.
+Until Until semantic styles are officially exposed via
+`RemoteMaterialTheme.typography`, you can unblock development by defining a
+local helper object that exposes the standard
+`androidx.wear.compose.material3.Typography` styles. This enables you to apply
+semantic styling immediately and continue building your widget; these local
+definitions should be similar enough to the system styles for testing and
+previewing purposes on most devices.
 
-This is a **temporary workaround** until proper semantic style support is
-provided in a future library version.
+Note that this is not a long-term solution. Local styles are not guaranteed to
+match the system's typography, particularly across different OEMs or future OS
+versions. Furthermore, using locally-defined styles in a "remote" environment
+creates an architectural conflict, as it bypasses the core intent of the remote
+UI model where the host (renderer) should be responsible for resolving
+theme-specific constants. If you adopt this workaround, you'll need to migrate
+to the official API prior to production deployment.
 
 **1. Create a typography helper object:**
 
-Add the following Kotlin object to your project. It creates a single instance of
-the standard `Typography` class and exposes all its semantic styles.
+Add the following Kotlin object to your project. It creates a local instance of
+the standard (non-remote) `Typography` class and exposes its styles for use in
+your widget.
 
 ```kotlin
 package com.google.example.wear_widget // Adjust to your package
@@ -1101,15 +1103,8 @@ import androidx.compose.ui.text.TextStyle
 /**
  * A local copy of the semantic typography styles from androidx.wear.compose.material3.Typography.
  *
- * This object provides access to the default text styles, allowing them to be used as a
- * workaround for the known issue (b/478828032) where semantic styles are not directly
- * exposed by RemoteMaterialTheme.typography.
- *
- * Usage:
- * MaterialRemoteText(
- *     text = "My Title".rs,
- *     style = MyWidgetTypography.titleLarge
- * )
+ * This provides temporary access to standard text styles while the
+ * RemoteMaterialTheme.typography API (b/478828032) remains opaque.
  */
 object MyWidgetTypography {
     private val defaultTypography = Typography()
@@ -1138,8 +1133,7 @@ object MyWidgetTypography {
 
 **2. Apply the styles in your widget:**
 
-You can now reference this object to apply consistent, semantic styling to your
-`MaterialRemoteText` components.
+Reference this object to apply semantic styling.
 
 ```kotlin
 import com.google.example.wear_widget.MyWidgetTypography // Adjust import
