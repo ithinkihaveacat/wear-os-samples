@@ -76,6 +76,8 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 import androidx.wear.compose.remote.material3.buttonSizeModifier
 
+import android.util.Log
+
 class WidgetCatalogService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = WidgetCatalog()
 }
@@ -84,7 +86,49 @@ class WidgetCatalog : GlanceWearWidget() {
     override suspend fun provideWidgetData(
         context: Context,
         params: WearWidgetParams,
-    ): WearWidgetData = WearWidgetDocument(backgroundColor = Color.Black) { SemanticStyleWorkaroundSample() }
+    ): WearWidgetData {
+        val state = context.getWidgetCatalogState()
+        Log.d("WidgetCatalog", "provideWidgetData: layoutName='${state.layoutName}'")
+        return WearWidgetDocument(backgroundColor = Color.Black) {
+            when (state.layoutName) {
+                "SemanticStyleWorkaroundSample" -> SemanticStyleWorkaroundSample()
+                "CanvasSample3" -> CanvasSample3()
+                "SystemThemeComparisonSample" -> SystemThemeComparisonSample()
+                "SystemThemeSample" -> SystemThemeSample()
+                "AustralianThemeSample" -> AustralianThemeSample()
+                "BoxSample1" -> BoxSample1()
+                "BoxSample2" -> BoxSample2()
+                "BoxSample3" -> BoxSample3()
+                "TextSample1" -> TextSample1()
+                "TextSample1WithMargin" -> TextSample1WithMargin()
+                "RowSample1" -> RowSample1()
+                "RowSample2" -> RowSample2()
+                "CollapsibleColumnSample1" -> CollapsibleColumnSample1()
+                "ButtonSample1" -> ButtonSample1()
+                "ButtonSample2" -> ButtonSample2()
+                "ButtonSample3" -> ButtonSample3()
+                "ButtonSample4" -> ButtonSample4()
+                "ButtonSample6" -> ButtonSample6()
+                "ButtonSample7" -> ButtonSample7()
+                "ButtonSample8" -> ButtonSample8()
+                "ButtonSample9" -> ButtonSample9()
+                "IconSample1" -> IconSample1()
+                "GridSample1" -> GridSample1()
+                "CardSample1" -> CardSample1()
+                "CounterSample1" -> CounterSample1()
+                "Material3ThemeSample" -> Material3ThemeSample()
+                "CanvasSample1" -> CanvasSample1()
+                "CanvasSample2" -> CanvasSample2()
+                "GradientBackgroundSample" -> GradientBackgroundSample()
+                "PendingIntentSample" -> PendingIntentSample()
+                "VerticalScrollSample" -> VerticalScrollSample()
+                "MixedStyleSample" -> MixedStyleSample()
+                "ConditionalRadiusSample" -> ConditionalRadiusSample()
+                "TypographyScaleSample" -> TypographyScaleSample()
+                else -> SemanticStyleWorkaroundSample()
+            }
+        }
+    }
 }
 
 /**

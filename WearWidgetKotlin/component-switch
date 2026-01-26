@@ -1,17 +1,20 @@
 #!/usr/bin/env bash
 #
-# widget-switch - Reliably switch WidgetCatalog layouts via ADB
+# component-switch - Reliably switch ComponentCatalog widget layouts via ADB
 #
 # Usage:
-#   widget-switch LAYOUT [WAIT_SECONDS]
+#   component-switch LAYOUT [WAIT_SECONDS]
 #
 # Arguments:
-#   LAYOUT         Layout name (e.g., BoxSample1, TextSample1, SystemThemeSample, etc.)
+#   LAYOUT         Layout name (textButton, iconButton, avatarButton, imageButton,
+#                  compactButton, titleCard, appCard, circularProgressIndicator,
+#                  segmentedCircularProgressIndicator, fullBleedImage, animatedBox)
 #   WAIT_SECONDS   Optional render wait time (default: 1.5)
 #
 # Examples:
-#   widget-switch BoxSample1
-#   widget-switch SystemThemeSample 2
+#   component-switch textButton
+#   component-switch appCard 2
+#   component-switch fullBleedImage 1
 #
 # Notes:
 #   - Requires ANDROID_SERIAL to be set or a single device connected
@@ -21,8 +24,8 @@
 set -euo pipefail
 
 PACKAGE="com.google.example.wear_widget"
-SERVICE=".WidgetCatalogService"
-RECEIVER=".WidgetCatalogReceiver"
+SERVICE=".ComponentCatalogService"
+RECEIVER=".ComponentCatalogReceiver"
 COMPONENT="$PACKAGE/$SERVICE"
 
 usage() {
@@ -31,7 +34,7 @@ Usage: $(basename "$0") LAYOUT [WAIT_SECONDS]
        $(basename "$0") --init
        $(basename "$0") --list
 
-Switch WidgetCatalog layouts reliably via ADB.
+Switch ComponentCatalog widget layouts reliably via ADB.
 
 Arguments:
   LAYOUT         Layout name to switch to
@@ -41,55 +44,37 @@ Options:
   --init         First-time setup: force-stop and add tile
   --list         List available layouts
 
+Available layouts:
+  textButton, iconButton, avatarButton, imageButton, compactButton,
+  titleCard, appCard, circularProgressIndicator,
+  segmentedCircularProgressIndicator, fullBleedImage, animatedBox
+
 Examples:
   $(basename "$0") --init          # First-time setup
-  $(basename "$0") BoxSample1      # Switch to BoxSample1
-  $(basename "$0") TextSample1 2   # Switch with 2s render wait
+  $(basename "$0") textButton      # Switch to textButton layout
+  $(basename "$0") appCard 2       # Switch with 2s render wait
 EOF
     exit 0
 }
 
 list_layouts() {
     echo "Available layouts:"
-    echo "  SemanticStyleWorkaroundSample"
-    echo "  CanvasSample3"
-    echo "  SystemThemeComparisonSample"
-    echo "  SystemThemeSample"
-    echo "  AustralianThemeSample"
-    echo "  BoxSample1"
-    echo "  BoxSample2"
-    echo "  BoxSample3"
-    echo "  TextSample1"
-    echo "  TextSample1WithMargin"
-    echo "  RowSample1"
-    echo "  RowSample2"
-    echo "  CollapsibleColumnSample1"
-    echo "  ButtonSample1"
-    echo "  ButtonSample2"
-    echo "  ButtonSample3"
-    echo "  ButtonSample4"
-    echo "  ButtonSample6"
-    echo "  ButtonSample7"
-    echo "  ButtonSample8"
-    echo "  ButtonSample9"
-    echo "  IconSample1"
-    echo "  GridSample1"
-    echo "  CardSample1"
-    echo "  CounterSample1"
-    echo "  Material3ThemeSample"
-    echo "  CanvasSample1"
-    echo "  CanvasSample2"
-    echo "  GradientBackgroundSample"
-    echo "  PendingIntentSample"
-    echo "  VerticalScrollSample"
-    echo "  MixedStyleSample"
-    echo "  ConditionalRadiusSample"
-    echo "  TypographyScaleSample"
+    echo "  textButton"
+    echo "  iconButton"
+    echo "  avatarButton"
+    echo "  imageButton"
+    echo "  compactButton"
+    echo "  titleCard"
+    echo "  appCard"
+    echo "  circularProgressIndicator"
+    echo "  segmentedCircularProgressIndicator"
+    echo "  fullBleedImage"
+    echo "  animatedBox"
     exit 0
 }
 
 init_tile() {
-    echo "Initializing WidgetCatalog tile..."
+    echo "Initializing ComponentCatalog tile..."
     adb shell am force-stop "$PACKAGE"
     sleep 0.5
     adb shell am broadcast \
@@ -127,8 +112,7 @@ LAYOUT="$1"
 WAIT="${2:-1.5}"
 
 # Validate layout name
-VALID_LAYOUTS="SemanticStyleWorkaroundSample CanvasSample3 SystemThemeComparisonSample SystemThemeSample AustralianThemeSample BoxSample1 BoxSample2 BoxSample3 TextSample1 TextSample1WithMargin RowSample1 RowSample2 CollapsibleColumnSample1 ButtonSample1 ButtonSample2 ButtonSample3 ButtonSample4 ButtonSample6 ButtonSample7 ButtonSample8 ButtonSample9 IconSample1 GridSample1 CardSample1 CounterSample1 Material3ThemeSample CanvasSample1 CanvasSample2 GradientBackgroundSample PendingIntentSample VerticalScrollSample MixedStyleSample ConditionalRadiusSample TypographyScaleSample"
-
+VALID_LAYOUTS="textButton iconButton avatarButton imageButton compactButton titleCard appCard textDataCard iconDataCard graphicDataCard circularProgressIndicator segmentedCircularProgressIndicator fullBleedImage animatedBox"
 if ! echo "$VALID_LAYOUTS" | grep -qw "$LAYOUT"; then
     echo "$(basename "$0"): unknown layout '$LAYOUT'" >&2
     echo "Use --list to see available layouts" >&2
@@ -145,8 +129,8 @@ fi
 
 adb shell am broadcast \
     -n "$PACKAGE/$RECEIVER" \
-    -a "$PACKAGE.SET_WIDGET" \
-    --es widget "$LAYOUT" > /dev/null
+    -a "$PACKAGE.SET_COMPONENT" \
+    --es layout "$LAYOUT" > /dev/null
 
 adb shell am broadcast \
     -a com.google.android.wearable.app.DEBUG_SURFACE \

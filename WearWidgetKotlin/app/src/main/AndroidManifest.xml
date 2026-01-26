@@ -139,6 +139,14 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".WidgetCatalogReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.example.wear_widget.SET_WIDGET" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

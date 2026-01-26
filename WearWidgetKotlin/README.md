@@ -94,23 +94,31 @@ This sample includes two catalogs: `WidgetCatalog` (full widgets) and
 
 ### Component Catalog (Recommended)
 
-Use the included `widget-switch` script to quickly browse different components
+Use the included `component-switch` script to quickly browse different components
 without code changes.
+
+```bash
+# Initialize
+./component-switch --init
+
+# Switch layouts
+./component-switch textButton
+./component-switch appCard
+```
+
+### Widget Catalog
+
+Use the included `widget-switch` script to quickly browse different full widget
+samples.
 
 ```bash
 # Initialize
 ./widget-switch --init
 
 # Switch layouts
-./widget-switch textButton
-./widget-switch appCard
+./widget-switch BoxSample1
+./widget-switch SystemThemeSample
 ```
-
-### Widget Catalog
-
-To modify the main `WidgetCatalog`, edit
-`app/src/main/java/com/google/example/wear_widget/WidgetCatalog.kt` to select a
-different sample in `provideWidgetData`.
 
 ## Troubleshooting
 
