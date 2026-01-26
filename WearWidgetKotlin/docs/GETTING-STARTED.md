@@ -1071,7 +1071,7 @@ a compilation error. This means you cannot use "semantic" text styles to
 
 **Temporary Workaround: Use Local Typography Definitions**
 
-Until Until semantic styles are officially exposed via
+Until semantic styles are officially exposed via
 `RemoteMaterialTheme.typography`, you can unblock development by defining a
 local helper object that exposes the standard
 `androidx.wear.compose.material3.Typography` styles. This enables you to apply
