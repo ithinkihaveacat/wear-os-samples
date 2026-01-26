@@ -1072,22 +1072,88 @@ object that does not expose its internal styles. This also means true semantic
 styling from the theme is not currently possible, and consequently, guaranteeing
 consistent typography with other system widgets is also not possible.
 
-**Workaround:** Define your own `TextStyle` objects and apply them to
-`MaterialRemoteText` either through the `style` parameter or by setting
-individual properties like `fontSize` and `fontWeight`. This is a **temporary
-workaround** until proper semantic style support is provided, aligning with
-standard Compose practices.
+**Workaround:** The issue arises because the `RemoteTypography` object within
+the theme is "opaque"—it does not publicly expose its internal `TextStyle`
+properties (`.titleLarge`, `.bodyMedium`, etc.) to your app's code.
+
+The recommended workaround is to create a local, publicly accessible copy of the
+official Material 3 typography definitions. This can be done programmatically by
+creating an object that instantiates the standard (non-remote)
+`androidx.wear.compose.material3.Typography` class and exposes its styles. This
+approach ensures your widget uses the correct, up-to-date styles from the
+library without requiring you to define them manually.
+
+This is a **temporary workaround** until proper semantic style support is
+provided in a future library version.
+
+**1. Create a typography helper object:**
+
+Add the following Kotlin object to your project. It creates a single instance of
+the standard `Typography` class and exposes all its semantic styles.
 
 ```kotlin
-// 1. Define your own semantic styles
-object MyWidgetTypography {
-    val Title = TextStyle(fontSize = 22.sp, fontWeight = FontWeight.Bold)
-}
+package com.google.example.wear_widget // Adjust to your package
 
-// 2. Apply them manually
+import androidx.wear.compose.material3.Typography
+import androidx.wear.compose.foundation.CurvedTextStyle
+import androidx.compose.ui.text.TextStyle
+
+/**
+ * A local copy of the semantic typography styles from androidx.wear.compose.material3.Typography.
+ *
+ * This object provides access to the default text styles, allowing them to be used as a
+ * workaround for the known issue (b/478828032) where semantic styles are not directly
+ * exposed by RemoteMaterialTheme.typography.
+ *
+ * Usage:
+ * MaterialRemoteText(
+ *     text = "My Title".rs,
+ *     style = MyWidgetTypography.titleLarge
+ * )
+ */
+object MyWidgetTypography {
+    private val defaultTypography = Typography()
+
+    // Expose all standard text styles
+    val displayLarge: TextStyle get() = defaultTypography.displayLarge
+    val displayMedium: TextStyle get() = defaultTypography.displayMedium
+    val displaySmall: TextStyle get() = defaultTypography.displaySmall
+    val titleLarge: TextStyle get() = defaultTypography.titleLarge
+    val titleMedium: TextStyle get() = defaultTypography.titleMedium
+    val titleSmall: TextStyle get() = defaultTypography.titleSmall
+    val labelLarge: TextStyle get() = defaultTypography.labelLarge
+    val labelMedium: TextStyle get() = defaultTypography.labelMedium
+    val labelSmall: TextStyle get() = defaultTypography.labelSmall
+    val bodyLarge: TextStyle get() = defaultTypography.bodyLarge
+    val bodyMedium: TextStyle get() = defaultTypography.bodyMedium
+    val bodySmall: TextStyle get() = defaultTypography.bodySmall
+    val bodyExtraSmall: TextStyle get() = defaultTypography.bodyExtraSmall
+    val numeralExtraLarge: TextStyle get() = defaultTypography.numeralExtraLarge
+    val numeralLarge: TextStyle get() = defaultTypography.numeralLarge
+    val numeralMedium: TextStyle get() = defaultTypography.numeralMedium
+    val numeralSmall: TextStyle get() = defaultTypography.numeralSmall
+    val numeralExtraSmall: TextStyle get() = defaultTypography.numeralExtraSmall
+}
+```
+
+**2. Apply the styles in your widget:**
+
+You can now reference this object to apply consistent, semantic styling to your
+`MaterialRemoteText` components.
+
+```kotlin
+import com.google.example.wear_widget.MyWidgetTypography // Adjust import
+
+//...
+
 MaterialRemoteText(
-    text = "My Title".rs,
-    style = MyWidgetTypography.Title
+    text = "12:34".rs,
+    style = MyWidgetTypography.numeralLarge
+)
+
+MaterialRemoteText(
+    text = "Session complete".rs,
+    style = MyWidgetTypography.titleMedium
 )
 ```
 
