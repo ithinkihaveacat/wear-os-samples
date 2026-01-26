@@ -1058,6 +1058,39 @@ drawConditionally(isToggled.not()) {
 }
 ```
 
+### `RemoteMaterialTheme.typography` Does Not Expose Semantic Styles
+
+b/478828032
+
+**Symptom:** Attempts to access semantic text styles from the theme (e.g.,
+`RemoteMaterialTheme.typography.titleLarge`) will fail to compile. While
+`MaterialRemoteText` automatically defaults to the `bodyLarge` style, there is
+no public API to explicitly select other pre-defined text styles from the theme.
+This differs from standard Jetpack Compose, where `MaterialTheme.typography` is
+a publicly accessible. In the remote version, `RemoteTypography` is an opaque
+object that does not expose its internal styles. This also means true semantic
+styling from the theme is not currently possible, and consequently, guaranteeing
+consistent typography with other system widgets is also not possible.
+
+**Workaround:** Define your own `TextStyle` objects and apply them to
+`MaterialRemoteText` either through the `style` parameter or by setting
+individual properties like `fontSize` and `fontWeight`. This is a **temporary
+workaround** until proper semantic style support is provided, aligning with
+standard Compose practices.
+
+```kotlin
+// 1. Define your own semantic styles
+object MyWidgetTypography {
+    val Title = TextStyle(fontSize = 22.sp, fontWeight = FontWeight.Bold)
+}
+
+// 2. Apply them manually
+MaterialRemoteText(
+    text = "My Title".rs,
+    style = MyWidgetTypography.Title
+)
+```
+
 ## Updates
 
 _This section will be updated with updates, e.g. new lib version availability
