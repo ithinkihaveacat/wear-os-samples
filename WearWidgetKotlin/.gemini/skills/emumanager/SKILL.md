@@ -7,6 +7,10 @@ description: >
   sdkmanager, avdmanager, emulator CLI. Triggers: android emulator, android
   virtual device, avd, system image, wear os emulator, tv emulator, automotive
   emulator, bootstrap android sdk.
+compatibility: >
+  Requires Java 17+, curl, and unzip. Hardware acceleration (KVM on Linux, HVF
+  on macOS) required for emulators. Needs network access for downloading SDK
+  components. Designed for filesystem-based agents with bash access.
 ---
 
 # Android Emulator Manager
@@ -14,7 +18,8 @@ description: >
 ## Important: Use Script First
 
 **ALWAYS use `scripts/emumanager` over raw `sdkmanager`, `avdmanager`, or
-`emulator` commands.** The script provides features that raw commands do not:
+`emulator` commands.** The script is located in the `scripts/` subdirectory of
+this skill's folder. It provides features that raw commands do not:
 
 - Automatic system image selection for device types (--mobile, --wear, --tv)
 - Boot completion detection with timeout
