@@ -1064,9 +1064,10 @@ b/478828032
 
 **Symptom:** `RemoteMaterialTheme.colorScheme` exposes the system's dynamic
 colors (e.g., `RemoteMaterialTheme.colorScheme.primary`), however the
-`RemoteMaterialTheme.typography` object is currently opaque. Accessing semantic
-text styles directly (e.g., `RemoteMaterialTheme.typography.titleLarge`) causes
-a compilation error. This means you cannot use "semantic" text styles to
+`RemoteMaterialTheme.typography` object does not expose its styles publicly.
+The underlying `typography` property has `internal` visibility, so accessing
+semantic text styles directly (e.g., `RemoteMaterialTheme.typography.titleLarge`)
+causes a compilation error. This means you cannot use "semantic" text styles to
 `MaterialRemoteText` components.
 
 **Temporary Workaround: Use Local Typography Definitions**
@@ -1104,7 +1105,7 @@ import androidx.compose.ui.text.TextStyle
  * A local copy of the semantic typography styles from androidx.wear.compose.material3.Typography.
  *
  * This provides temporary access to standard text styles while the
- * RemoteMaterialTheme.typography API (b/478828032) remains opaque.
+ * RemoteMaterialTheme.typography API (b/478828032) has internal visibility.
  */
 object MyWidgetTypography {
     private val defaultTypography = Typography()
