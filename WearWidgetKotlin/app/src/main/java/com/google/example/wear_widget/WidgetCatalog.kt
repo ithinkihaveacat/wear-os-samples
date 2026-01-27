@@ -176,7 +176,7 @@ fun SemanticStyleWorkaroundSample() {
 @Composable
 fun AnchoredTextSample() {
     RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+        modifier = RemoteModifier.fillMaxSize().background(Color.White),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
@@ -186,9 +186,6 @@ fun AnchoredTextSample() {
             val centerX = width / 2f.rf
             val centerY = height / 2f.rf
             
-            // Safe inset for round screens (approx 15%)
-            val inset = width * 0.15f.rf
-
             // 1. Center Text (pan 0 = center)
             drawAnchoredText(
                 text = "Center".rs,
@@ -198,18 +195,18 @@ fun AnchoredTextSample() {
                 pany = 0f.rf,
                 flags = 0,
                 paint = RemotePaint().apply {
-                    remoteColor = Color.White.rc
+                    remoteColor = Color.Black.rc
                     textSize = 30f
                 }
             )
 
             // 2. Top-Left Text
-            // Anchor inside top-left
+            // Anchor at absolute top-left (0,0)
             // pan = -1 means "Align Left/Top edge to Anchor" (Text extends Right/Down)
             drawAnchoredText(
                 text = "Top Left".rs,
-                anchorX = inset,
-                anchorY = inset,
+                anchorX = 0f.rf,
+                anchorY = 0f.rf,
                 panx = -1f.rf,
                 pany = -1f.rf,
                 flags = 0,
@@ -220,12 +217,12 @@ fun AnchoredTextSample() {
             )
 
             // 3. Bottom-Right Text
-            // Anchor inside bottom-right
+            // Anchor at absolute bottom-right (w,h)
             // pan = 1 means "Align Right/Bottom edge to Anchor" (Text extends Left/Up)
             drawAnchoredText(
                 text = "Bottom Right".rs,
-                anchorX = width - inset,
-                anchorY = height - inset,
+                anchorX = width,
+                anchorY = height,
                 panx = 1f.rf,
                 pany = 1f.rf,
                 flags = 0,
