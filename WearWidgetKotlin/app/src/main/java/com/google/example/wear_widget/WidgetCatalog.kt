@@ -125,6 +125,7 @@ class WidgetCatalog : GlanceWearWidget() {
                 "MixedStyleSample" -> MixedStyleSample()
                 "ConditionalRadiusSample" -> ConditionalRadiusSample()
                 "TypographyScaleSample" -> TypographyScaleSample()
+                "AnchoredTextSample" -> AnchoredTextSample()
                 else -> SemanticStyleWorkaroundSample()
             }
         }
@@ -167,6 +168,72 @@ fun SemanticStyleWorkaroundSample() {
                     style = MyWidgetTypography.titleMedium
                 )
             }
+        }
+    }
+}
+
+@RemoteComposable
+@Composable
+fun AnchoredTextSample() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+            val width = remote.component.width
+            val height = remote.component.height
+            val centerX = width / 2f.rf
+            val centerY = height / 2f.rf
+            
+            // Safe inset for round screens (approx 15%)
+            val inset = width * 0.15f.rf
+
+            // 1. Center Text (pan 0 = center)
+            drawAnchoredText(
+                text = "Center".rs,
+                anchorX = centerX,
+                anchorY = centerY,
+                panx = 0f.rf,
+                pany = 0f.rf,
+                flags = 0,
+                paint = RemotePaint().apply {
+                    remoteColor = Color.White.rc
+                    textSize = 30f
+                }
+            )
+
+            // 2. Top-Left Text
+            // Anchor inside top-left
+            // pan = -1 means "Align Left/Top edge to Anchor" (Text extends Right/Down)
+            drawAnchoredText(
+                text = "Top Left".rs,
+                anchorX = inset,
+                anchorY = inset,
+                panx = -1f.rf,
+                pany = -1f.rf,
+                flags = 0,
+                paint = RemotePaint().apply {
+                    remoteColor = Color.Red.rc
+                    textSize = 20f
+                }
+            )
+
+            // 3. Bottom-Right Text
+            // Anchor inside bottom-right
+            // pan = 1 means "Align Right/Bottom edge to Anchor" (Text extends Left/Up)
+            drawAnchoredText(
+                text = "Bottom Right".rs,
+                anchorX = width - inset,
+                anchorY = height - inset,
+                panx = 1f.rf,
+                pany = 1f.rf,
+                flags = 0,
+                paint = RemotePaint().apply {
+                    remoteColor = Color.Blue.rc
+                    textSize = 20f
+                }
+            )
         }
     }
 }
