@@ -202,13 +202,14 @@ fun AnchoredTextSample() {
 
             // 2. Top-Left Text
             // Anchor at absolute top-left (0,0)
-            // pan = -1 means "Align Left/Top edge to Anchor" (Text extends Right/Down)
+            // panx = -1 (Left Align/Shift Right)
+            // pany = 1 (Top Align/Shift Down - assumed based on v4 failure with -1)
             drawAnchoredText(
                 text = "Top Left".rs,
                 anchorX = 0f.rf,
                 anchorY = 0f.rf,
                 panx = -1f.rf,
-                pany = -1f.rf,
+                pany = 1f.rf,
                 flags = 0,
                 paint = RemotePaint().apply {
                     remoteColor = Color.Red.rc
@@ -218,13 +219,14 @@ fun AnchoredTextSample() {
 
             // 3. Bottom-Right Text
             // Anchor at absolute bottom-right (w,h)
-            // pan = 1 means "Align Right/Bottom edge to Anchor" (Text extends Left/Up)
+            // panx = 1 (Right Align/Shift Left)
+            // pany = -1 (Bottom Align/Shift Up - assumed based on v4 failure with 1)
             drawAnchoredText(
                 text = "Bottom Right".rs,
                 anchorX = width,
                 anchorY = height,
                 panx = 1f.rf,
-                pany = 1f.rf,
+                pany = -1f.rf,
                 flags = 0,
                 paint = RemotePaint().apply {
                     remoteColor = Color.Blue.rc
