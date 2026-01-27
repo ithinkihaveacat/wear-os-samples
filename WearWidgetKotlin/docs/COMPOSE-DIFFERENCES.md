@@ -120,6 +120,20 @@ by the renderer.
 - **Remote Compose:**
   `RemoteCanvas { drawConditionally(isActive) { drawCircle(...) } }`
 
+### Drawing Styles: Stateless vs. Stateful
+
+**The Difference:** Standard Compose drawing commands (`DrawScope`) are
+stateless; you pass style parameters (color, alpha, stroke) directly to the
+function. Remote Compose uses a stateful `RemotePaint` object (mirroring
+`android.graphics.Paint`) that must be configured and passed to draw commands.
+
+**Why:** This maps more directly to the underlying display list protocol used by
+the renderer.
+
+- **Standard Compose:** `drawCircle(color = Color.Red, radius = 10f)`
+- **Remote Compose:**
+  `drawCircle(paint = RemotePaint().apply { remoteColor = Color.Red.rc }, radius = 10f.rf)`
+
 ### Strings: Interpolation vs. Concatenation
 
 Standard Kotlin string templates (`"$value"`) are evaluated once in your app
@@ -152,6 +166,18 @@ semantics.
 - **Standard Compose:** `val color = if (isError) Color.Red else Color.Green`
 - **Remote Compose:** `val color = isError.select(Color.Red.rc, Color.Green.rc)`
 
+### Control Flow: `for` vs. `loop()`
+
+**The Difference:** Standard Kotlin `for` loops are evaluated immediately during
+the recording phase. To iterate based on a dynamic value that only exists on the
+remote host (e.g., a `RemoteInt` state), you must use the `loop()` DSL.
+
+**Why:** Similar to branching logic, the iteration structure must be recorded
+into the document graph to be executed by the renderer at runtime.
+
+- **Standard Compose:** `for (i in 0 until count) { ... }`
+- **Remote Compose:** `loop(0f.rf, count, 1f.rf) { i -> ... }`
+
 ### Animation: Explicit vs. Implicit
 
 Remote Compose uses `RemoteModifier.animationSpec(enabled = true)` to implicitly
@@ -176,6 +202,40 @@ Kotlin `if` statement during the recording phase.
 
 - **Standard Compose:** `val color: Color = Color.Red`
 - **Remote Compose:** `val color: RemoteColor = Color.Red.rc`
+
+### Resources: Polymorphism vs. Explicit Components
+
+**The Difference:** Standard Compose uses a polymorphic `Painter` abstraction,
+allowing the `Image` component to display bitmaps, vectors, or drawables
+interchangeably. Remote Compose requires specific components for each resource
+type: `RemoteImage` for bitmaps and `RemoteIcon` for vectors.
+
+**Why:** The wire protocol distinguishes between heavy binary assets (bitmaps)
+and lightweight serialized drawing commands (vectors). There is currently no
+unified "RemotePainter" abstraction to hide this difference.
+
+- **Standard Compose:** `Image(painter = painterResource(id), ...)` (Works for
+  PNGs and SVGs)
+- **Remote Compose:**
+  - For Bitmaps: `RemoteImage(bitmap = ImageBitmap.imageResource(id), ...)`
+  - For Vectors: `RemoteIcon(imageVector = ImageVector.vectorResource(id), ...)`
+
+### Remote System Values
+
+**The Difference:** You cannot use CompositionLocals like `LocalDensity.current`
+or `LocalConfiguration.current` to access device configuration for remote logic.
+Instead, you must use `RemoteContext` constants to create references that
+resolve on the remote system.
+
+**Why:** The code runs on the app process (recording), but the UI renders on the
+system process (display). The recording process may not know the display's
+configuration, current time, or sensor data at composition time.
+
+**Examples:** Density, Window Width, Time of Day, Ambient Light Level.
+
+- **Standard Compose:** `val px = with(LocalDensity.current) { 10.dp.toPx() }`
+- **Remote Compose:**
+  `val px = RemoteFloat(RemoteContext.FLOAT_DENSITY) * 10f.rf`
 
 ### Recomposition: Local Scope vs. Remote Scope
 
