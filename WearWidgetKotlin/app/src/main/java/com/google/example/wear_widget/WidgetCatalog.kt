@@ -29,6 +29,7 @@ import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.animationSpec
 import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.border
+import androidx.compose.remote.creation.compose.modifier.drawWithContent
 import androidx.compose.remote.creation.compose.modifier.fillMaxHeight
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.fillMaxWidth
@@ -89,7 +90,7 @@ class WidgetCatalog : GlanceWearWidget() {
     ): WearWidgetData {
         val state = context.getWidgetCatalogState()
         Log.d("WidgetCatalog", "provideWidgetData: layoutName='${state.layoutName}'")
-        return WearWidgetDocument(backgroundColor = Color.Black) {
+        return WearWidgetDocument(backgroundColor = Color.Yellow) {
             when (state.layoutName) {
                 "SemanticStyleWorkaroundSample" -> SemanticStyleWorkaroundSample()
                 "CanvasSample3" -> CanvasSample3()
@@ -126,6 +127,7 @@ class WidgetCatalog : GlanceWearWidget() {
                 "ConditionalRadiusSample" -> ConditionalRadiusSample()
                 "TypographyScaleSample" -> TypographyScaleSample()
                 "AnchoredTextSample" -> AnchoredTextSample()
+                "RotatedTextSample" -> RotatedTextSample()
                 else -> SemanticStyleWorkaroundSample()
             }
         }
@@ -168,6 +170,39 @@ fun SemanticStyleWorkaroundSample() {
                     style = MyWidgetTypography.titleMedium
                 )
             }
+        }
+    }
+}
+
+@RemoteComposable
+@Composable
+fun RotatedTextSample(modifier: RemoteModifier = RemoteModifier) {
+    RemoteBox(
+        modifier = modifier.fillMaxSize().background(Color.Black),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteBox(
+            modifier = RemoteModifier
+                .background(Color.White)
+                .drawWithContent {
+                    val width = remote.component.width
+                    val height = remote.component.height
+                    val centerX = width / 2f.rf
+                    val centerY = height / 2f.rf
+                    translate(centerX, centerY) {
+                        rotate(66f.rf) {
+                            translate(-centerX, -centerY) {
+                                drawContent()
+                            }
+                        }
+                    }
+                }
+                .padding(10.dp),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteText(text = "Hello world!", color = Color.Red.rc)
         }
     }
 }
