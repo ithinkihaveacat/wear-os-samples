@@ -71,18 +71,21 @@ dependencies {
     implementation(libs.remote.creation)
 
     // Tooling dependencies for previewing tiles in Android Studio.
-    implementation("androidx.wear.tiles:tiles-tooling:1.5.0")
-    debugImplementation("androidx.wear.tiles:tiles-renderer:1.5.0")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.9.4")
-    debugImplementation("androidx.wear:wear-tooling-preview:1.0.0")
-    debugImplementation("androidx.wear.tiles:tiles-tooling:1.5.0")
+    implementation(libs.wear.tiles.tooling)
+    debugImplementation(libs.wear.tiles.renderer)
+    // ui-tooling is already added above via libs.ui.tooling (debugImplementation) and libs.androidx.ui.tooling
+    // debugImplementation("androidx.compose.ui:ui-tooling:1.9.4") 
+    // wear-tooling-preview is already added above via libs.wear.tooling.preview
+    // debugImplementation("androidx.wear:wear-tooling-preview:1.0.0")
+    // Tiles tooling repeated in original file, removing duplicate.
+    
     // The tile preview code is in the same file as the tiles themselves, so we need to make the
     // androidx.wear.tiles:tiles-tooling-preview dependency available to release builds, not
     // just debug builds.
-    implementation("androidx.wear.tiles:tiles-tooling-preview:1.5.0")
-    implementation("androidx.activity:activity-compose:1.9.3")
-    implementation("androidx.wear.compose:compose-material:1.4.0")
-    implementation("androidx.wear.compose:compose-material3:1.0.0-alpha20")
-    implementation("androidx.wear.compose:compose-foundation:1.4.0")
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation(libs.wear.tiles.tooling.preview)
+    implementation(libs.activity.compose)
+    implementation(libs.wear.compose.material)
+    implementation(libs.wear.compose.material3)
+    implementation(libs.wear.compose.foundation)
+    implementation(libs.datastore.preferences)
 }

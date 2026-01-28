@@ -8,11 +8,14 @@ dependencyAnalysis = "3.5.1"
 remoteComposeSnapshot = "1.0.0-SNAPSHOT"
 remoteComposeAlpha = "1.0.0-alpha02"
 runtime = "1.10.0"
-uiTooling = "1.10.0"
+uiTooling = "1.10.1"
 wear = "1.0.0-alpha01"
 wearCore = "1.0.0-alpha01"
 wearToolingPreview = "1.0.0"
 composeMaterial = "1.5.6"
+activityCompose = "1.12.2"
+datastore = "1.2.0"
+tiles = "1.5.0"
 
 [libraries]
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "uiTooling" }
@@ -34,9 +37,16 @@ wear-compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling",
 remote-tooling-preview = { module = "androidx.compose.remote:remote-tooling-preview", version.ref = "remoteComposeAlpha" }
 remote-material3 = { module = "androidx.wear.compose.remote:remote-material3", version.ref = "remoteComposeSnapshot" }
 remote-core = { module = "androidx.compose.remote:remote-core", version.ref = "remoteComposeAlpha" }
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+wear-tiles-tooling = { module = "androidx.wear.tiles:tiles-tooling", version.ref = "tiles" }
+wear-tiles-renderer = { module = "androidx.wear.tiles:tiles-renderer", version.ref = "tiles" }
+wear-tiles-tooling-preview = { module = "androidx.wear.tiles:tiles-tooling-preview", version.ref = "tiles" }
+wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "composeMaterial" }
+wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "composeMaterial" }
+wear-compose-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "composeMaterial" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 dependency-analysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyAnalysis" }
-
