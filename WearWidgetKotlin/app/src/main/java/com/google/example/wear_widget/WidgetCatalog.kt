@@ -128,6 +128,7 @@ class WidgetCatalog : GlanceWearWidget() {
                 "TypographyScaleSample" -> TypographyScaleSample()
                 "AnchoredTextSample" -> AnchoredTextSample()
                 "RotatedTextSample" -> RotatedTextSample()
+                "FullBleedImageButtonSample" -> FullBleedImageButtonSample()
                 else -> SemanticStyleWorkaroundSample()
             }
         }
