@@ -27,7 +27,21 @@ agents from various providers:
 **Critical:** To display Wear Widgets correctly, your Wear OS device or emulator
 must have a compatible version of the `protolayout` renderer installed.
 
-1. **Check Device Architecture:**
+1. **Check Installed Version:**
+
+   This project requires `com.google.android.wearable.protolayout.renderer`
+   version **1.6.1.4.862675839.exp** or later.
+
+   ```bash
+   adb shell dumpsys package com.google.android.wearable.protolayout.renderer | \
+     grep -m 1 versionName | \
+     awk -F= '{print $2}'
+   ```
+
+   _If your version matches or is higher, you can skip the rest of this section
+   and proceed to **2. Build and Install the App**._
+
+2. **Check Device Architecture:**
 
    ```bash
    adb shell getprop ro.product.cpu.abi
@@ -36,7 +50,7 @@ must have a compatible version of the `protolayout` renderer installed.
    _(e.g., `arm64-v8a` for most physical devices/Mac emulators, `x86_64` for
    Intel/AMD emulators)_
 
-2. **Check Build Type:**
+3. **Check Build Type:**
 
    ```bash
    adb shell getprop ro.build.type
@@ -44,7 +58,7 @@ must have a compatible version of the `protolayout` renderer installed.
 
    _(Returns `releasekey` for user builds or `testkey` for userdebug builds)_
 
-3. **Install the Renderer:** Locate the correct APK in the `renderer/` directory
+4. **Install the Renderer:** Locate the correct APK in the `renderer/` directory
    (or provided path) matching your ABI and build type.
 
    ```bash
@@ -52,7 +66,7 @@ must have a compatible version of the `protolayout` renderer installed.
    adb install -g -t -r renderer/renderer_..._arm64-v8a_releasekey_...apk
    ```
 
-4. **Restart System UI:**
+5. **Restart System UI:**
 
    ```bash
    adb shell am force-stop com.google.android.wearable.sysui
