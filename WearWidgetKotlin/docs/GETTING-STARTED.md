@@ -1064,11 +1064,11 @@ b/478828032
 
 **Symptom:** `RemoteMaterialTheme.colorScheme` exposes the system's dynamic
 colors (e.g., `RemoteMaterialTheme.colorScheme.primary`), however the
-`RemoteMaterialTheme.typography` object does not expose its styles publicly.
-The underlying `typography` property has `internal` visibility, so accessing
-semantic text styles directly (e.g., `RemoteMaterialTheme.typography.titleLarge`)
-causes a compilation error. This means you cannot use "semantic" text styles to
-`MaterialRemoteText` components.
+`RemoteMaterialTheme.typography` object does not expose its styles publicly. The
+underlying `typography` property has `internal` visibility, so accessing
+semantic text styles directly (e.g.,
+`RemoteMaterialTheme.typography.titleLarge`) causes a compilation error. This
+means you cannot use "semantic" text styles to `MaterialRemoteText` components.
 
 **Temporary Workaround: Use Local Typography Definitions**
 
@@ -1149,6 +1149,34 @@ MaterialRemoteText(
 MaterialRemoteText(
     text = "Session complete".rs,
     style = MyWidgetTypography.titleMedium
+)
+```
+
+### Crash when using `drawScaledBitmap` with Resource Bitmaps
+
+b/479893918
+
+**Symptom:** The application crashes with
+`java.lang.IllegalStateException: Bitmap width is not available in the remote document`
+when calling `drawScaledBitmap` with a resource-backed `RemoteBitmap`.
+
+**Workaround:** You must explicitly provide the `srcSize` argument. The default
+value for `srcSize` attempts to read the bitmap's dimensions, which causes the
+crash because `RemoteBitmap` instances created from resources do not hold
+dimension data locally.
+
+You can retrieve the dimensions using standard Android APIs (like
+`BitmapFactory`) and pass them as a `RemoteSize`.
+
+```kotlin
+val resources = LocalContext.current.resources
+val bitmap = BitmapFactory.decodeResource(resources, R.drawable.my_image)
+
+drawScaledBitmap(
+    image = ImageBitmap.imageResource(id = R.drawable.my_image).rb,
+    // Explicitly provide srcSize to avoid the crash
+    srcSize = RemoteSize(bitmap.width.toFloat().rf, bitmap.height.toFloat().rf),
+    dstSize = ...
 )
 ```
 
