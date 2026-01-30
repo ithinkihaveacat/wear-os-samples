@@ -88,9 +88,10 @@ specific constraints on available features:
   are supported via `RemoteModifier.semantics`, but properties are serialized to
   the remote host. You cannot attach arbitrary accessibility actions or
   delegates that execute code in your app process.
-- **Touch & Input:** Advanced gesture detection (`PointerInput`, `Draggable`) is
-  not supported. Interaction is limited to click events (`clickable`) that
-  trigger declarative Actions.
+- **Touch & Input:** High-level gesture detection (`PointerInput`, `Draggable`)
+  is not natively supported. While the underlying protocol supports low-level
+  touch tracking, the Compose API primarily exposes simple interaction via click
+  events (`clickable`) that trigger declarative Actions.
 
 ## Architectural Differences
 
@@ -197,8 +198,10 @@ Standard Compose `State<T>` objects hold actual values in the app process.
 Remote Compose properties instead require **references** (or "futures") like
 `RemoteInt` or `RemoteColor` (via `.ri`, `.rc` extensions). These are not
 containers for data; they are pointers to state that lives and changes on the
-remote host. This is why you cannot read their value directly in a standard
-Kotlin `if` statement during the recording phase.
+remote host. Depending on the source, a reference might point to a **constant**,
+a mutable **document variable**, a system-provided **host variable**, or an
+**expression** derived from other values. This is why you cannot read their
+value directly in a standard Kotlin `if` statement during the recording phase.
 
 - **Standard Compose:** `val color: Color = Color.Red`
 - **Remote Compose:** `val color: RemoteColor = Color.Red.rc`
