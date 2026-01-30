@@ -237,6 +237,24 @@ configuration, current time, or sensor data at composition time.
 - **Remote Compose:**
   `val px = RemoteFloat(RemoteContext.FLOAT_DENSITY) * 10f.rf`
 
+### Object Measurement & Layout
+
+**The Difference:** Immediate measurement of UI elements is generally not
+possible during the recording phase. You cannot access the runtime size of a
+component, the width of a text string, or the intrinsic dimensions of a remote
+resource using standard Compose tools.
+
+**Why:** The app process records the _intent_ to draw, but the _actual_
+measurement and layout happen later on the remote device (renderer).
+
+- **Text:** `TextMeasurer` is not available. To align text without knowing its
+  width, use `drawAnchoredText` with specific anchor points (e.g., center)
+  rather than calculating offsets manually.
+- **Containers:** You cannot use `Modifier.onSizeChanged`. Instead, inside
+  `RemoteCanvas` or `drawWithContent`, access dimensions via
+  `remote.component.width` and `height`, which are `RemoteFloat` futures, not
+  immediate values.
+
 ### Recomposition: Local Scope vs. Remote Scope
 
 Both systems are reactive, but observe state in different scopes. Standard
