@@ -1,6 +1,7 @@
 package com.google.example.wear_widget
 
 import android.content.BroadcastReceiver
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -19,7 +20,12 @@ class WidgetCatalogReceiver : BroadcastReceiver() {
                 scope.launch {
                     try {
                         context.setWidgetCatalogState(WidgetCatalogState(layoutName))
-                        Log.d("WidgetCatalogRcvr", "State saved. Use 'adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SYSUI --es operation show-tile --ei index N' to refresh.")
+                        Log.d("WidgetCatalogRcvr", "State saved. Triggering update...")
+
+                        val componentName = ComponentName(context, WidgetCatalogService::class.java)
+                        WidgetCatalog().triggerUpdate(context.applicationContext, componentName)
+
+                        Log.d("WidgetCatalogRcvr", "Update triggered.")
                     } catch (e: Exception) {
                         Log.e("WidgetCatalogRcvr", "Error setting widget", e)
                     } finally {

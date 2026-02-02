@@ -119,30 +119,10 @@ if ! echo "$VALID_LAYOUTS" | grep -qw "$LAYOUT"; then
     exit 1
 fi
 
-# The reliable sequence:
-# 1. Set state via broadcast (explicit component required on Android 8+)
-# 2. Remove tile
-# 3. Force-stop app (clears DataStore locks)
-# 4. Add tile (triggers rebind with new state)
-# 5. Show tile
-# 6. Wait for render
-
 adb shell am broadcast \
     -n "$PACKAGE/$RECEIVER" \
     -a "$PACKAGE.SET_COMPONENT" \
     --es layout "$LAYOUT" > /dev/null
-
-adb shell am broadcast \
-    -a com.google.android.wearable.app.DEBUG_SURFACE \
-    --es operation remove-tile \
-    --ecn component "$COMPONENT" > /dev/null
-
-adb shell am force-stop "$PACKAGE"
-
-adb shell am broadcast \
-    -a com.google.android.wearable.app.DEBUG_SURFACE \
-    --es operation add-tile \
-    --ecn component "$COMPONENT" > /dev/null
 
 adb shell am broadcast \
     -a com.google.android.wearable.app.DEBUG_SYSUI \

@@ -10,7 +10,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 private const val LAYOUT_NAME_KEY = "layout_name"
-val Context.componentCatalogDataStore: DataStore<Preferences> by preferencesDataStore(name = "component_catalog_preferences")
+val Context.componentCatalogDataStore: DataStore<Preferences> by
+    preferencesDataStore(name = "component_catalog_preferences")
 
 data class ComponentCatalogState(val layoutName: String)
 

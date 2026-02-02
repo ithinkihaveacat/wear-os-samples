@@ -6,10 +6,11 @@ import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import androidx.compose.remote.core.RemoteContext
+import android.util.Log
 import androidx.compose.remote.core.operations.TextFromFloat
 import androidx.compose.remote.creation.compose.action.ValueChange
 import androidx.compose.remote.creation.compose.action.pendingIntentAction
+import androidx.compose.remote.creation.compose.capture.RemoteDensity
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
@@ -38,10 +39,8 @@ import androidx.compose.remote.creation.compose.modifier.rememberRemoteScrollSta
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.modifier.verticalScroll
 import androidx.compose.remote.creation.compose.shaders.RemoteLinearGradient
-import androidx.compose.remote.creation.compose.shaders.linearGradient
 import androidx.compose.remote.creation.compose.shapes.RemoteRoundedCornerShape
 import androidx.compose.remote.creation.compose.state.RemoteColor
-import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemotePaint
 import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.creation.compose.state.rc
@@ -55,10 +54,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.wear.GlanceWearWidget
@@ -76,8 +75,6 @@ import androidx.wear.compose.remote.material3.RemoteIcon
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 import androidx.wear.compose.remote.material3.buttonSizeModifier
-
-import android.util.Log
 
 class WidgetCatalogService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = WidgetCatalog()
@@ -137,7 +134,10 @@ class WidgetCatalog : GlanceWearWidget() {
 }
 
 /**
- * A screen with a black background. At the top, an Android robot icon in a white circle. Below it, white text reads "Wear Widget," followed by "Semantic Styles Demo" in a larger font. At the bottom, a very large white "12:34" is displayed, indicating time. All elements are centrally aligned vertically.
+ * A screen with a black background. At the top, an Android robot icon in a white circle. Below it,
+ * white text reads "Wear Widget," followed by "Semantic Styles Demo" in a larger font. At the
+ * bottom, a very large white "12:34" is displayed, indicating time. All elements are centrally
+ * aligned vertically.
  */
 @RemoteComposable
 @Composable
@@ -155,21 +155,18 @@ fun SemanticStyleWorkaroundSample() {
             ) {
                 MaterialRemoteText(
                     text = "Semantic Styles Demo".rs,
-                    style = MyWidgetTypography.titleLarge
+                    style = MyWidgetTypography.titleLarge,
                 )
 
                 RemoteBox(RemoteModifier.size(16.rdp))
 
-                MaterialRemoteText(
-                    text = "12:34".rs,
-                    style = MyWidgetTypography.numeralLarge
-                )
+                MaterialRemoteText(text = "12:34".rs, style = MyWidgetTypography.numeralLarge)
 
                 RemoteBox(RemoteModifier.size(12.rdp))
 
                 MaterialRemoteText(
                     text = "Session complete".rs,
-                    style = MyWidgetTypography.titleMedium
+                    style = MyWidgetTypography.titleMedium,
                 )
             }
         }
@@ -185,22 +182,18 @@ fun RotatedTextSample(modifier: RemoteModifier = RemoteModifier) {
         verticalArrangement = RemoteArrangement.Center,
     ) {
         RemoteBox(
-            modifier = RemoteModifier
-                .background(Color.White)
-                .drawWithContent {
-                    val width = remote.component.width
-                    val height = remote.component.height
-                    val centerX = width / 2f.rf
-                    val centerY = height / 2f.rf
-                    translate(centerX, centerY) {
-                        rotate(66f.rf) {
-                            translate(-centerX, -centerY) {
-                                drawContent()
-                            }
+            modifier =
+                RemoteModifier.background(Color.White)
+                    .drawWithContent {
+                        val width = remote.component.width
+                        val height = remote.component.height
+                        val centerX = width / 2f.rf
+                        val centerY = height / 2f.rf
+                        translate(centerX, centerY) {
+                            rotate(66f.rf) { translate(-centerX, -centerY) { drawContent() } }
                         }
                     }
-                }
-                .padding(10.dp),
+                    .padding(10.dp),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
         ) {
@@ -222,7 +215,7 @@ fun AnchoredTextSample() {
             val height = remote.component.height
             val centerX = width / 2f.rf
             val centerY = height / 2f.rf
-            
+
             // 1. Center Text (pan 0 = center)
             drawAnchoredText(
                 text = "Center".rs,
@@ -231,10 +224,11 @@ fun AnchoredTextSample() {
                 panx = 0f.rf,
                 pany = 0f.rf,
                 flags = 0,
-                paint = RemotePaint().apply {
-                    remoteColor = Color.Black.rc
-                    textSize = 30f
-                }
+                paint =
+                    RemotePaint().apply {
+                        remoteColor = Color.Black.rc
+                        textSize = 30f
+                    },
             )
 
             // 2. Top-Left Text
@@ -248,10 +242,11 @@ fun AnchoredTextSample() {
                 panx = -1f.rf,
                 pany = 1f.rf,
                 flags = 0,
-                paint = RemotePaint().apply {
-                    remoteColor = Color.Red.rc
-                    textSize = 20f
-                }
+                paint =
+                    RemotePaint().apply {
+                        remoteColor = Color.Red.rc
+                        textSize = 20f
+                    },
             )
 
             // 3. Bottom-Right Text
@@ -265,10 +260,11 @@ fun AnchoredTextSample() {
                 panx = 1f.rf,
                 pany = -1f.rf,
                 flags = 0,
-                paint = RemotePaint().apply {
-                    remoteColor = Color.Blue.rc
-                    textSize = 20f
-                }
+                paint =
+                    RemotePaint().apply {
+                        remoteColor = Color.Blue.rc
+                        textSize = 20f
+                    },
             )
         }
     }
@@ -465,7 +461,7 @@ fun BoxSample2() {
     // Box with padding and border
     RemoteBox(
         modifier =
-            RemoteModifier.fillMaxSize().padding(20.dp).border(width = 2.rdp, color = Color.Red),
+            RemoteModifier.fillMaxSize().padding(20.dp).border(width = 2.rdp, color = Color.Red.rc),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
@@ -1309,7 +1305,7 @@ fun CanvasSample2() {
 fun GradientBackgroundSample() {
     val gradient =
         RemoteLinearGradient(
-            colors = listOf(Color.Red, Color.Blue),
+            colors = listOf(Color.Red.rc, Color.Blue.rc),
             start = RemoteOffset.Zero,
             end = null,
         )
@@ -1422,7 +1418,7 @@ fun ConditionalRadiusSample() {
         RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
             // 1. Get Width and Density
             val widthPx = remote.component.width
-            val density = RemoteFloat(RemoteContext.FLOAT_DENSITY)
+            val density = RemoteDensity.HOST.density
 
             // 2. Calculate Condition (Width > 200dp?)
             val widthDp = widthPx / density
@@ -1430,7 +1426,7 @@ fun ConditionalRadiusSample() {
 
             // 3. Select Value (15dp if wide, 10dp if narrow) and convert to RemoteDp
             val radiusDp = isWide.select(15f.rf, 10f.rf).asRemoteDp()
-            val radiusPx = radiusDp.toPx()
+            val radiusPx = radiusDp.toPx(RemoteDensity.HOST)
 
             // 4. Use the value (Converting back to Px for drawing commands)
             drawRoundRect(
@@ -1444,9 +1440,9 @@ fun ConditionalRadiusSample() {
 }
 
 /**
- * A sample demonstrating how to achieve semantic styles using manual property application.
- * Since the system typography is currently opaque and we want to avoid extra dependencies,
- * we define our own app-level styles and apply them explicitly to RemoteText.
+ * A sample demonstrating how to achieve semantic styles using manual property application. Since
+ * the system typography is currently opaque and we want to avoid extra dependencies, we define our
+ * own app-level styles and apply them explicitly to RemoteText.
  */
 /**
  * A black screen displays a circular Android icon at the top, followed by "Wear Widget" in white
@@ -1458,17 +1454,10 @@ fun ConditionalRadiusSample() {
 @Composable
 fun TypographyScaleSample() {
     // Define our own "semantic" styles
-    val myTitleStyle = TextStyle(
-        fontSize = 24.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color.Cyan
-    )
+    val myTitleStyle = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.Cyan)
 
-    val myCaptionStyle = TextStyle(
-        fontSize = 12.sp,
-        fontStyle = FontStyle.Italic,
-        color = Color.LightGray
-    )
+    val myCaptionStyle =
+        TextStyle(fontSize = 12.sp, fontStyle = FontStyle.Italic, color = Color.LightGray)
 
     RemoteMaterialTheme {
         RemoteBox(
@@ -1482,7 +1471,7 @@ fun TypographyScaleSample() {
                     text = "Title Style".rs,
                     fontSize = myTitleStyle.fontSize,
                     fontWeight = myTitleStyle.fontWeight,
-                    color = myTitleStyle.color.rc
+                    color = RemoteColor(myTitleStyle.color),
                 )
 
                 RemoteBox(RemoteModifier.size(12.rdp))
@@ -1493,10 +1482,7 @@ fun TypographyScaleSample() {
                 RemoteBox(RemoteModifier.size(12.rdp))
 
                 // 3. Caption style applied via 'style' parameter
-                MaterialRemoteText(
-                    text = "Caption Style".rs,
-                    style = myCaptionStyle
-                )
+                MaterialRemoteText(text = "Caption Style".rs, style = myCaptionStyle)
             }
         }
     }

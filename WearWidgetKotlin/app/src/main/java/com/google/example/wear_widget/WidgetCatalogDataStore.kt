@@ -10,14 +10,18 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 private const val LAYOUT_NAME_KEY = "layout_name"
-val Context.widgetCatalogDataStore: DataStore<Preferences> by preferencesDataStore(name = "widget_catalog_preferences")
+val Context.widgetCatalogDataStore: DataStore<Preferences> by
+    preferencesDataStore(name = "widget_catalog_preferences")
 
 data class WidgetCatalogState(val layoutName: String)
 
 suspend fun Context.getWidgetCatalogState(): WidgetCatalogState {
     return WidgetCatalogState(
         widgetCatalogDataStore.data
-            .map { preferences -> preferences[stringPreferencesKey(LAYOUT_NAME_KEY)] ?: "SemanticStyleWorkaroundSample" }
+            .map { preferences ->
+                preferences[stringPreferencesKey(LAYOUT_NAME_KEY)]
+                    ?: "SemanticStyleWorkaroundSample"
+            }
             .first()
     )
 }

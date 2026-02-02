@@ -22,9 +22,11 @@ class ComponentCatalogReceiver : BroadcastReceiver() {
                         context.setComponentCatalogState(ComponentCatalogState(layoutName))
                         Log.d("ComponentCatalogRcvr", "State saved. Triggering update...")
 
-                        // Note: triggerUpdate() causes DataStore conflict crash
-                        // Instead, caller should use DEBUG_SYSUI show-tile to refresh
-                        Log.d("ComponentCatalogRcvr", "State saved. Use 'adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SYSUI --es operation show-tile --ei index N' to refresh.")
+                        val componentName =
+                            ComponentName(context, ComponentCatalogService::class.java)
+                        ComponentCatalog().triggerUpdate(context.applicationContext, componentName)
+
+                        Log.d("ComponentCatalogRcvr", "Update triggered.")
                     } catch (e: Exception) {
                         Log.e("ComponentCatalogRcvr", "Error setting layout", e)
                     } finally {
