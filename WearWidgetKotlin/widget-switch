@@ -163,6 +163,7 @@ sleep 1
 adb shell am broadcast \
     -a com.google.android.wearable.app.DEBUG_SURFACE \
     --es operation add-tile \
+#	--ei type 3 \ # SMALL, LARGE or FULLSCREEN
     --ecn component "$COMPONENT" > /dev/null
 
 adb shell am broadcast \
