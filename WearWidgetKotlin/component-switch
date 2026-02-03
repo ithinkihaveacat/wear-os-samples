@@ -138,6 +138,57 @@ adb shell am broadcast \
     -a "$PACKAGE.SET_COMPONENT" \
     --es layout "$LAYOUT" > /dev/null
 
-sleep "$WAIT"
+echo "Switching to layout: $LAYOUT..."
 
-echo "Switched to layout: $LAYOUT"
+# Generate a unique marker to synchronize logs
+MARKER="SWITCH_START_$(date +%s)"
+LOG_FILE=$(mktemp)
+
+# Start monitoring logcat in background
+# We capture both our marker and the app's output (ComponentCatalog)
+adb logcat -s WidgetSwitchMarker:I ComponentCatalog:D -v time > "$LOG_FILE" &
+LOG_PID=$!
+
+# Ensure cleanup on exit
+trap 'kill "$LOG_PID" 2>/dev/null || true; rm -f "$LOG_FILE"' EXIT
+
+# Wait a moment for logcat to connect
+sleep 0.5
+
+# Emit the start marker log
+adb shell log -t WidgetSwitchMarker "$MARKER"
+
+echo "Waiting for widget update (monitoring logs)..."
+
+TIMEOUT=30
+START_TIME=$(date +%s)
+
+while true; do
+    if [ -f "$LOG_FILE" ]; then
+        # Read the log file
+        CONTENT=$(cat "$LOG_FILE")
+
+        # Check if our marker has appeared
+        if [[ "$CONTENT" == *"$MARKER"* ]]; then
+            # Check for the specific success message appearing AFTER the marker
+            # This handles the case where the same layout is re-applied
+            AFTER_MARKER=${CONTENT#*"$MARKER"}
+            
+            if [[ "$AFTER_MARKER" == *"provideWidgetData: layoutName='$LAYOUT'"* ]]; then
+                echo "Success: Widget updated to '$LAYOUT'."
+                break
+            fi
+        fi
+    fi
+
+    CURRENT_TIME=$(date +%s)
+    ELAPSED=$((CURRENT_TIME - START_TIME))
+
+    if [ "$ELAPSED" -ge "$TIMEOUT" ]; then
+        echo "Error: Timeout waiting for widget update (30s)." >&2
+        echo "Possible reasons: App crashed, system slow, or log missed." >&2
+        exit 1
+    fi
+
+    sleep 0.5
+done
