@@ -18,8 +18,8 @@ import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
-import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.remote.creation.compose.state.ri
+import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.remote.creation.profile.Profile
 import androidx.compose.remote.creation.profile.RcPlatformProfiles.ANDROIDX
 import androidx.compose.remote.creation.profile.RcPlatformProfiles.WEAR_WIDGETS

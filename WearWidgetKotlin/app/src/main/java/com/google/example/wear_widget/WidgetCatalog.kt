@@ -8,13 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.wear.compose.remote.material3.RemoteImage
-import androidx.compose.remote.creation.compose.modifier.clip
-import androidx.compose.remote.creation.compose.modifier.clickable
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.imageResource
-import androidx.compose.remote.creation.compose.state.RemoteBitmap
 import androidx.compose.remote.core.operations.TextFromFloat
 import androidx.compose.remote.creation.compose.action.ValueChange
 import androidx.compose.remote.creation.compose.action.pendingIntentAction
@@ -38,6 +31,8 @@ import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.animationSpec
 import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.border
+import androidx.compose.remote.creation.compose.modifier.clickable
+import androidx.compose.remote.creation.compose.modifier.clip
 import androidx.compose.remote.creation.compose.modifier.drawWithContent
 import androidx.compose.remote.creation.compose.modifier.fillMaxHeight
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
@@ -59,8 +54,11 @@ import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -80,6 +78,7 @@ import androidx.wear.compose.remote.material3.RemoteButtonGroup
 import androidx.wear.compose.remote.material3.RemoteButtonGroupDefaults
 import androidx.wear.compose.remote.material3.RemoteColorScheme
 import androidx.wear.compose.remote.material3.RemoteIcon
+import androidx.wear.compose.remote.material3.RemoteImage
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 import androidx.wear.compose.remote.material3.buttonSizeModifier
@@ -150,7 +149,7 @@ class WidgetCatalog : GlanceWearWidget() {
 fun SemanticStyleWorkaroundSample() {
     RemoteMaterialTheme {
         RemoteBox(
-            modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+            modifier = RemoteModifier.fillMaxSize(),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
         ) {
@@ -181,107 +180,110 @@ fun SemanticStyleWorkaroundSample() {
 
 /**
  * Screenshot shows an Android logo above the title "Wear Widget". Below, a dark gray outlined
- * rectangle displays a white box rotated counter-clockwise, containing the red text "Hello
- * world!".
+ * rectangle displays a white box rotated counter-clockwise, containing the red text "Hello world!".
  */
 @RemoteComposable
 @Composable
 fun RotatedTextSample(modifier: RemoteModifier = RemoteModifier) {
-    RemoteBox(
-        modifier = modifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
+    RemoteMaterialTheme {
         RemoteBox(
-            modifier =
-                RemoteModifier.background(Color.White)
-                    .drawWithContent {
-                        val width = remote.component.width
-                        val height = remote.component.height
-                        val centerX = width / 2f.rf
-                        val centerY = height / 2f.rf
-                        translate(centerX, centerY) {
-                            rotate(66f.rf) { translate(-centerX, -centerY) { drawContent() } }
-                        }
-                    }
-                    .padding(10.dp),
+            modifier = modifier.fillMaxSize(),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
         ) {
-            RemoteText(text = "Hello world!", color = Color.Red.rc)
+            RemoteBox(
+                modifier =
+                    RemoteModifier.background(Color.White)
+                        .drawWithContent {
+                            val width = remote.component.width
+                            val height = remote.component.height
+                            val centerX = width / 2f.rf
+                            val centerY = height / 2f.rf
+                            translate(centerX, centerY) {
+                                rotate(66f.rf) { translate(-centerX, -centerY) { drawContent() } }
+                            }
+                        }
+                        .padding(10.dp),
+                horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                verticalArrangement = RemoteArrangement.Center,
+            ) {
+                RemoteText(text = "Hello world!", color = Color.Red.rc)
+            }
         }
     }
 }
 
 /**
- * A screen with a white Android logo on a light gray circle, followed by "Wear Widget" text.
- * Below, a white rounded rectangle shows "Top Left" in red, "Center" in black, and "Bottom Right"
- * in blue, demonstrating UI placement. Black background.
+ * A screen with a white Android logo on a light gray circle, followed by "Wear Widget" text. Below,
+ * a white rounded rectangle shows "Top Left" in red, "Center" in black, and "Bottom Right" in blue,
+ * demonstrating UI placement. Black background.
  */
 @RemoteComposable
 @Composable
 fun AnchoredTextSample() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.White),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
-            val width = remote.component.width
-            val height = remote.component.height
-            val centerX = width / 2f.rf
-            val centerY = height / 2f.rf
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize().background(Color.White),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+                val width = remote.component.width
+                val height = remote.component.height
+                val centerX = width / 2f.rf
+                val centerY = height / 2f.rf
 
-            // 1. Center Text (pan 0 = center)
-            drawAnchoredText(
-                text = "Center".rs,
-                anchorX = centerX,
-                anchorY = centerY,
-                panx = 0f.rf,
-                pany = 0f.rf,
-                flags = 0,
-                paint =
-                    RemotePaint().apply {
-                        remoteColor = Color.Black.rc
-                        textSize = 30f
-                    },
-            )
+                // 1. Center Text (pan 0 = center)
+                drawAnchoredText(
+                    text = "Center".rs,
+                    anchorX = centerX,
+                    anchorY = centerY,
+                    panx = 0f.rf,
+                    pany = 0f.rf,
+                    flags = 0,
+                    paint =
+                        RemotePaint().apply {
+                            remoteColor = Color.Black.rc
+                            textSize = 30f
+                        },
+                )
 
-            // 2. Top-Left Text
-            // Anchor at absolute top-left (0,0)
-            // panx = -1 (Left Align/Shift Right)
-            // pany = 1 (Top Align/Shift Down - assumed based on v4 failure with -1)
-            drawAnchoredText(
-                text = "Top Left".rs,
-                anchorX = 0f.rf,
-                anchorY = 0f.rf,
-                panx = -1f.rf,
-                pany = 1f.rf,
-                flags = 0,
-                paint =
-                    RemotePaint().apply {
-                        remoteColor = Color.Red.rc
-                        textSize = 20f
-                    },
-            )
+                // 2. Top-Left Text
+                // Anchor at absolute top-left (0,0)
+                // panx = -1 (Left Align/Shift Right)
+                // pany = 1 (Top Align/Shift Down - assumed based on v4 failure with -1)
+                drawAnchoredText(
+                    text = "Top Left".rs,
+                    anchorX = 0f.rf,
+                    anchorY = 0f.rf,
+                    panx = -1f.rf,
+                    pany = 1f.rf,
+                    flags = 0,
+                    paint =
+                        RemotePaint().apply {
+                            remoteColor = Color.Red.rc
+                            textSize = 20f
+                        },
+                )
 
-            // 3. Bottom-Right Text
-            // Anchor at absolute bottom-right (w,h)
-            // panx = 1 (Right Align/Shift Left)
-            // pany = -1 (Bottom Align/Shift Up - assumed based on v4 failure with 1)
-            drawAnchoredText(
-                text = "Bottom Right".rs,
-                anchorX = width,
-                anchorY = height,
-                panx = 1f.rf,
-                pany = -1f.rf,
-                flags = 0,
-                paint =
-                    RemotePaint().apply {
-                        remoteColor = Color.Blue.rc
-                        textSize = 20f
-                    },
-            )
+                // 3. Bottom-Right Text
+                // Anchor at absolute bottom-right (w,h)
+                // panx = 1 (Right Align/Shift Left)
+                // pany = -1 (Bottom Align/Shift Up - assumed based on v4 failure with 1)
+                drawAnchoredText(
+                    text = "Bottom Right".rs,
+                    anchorX = width,
+                    anchorY = height,
+                    panx = 1f.rf,
+                    pany = -1f.rf,
+                    flags = 0,
+                    paint =
+                        RemotePaint().apply {
+                            remoteColor = Color.Blue.rc
+                            textSize = 20f
+                        },
+                )
+            }
         }
     }
 }
@@ -294,49 +296,51 @@ fun AnchoredTextSample() {
 @RemoteComposable
 @Composable
 fun CanvasSample3() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
-            val width = remote.component.width
-            val height = remote.component.height
-            val centerX = width / 2f.rf
-            val centerY = height / 2f.rf
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+                val width = remote.component.width
+                val height = remote.component.height
+                val centerX = width / 2f.rf
+                val centerY = height / 2f.rf
 
-            translate(centerX, centerY) {
-                rotate(45f.rf) {
-                    translate(-centerX, -centerY) {
-                        drawRect(
-                            paint = RemotePaint().apply { remoteColor = Color.Green.rc },
-                            topLeft = RemoteOffset(centerX - 40f.rf, centerY - 40f.rf),
-                            size = RemoteSize(80f.rf, 80f.rf),
-                        )
+                translate(centerX, centerY) {
+                    rotate(45f.rf) {
+                        translate(-centerX, -centerY) {
+                            drawRect(
+                                paint = RemotePaint().apply { remoteColor = Color.Green.rc },
+                                topLeft = RemoteOffset(centerX - 40f.rf, centerY - 40f.rf),
+                                size = RemoteSize(80f.rf, 80f.rf),
+                            )
+                        }
                     }
                 }
-            }
 
-            // Anchored Text
-            drawAnchoredText(
-                text = "Rotated".rs,
-                anchorX = centerX,
-                anchorY = centerY,
-                paint =
-                    RemotePaint().apply {
-                        remoteColor = Color.White.rc
-                        textSize = 40f
-                    },
-            )
+                // Anchored Text
+                drawAnchoredText(
+                    text = "Rotated".rs,
+                    anchorX = centerX,
+                    anchorY = centerY,
+                    paint =
+                        RemotePaint().apply {
+                            remoteColor = Color.White.rc
+                            textSize = 40f
+                        },
+                )
+            }
         }
     }
 }
 
 /**
- * A UI showing an Android Wear Widget. It features a dark gray rounded rectangle container with
- * the title "System Theme" in white. Inside are two horizontal rounded buttons: "Primary Button"
- * with dark text on light blue-gray, and "Secondary Button" with dark text on light gray. An
- * Android logo is at the top.
+ * A UI showing an Android Wear Widget. It features a dark gray rounded rectangle container with the
+ * title "System Theme" in white. Inside are two horizontal rounded buttons: "Primary Button" with
+ * dark text on light blue-gray, and "Secondary Button" with dark text on light gray. An Android
+ * logo is at the top.
  */
 @RemoteComposable
 @Composable
@@ -351,7 +355,9 @@ fun SystemThemeComparisonSample() {
             RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
                 MaterialRemoteText("System Theme".rs)
                 RemoteBox(RemoteModifier.size(10.rdp))
-                RemoteButton(onClick = ValueChange(dummy, 0.ri)) { MaterialRemoteText("Primary Button".rs) }
+                RemoteButton(onClick = ValueChange(dummy, 0.ri)) {
+                    MaterialRemoteText("Primary Button".rs)
+                }
                 RemoteBox(RemoteModifier.size(10.rdp))
                 RemoteButton(
                     onClick = ValueChange(dummy, 0.ri),
@@ -375,9 +381,8 @@ fun SystemThemeComparisonSample() {
 }
 
 /**
- * A dark screen displays a light gray Android icon above "Wear Widget". Below, a dark gray
- * rounded rectangle contains "System Theme" text, and a light purple button labeled "Primary
- * Button".
+ * A dark screen displays a light gray Android icon above "Wear Widget". Below, a dark gray rounded
+ * rectangle contains "System Theme" text, and a light purple button labeled "Primary Button".
  */
 @RemoteComposable
 @Composable
@@ -392,7 +397,9 @@ fun SystemThemeSample() {
             RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
                 MaterialRemoteText("System Theme".rs)
                 RemoteBox(RemoteModifier.size(10.rdp))
-                RemoteButton(onClick = ValueChange(dummy, 0.ri)) { MaterialRemoteText("Primary Button".rs) }
+                RemoteButton(onClick = ValueChange(dummy, 0.ri)) {
+                    MaterialRemoteText("Primary Button".rs)
+                }
             }
         }
     }
@@ -400,8 +407,8 @@ fun SystemThemeSample() {
 
 /**
  * Android icon and "Wear Widget" title above a dark gray rounded card. The card displays "Aussie
- * Theme" heading, a blue rounded button labeled "Primary (Blue)", and a red rounded button
- * labeled "Secondary (Red)".
+ * Theme" heading, a blue rounded button labeled "Primary (Blue)", and a red rounded button labeled
+ * "Secondary (Red)".
  */
 @RemoteComposable
 @Composable
@@ -440,7 +447,9 @@ fun AustralianThemeSample() {
             RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
                 MaterialRemoteText("Aussie Theme".rs)
                 RemoteBox(RemoteModifier.size(10.rdp))
-                RemoteButton(onClick = ValueChange(dummy, 0.ri)) { MaterialRemoteText("Primary (Blue)".rs) }
+                RemoteButton(onClick = ValueChange(dummy, 0.ri)) {
+                    MaterialRemoteText("Primary (Blue)".rs)
+                }
                 RemoteBox(RemoteModifier.size(10.rdp))
                 RemoteButton(
                     onClick = ValueChange(dummy, 0.ri),
@@ -464,43 +473,49 @@ fun AustralianThemeSample() {
 }
 
 /**
- * A black screen shows a circular Android icon, then "Wear Widget" in white text. Below it, a large,
- * dark grey rounded rectangle displays "Box Sample 1" centered in white text.
+ * A black screen shows a circular Android icon, then "Wear Widget" in white text. Below it, a
+ * large, dark grey rounded rectangle displays "Box Sample 1" centered in white text.
  */
 @RemoteComposable
 @Composable
 fun BoxSample1() {
     // Simple Box with background color and centered text
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.DarkGray),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteText(text = "Box Sample 1", color = Color.White.rc)
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteText(text = "Box Sample 1", color = Color.White.rc)
+        }
     }
 }
 
 /**
  * Android logo and "Wear Widget" text. A dark grey rounded rectangle widget displays white text
- * "Box Sample 2 (Border & Padding)", centered and surrounded by a distinct red rectangular
- * border. The text is visibly padded from the red border, which itself is padded from the grey
- * widget's edges.
+ * "Box Sample 2 (Border & Padding)", centered and surrounded by a distinct red rectangular border.
+ * The text is visibly padded from the red border, which itself is padded from the grey widget's
+ * edges.
  */
 @RemoteComposable
 @Composable
 fun BoxSample2() {
     // Box with padding and border
-    RemoteBox(
-        modifier =
-            RemoteModifier.fillMaxSize().padding(20.dp).border(width = 2.rdp, color = Color.Red.rc),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteText(
-            text = "Box Sample 2\n(Border & Padding)",
-            color = Color.White.rc,
-            textAlign = TextAlign.Center,
-        )
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier =
+                RemoteModifier.fillMaxSize()
+                    .padding(20.dp)
+                    .border(width = 2.rdp, color = Color.Red.rc),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteText(
+                text = "Box Sample 2\n(Border & Padding)",
+                color = Color.White.rc,
+                textAlign = TextAlign.Center,
+            )
+        }
     }
 }
 
@@ -512,17 +527,19 @@ fun BoxSample2() {
 @Composable
 fun BoxSample3() {
     // Box with different alignment (BottomEnd)
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.Blue),
-        horizontalAlignment = RemoteAlignment.End,
-        verticalArrangement = RemoteArrangement.Bottom,
-    ) {
-        RemoteText(
-            modifier = RemoteModifier.padding(10.dp),
-            text = "Box Sample 3\n(Bottom End)",
-            color = Color.Yellow.rc,
-            textAlign = TextAlign.End,
-        )
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize().background(Color.Blue),
+            horizontalAlignment = RemoteAlignment.End,
+            verticalArrangement = RemoteArrangement.Bottom,
+        ) {
+            RemoteText(
+                modifier = RemoteModifier.padding(10.dp),
+                text = "Box Sample 3\n(Bottom End)",
+                color = Color.Yellow.rc,
+                textAlign = TextAlign.End,
+            )
+        }
     }
 }
 
@@ -534,36 +551,38 @@ fun BoxSample3() {
 @RemoteComposable
 @Composable
 fun TextSample1() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color(0xFF006400)),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteColumn(
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize().background(Color(0xFF006400)),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
         ) {
-            RemoteText(
-                text = "TextSample1",
-                color = Color.White.rc,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-            )
-            RemoteText(
-                text =
-                    "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.",
-                color = Color.LightGray.rc,
-                fontSize = 14.sp,
-                maxLines = 2,
-                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-            )
-            RemoteText(
-                text = "Version 1.0",
-                color = Color.Cyan.rc,
-                fontSize = 10.sp,
-                fontStyle = FontStyle.Italic,
-            )
+            RemoteColumn(
+                horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                verticalArrangement = RemoteArrangement.Center,
+            ) {
+                RemoteText(
+                    text = "TextSample1",
+                    color = Color.White.rc,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+                RemoteText(
+                    text =
+                        "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.",
+                    color = Color.LightGray.rc,
+                    fontSize = 14.sp,
+                    maxLines = 2,
+                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                )
+                RemoteText(
+                    text = "Version 1.0",
+                    color = Color.Cyan.rc,
+                    fontSize = 10.sp,
+                    fontStyle = FontStyle.Italic,
+                )
+            }
         }
     }
 }
@@ -576,67 +595,83 @@ fun TextSample1() {
 @RemoteComposable
 @Composable
 fun TextSample1WithMargin() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color(0xFF006400)).padding(30.dp),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteColumn(
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize().background(Color(0xFF006400)).padding(30.dp),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
         ) {
-            RemoteText(
-                text = "TextSample1",
-                color = Color.White.rc,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-            )
-            RemoteText(
-                text =
-                    "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.",
-                color = Color.LightGray.rc,
-                fontSize = 14.sp,
-                maxLines = 2,
-                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-            )
-            RemoteText(
-                text = "Version 1.0",
-                color = Color.Cyan.rc,
-                fontSize = 10.sp,
-                fontStyle = FontStyle.Italic,
-            )
+            RemoteColumn(
+                horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                verticalArrangement = RemoteArrangement.Center,
+            ) {
+                RemoteText(
+                    text = "TextSample1",
+                    color = Color.White.rc,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+                RemoteText(
+                    text =
+                        "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.",
+                    color = Color.LightGray.rc,
+                    fontSize = 14.sp,
+                    maxLines = 2,
+                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                )
+                RemoteText(
+                    text = "Version 1.0",
+                    color = Color.Cyan.rc,
+                    fontSize = 10.sp,
+                    fontStyle = FontStyle.Italic,
+                )
+            }
         }
     }
 }
 
 /**
  * A screen features an Android robot head logo and "Wear Widget" text at the top. Below, a dark
- * gray bordered rectangle serves as a widget frame. Inside, three horizontal buttons are
- * displayed: a red button with "Red" text, a green button with "Green" text, and a blue button
- * with "Blue" text. All button text is white.
+ * gray bordered rectangle serves as a widget frame. Inside, three horizontal buttons are displayed:
+ * a red button with "Red" text, a green button with "Green" text, and a blue button with "Blue"
+ * text. All button text is white.
  */
 @RemoteComposable
 @Composable
 fun RowSample1() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteRow(
+    RemoteMaterialTheme {
+        RemoteBox(
             modifier = RemoteModifier.fillMaxSize(),
-            horizontalArrangement = RemoteArrangement.CenterHorizontally,
-            verticalAlignment = RemoteAlignment.CenterVertically,
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
         ) {
-            RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Red)) {
-                RemoteText("Red", color = Color.White.rc, modifier = RemoteModifier.padding(5.dp))
-            }
-            RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Green)) {
-                RemoteText("Green", color = Color.Black.rc, modifier = RemoteModifier.padding(5.dp))
-            }
-            RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Blue)) {
-                RemoteText("Blue", color = Color.White.rc, modifier = RemoteModifier.padding(5.dp))
+            RemoteRow(
+                modifier = RemoteModifier.fillMaxSize(),
+                horizontalArrangement = RemoteArrangement.CenterHorizontally,
+                verticalAlignment = RemoteAlignment.CenterVertically,
+            ) {
+                RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Red)) {
+                    RemoteText(
+                        "Red",
+                        color = Color.White.rc,
+                        modifier = RemoteModifier.padding(5.dp),
+                    )
+                }
+                RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Green)) {
+                    RemoteText(
+                        "Green",
+                        color = Color.Black.rc,
+                        modifier = RemoteModifier.padding(5.dp),
+                    )
+                }
+                RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Blue)) {
+                    RemoteText(
+                        "Blue",
+                        color = Color.White.rc,
+                        modifier = RemoteModifier.padding(5.dp),
+                    )
+                }
             }
         }
     }
@@ -654,52 +689,60 @@ fun RowSample2() {
     // Orientation"
     // error when rendering the RemoteCollapsibleRow. It seems the RemoteCollapsibleRow's
     // orientation parameter was not being correctly handled by the renderer.
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.DarkGray),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteRow(
-            modifier = RemoteModifier.fillMaxSize().padding(5.dp),
-            horizontalArrangement = RemoteArrangement.SpaceBetween,
-            verticalAlignment = RemoteAlignment.CenterVertically,
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
         ) {
-            RemoteText("Item 1", color = Color.White.rc)
-            RemoteText("Item 2", color = Color.Yellow.rc)
-            RemoteText("Item 3", color = Color.Gray.rc)
+            RemoteRow(
+                modifier = RemoteModifier.fillMaxSize().padding(5.dp),
+                horizontalArrangement = RemoteArrangement.SpaceBetween,
+                verticalAlignment = RemoteAlignment.CenterVertically,
+            ) {
+                RemoteText("Item 1", color = Color.White.rc)
+                RemoteText("Item 2", color = Color.Yellow.rc)
+                RemoteText("Item 3", color = Color.Gray.rc)
+            }
         }
     }
 }
 
 /**
- * Android logo above "Wear Widget" text. Below, a rounded rectangular container displays
- * centered, vertically stacked text: "Top (High)" in red, "Middle (Low)" in green, and "Bottom
- * (High)" in blue.
+ * Android logo above "Wear Widget" text. Below, a rounded rectangular container displays centered,
+ * vertically stacked text: "Top (High)" in red, "Middle (Low)" in green, and "Bottom (High)" in
+ * blue.
  */
 @RemoteComposable
 @Composable
 fun CollapsibleColumnSample1() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteCollapsibleColumn(
+    RemoteMaterialTheme {
+        RemoteBox(
             modifier = RemoteModifier.fillMaxSize(),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.SpaceEvenly,
+            verticalArrangement = RemoteArrangement.Center,
         ) {
-            RemoteText("Top (High)", color = Color.Red.rc, modifier = RemoteModifier.priority(1.0f))
-            RemoteText(
-                "Middle (Low)",
-                color = Color.Green.rc,
-                modifier = RemoteModifier.priority(0.1f),
-            )
-            RemoteText(
-                "Bottom (High)",
-                color = Color.Blue.rc,
-                modifier = RemoteModifier.priority(1.0f),
-            )
+            RemoteCollapsibleColumn(
+                modifier = RemoteModifier.fillMaxSize(),
+                horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                verticalArrangement = RemoteArrangement.SpaceEvenly,
+            ) {
+                RemoteText(
+                    "Top (High)",
+                    color = Color.Red.rc,
+                    modifier = RemoteModifier.priority(1.0f),
+                )
+                RemoteText(
+                    "Middle (Low)",
+                    color = Color.Green.rc,
+                    modifier = RemoteModifier.priority(0.1f),
+                )
+                RemoteText(
+                    "Bottom (High)",
+                    color = Color.Blue.rc,
+                    modifier = RemoteModifier.priority(1.0f),
+                )
+            }
         }
     }
 }
@@ -713,45 +756,51 @@ fun CollapsibleColumnSample1() {
 @Composable
 fun ButtonSample1() {
     val dummy = rememberRemoteIntValue { 0 }
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteButton(onClick = ValueChange(dummy, 0.ri), modifier = RemoteModifier.buttonSizeModifier()) {
-            MaterialRemoteText("Simple Button".rs)
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteButton(
+                onClick = ValueChange(dummy, 0.ri),
+                modifier = RemoteModifier.buttonSizeModifier(),
+            ) {
+                MaterialRemoteText("Simple Button".rs)
+            }
         }
     }
 }
 
 /**
  * UI screenshot on a black background. Top center features a light grey circular Android robot
- * icon. Below it, white text "Wear Widget". A dark grey rounded rectangular container holds a
- * light purple rounded button with a dark grey Android chip-like icon and the text "Button with
- * Icon".
+ * icon. Below it, white text "Wear Widget". A dark grey rounded rectangular container holds a light
+ * purple rounded button with a dark grey Android chip-like icon and the text "Button with Icon".
  */
 @RemoteComposable
 @Composable
 fun ButtonSample2() {
     val dummy = rememberRemoteIntValue { 0 }
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteButton(
-            onClick = ValueChange(dummy, 0.ri),
-            modifier = RemoteModifier.buttonSizeModifier(),
-            icon = {
-                RemoteIcon(
-                    imageVector =
-                        ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
-                    contentDescription = "Icon".rs,
-                    modifier = RemoteModifier.size(RemoteButtonDefaults.IconSize),
-                )
-            },
-            label = { MaterialRemoteText("Button with Icon".rs) },
-        )
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteButton(
+                onClick = ValueChange(dummy, 0.ri),
+                modifier = RemoteModifier.buttonSizeModifier(),
+                icon = {
+                    RemoteIcon(
+                        imageVector =
+                            ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
+                        contentDescription = "Icon".rs,
+                        modifier = RemoteModifier.size(RemoteButtonDefaults.IconSize),
+                    )
+                },
+                label = { MaterialRemoteText("Button with Icon".rs) },
+            )
+        }
     }
 }
 
@@ -764,17 +813,19 @@ fun ButtonSample2() {
 @Composable
 fun ButtonSample3() {
     val dummy = rememberRemoteIntValue { 0 }
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteButton(
-            onClick = ValueChange(dummy, 0.ri),
-            modifier = RemoteModifier.buttonSizeModifier(),
-            secondaryLabel = { MaterialRemoteText("Secondary Label".rs) },
-            label = { MaterialRemoteText("Primary Label".rs) },
-        )
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteButton(
+                onClick = ValueChange(dummy, 0.ri),
+                modifier = RemoteModifier.buttonSizeModifier(),
+                secondaryLabel = { MaterialRemoteText("Secondary Label".rs) },
+                label = { MaterialRemoteText("Primary Label".rs) },
+            )
+        }
     }
 }
 
@@ -787,27 +838,29 @@ fun ButtonSample3() {
 @Composable
 fun ButtonSample4() {
     val dummy = rememberRemoteIntValue { 0 }
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteButton(
-            onClick = ValueChange(dummy, 0.ri),
-            modifier = RemoteModifier.buttonSizeModifier(),
-            colors =
-                RemoteButtonColors(
-                    containerColor = Color.Red.rc,
-                    contentColor = Color.Yellow.rc,
-                    secondaryContentColor = Color.Yellow.rc,
-                    iconColor = Color.Yellow.rc,
-                    disabledContainerColor = Color.Gray.rc,
-                    disabledContentColor = Color.LightGray.rc,
-                    disabledSecondaryContentColor = Color.LightGray.rc,
-                    disabledIconColor = Color.LightGray.rc,
-                ),
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
         ) {
-            MaterialRemoteText("Custom Colors".rs)
+            RemoteButton(
+                onClick = ValueChange(dummy, 0.ri),
+                modifier = RemoteModifier.buttonSizeModifier(),
+                colors =
+                    RemoteButtonColors(
+                        containerColor = Color.Red.rc,
+                        contentColor = Color.Yellow.rc,
+                        secondaryContentColor = Color.Yellow.rc,
+                        iconColor = Color.Yellow.rc,
+                        disabledContainerColor = Color.Gray.rc,
+                        disabledContentColor = Color.LightGray.rc,
+                        disabledSecondaryContentColor = Color.LightGray.rc,
+                        disabledIconColor = Color.LightGray.rc,
+                    ),
+            ) {
+                MaterialRemoteText("Custom Colors".rs)
+            }
         }
     }
 }
@@ -821,13 +874,19 @@ fun ButtonSample4() {
 @Composable
 fun ButtonSample6() {
     val dummy = rememberRemoteIntValue { 0 }
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteButton(onClick = ValueChange(dummy, 0.ri), modifier = RemoteModifier.buttonSizeModifier(), enabled = false.rb) {
-            MaterialRemoteText("Disabled Button".rs)
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteButton(
+                onClick = ValueChange(dummy, 0.ri),
+                modifier = RemoteModifier.buttonSizeModifier(),
+                enabled = false.rb,
+            ) {
+                MaterialRemoteText("Disabled Button".rs)
+            }
         }
     }
 }
@@ -841,19 +900,31 @@ fun ButtonSample6() {
 @Composable
 fun ButtonSample7() {
     val dummy = rememberRemoteIntValue { 0 }
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteRow(
-            modifier = RemoteModifier.padding(horizontal = 11.dp),
-            horizontalArrangement = RemoteArrangement.CenterHorizontally,
-            verticalAlignment = RemoteAlignment.CenterVertically,
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
         ) {
-            RemoteButton(onClick = ValueChange(dummy, 0.ri), modifier = RemoteModifier.weight(1f)) { MaterialRemoteText("Yes".rs) }
-            RemoteBox(RemoteModifier.size(4.rdp)) // Spacing
-            RemoteButton(onClick = ValueChange(dummy, 0.ri), modifier = RemoteModifier.weight(1f)) { MaterialRemoteText("No".rs) }
+            RemoteRow(
+                modifier = RemoteModifier.padding(horizontal = 11.dp),
+                horizontalArrangement = RemoteArrangement.CenterHorizontally,
+                verticalAlignment = RemoteAlignment.CenterVertically,
+            ) {
+                RemoteButton(
+                    onClick = ValueChange(dummy, 0.ri),
+                    modifier = RemoteModifier.weight(1f),
+                ) {
+                    MaterialRemoteText("Yes".rs)
+                }
+                RemoteBox(RemoteModifier.size(4.rdp)) // Spacing
+                RemoteButton(
+                    onClick = ValueChange(dummy, 0.ri),
+                    modifier = RemoteModifier.weight(1f),
+                ) {
+                    MaterialRemoteText("No".rs)
+                }
+            }
         }
     }
 }
@@ -867,25 +938,27 @@ fun ButtonSample7() {
 @Composable
 fun ButtonSample8() {
     val dummy = rememberRemoteIntValue { 0 }
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteButtonGroup {
-            RemoteButton(
-                onClick = ValueChange(dummy, 0.ri),
-                modifier = RemoteModifier.weight(1f),
-                label = { MaterialRemoteText("Yes".rs) },
-                secondaryLabel = { MaterialRemoteText("Confirm".rs) },
-            )
-            RemoteBox(RemoteModifier.size(RemoteButtonGroupDefaults.Spacing))
-            RemoteButton(
-                onClick = ValueChange(dummy, 0.ri),
-                modifier = RemoteModifier.weight(1f),
-                label = { MaterialRemoteText("No".rs) },
-                secondaryLabel = { MaterialRemoteText("Cancel".rs) },
-            )
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteButtonGroup {
+                RemoteButton(
+                    onClick = ValueChange(dummy, 0.ri),
+                    modifier = RemoteModifier.weight(1f),
+                    label = { MaterialRemoteText("Yes".rs) },
+                    secondaryLabel = { MaterialRemoteText("Confirm".rs) },
+                )
+                RemoteBox(RemoteModifier.size(RemoteButtonGroupDefaults.Spacing))
+                RemoteButton(
+                    onClick = ValueChange(dummy, 0.ri),
+                    modifier = RemoteModifier.weight(1f),
+                    label = { MaterialRemoteText("No".rs) },
+                    secondaryLabel = { MaterialRemoteText("Cancel".rs) },
+                )
+            }
         }
     }
 }
@@ -912,107 +985,109 @@ fun ButtonSample9() {
     // Dynamic Text
     val button3Text = isToggled.select("Clicked!".rs, "Click Me".rs)
 
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteColumn(
-            modifier = RemoteModifier.fillMaxSize().padding(10.dp),
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
         ) {
-            // Row 1
-            RemoteRow(
-                modifier = RemoteModifier.weight(1f).fillMaxSize(),
-                horizontalArrangement = RemoteArrangement.CenterHorizontally,
+            RemoteColumn(
+                modifier = RemoteModifier.fillMaxSize().padding(10.dp),
+                horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                verticalArrangement = RemoteArrangement.Center,
             ) {
-                // Button 1: Toggles State (Master Switch)
-                RemoteButton(
-                    modifier =
-                        RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
-                    onClick = ValueChange(state, state xor 1.ri),
-                    colors =
-                        RemoteButtonColors(
-                            containerColor = containerColor,
-                            contentColor = contentColor,
-                            secondaryContentColor = contentColor,
-                            iconColor = contentColor,
-                            disabledContainerColor = Color.Gray.rc,
-                            disabledContentColor = Color.LightGray.rc,
-                            disabledSecondaryContentColor = Color.LightGray.rc,
-                            disabledIconColor = Color.LightGray.rc,
-                        ),
-                ) {
-                    MaterialRemoteText("Toggle".rs)
-                }
-                RemoteBox(RemoteModifier.size(4.rdp))
-                // Button 2: Shape Shifter
-                RemoteButton(
-                    onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
-                    modifier =
-                        RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
-                    shape = dynamicShape,
-                    colors =
-                        RemoteButtonColors(
-                            containerColor = Color.Magenta.rc,
-                            contentColor = Color.White.rc,
-                            secondaryContentColor = Color.White.rc,
-                            iconColor = Color.White.rc,
-                            disabledContainerColor = Color.Gray.rc,
-                            disabledContentColor = Color.LightGray.rc,
-                            disabledSecondaryContentColor = Color.LightGray.rc,
-                            disabledIconColor = Color.LightGray.rc,
-                        ),
-                ) {
-                    MaterialRemoteText("Shape".rs)
-                }
-            }
-
-            RemoteBox(RemoteModifier.size(4.rdp))
-
-            // Row 2
-            RemoteRow(
-                modifier = RemoteModifier.weight(1f).fillMaxSize(),
-                horizontalArrangement = RemoteArrangement.CenterHorizontally,
-            ) {
-                // Button 3: Text Change
-                RemoteButton(
-                    onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
-                    modifier =
-                        RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
-                    colors =
-                        RemoteButtonColors(
-                            containerColor = Color.DarkGray.rc,
-                            contentColor = Color.White.rc,
-                            secondaryContentColor = Color.White.rc,
-                            iconColor = Color.White.rc,
-                            disabledContainerColor = Color.Gray.rc,
-                            disabledContentColor = Color.LightGray.rc,
-                            disabledSecondaryContentColor = Color.LightGray.rc,
-                            disabledIconColor = Color.LightGray.rc,
-                        ),
-                ) {
-                    MaterialRemoteText(button3Text)
-                }
-                RemoteBox(RemoteModifier.size(4.rdp))
-                // Button 4: Static
-                RemoteButton(
-                    onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
+                // Row 1
+                RemoteRow(
                     modifier = RemoteModifier.weight(1f).fillMaxSize(),
-                    colors =
-                        RemoteButtonColors(
-                            containerColor = Color.Green.rc,
-                            contentColor = Color.Black.rc,
-                            secondaryContentColor = Color.Black.rc,
-                            iconColor = Color.Black.rc,
-                            disabledContainerColor = Color.Gray.rc,
-                            disabledContentColor = Color.LightGray.rc,
-                            disabledSecondaryContentColor = Color.LightGray.rc,
-                            disabledIconColor = Color.LightGray.rc,
-                        ),
+                    horizontalArrangement = RemoteArrangement.CenterHorizontally,
                 ) {
-                    MaterialRemoteText("Fixed".rs)
+                    // Button 1: Toggles State (Master Switch)
+                    RemoteButton(
+                        modifier =
+                            RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
+                        onClick = ValueChange(state, state xor 1.ri),
+                        colors =
+                            RemoteButtonColors(
+                                containerColor = containerColor,
+                                contentColor = contentColor,
+                                secondaryContentColor = contentColor,
+                                iconColor = contentColor,
+                                disabledContainerColor = Color.Gray.rc,
+                                disabledContentColor = Color.LightGray.rc,
+                                disabledSecondaryContentColor = Color.LightGray.rc,
+                                disabledIconColor = Color.LightGray.rc,
+                            ),
+                    ) {
+                        MaterialRemoteText("Toggle".rs)
+                    }
+                    RemoteBox(RemoteModifier.size(4.rdp))
+                    // Button 2: Shape Shifter
+                    RemoteButton(
+                        onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
+                        modifier =
+                            RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
+                        shape = dynamicShape,
+                        colors =
+                            RemoteButtonColors(
+                                containerColor = Color.Magenta.rc,
+                                contentColor = Color.White.rc,
+                                secondaryContentColor = Color.White.rc,
+                                iconColor = Color.White.rc,
+                                disabledContainerColor = Color.Gray.rc,
+                                disabledContentColor = Color.LightGray.rc,
+                                disabledSecondaryContentColor = Color.LightGray.rc,
+                                disabledIconColor = Color.LightGray.rc,
+                            ),
+                    ) {
+                        MaterialRemoteText("Shape".rs)
+                    }
+                }
+
+                RemoteBox(RemoteModifier.size(4.rdp))
+
+                // Row 2
+                RemoteRow(
+                    modifier = RemoteModifier.weight(1f).fillMaxSize(),
+                    horizontalArrangement = RemoteArrangement.CenterHorizontally,
+                ) {
+                    // Button 3: Text Change
+                    RemoteButton(
+                        onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
+                        modifier =
+                            RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
+                        colors =
+                            RemoteButtonColors(
+                                containerColor = Color.DarkGray.rc,
+                                contentColor = Color.White.rc,
+                                secondaryContentColor = Color.White.rc,
+                                iconColor = Color.White.rc,
+                                disabledContainerColor = Color.Gray.rc,
+                                disabledContentColor = Color.LightGray.rc,
+                                disabledSecondaryContentColor = Color.LightGray.rc,
+                                disabledIconColor = Color.LightGray.rc,
+                            ),
+                    ) {
+                        MaterialRemoteText(button3Text)
+                    }
+                    RemoteBox(RemoteModifier.size(4.rdp))
+                    // Button 4: Static
+                    RemoteButton(
+                        onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
+                        modifier = RemoteModifier.weight(1f).fillMaxSize(),
+                        colors =
+                            RemoteButtonColors(
+                                containerColor = Color.Green.rc,
+                                contentColor = Color.Black.rc,
+                                secondaryContentColor = Color.Black.rc,
+                                iconColor = Color.Black.rc,
+                                disabledContainerColor = Color.Gray.rc,
+                                disabledContentColor = Color.LightGray.rc,
+                                disabledSecondaryContentColor = Color.LightGray.rc,
+                                disabledIconColor = Color.LightGray.rc,
+                            ),
+                    ) {
+                        MaterialRemoteText("Fixed".rs)
+                    }
                 }
             }
         }
@@ -1021,92 +1096,99 @@ fun ButtonSample9() {
 
 /**
  * Screenshot shows an Android Wear Widget. Top center: Android logo icon. Below, white text 'Wear
- * Widget'. Inside a rounded rectangle frame on black, three tilted Android robot heads: small
- * red, medium green, and large blue, increasing in size left to right.
+ * Widget'. Inside a rounded rectangle frame on black, three tilted Android robot heads: small red,
+ * medium green, and large blue, increasing in size left to right.
  */
 @RemoteComposable
 @Composable
 fun IconSample1() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteRow(
-            verticalAlignment = RemoteAlignment.CenterVertically,
-            horizontalArrangement = RemoteArrangement.CenterHorizontally,
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
         ) {
-            RemoteIcon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = "Small Red".rs,
-                modifier = RemoteModifier.size(24.rdp),
-                tint = Color.Red.rc,
-            )
-            RemoteBox(RemoteModifier.size(10.rdp))
-            RemoteIcon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = "Medium Green".rs,
-                modifier = RemoteModifier.size(48.rdp),
-                tint = Color.Green.rc,
-            )
-            RemoteBox(RemoteModifier.size(10.rdp))
-            RemoteIcon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = "Large Blue".rs,
-                modifier = RemoteModifier.size(72.rdp),
-                tint = Color.Blue.rc,
-            )
+            RemoteRow(
+                verticalAlignment = RemoteAlignment.CenterVertically,
+                horizontalArrangement = RemoteArrangement.CenterHorizontally,
+            ) {
+                RemoteIcon(
+                    imageVector =
+                        ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
+                    contentDescription = "Small Red".rs,
+                    modifier = RemoteModifier.size(24.rdp),
+                    tint = Color.Red.rc,
+                )
+                RemoteBox(RemoteModifier.size(10.rdp))
+                RemoteIcon(
+                    imageVector =
+                        ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
+                    contentDescription = "Medium Green".rs,
+                    modifier = RemoteModifier.size(48.rdp),
+                    tint = Color.Green.rc,
+                )
+                RemoteBox(RemoteModifier.size(10.rdp))
+                RemoteIcon(
+                    imageVector =
+                        ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
+                    contentDescription = "Large Blue".rs,
+                    modifier = RemoteModifier.size(72.rdp),
+                    tint = Color.Blue.rc,
+                )
+            }
         }
     }
 }
 
 /**
  * Screenshot showing a "Wear Widget" title and Android Wear OS icon above a gray-bordered frame.
- * Inside the frame is a 2x2 grid of colored blocks: top-left red with "1", top-right blue with
- * "2", bottom-left green with "3", and bottom-right yellow with "4".
+ * Inside the frame is a 2x2 grid of colored blocks: top-left red with "1", top-right blue with "2",
+ * bottom-left green with "3", and bottom-right yellow with "4".
  */
 @RemoteComposable
 @Composable
 fun GridSample1() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteColumn(
-            modifier = RemoteModifier.fillMaxSize().padding(20.dp),
-            verticalArrangement = RemoteArrangement.SpaceEvenly,
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
         ) {
-            RemoteRow(modifier = RemoteModifier.weight(1f)) {
-                RemoteBox(
-                    modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Red),
-                    horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                    verticalArrangement = RemoteArrangement.Center,
-                ) {
-                    RemoteText("1", color = Color.White.rc)
+            RemoteColumn(
+                modifier = RemoteModifier.fillMaxSize().padding(20.dp),
+                verticalArrangement = RemoteArrangement.SpaceEvenly,
+            ) {
+                RemoteRow(modifier = RemoteModifier.weight(1f)) {
+                    RemoteBox(
+                        modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Red),
+                        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                        verticalArrangement = RemoteArrangement.Center,
+                    ) {
+                        RemoteText("1", color = Color.White.rc)
+                    }
+                    RemoteBox(
+                        modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Blue),
+                        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                        verticalArrangement = RemoteArrangement.Center,
+                    ) {
+                        RemoteText("2", color = Color.White.rc)
+                    }
                 }
-                RemoteBox(
-                    modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Blue),
-                    horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                    verticalArrangement = RemoteArrangement.Center,
-                ) {
-                    RemoteText("2", color = Color.White.rc)
-                }
-            }
-            RemoteRow(modifier = RemoteModifier.weight(1f)) {
-                RemoteBox(
-                    modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Green),
-                    horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                    verticalArrangement = RemoteArrangement.Center,
-                ) {
-                    RemoteText("3", color = Color.Black.rc)
-                }
-                RemoteBox(
-                    modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Yellow),
-                    horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                    verticalArrangement = RemoteArrangement.Center,
-                ) {
-                    RemoteText("4", color = Color.Black.rc)
+                RemoteRow(modifier = RemoteModifier.weight(1f)) {
+                    RemoteBox(
+                        modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Green),
+                        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                        verticalArrangement = RemoteArrangement.Center,
+                    ) {
+                        RemoteText("3", color = Color.Black.rc)
+                    }
+                    RemoteBox(
+                        modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Yellow),
+                        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                        verticalArrangement = RemoteArrangement.Center,
+                    ) {
+                        RemoteText("4", color = Color.Black.rc)
+                    }
                 }
             }
         }
@@ -1123,39 +1205,41 @@ fun GridSample1() {
 @Composable
 fun CardSample1() {
     val dummy = rememberRemoteIntValue { 0 }
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteButton(
-            onClick = ValueChange(dummy, 0.ri),
-            modifier = RemoteModifier.fillMaxSize().padding(10.dp),
-            enabled = false.rb, // act as container
-            colors =
-                RemoteButtonColors(
-                    containerColor = Color.DarkGray.rc,
-                    contentColor = Color.White.rc,
-                    secondaryContentColor = Color.LightGray.rc,
-                    iconColor = Color.White.rc,
-                    disabledContainerColor = Color.DarkGray.rc,
-                    disabledContentColor = Color.White.rc,
-                    disabledSecondaryContentColor = Color.LightGray.rc,
-                    disabledIconColor = Color.White.rc,
-                ),
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
         ) {
-            RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically) {
-                RemoteIcon(
-                    imageVector =
-                        ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
-                    contentDescription = "Card Icon".rs,
-                    modifier = RemoteModifier.size(40.rdp),
-                    tint = Color.Cyan.rc,
-                )
-                RemoteBox(RemoteModifier.size(10.rdp))
-                RemoteColumn {
-                    MaterialRemoteText("Card Title".rs)
-                    MaterialRemoteText("Subtitle goes here".rs)
+            RemoteButton(
+                onClick = ValueChange(dummy, 0.ri),
+                modifier = RemoteModifier.fillMaxSize().padding(10.dp),
+                enabled = false.rb, // act as container
+                colors =
+                    RemoteButtonColors(
+                        containerColor = Color.DarkGray.rc,
+                        contentColor = Color.White.rc,
+                        secondaryContentColor = Color.LightGray.rc,
+                        iconColor = Color.White.rc,
+                        disabledContainerColor = Color.DarkGray.rc,
+                        disabledContentColor = Color.White.rc,
+                        disabledSecondaryContentColor = Color.LightGray.rc,
+                        disabledIconColor = Color.White.rc,
+                    ),
+            ) {
+                RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically) {
+                    RemoteIcon(
+                        imageVector =
+                            ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
+                        contentDescription = "Card Icon".rs,
+                        modifier = RemoteModifier.size(40.rdp),
+                        tint = Color.Cyan.rc,
+                    )
+                    RemoteBox(RemoteModifier.size(10.rdp))
+                    RemoteColumn {
+                        MaterialRemoteText("Card Title".rs)
+                        MaterialRemoteText("Subtitle goes here".rs)
+                    }
                 }
             }
         }
@@ -1164,46 +1248,48 @@ fun CardSample1() {
 
 /**
  * A black screen shows an Android icon and "Wear Widget" text at the top. Below, a dark gray
- * rounded rectangle contains a horizontal row of UI elements: a light gray oval button with a
- * minus sign, a red rectangular box displaying "0" in white text, and a light gray oval button
- * with a plus sign.
+ * rounded rectangle contains a horizontal row of UI elements: a light gray oval button with a minus
+ * sign, a red rectangular box displaying "0" in white text, and a light gray oval button with a
+ * plus sign.
  */
 @RemoteComposable
 @Composable
 fun CounterSample1() {
     val count = rememberRemoteIntValue { 0 }
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteRow(
-            verticalAlignment = RemoteAlignment.CenterVertically,
-            horizontalArrangement = RemoteArrangement.CenterHorizontally,
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
         ) {
-            RemoteButton(
-                onClick = ValueChange(count, count - 1.ri),
-                modifier = RemoteModifier.size(40.rdp),
+            RemoteRow(
+                verticalAlignment = RemoteAlignment.CenterVertically,
+                horizontalArrangement = RemoteArrangement.CenterHorizontally,
             ) {
-                MaterialRemoteText("-".rs)
-            }
+                RemoteButton(
+                    onClick = ValueChange(count, count - 1.ri),
+                    modifier = RemoteModifier.size(40.rdp),
+                ) {
+                    MaterialRemoteText("-".rs)
+                }
 
-            RemoteBox(RemoteModifier.size(10.rdp))
+                RemoteBox(RemoteModifier.size(10.rdp))
 
-            RemoteBox(modifier = RemoteModifier.background(Color.Red)) {
-                RemoteText(
-                    text = count.toRemoteString(10, TextFromFloat.PAD_PRE_NONE),
-                    color = Color.White.rc,
-                    fontSize = 24.sp,
-                )
-            }
+                RemoteBox(modifier = RemoteModifier.background(Color.Red)) {
+                    RemoteText(
+                        text = count.toRemoteString(10, TextFromFloat.PAD_PRE_NONE),
+                        color = Color.White.rc,
+                        fontSize = 24.sp,
+                    )
+                }
 
-            RemoteBox(RemoteModifier.size(10.rdp))
-            RemoteButton(
-                onClick = ValueChange(count, count + 1.ri),
-                modifier = RemoteModifier.size(40.rdp),
-            ) {
-                MaterialRemoteText("+".rs)
+                RemoteBox(RemoteModifier.size(10.rdp))
+                RemoteButton(
+                    onClick = ValueChange(count, count + 1.ri),
+                    modifier = RemoteModifier.size(40.rdp),
+                ) {
+                    MaterialRemoteText("+".rs)
+                }
             }
         }
     }
@@ -1285,30 +1371,32 @@ private fun RemoteRowScope.RemoteColorBox(color: RemoteColor) {
 @RemoteComposable
 @Composable
 fun CanvasSample1() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
-            val width = remote.component.width
-            val height = remote.component.height
-            val centerX = width / 2f.rf
-            val centerY = height / 2f.rf
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+                val width = remote.component.width
+                val height = remote.component.height
+                val centerX = width / 2f.rf
+                val centerY = height / 2f.rf
 
-            // Draw a circle
-            drawCircle(
-                paint = RemotePaint().apply { remoteColor = Color.Red.rc },
-                radius = 50f.rf,
-                center = RemoteOffset(centerX, centerY),
-            )
+                // Draw a circle
+                drawCircle(
+                    paint = RemotePaint().apply { remoteColor = Color.Red.rc },
+                    radius = 50f.rf,
+                    center = RemoteOffset(centerX, centerY),
+                )
 
-            // Draw a rect
-            drawRect(
-                paint = RemotePaint().apply { remoteColor = Color.Blue.rc },
-                topLeft = RemoteOffset(centerX - 100f.rf, centerY + 60f.rf),
-                size = RemoteSize(200f.rf, 50f.rf),
-            )
+                // Draw a rect
+                drawRect(
+                    paint = RemotePaint().apply { remoteColor = Color.Blue.rc },
+                    topLeft = RemoteOffset(centerX - 100f.rf, centerY + 60f.rf),
+                    size = RemoteSize(200f.rf, 50f.rf),
+                )
+            }
         }
     }
 }
@@ -1321,28 +1409,33 @@ fun CanvasSample1() {
 @RemoteComposable
 @Composable
 fun CanvasSample2() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.DarkGray),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
-            val width = remote.component.width
-            val height = remote.component.height
-            val centerX = width / 2f.rf
-            val centerY = height / 2f.rf
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+                val width = remote.component.width
+                val height = remote.component.height
+                val centerX = width / 2f.rf
+                val centerY = height / 2f.rf
 
-            // Draw a triangle path
-            val path =
-                Path().apply {
-                    moveTo(0f, -50f)
-                    lineTo(50f, 50f)
-                    lineTo(-50f, 50f)
-                    close()
+                // Draw a triangle path
+                val path =
+                    Path().apply {
+                        moveTo(0f, -50f)
+                        lineTo(50f, 50f)
+                        lineTo(-50f, 50f)
+                        close()
+                    }
+
+                translate(centerX, centerY) {
+                    drawPath(
+                        path = path,
+                        paint = RemotePaint().apply { remoteColor = Color.Yellow.rc },
+                    )
                 }
-
-            translate(centerX, centerY) {
-                drawPath(path = path, paint = RemotePaint().apply { remoteColor = Color.Yellow.rc })
             }
         }
     }
@@ -1362,12 +1455,14 @@ fun GradientBackgroundSample() {
             start = RemoteOffset.Zero,
             end = null,
         )
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(brush = gradient),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        MaterialRemoteText("Gradient Background".rs)
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize().background(brush = gradient),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            MaterialRemoteText("Gradient Background".rs)
+        }
     }
 }
 
@@ -1390,46 +1485,50 @@ fun PendingIntentSample() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
         )
 
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteButton(
-            modifier = RemoteModifier.buttonSizeModifier(),
-            onClick = pendingIntentAction(pendingIntent),
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
         ) {
-            MaterialRemoteText("Open App".rs)
+            RemoteButton(
+                modifier = RemoteModifier.buttonSizeModifier(),
+                onClick = pendingIntentAction(pendingIntent),
+            ) {
+                MaterialRemoteText("Open App".rs)
+            }
         }
     }
 }
 
 /**
- * A UI displays an Android logo and "Wear Widget" title. Below, a dark grey rounded widget shows
- * a vertical list of white text: "Header", "Item 0", "Item 1", "Item 2", "Item 3", with "Item 4"
+ * A UI displays an Android logo and "Wear Widget" title. Below, a dark grey rounded widget shows a
+ * vertical list of white text: "Header", "Item 0", "Item 1", "Item 2", "Item 3", with "Item 4"
  * partially visible, indicating scrollable content.
  */
 @RemoteComposable
 @Composable
 fun VerticalScrollSample() {
     val scrollState = rememberRemoteScrollState()
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Top,
-    ) {
-        RemoteColumn(
-            modifier = RemoteModifier.fillMaxWidth().verticalScroll(scrollState),
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Top,
         ) {
-            MaterialRemoteText("Header".rs)
-            RemoteBox(RemoteModifier.size(10.rdp))
-            for (i in 0 until 10) {
-                MaterialRemoteText(("Item " + i).rs)
+            RemoteColumn(
+                modifier = RemoteModifier.fillMaxWidth().verticalScroll(scrollState),
+                horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                verticalArrangement = RemoteArrangement.Top,
+            ) {
+                MaterialRemoteText("Header".rs)
                 RemoteBox(RemoteModifier.size(10.rdp))
+                for (i in 0 until 10) {
+                    MaterialRemoteText(("Item " + i).rs)
+                    RemoteBox(RemoteModifier.size(10.rdp))
+                }
+                MaterialRemoteText("Footer".rs)
             }
-            MaterialRemoteText("Footer".rs)
         }
     }
 }
@@ -1442,29 +1541,31 @@ fun VerticalScrollSample() {
 @RemoteComposable
 @Composable
 fun MixedStyleSample() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color.White),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        RemoteRow(
-            verticalAlignment = RemoteAlignment.CenterVertically,
-            horizontalArrangement = RemoteArrangement.CenterHorizontally,
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize().background(Color.White),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
         ) {
-            // First part: Bold Red Text
-            RemoteText(
-                text = "Mixed ".rs,
-                color = Color.Red.rc,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-            )
-            // Second part: Italic Blue Text
-            RemoteText(
-                text = "Styles".rs,
-                color = Color.Blue.rc,
-                fontSize = 20.sp,
-                fontStyle = FontStyle.Italic,
-            )
+            RemoteRow(
+                verticalAlignment = RemoteAlignment.CenterVertically,
+                horizontalArrangement = RemoteArrangement.CenterHorizontally,
+            ) {
+                // First part: Bold Red Text
+                RemoteText(
+                    text = "Mixed ".rs,
+                    color = Color.Red.rc,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+                // Second part: Italic Blue Text
+                RemoteText(
+                    text = "Styles".rs,
+                    color = Color.Blue.rc,
+                    fontSize = 20.sp,
+                    fontStyle = FontStyle.Italic,
+                )
+            }
         }
     }
 }
@@ -1472,35 +1573,37 @@ fun MixedStyleSample() {
 @RemoteComposable
 @Composable
 fun ConditionalRadiusSample() {
-    RemoteBox(modifier = RemoteModifier.fillMaxSize()) {
-        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
-            // 1. Get Width and Density
-            val widthPx = remote.component.width
-            val density = RemoteDensity.HOST.density
+    RemoteMaterialTheme {
+        RemoteBox(modifier = RemoteModifier.fillMaxSize()) {
+            RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+                // 1. Get Width and Density
+                val widthPx = remote.component.width
+                val density = RemoteDensity.HOST.density
 
-            // 2. Calculate Condition (Width > 200dp?)
-            val widthDp = widthPx / density
-            val isWide = widthDp gt 200f.rf
+                // 2. Calculate Condition (Width > 200dp?)
+                val widthDp = widthPx / density
+                val isWide = widthDp gt 200f.rf
 
-            // 3. Select Value (15dp if wide, 10dp if narrow) and convert to RemoteDp
-            val radiusDp = isWide.select(15f.rf, 10f.rf).asRemoteDp()
-            val radiusPx = radiusDp.toPx(RemoteDensity.HOST)
+                // 3. Select Value (15dp if wide, 10dp if narrow) and convert to RemoteDp
+                val radiusDp = isWide.select(15f.rf, 10f.rf).asRemoteDp()
+                val radiusPx = radiusDp.toPx(RemoteDensity.HOST)
 
-            // 4. Use the value (Converting back to Px for drawing commands)
-            drawRoundRect(
-                paint = RemotePaint().apply { remoteColor = Color.Blue.rc },
-                topLeft = RemoteOffset.Zero,
-                size = RemoteSize(widthPx, remote.component.height),
-                cornerRadius = RemoteOffset(radiusPx, radiusPx),
-            )
+                // 4. Use the value (Converting back to Px for drawing commands)
+                drawRoundRect(
+                    paint = RemotePaint().apply { remoteColor = Color.Blue.rc },
+                    topLeft = RemoteOffset.Zero,
+                    size = RemoteSize(widthPx, remote.component.height),
+                    cornerRadius = RemoteOffset(radiusPx, radiusPx),
+                )
+            }
         }
     }
 }
 
 /**
  * A Wear OS widget display with an Android robot icon and "Wear Widget" text at the top. Below, a
- * rounded black rectangle contains three lines of text: "Title Style" in large cyan, "Default
- * Body Style" in white, and "Caption Style" in white italics.
+ * rounded black rectangle contains three lines of text: "Title Style" in large cyan, "Default Body
+ * Style" in white, and "Caption Style" in white italics.
  */
 @RemoteComposable
 @Composable
@@ -1513,7 +1616,7 @@ fun TypographyScaleSample() {
 
     RemoteMaterialTheme {
         RemoteBox(
-            modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+            modifier = RemoteModifier.fillMaxSize(),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
         ) {
@@ -1550,40 +1653,42 @@ fun TypographyScaleSample() {
 fun FullBleedImageButtonSample() {
     val backgroundBitmap = ImageBitmap.imageResource(id = R.drawable.photo_14).rb
 
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize()
-    ) {
-        // Background (Full Bleed Image) using RemoteCanvas to avoid RemoteImage conflict
-        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
-             drawScaledBitmap(
-                 image = backgroundBitmap,
-                 dstSize = RemoteSize(remote.component.width, remote.component.height),
-                 scaleType = ContentScale.Crop,
-                 contentDescription = "Background"
-             )
-        }
-
-        // Overlay with Floating Image Button
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center
-        ) {
-            // The floating Image Button (using imageButton pattern but made clickable)
-            RemoteBox(
-                modifier = RemoteModifier
-                    .size(60.rdp)
-                    .clip(RoundedCornerShape(percent = 50)) // Circle
-                    .clickable(ValueChange(rememberRemoteIntValue { 0 }, 0.ri)), // Add click action if needed, currently empty
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                verticalArrangement = RemoteArrangement.Center
-            ) {
-                 RemoteImage(
-                    bitmap = ImageBitmap.imageResource(id = R.drawable.ali),
-                    contentDescription = "Avatar".rs,
-                    contentScale = ContentScale.Crop,
-                    modifier = RemoteModifier.fillMaxSize()
+    RemoteMaterialTheme {
+        RemoteBox(modifier = RemoteModifier.fillMaxSize()) {
+            // Background (Full Bleed Image) using RemoteCanvas to avoid RemoteImage conflict
+            RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+                drawScaledBitmap(
+                    image = backgroundBitmap,
+                    dstSize = RemoteSize(remote.component.width, remote.component.height),
+                    scaleType = ContentScale.Crop,
+                    contentDescription = "Background",
                 )
+            }
+
+            // Overlay with Floating Image Button
+            RemoteBox(
+                modifier = RemoteModifier.fillMaxSize(),
+                horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                verticalArrangement = RemoteArrangement.Center,
+            ) {
+                // The floating Image Button (using imageButton pattern but made clickable)
+                RemoteBox(
+                    modifier =
+                        RemoteModifier.size(60.rdp)
+                            .clip(RoundedCornerShape(percent = 50)) // Circle
+                            .clickable(
+                                ValueChange(rememberRemoteIntValue { 0 }, 0.ri)
+                            ), // Add click action if needed, currently empty
+                    horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                    verticalArrangement = RemoteArrangement.Center,
+                ) {
+                    RemoteImage(
+                        bitmap = ImageBitmap.imageResource(id = R.drawable.ali),
+                        contentDescription = "Avatar".rs,
+                        contentScale = ContentScale.Crop,
+                        modifier = RemoteModifier.fillMaxSize(),
+                    )
+                }
             }
         }
     }
@@ -1598,15 +1703,17 @@ fun FullBleedImageButtonSample() {
 @Composable
 fun BitmapCanvasSample() {
     val backgroundBitmap = ImageBitmap.imageResource(id = R.drawable.photo_14).rb
-    
-    RemoteBox(modifier = RemoteModifier.fillMaxSize()) {
-        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
-             drawScaledBitmap(
-                 image = backgroundBitmap,
-                 dstSize = RemoteSize(remote.component.width, remote.component.height),
-                 scaleType = ContentScale.Crop,
-                 contentDescription = "Background"
-             )
+
+    RemoteMaterialTheme {
+        RemoteBox(modifier = RemoteModifier.fillMaxSize()) {
+            RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+                drawScaledBitmap(
+                    image = backgroundBitmap,
+                    dstSize = RemoteSize(remote.component.width, remote.component.height),
+                    scaleType = ContentScale.Crop,
+                    contentDescription = "Background",
+                )
+            }
         }
     }
 }
