@@ -112,7 +112,7 @@ fun ComponentCatalogAnimatedBoxSample() {
                     // Apply the animated color
                     .background(containerColor)
                     // Toggle the state key on click
-                    .clickable(actions = arrayOf(ValueChange(state, state xor 1.ri)))
+                    .clickable(ValueChange(state, state xor 1.ri))
         )
     }
 }
@@ -125,7 +125,7 @@ fun ComponentCatalogTextButtonSample() {
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
-        RemoteButton(onClick = arrayOf()) { MaterialRemoteText(text = "Text Button".rs) }
+        RemoteButton(onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri)) { MaterialRemoteText(text = "Text Button".rs) }
     }
 }
 
@@ -137,7 +137,7 @@ fun ComponentCatalogIconButtonSample() {
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
-        RemoteButton(onClick = arrayOf()) {
+        RemoteButton(onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri)) {
             RemoteIcon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.android_24px),
                 contentDescription = "Message".rs,
@@ -156,7 +156,7 @@ fun ComponentCatalogAvatarButtonSample() {
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
-        RemoteButton(onClick = arrayOf()) {
+        RemoteButton(onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri)) {
             RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically) {
                 RemoteImage(
                     bitmap = ImageBitmap.imageResource(id = R.drawable.ali),
@@ -211,7 +211,7 @@ fun ComponentCatalogCompactButtonSample() {
         verticalArrangement = RemoteArrangement.Center,
     ) {
         RemoteButton(
-            onClick = arrayOf(),
+            onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
             icon = {
                 RemoteIcon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_message_24),
@@ -232,7 +232,7 @@ fun ComponentCatalogTitleCardSample() {
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
-        RemoteButton(onClick = arrayOf()) {
+        RemoteButton(onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri)) {
             RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
                 MaterialRemoteText(text = "Title Card".rs, fontWeight = FontWeight.Bold)
                 MaterialRemoteText(text = "Content".rs)
@@ -249,7 +249,7 @@ fun ComponentCatalogAppCardSample() {
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
-        RemoteButton(onClick = arrayOf()) {
+        RemoteButton(onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri)) {
             RemoteColumn {
                 RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically) {
                     RemoteImage(
@@ -422,7 +422,7 @@ fun ComponentCatalogTextDataCardSample() {
         verticalArrangement = RemoteArrangement.Center,
     ) {
         RemoteButton(
-            onClick = arrayOf(),
+            onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
             colors =
                 RemoteButtonColors(
                     containerColor = Color.DarkGray.rc,
@@ -452,7 +452,7 @@ fun ComponentCatalogIconDataCardSample() {
         verticalArrangement = RemoteArrangement.Center,
     ) {
         RemoteButton(
-            onClick = arrayOf(),
+            onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
             colors =
                 RemoteButtonColors(
                     containerColor = Color.DarkGray.rc,
@@ -488,7 +488,7 @@ fun ComponentCatalogGraphicDataCardSample() {
         verticalArrangement = RemoteArrangement.Center,
     ) {
         RemoteButton(
-            onClick = arrayOf(),
+            onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
             colors =
                 RemoteButtonColors(
                     containerColor = Color.DarkGray.rc,

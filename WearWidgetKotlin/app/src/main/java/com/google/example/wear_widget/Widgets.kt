@@ -19,6 +19,7 @@ import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
 import androidx.compose.remote.creation.compose.state.rs
+import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.profile.Profile
 import androidx.compose.remote.creation.profile.RcPlatformProfiles.ANDROIDX
 import androidx.compose.remote.creation.profile.RcPlatformProfiles.WEAR_WIDGETS
@@ -97,7 +98,9 @@ class ProfilePreviewParameterProvider : PreviewParameterProvider<Profile> {
 @Composable
 @RemoteComposable
 fun RemoteButtonEnabled() {
+    val dummy = rememberRemoteIntValue { 0 }
     RemoteButton(
+        onClick = ValueChange(dummy, 0.ri),
         modifier = RemoteModifier.buttonSizeModifier(),
         enabled = true.rb,
         content = { RemoteText("button_enabled".rs) },

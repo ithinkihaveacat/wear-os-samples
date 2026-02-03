@@ -134,10 +134,8 @@ class WidgetCatalog : GlanceWearWidget() {
 }
 
 /**
- * A screen with a black background. At the top, an Android robot icon in a white circle. Below it,
- * white text reads "Wear Widget," followed by "Semantic Styles Demo" in a larger font. At the
- * bottom, a very large white "12:34" is displayed, indicating time. All elements are centrally
- * aligned vertically.
+ * Android robot icon above "Wear Widget" text. A dark gray rounded rectangular widget displays
+ * "Semantic Styles Demo" and a large digital time "12:34" in white text on a black background.
  */
 @RemoteComposable
 @Composable
@@ -173,6 +171,11 @@ fun SemanticStyleWorkaroundSample() {
     }
 }
 
+/**
+ * Screenshot shows an Android logo above the title "Wear Widget". Below, a dark gray outlined
+ * rectangle displays a white box rotated counter-clockwise, containing the red text "Hello
+ * world!".
+ */
 @RemoteComposable
 @Composable
 fun RotatedTextSample(modifier: RemoteModifier = RemoteModifier) {
@@ -202,6 +205,11 @@ fun RotatedTextSample(modifier: RemoteModifier = RemoteModifier) {
     }
 }
 
+/**
+ * A screen with a white Android logo on a light gray circle, followed by "Wear Widget" text.
+ * Below, a white rounded rectangle shows "Top Left" in red, "Center" in black, and "Bottom Right"
+ * in blue, demonstrating UI placement. Black background.
+ */
 @RemoteComposable
 @Composable
 fun AnchoredTextSample() {
@@ -270,6 +278,11 @@ fun AnchoredTextSample() {
     }
 }
 
+/**
+ * Screen shows an Android icon and "Wear Widget" text at the top on a black background. Below, a
+ * dark gray rounded rectangular frame encloses a black area. Centered within, a bright green
+ * diamond shape has white, horizontal text "Rotated" overlaid.
+ */
 @RemoteComposable
 @Composable
 fun CanvasSample3() {
@@ -312,12 +325,15 @@ fun CanvasSample3() {
 }
 
 /**
- * A sample demonstrating the use of the System Theme with multiple components. This matches the
- * structure of AustralianThemeSample for comparison.
+ * A UI showing an Android Wear Widget. It features a dark gray rounded rectangle container with
+ * the title "System Theme" in white. Inside are two horizontal rounded buttons: "Primary Button"
+ * with dark text on light blue-gray, and "Secondary Button" with dark text on light gray. An
+ * Android logo is at the top.
  */
 @RemoteComposable
 @Composable
 fun SystemThemeComparisonSample() {
+    val dummy = rememberRemoteIntValue { 0 }
     RemoteMaterialTheme {
         RemoteBox(
             modifier = RemoteModifier.fillMaxSize(),
@@ -327,10 +343,10 @@ fun SystemThemeComparisonSample() {
             RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
                 MaterialRemoteText("System Theme".rs)
                 RemoteBox(RemoteModifier.size(10.rdp))
-                RemoteButton(onClick = arrayOf()) { MaterialRemoteText("Primary Button".rs) }
+                RemoteButton(onClick = ValueChange(dummy, 0.ri)) { MaterialRemoteText("Primary Button".rs) }
                 RemoteBox(RemoteModifier.size(10.rdp))
                 RemoteButton(
-                    onClick = arrayOf(),
+                    onClick = ValueChange(dummy, 0.ri),
                     colors =
                         RemoteButtonColors(
                             containerColor = RemoteMaterialTheme.colorScheme.secondary,
@@ -351,12 +367,14 @@ fun SystemThemeComparisonSample() {
 }
 
 /**
- * A sample demonstrating the use of the System Theme. The button should pick up the system's
- * primary color.
+ * A dark screen displays a light gray Android icon above "Wear Widget". Below, a dark gray
+ * rounded rectangle contains "System Theme" text, and a light purple button labeled "Primary
+ * Button".
  */
 @RemoteComposable
 @Composable
 fun SystemThemeSample() {
+    val dummy = rememberRemoteIntValue { 0 }
     RemoteMaterialTheme {
         RemoteBox(
             modifier = RemoteModifier.fillMaxSize(),
@@ -366,16 +384,21 @@ fun SystemThemeSample() {
             RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
                 MaterialRemoteText("System Theme".rs)
                 RemoteBox(RemoteModifier.size(10.rdp))
-                RemoteButton(onClick = arrayOf()) { MaterialRemoteText("Primary Button".rs) }
+                RemoteButton(onClick = ValueChange(dummy, 0.ri)) { MaterialRemoteText("Primary Button".rs) }
             }
         }
     }
 }
 
-/** A sample demonstrating a custom theme (Australian Flag Colors). */
+/**
+ * Android icon and "Wear Widget" title above a dark gray rounded card. The card displays "Aussie
+ * Theme" heading, a blue rounded button labeled "Primary (Blue)", and a red rounded button
+ * labeled "Secondary (Red)".
+ */
 @RemoteComposable
 @Composable
 fun AustralianThemeSample() {
+    val dummy = rememberRemoteIntValue { 0 }
     val australianColorScheme =
         object : RemoteColorScheme() {
             // Australian Flag Blue
@@ -409,10 +432,10 @@ fun AustralianThemeSample() {
             RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
                 MaterialRemoteText("Aussie Theme".rs)
                 RemoteBox(RemoteModifier.size(10.rdp))
-                RemoteButton(onClick = arrayOf()) { MaterialRemoteText("Primary (Blue)".rs) }
+                RemoteButton(onClick = ValueChange(dummy, 0.ri)) { MaterialRemoteText("Primary (Blue)".rs) }
                 RemoteBox(RemoteModifier.size(10.rdp))
                 RemoteButton(
-                    onClick = arrayOf(),
+                    onClick = ValueChange(dummy, 0.ri),
                     colors =
                         RemoteButtonColors(
                             containerColor = australianColorScheme.secondary,
@@ -433,9 +456,8 @@ fun AustralianThemeSample() {
 }
 
 /**
- * UI on a black background. At the top, "Wear Widget" is centered in white. Below it, a large dark
- * grey rectangular box is centered horizontally with significant side margins, containing the white
- * text "Box Sample 1" in its center.
+ * A black screen shows a circular Android icon, then "Wear Widget" in white text. Below it, a large,
+ * dark grey rounded rectangle displays "Box Sample 1" centered in white text.
  */
 @RemoteComposable
 @Composable
@@ -450,11 +472,6 @@ fun BoxSample1() {
     }
 }
 
-/**
- * "Wear Widget" header at the top on a black background. A central rectangle with a thin red border
- * contains the white text "Box Sample 2 (Border & Padding)". The layout shows padding between the
- * text and the red border, all horizontally centered.
- */
 @RemoteComposable
 @Composable
 fun BoxSample2() {
@@ -474,8 +491,8 @@ fun BoxSample2() {
 }
 
 /**
- * Black background with white text "Wear Widget" at the top. Below, a solid blue rectangular box
- * contains yellow text in its bottom-right corner: "Box Sample 3 (Bottom End)".
+ * Android logo above "Wear Widget" text. Below, a large blue rectangle with a gray border. Inside
+ * the blue box, at the bottom right, is yellow text: "Box Sample 3 (Bottom End)".
  */
 @RemoteComposable
 @Composable
@@ -496,9 +513,9 @@ fun BoxSample3() {
 }
 
 /**
- * UI screen with "Wear Widget" header on a black background. A central green rectangle contains
- * bold white "TextSample1", truncated light-grey text "This is a long text that should wrap to
- * multiple li...", and small cyan italicized "Version 1.0" at the bottom.
+ * Android logo above "Wear Widget" title. A dark-grey bordered, rounded green widget displays:
+ * white bold "TextSample1", white ellipsized "This is a long text that should wrap to multiple
+ * lin...", and green "Version 1.0".
  */
 @RemoteComposable
 @Composable
@@ -538,9 +555,9 @@ fun TextSample1() {
 }
 
 /**
- * Black background with white "Wear Widget" header. A central dark green rectangle contains white
- * text: "TextSampl" wrapped to "e1" on the second line. Below, smaller text "This is a long" is
- * partially clipped by the rectangle's bottom edge.
+ * UI screenshot with a black background. At the top, an Android icon above "Wear Widget" text.
+ * Below, a dark green rounded rectangular widget with a gray border. Inside, three lines of white
+ * text: "TextSample", "1", and "This is a long text".
  */
 @RemoteComposable
 @Composable
@@ -580,9 +597,10 @@ fun TextSample1WithMargin() {
 }
 
 /**
- * "Wear Widget" header in white text centered at the top. Below, three horizontal rectangles: red
- * with white "Red", green with black "Green", and blue with white "Blue". All elements centered on
- * a black background with large margins.
+ * A screen features an Android robot head logo and "Wear Widget" text at the top. Below, a dark
+ * gray bordered rectangle serves as a widget frame. Inside, three horizontal buttons are
+ * displayed: a red button with "Red" text, a green button with "Green" text, and a blue button
+ * with "Blue" text. All button text is white.
  */
 @RemoteComposable
 @Composable
@@ -611,13 +629,9 @@ fun RowSample1() {
 }
 
 /**
- * White title "Wear Widget" centered at the top on a black background. Below, a gray rectangle
- * contains three horizontal labels: "Item 1" in white, "Item 2" in yellow, and "Item 3" in light
- * gray, centered with wide margins.
- *
- * WORKAROUND: Replaced RemoteCollapsibleRow with RemoteRow due to an "Invalid enum value:
- * Orientation" error when rendering the RemoteCollapsibleRow. It seems the RemoteCollapsibleRow's
- * orientation parameter was not being correctly handled by the renderer.
+ * A screen displaying "Wear Widget" text, topped by an Android icon. Below, a dark gray rounded
+ * rectangular widget displays "Item 1" (light gray), "Item 2" (yellow, centered), and "Item 3"
+ * (light gray). Item 2 is visually prominent, indicating selection.
  */
 @RemoteComposable
 @Composable
@@ -643,7 +657,11 @@ fun RowSample2() {
     }
 }
 
-/** Displays a collapsible column. Items with lower priority may be hidden if space is limited. */
+/**
+ * Android logo above "Wear Widget" text. Below, a rounded rectangular container displays
+ * centered, vertically stacked text: "Top (High)" in red, "Middle (Low)" in green, and "Bottom
+ * (High)" in blue.
+ */
 @RemoteComposable
 @Composable
 fun CollapsibleColumnSample1() {
@@ -673,38 +691,42 @@ fun CollapsibleColumnSample1() {
 }
 
 /**
- * White text "Wear Widget" is at the top of a black background. A light lavender rounded button is
- * centered below, containing dark purple text "Simple Button." The layout is minimalist with wide
- * margins and a centered composition.
+ * A dark screen shows an Android logo above "Wear Widget" text. Below, a large dark gray rounded
+ * rectangular card contains a smaller, centered light purple rounded button labeled "Simple
+ * Button".
  */
 @RemoteComposable
 @Composable
 fun ButtonSample1() {
+    val dummy = rememberRemoteIntValue { 0 }
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
-        RemoteButton(modifier = RemoteModifier.buttonSizeModifier()) {
+        RemoteButton(onClick = ValueChange(dummy, 0.ri), modifier = RemoteModifier.buttonSizeModifier()) {
             MaterialRemoteText("Simple Button".rs)
         }
     }
 }
 
 /**
- * A UI titled "Wear Widget" in white on a black background. Centered is a light purple rounded
- * button featuring a dark purple Android tag icon and the two-line text "Button with Icon" in dark
- * purple.
+ * UI screenshot on a black background. Top center features a light grey circular Android robot
+ * icon. Below it, white text "Wear Widget". A dark grey rounded rectangular container holds a
+ * light purple rounded button with a dark grey Android chip-like icon and the text "Button with
+ * Icon".
  */
 @RemoteComposable
 @Composable
 fun ButtonSample2() {
+    val dummy = rememberRemoteIntValue { 0 }
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
         RemoteButton(
+            onClick = ValueChange(dummy, 0.ri),
             modifier = RemoteModifier.buttonSizeModifier(),
             icon = {
                 RemoteIcon(
@@ -727,12 +749,14 @@ fun ButtonSample2() {
 @RemoteComposable
 @Composable
 fun ButtonSample3() {
+    val dummy = rememberRemoteIntValue { 0 }
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
         RemoteButton(
+            onClick = ValueChange(dummy, 0.ri),
             modifier = RemoteModifier.buttonSizeModifier(),
             secondaryLabel = { MaterialRemoteText("Secondary Label".rs) },
             label = { MaterialRemoteText("Primary Label".rs) },
@@ -741,19 +765,21 @@ fun ButtonSample3() {
 }
 
 /**
- * A UI screenshot on a black background. At the top, white text reads "Wear Widget." Centered below
- * is a large, bright red rounded button with bold yellow text that reads "Custom Colors." Simple
- * layout with generous margins.
+ * Black background. Top: Android icon above "Wear Widget" text. Below, a large gray rounded
+ * rectangle contains a smaller, centered red rounded rectangle button with yellow text "Custom
+ * Colors".
  */
 @RemoteComposable
 @Composable
 fun ButtonSample4() {
+    val dummy = rememberRemoteIntValue { 0 }
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
         RemoteButton(
+            onClick = ValueChange(dummy, 0.ri),
             modifier = RemoteModifier.buttonSizeModifier(),
             colors =
                 RemoteButtonColors(
@@ -779,25 +805,27 @@ fun ButtonSample4() {
 @RemoteComposable
 @Composable
 fun ButtonSample6() {
+    val dummy = rememberRemoteIntValue { 0 }
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
-        RemoteButton(modifier = RemoteModifier.buttonSizeModifier(), enabled = false.rb) {
+        RemoteButton(onClick = ValueChange(dummy, 0.ri), modifier = RemoteModifier.buttonSizeModifier(), enabled = false.rb) {
             MaterialRemoteText("Disabled Button".rs)
         }
     }
 }
 
 /**
- * Black UI featuring "Wear Widget" in white text at the top. Two side-by-side, light lavender
- * pill-shaped buttons are centered below, labeled "Yes" and "No" in dark purple text. Symmetrical
- * layout with substantial black margins around the elements.
+ * A dark UI displays an Android logo, text "Wear Widget," and a rounded dark gray card. Inside the
+ * card are two horizontal, light gray, pill-shaped buttons: "Yes" on the left and "No" on the
+ * right.
  */
 @RemoteComposable
 @Composable
 fun ButtonSample7() {
+    val dummy = rememberRemoteIntValue { 0 }
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
@@ -808,9 +836,9 @@ fun ButtonSample7() {
             horizontalArrangement = RemoteArrangement.CenterHorizontally,
             verticalAlignment = RemoteAlignment.CenterVertically,
         ) {
-            RemoteButton(modifier = RemoteModifier.weight(1f)) { MaterialRemoteText("Yes".rs) }
+            RemoteButton(onClick = ValueChange(dummy, 0.ri), modifier = RemoteModifier.weight(1f)) { MaterialRemoteText("Yes".rs) }
             RemoteBox(RemoteModifier.size(4.rdp)) // Spacing
-            RemoteButton(modifier = RemoteModifier.weight(1f)) { MaterialRemoteText("No".rs) }
+            RemoteButton(onClick = ValueChange(dummy, 0.ri), modifier = RemoteModifier.weight(1f)) { MaterialRemoteText("No".rs) }
         }
     }
 }
@@ -823,6 +851,7 @@ fun ButtonSample7() {
 @RemoteComposable
 @Composable
 fun ButtonSample8() {
+    val dummy = rememberRemoteIntValue { 0 }
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
@@ -830,12 +859,14 @@ fun ButtonSample8() {
     ) {
         RemoteButtonGroup {
             RemoteButton(
+                onClick = ValueChange(dummy, 0.ri),
                 modifier = RemoteModifier.weight(1f),
                 label = { MaterialRemoteText("Yes".rs) },
                 secondaryLabel = { MaterialRemoteText("Confirm".rs) },
             )
             RemoteBox(RemoteModifier.size(RemoteButtonGroupDefaults.Spacing))
             RemoteButton(
+                onClick = ValueChange(dummy, 0.ri),
                 modifier = RemoteModifier.weight(1f),
                 label = { MaterialRemoteText("No".rs) },
                 secondaryLabel = { MaterialRemoteText("Cancel".rs) },
@@ -845,9 +876,9 @@ fun ButtonSample8() {
 }
 
 /**
- * "Wear Widget" interface featuring four rounded buttons: top-left (blue, yellow wrapped "Toggle"),
- * top-right (magenta, white "Shape"), bottom-left (dark gray, white wrapped "Click Me"), and
- * bottom-right (green, black "Fixed"). Black background.
+ * UI with Android logo, 'Wear Widget' title, and a 2x2 grid of rounded buttons on a black
+ * background. Buttons: top-left blue 'Toggle' (yellow text), top-right magenta 'Shape' (white
+ * text), bottom-left dark gray 'Click Me' (white text), bottom-right green 'Fixed' (white text).
  */
 @RemoteComposable
 @Composable
@@ -885,7 +916,7 @@ fun ButtonSample9() {
                 RemoteButton(
                     modifier =
                         RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
-                    onClick = arrayOf(ValueChange(state, state xor 1.ri)),
+                    onClick = ValueChange(state, state xor 1.ri),
                     colors =
                         RemoteButtonColors(
                             containerColor = containerColor,
@@ -903,6 +934,7 @@ fun ButtonSample9() {
                 RemoteBox(RemoteModifier.size(4.rdp))
                 // Button 2: Shape Shifter
                 RemoteButton(
+                    onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
                     modifier =
                         RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
                     shape = dynamicShape,
@@ -931,6 +963,7 @@ fun ButtonSample9() {
             ) {
                 // Button 3: Text Change
                 RemoteButton(
+                    onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
                     modifier =
                         RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
                     colors =
@@ -950,6 +983,7 @@ fun ButtonSample9() {
                 RemoteBox(RemoteModifier.size(4.rdp))
                 // Button 4: Static
                 RemoteButton(
+                    onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
                     modifier = RemoteModifier.weight(1f).fillMaxSize(),
                     colors =
                         RemoteButtonColors(
@@ -971,8 +1005,9 @@ fun ButtonSample9() {
 }
 
 /**
- * "Wear Widget" header on black background. Three stylized Android mascot icons arranged
- * horizontally, increasing in size from left to right: small red, medium green, and large blue.
+ * Screenshot shows an Android Wear Widget. Top center: Android logo icon. Below, white text 'Wear
+ * Widget'. Inside a rounded rectangle frame on black, three tilted Android robot heads: small
+ * red, medium green, and large blue, increasing in size left to right.
  */
 @RemoteComposable
 @Composable
@@ -1011,8 +1046,9 @@ fun IconSample1() {
 }
 
 /**
- * 2x2 Grid layout on black background. Top-left: Red box with "1". Top-right: Blue box with "2".
- * Bottom-left: Green box with "3". Bottom-right: Yellow box with "4".
+ * Screenshot showing a "Wear Widget" title and Android Wear OS icon above a gray-bordered frame.
+ * Inside the frame is a 2x2 grid of colored blocks: top-left red with "1", top-right blue with
+ * "2", bottom-left green with "3", and bottom-right yellow with "4".
  */
 @RemoteComposable
 @Composable
@@ -1063,20 +1099,22 @@ fun GridSample1() {
 }
 
 /**
- * A dark screen displays "Wear Widget" in white at the top. Below, a rounded dark gray card
- * contains a cyan Android-style icon on the left. To its right, white text reads "Card Title"
- * followed by "Subtitle goes here" on two lines. The layout features generous margins within the
- * card.
+ * A dark screen shows a light gray circular icon with an Android head, then white text "Wear
+ * Widget". Below, a dark gray rounded rectangle card features a tilted cyan Android icon on the
+ * left and stacked white text "Card Title", "Subtitle", "goes here" on the right. Small black
+ * triangles highlight each of the card's four corners.
  */
 @RemoteComposable
 @Composable
 fun CardSample1() {
+    val dummy = rememberRemoteIntValue { 0 }
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(Color.Black),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
         RemoteButton(
+            onClick = ValueChange(dummy, 0.ri),
             modifier = RemoteModifier.fillMaxSize().padding(10.dp),
             enabled = false.rb, // act as container
             colors =
@@ -1110,10 +1148,10 @@ fun CardSample1() {
 }
 
 /**
- * A UI mockup on a black background. At the top, white text reads "Wear Widget." Below, a
- * horizontal counter features a central white "0" on a red rectangular background, flanked by light
- * purple rounded square buttons containing a dark purple minus sign on the left and a plus sign on
- * the right.
+ * A black screen shows an Android icon and "Wear Widget" text at the top. Below, a dark gray
+ * rounded rectangle contains a horizontal row of UI elements: a light gray oval button with a
+ * minus sign, a red rectangular box displaying "0" in white text, and a light gray oval button
+ * with a plus sign.
  */
 @RemoteComposable
 @Composable
@@ -1129,7 +1167,7 @@ fun CounterSample1() {
             horizontalArrangement = RemoteArrangement.CenterHorizontally,
         ) {
             RemoteButton(
-                onClick = arrayOf(ValueChange(count, count - 1.ri)),
+                onClick = ValueChange(count, count - 1.ri),
                 modifier = RemoteModifier.size(40.rdp),
             ) {
                 MaterialRemoteText("-".rs)
@@ -1147,7 +1185,7 @@ fun CounterSample1() {
 
             RemoteBox(RemoteModifier.size(10.rdp))
             RemoteButton(
-                onClick = arrayOf(ValueChange(count, count + 1.ri)),
+                onClick = ValueChange(count, count + 1.ri),
                 modifier = RemoteModifier.size(40.rdp),
             ) {
                 MaterialRemoteText("+".rs)
@@ -1157,9 +1195,9 @@ fun CounterSample1() {
 }
 
 /**
- * A dark screen with "Wear Widget" text under a green Android logo icon. Below the text, there is a
- * grid of color tiles arranged in rows. These tiles include various shades of red, purple, blue,
- * brown, grey, and white. There are two black tiles in the bottom row.
+ * Android robot logo above 'Wear Widget' text. Below is a rounded rectangular widget with a 5x4
+ * grid of color swatches: shades of red, blue-grey, purple, and a bottom row of dark grey, medium
+ * grey, light grey, black, and white.
  */
 @RemoteComposable
 @Composable
@@ -1226,8 +1264,8 @@ private fun RemoteRowScope.RemoteColorBox(color: RemoteColor) {
 }
 
 /**
- * In a black UI, the Android logo and the text “Wear Widget” appear at the top. Below, a large red
- * circle is centered above a horizontal blue rectangle.
+ * Android icon and text "Wear Widget" above a dark gray framed rectangle. Inside the frame, a red
+ * circle is centered at the top and a blue rectangle is centered at the bottom.
  */
 @RemoteComposable
 @Composable
@@ -1261,9 +1299,9 @@ fun CanvasSample1() {
 }
 
 /**
- * A screenshot against a black background. At the top, a circular light-green icon with a
- * dark-green Android logo sits above the white text "Wear Widget." Centered below, a large
- * dark-grey rectangle features a bright yellow equilateral triangle in its middle.
+ * A dark screen shows a white circle with a grey Android robot icon at the top center. Below it,
+ * white text reads "Wear Widget." Centered below the text is a large, dark grey rounded rectangle
+ * containing a bright yellow equilateral triangle.
  */
 @RemoteComposable
 @Composable
@@ -1295,11 +1333,6 @@ fun CanvasSample2() {
     }
 }
 
-/**
- * In a vertical layout on a black background, a small Android icon sits above the white text "Wear
- * Widget." Below, a large rectangular box with a red-to-blue linear gradient contains the white
- * text "Gradient Background" centered inside.
- */
 @RemoteComposable
 @Composable
 fun GradientBackgroundSample() {
@@ -1319,8 +1352,9 @@ fun GradientBackgroundSample() {
 }
 
 /**
- * A sample demonstrating how to launch an Activity using a PendingIntent. Displays a button that
- * opens the main activity of the app when clicked.
+ * A Wear OS widget design features an Android robot logo above "Wear Widget" text. Below, a dark
+ * gray rounded rectangle container, representing the widget, frames a central light purple-blue
+ * rounded button with "Open App" in dark text, all on a black background.
  */
 @RemoteComposable
 @Composable
@@ -1343,14 +1377,18 @@ fun PendingIntentSample() {
     ) {
         RemoteButton(
             modifier = RemoteModifier.buttonSizeModifier(),
-            onClick = arrayOf(pendingIntentAction(pendingIntent)),
+            onClick = pendingIntentAction(pendingIntent),
         ) {
             MaterialRemoteText("Open App".rs)
         }
     }
 }
 
-/** A sample demonstrating vertical scrolling. */
+/**
+ * A UI displays an Android logo and "Wear Widget" title. Below, a dark grey rounded widget shows
+ * a vertical list of white text: "Header", "Item 0", "Item 1", "Item 2", "Item 3", with "Item 4"
+ * partially visible, indicating scrollable content.
+ */
 @RemoteComposable
 @Composable
 fun VerticalScrollSample() {
@@ -1377,9 +1415,9 @@ fun VerticalScrollSample() {
 }
 
 /**
- * A sample demonstrating a workaround for mixed text styles. Since RemoteText applies styles to the
- * entire string, we use a RemoteRow to compose multiple RemoteText components with different styles
- * side-by-side.
+ * A screen features an Android icon and "Wear Widget" text at the top. Below, a white rectangular
+ * card with rounded corners displays "Mixed Styles". The word "Mixed" is red and bold, while
+ * "Styles" is blue and italic.
  */
 @RemoteComposable
 @Composable
@@ -1440,15 +1478,9 @@ fun ConditionalRadiusSample() {
 }
 
 /**
- * A sample demonstrating how to achieve semantic styles using manual property application. Since
- * the system typography is currently opaque and we want to avoid extra dependencies, we define our
- * own app-level styles and apply them explicitly to RemoteText.
- */
-/**
- * A black screen displays a circular Android icon at the top, followed by "Wear Widget" in white
- * text. Below, "Title Style" is prominent in large, cyan text. Next, "Default Body Style" appears
- * in white, and finally, "Caption Style" in smaller, italicized white text, all vertically stacked
- * and centered.
+ * A Wear OS widget display with an Android robot icon and "Wear Widget" text at the top. Below, a
+ * rounded black rectangle contains three lines of text: "Title Style" in large cyan, "Default
+ * Body Style" in white, and "Caption Style" in white italics.
  */
 @RemoteComposable
 @Composable

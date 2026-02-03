@@ -19,6 +19,9 @@ import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.state.RemoteBitmap
 import androidx.compose.remote.creation.compose.state.rdp
+import androidx.compose.remote.creation.compose.action.ValueChange
+import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
+import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.runtime.Composable
@@ -55,7 +58,7 @@ fun FullBleedImageButtonSample() {
                 modifier = RemoteModifier
                     .size(60.rdp)
                     .clip(RoundedCornerShape(percent = 50)) // Circle
-                    .clickable(actions = arrayOf()), // Add click action if needed, currently empty
+                    .clickable(ValueChange(rememberRemoteIntValue { 0 }, 0.ri)), // Add click action if needed, currently empty
                 horizontalAlignment = RemoteAlignment.CenterHorizontally,
                 verticalArrangement = RemoteArrangement.Center
             ) {
