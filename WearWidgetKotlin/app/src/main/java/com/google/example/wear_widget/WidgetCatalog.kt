@@ -472,6 +472,12 @@ fun BoxSample1() {
     }
 }
 
+/**
+ * Android logo and "Wear Widget" text. A dark grey rounded rectangle widget displays white text
+ * "Box Sample 2 (Border & Padding)", centered and surrounded by a distinct red rectangular
+ * border. The text is visibly padded from the red border, which itself is padded from the grey
+ * widget's edges.
+ */
 @RemoteComposable
 @Composable
 fun BoxSample2() {
@@ -799,8 +805,9 @@ fun ButtonSample4() {
 }
 
 /**
- * Black UI screen featuring white text at the top reading "Wear Widget". In the center, a dark gray
- * rounded rectangular button displays the text "Disabled Button" in a light gray, muted font.
+ * A screen with a black background shows an Android robot icon in a white circle at the top, above
+ * the white text "Wear Widget". Below this is a large dark grey rounded rectangle containing a
+ * smaller, lighter grey rounded button with the grey text "Disabled Button".
  */
 @RemoteComposable
 @Composable
@@ -1333,6 +1340,11 @@ fun CanvasSample2() {
     }
 }
 
+/**
+ * Android icon and "Wear Widget" text at the top. Below, a dark-grey-bordered rectangle with
+ * rounded corners contains a red (top-left) to blue (bottom-right) gradient background. White text
+ * "Gradient Background" is centered within the rectangle.
+ */
 @RemoteComposable
 @Composable
 fun GradientBackgroundSample() {

@@ -29,6 +29,11 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
 
+/**
+ * An Android Wear logo and "Wear Widget" text are centered above a rounded rectangular widget. The
+ * widget displays a background of a field with white daisies, overlaid by a circular profile
+ * picture of a woman with curly brown hair and sunglasses, set against a yellow circle.
+ */
 @RemoteComposable
 @Composable
 fun FullBleedImageButtonSample() {

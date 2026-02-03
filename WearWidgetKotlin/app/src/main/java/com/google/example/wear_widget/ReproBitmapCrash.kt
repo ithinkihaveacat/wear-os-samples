@@ -15,6 +15,11 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
 
+/**
+ * A central Android robot icon appears above the white text "Wear Widget". Below this, a rounded
+ * rectangular image displays a soft-focus field of daisies and dry grass under warm light. The
+ * entire composition is set against a black background.
+ */
 @RemoteComposable
 @Composable
 fun ReproBitmapCanvas() {
