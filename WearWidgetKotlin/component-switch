@@ -77,16 +77,30 @@ init_tile() {
     echo "Initializing ComponentCatalog tile..."
     adb shell am force-stop "$PACKAGE"
     sleep 0.5
-    adb shell am broadcast \
+    OUTPUT=$(adb shell am broadcast \
         -a com.google.android.wearable.app.DEBUG_SURFACE \
         --es operation add-tile \
-        --ecn component "$COMPONENT" > /dev/null
-    sleep 0.5
-    adb shell am broadcast \
-        -a com.google.android.wearable.app.DEBUG_SYSUI \
-        --es operation show-tile \
-        --ei index 0 > /dev/null
-    echo "Tile initialized. Wait 2-3 seconds for render."
+        --ecn component "$COMPONENT")
+
+    # Extract Index (e.g., from Index=[0])
+    INDEX=$(echo "$OUTPUT" | grep -o 'Index=\[[0-9]*\]' | sed 's/Index=\[\([0-9]*\)\]/\1/')
+
+    if [ -n "$INDEX" ]; then
+        sleep 0.5
+        adb shell am broadcast \
+            -a com.google.android.wearable.app.DEBUG_SYSUI \
+            --es operation show-tile \
+            --ei index "$INDEX" > /dev/null
+        echo "Tile initialized (Index: $INDEX). Wait 2-3 seconds for render."
+    else
+        echo "Warning: Could not determine tile index. Trying index 0."
+        sleep 0.5
+        adb shell am broadcast \
+            -a com.google.android.wearable.app.DEBUG_SYSUI \
+            --es operation show-tile \
+            --ei index 0 > /dev/null
+        echo "Tile initialized. Wait 2-3 seconds for render."
+    fi
     exit 0
 }
 
@@ -123,11 +137,6 @@ adb shell am broadcast \
     -n "$PACKAGE/$RECEIVER" \
     -a "$PACKAGE.SET_COMPONENT" \
     --es layout "$LAYOUT" > /dev/null
-
-adb shell am broadcast \
-    -a com.google.android.wearable.app.DEBUG_SYSUI \
-    --es operation show-tile \
-    --ei index 0 > /dev/null
 
 sleep "$WAIT"
 
