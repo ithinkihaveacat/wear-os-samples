@@ -7,6 +7,14 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.wear.compose.remote.material3.RemoteImage
+import androidx.compose.remote.creation.compose.modifier.clip
+import androidx.compose.remote.creation.compose.modifier.clickable
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.imageResource
+import androidx.compose.remote.creation.compose.state.RemoteBitmap
 import androidx.compose.remote.core.operations.TextFromFloat
 import androidx.compose.remote.creation.compose.action.ValueChange
 import androidx.compose.remote.creation.compose.action.pendingIntentAction
@@ -126,7 +134,7 @@ class WidgetCatalog : GlanceWearWidget() {
                 "AnchoredTextSample" -> AnchoredTextSample()
                 "RotatedTextSample" -> RotatedTextSample()
                 "FullBleedImageButtonSample" -> FullBleedImageButtonSample()
-                "ReproBitmapCanvas" -> ReproBitmapCanvas()
+                "BitmapCanvasSample" -> BitmapCanvasSample()
                 else -> SemanticStyleWorkaroundSample()
             }
         }
@@ -1528,6 +1536,77 @@ fun TypographyScaleSample() {
                 // 3. Caption style applied via 'style' parameter
                 MaterialRemoteText(text = "Caption Style".rs, style = myCaptionStyle)
             }
+        }
+    }
+}
+
+/**
+ * An Android Wear logo and "Wear Widget" text are centered above a rounded rectangular widget. The
+ * widget displays a background of a field with white daisies, overlaid by a circular profile
+ * picture of a woman with curly brown hair and sunglasses, set against a yellow circle.
+ */
+@RemoteComposable
+@Composable
+fun FullBleedImageButtonSample() {
+    val backgroundBitmap = ImageBitmap.imageResource(id = R.drawable.photo_14).rb
+
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize()
+    ) {
+        // Background (Full Bleed Image) using RemoteCanvas to avoid RemoteImage conflict
+        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+             drawScaledBitmap(
+                 image = backgroundBitmap,
+                 dstSize = RemoteSize(remote.component.width, remote.component.height),
+                 scaleType = ContentScale.Crop,
+                 contentDescription = "Background"
+             )
+        }
+
+        // Overlay with Floating Image Button
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center
+        ) {
+            // The floating Image Button (using imageButton pattern but made clickable)
+            RemoteBox(
+                modifier = RemoteModifier
+                    .size(60.rdp)
+                    .clip(RoundedCornerShape(percent = 50)) // Circle
+                    .clickable(ValueChange(rememberRemoteIntValue { 0 }, 0.ri)), // Add click action if needed, currently empty
+                horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                verticalArrangement = RemoteArrangement.Center
+            ) {
+                 RemoteImage(
+                    bitmap = ImageBitmap.imageResource(id = R.drawable.ali),
+                    contentDescription = "Avatar".rs,
+                    contentScale = ContentScale.Crop,
+                    modifier = RemoteModifier.fillMaxSize()
+                )
+            }
+        }
+    }
+}
+
+/**
+ * A central Android robot icon appears above the white text "Wear Widget". Below this, a rounded
+ * rectangular image displays a soft-focus field of daisies and dry grass under warm light. The
+ * entire composition is set against a black background.
+ */
+@RemoteComposable
+@Composable
+fun BitmapCanvasSample() {
+    val backgroundBitmap = ImageBitmap.imageResource(id = R.drawable.photo_14).rb
+    
+    RemoteBox(modifier = RemoteModifier.fillMaxSize()) {
+        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+             drawScaledBitmap(
+                 image = backgroundBitmap,
+                 dstSize = RemoteSize(remote.component.width, remote.component.height),
+                 scaleType = ContentScale.Crop,
+                 contentDescription = "Background"
+             )
         }
     }
 }
