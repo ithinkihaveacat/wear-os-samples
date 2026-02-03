@@ -748,9 +748,9 @@ fun ButtonSample2() {
 }
 
 /**
- * Black interface with white 'Wear Widget' text at the top. Centered is a light purple rounded
- * button featuring 'Primary Label' in bold dark purple and 'Secondary Label' in regular purple,
- * stacked vertically.
+ * A Wear OS widget example on a black background. Centered text "Wear Widget" appears above a large
+ * dark grey rounded rectangle. Inside, a smaller, light purple-grey rounded rectangle is centered,
+ * displaying "Primary Label" (dark grey, bold) stacked above "Secondary Label" (light grey).
  */
 @RemoteComposable
 @Composable
@@ -851,9 +851,9 @@ fun ButtonSample7() {
 }
 
 /**
- * "Wear Widget" white title on black. Below are two side-by-side light purple rounded buttons with
- * dark purple text. Left button: "Yes" above "Confir". Right button: "No" above "Cancel". Centered
- * layout.
+ * Android logo above "Wear Widget" title. Below, a dark gray rounded dialog box contains two light
+ * purple, rounded buttons side-by-side. The left button says "Yes Confirm", and the right says "No
+ * Cancel".
  */
 @RemoteComposable
 @Composable
