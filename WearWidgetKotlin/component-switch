@@ -18,8 +18,7 @@
 #
 # Notes:
 #   - Requires ANDROID_SERIAL to be set or a single device connected
-#   - Total time is typically ~1.5-2 seconds
-#   - The widget tile must be added first (use --init for first-time setup)
+#   - Total time is fast (uses debug commands to bypass throttle)
 
 set -euo pipefail
 
@@ -31,17 +30,15 @@ COMPONENT="$PACKAGE/$SERVICE"
 usage() {
     cat <<EOF
 Usage: $(basename "$0") LAYOUT [WAIT_SECONDS]
-       $(basename "$0") --init
        $(basename "$0") --list
 
 Switch ComponentCatalog widget layouts reliably via ADB.
 
 Arguments:
   LAYOUT         Layout name to switch to
-  WAIT_SECONDS   Render wait time in seconds (default: 1.5)
+  WAIT_SECONDS   Render wait time in seconds (ignored, kept for compatibility)
 
 Options:
-  --init         First-time setup: force-stop and add tile
   --list         List available layouts
 
 Available layouts:
@@ -50,7 +47,6 @@ Available layouts:
   segmentedCircularProgressIndicator, fullBleedImage, animatedBox
 
 Examples:
-  $(basename "$0") --init          # First-time setup
   $(basename "$0") textButton      # Switch to textButton layout
   $(basename "$0") appCard 2       # Switch with 2s render wait
 EOF
@@ -73,36 +69,7 @@ list_layouts() {
     exit 0
 }
 
-init_tile() {
-    echo "Initializing ComponentCatalog tile..."
-    adb shell am force-stop "$PACKAGE"
-    sleep 0.5
-    OUTPUT=$(adb shell am broadcast \
-        -a com.google.android.wearable.app.DEBUG_SURFACE \
-        --es operation add-tile \
-        --ecn component "$COMPONENT")
-
-    # Extract Index (e.g., from Index=[0])
-    INDEX=$(echo "$OUTPUT" | grep -o 'Index=\[[0-9]*\]' | sed 's/Index=\[\([0-9]*\)\]/\1/')
-
-    if [ -n "$INDEX" ]; then
-        sleep 0.5
-        adb shell am broadcast \
-            -a com.google.android.wearable.app.DEBUG_SYSUI \
-            --es operation show-tile \
-            --ei index "$INDEX" > /dev/null
-        echo "Tile initialized (Index: $INDEX). Wait 2-3 seconds for render."
-    else
-        echo "Warning: Could not determine tile index. Trying index 0."
-        sleep 0.5
-        adb shell am broadcast \
-            -a com.google.android.wearable.app.DEBUG_SYSUI \
-            --es operation show-tile \
-            --ei index 0 > /dev/null
-        echo "Tile initialized. Wait 2-3 seconds for render."
-    fi
-    exit 0
-}
+require() { hash "$@" || exit 127; }
 
 if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
     usage
@@ -112,18 +79,25 @@ if [[ "${1:-}" == "--list" ]]; then
     list_layouts
 fi
 
-if [[ "${1:-}" == "--init" ]]; then
-    init_tile
-fi
-
 if [[ $# -lt 1 ]]; then
     echo "$(basename "$0"): layout name required" >&2
     echo "Try '$(basename "$0") --help' for usage" >&2
     exit 1
 fi
 
+require adb
+
+# Check device availability
+if ! adb get-state >/dev/null 2>&1; then
+  if [[ -n "${ANDROID_SERIAL:-}" ]]; then
+    echo "$(basename "$0"): device '$ANDROID_SERIAL' not available" >&2
+  else
+    echo "$(basename "$0"): no device connected" >&2
+  fi
+  exit 1
+fi
+
 LAYOUT="$1"
-WAIT="${2:-1.5}"
 
 # Validate layout name
 VALID_LAYOUTS="textButton iconButton avatarButton imageButton compactButton titleCard appCard textDataCard iconDataCard graphicDataCard circularProgressIndicator segmentedCircularProgressIndicator fullBleedImage animatedBox"
@@ -133,62 +107,66 @@ if ! echo "$VALID_LAYOUTS" | grep -qw "$LAYOUT"; then
     exit 1
 fi
 
+echo "Switching to layout: $LAYOUT..."
+
+# 1. Start Logcat monitoring
+# We monitor for "State saved" which confirms the DataStore has been updated.
+LOG_FILE=$(mktemp)
+# Note: Log tag for ComponentCatalogReceiver is "ComponentCatalogRcvr"
+adb logcat -s ComponentCatalogRcvr:D -v time > "$LOG_FILE" &
+LOG_PID=$!
+trap 'kill "$LOG_PID" 2>/dev/null || true; rm -f "$LOG_FILE"' EXIT
+sleep 0.5
+
+# 2. Send SET_COMPONENT broadcast
 adb shell am broadcast \
     -n "$PACKAGE/$RECEIVER" \
     -a "$PACKAGE.SET_COMPONENT" \
     --es layout "$LAYOUT" > /dev/null
 
-echo "Switching to layout: $LAYOUT..."
-
-# Generate a unique marker to synchronize logs
-MARKER="SWITCH_START_$(date +%s)"
-LOG_FILE=$(mktemp)
-
-# Start monitoring logcat in background
-# We capture both our marker and the app's output (ComponentCatalog)
-adb logcat -s WidgetSwitchMarker:I ComponentCatalog:D -v time > "$LOG_FILE" &
-LOG_PID=$!
-
-# Ensure cleanup on exit
-trap 'kill "$LOG_PID" 2>/dev/null || true; rm -f "$LOG_FILE"' EXIT
-
-# Wait a moment for logcat to connect
-sleep 0.5
-
-# Emit the start marker log
-adb shell log -t WidgetSwitchMarker "$MARKER"
-
-echo "Waiting for widget update (monitoring logs)..."
-
-TIMEOUT=30
+# 3. Wait for "State saved" confirmation
+# We need to ensure the data store is updated before we ask for the tile
+# otherwise we might get the old layout.
+echo "Waiting for state save..."
+TIMEOUT=10
 START_TIME=$(date +%s)
+STATE_SAVED=false
 
 while true; do
-    if [ -f "$LOG_FILE" ]; then
-        # Read the log file
-        CONTENT=$(cat "$LOG_FILE")
-
-        # Check if our marker has appeared
-        if [[ "$CONTENT" == *"$MARKER"* ]]; then
-            # Check for the specific success message appearing AFTER the marker
-            # This handles the case where the same layout is re-applied
-            AFTER_MARKER=${CONTENT#*"$MARKER"}
-            
-            if [[ "$AFTER_MARKER" == *"provideWidgetData: layoutName='$LAYOUT'"* ]]; then
-                echo "Success: Widget updated to '$LAYOUT'."
-                break
-            fi
-        fi
+    if grep -q "State saved" "$LOG_FILE"; then
+        STATE_SAVED=true
+        break
     fi
-
     CURRENT_TIME=$(date +%s)
-    ELAPSED=$((CURRENT_TIME - START_TIME))
-
-    if [ "$ELAPSED" -ge "$TIMEOUT" ]; then
-        echo "Error: Timeout waiting for widget update (30s)." >&2
-        echo "Possible reasons: App crashed, system slow, or log missed." >&2
-        exit 1
+    if [ $((CURRENT_TIME - START_TIME)) -ge $TIMEOUT ]; then
+        break
     fi
-
-    sleep 0.5
+    sleep 0.1
 done
+
+if [ "$STATE_SAVED" = false ]; then
+    echo "Error: Timeout waiting for 'State saved' log." >&2
+    exit 1
+fi
+
+# 4. Refresh Tile using DEBUG_SURFACE
+# This debug command bypasses standard throttling.
+OUTPUT=$(adb shell am broadcast \
+    -a com.google.android.wearable.app.DEBUG_SURFACE \
+    --es operation add-tile \
+    --ecn component "$COMPONENT")
+
+# Extract Index
+INDEX=$(echo "$OUTPUT" | grep -o 'Index=\[[0-9]*\]' | sed 's/Index=\[\([0-9]*\)\]/\1/')
+
+if [ -n "$INDEX" ]; then
+    adb shell am broadcast \
+        -a com.google.android.wearable.app.DEBUG_SYSUI \
+        --es operation show-tile \
+        --ei index "$INDEX" > /dev/null
+    echo "Success: Widget updated to '$LAYOUT'."
+else
+    echo "Error: Failed to refresh tile." >&2
+    echo "Output: $OUTPUT"
+    exit 1
+fi
