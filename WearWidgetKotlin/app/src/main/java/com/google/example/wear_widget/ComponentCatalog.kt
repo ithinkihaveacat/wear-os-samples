@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
 import android.util.Log
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.remote.creation.compose.action.ValueChange
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
@@ -37,6 +38,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.glance.wear.GlanceWearWidget
 import androidx.glance.wear.GlanceWearWidgetService
@@ -86,6 +88,11 @@ class ComponentCatalog : GlanceWearWidget() {
 
 // ... existing samples ...
 
+/**
+ * A black screen displays a light grey circular icon with a dark grey Android robot head at the top
+ * center. Below it, centered, is white text "Component Catalog". A vibrant blue square is centered
+ * further down, occupying the mid-lower portion of the screen.
+ */
 @RemoteComposable
 @Composable
 fun ComponentCatalogAnimatedBoxSample() {
@@ -117,6 +124,11 @@ fun ComponentCatalogAnimatedBoxSample() {
     }
 }
 
+/**
+ * A dark-themed screen displaying an Android robot icon at the top. Below it, white text reads
+ * "Component Catalog". Centered further down is a light gray rounded-rectangle button with the text
+ * "Text Button".
+ */
 @RemoteComposable
 @Composable
 fun ComponentCatalogTextButtonSample() {
@@ -125,10 +137,17 @@ fun ComponentCatalogTextButtonSample() {
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement = RemoteArrangement.Center,
     ) {
-        RemoteButton(onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri)) { MaterialRemoteText(text = "Text Button".rs) }
+        RemoteButton(onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri)) {
+            MaterialRemoteText(text = "Text Button".rs)
+        }
     }
 }
 
+/**
+ * Centered on a black background, "Component Catalog" in white text. Above it, a small white
+ * circular icon holds a dark gray Android logo. Below the text, a larger, light purple-gray rounded
+ * rectangular button displays a dark gray Android logo.
+ */
 @RemoteComposable
 @Composable
 fun ComponentCatalogIconButtonSample() {
@@ -148,6 +167,11 @@ fun ComponentCatalogIconButtonSample() {
 }
 
 // TODO (b/474292165): This seems to not work (renders as black screen).
+/**
+ * Black background. Top center: gray Android logo above white text 'Component Catalog'. Below, a
+ * light gray rounded button features a circular avatar of a woman with curly hair and sunglasses,
+ * next to dark gray text 'Avatar Button'.
+ */
 @RemoteComposable
 @Composable
 fun ComponentCatalogAvatarButtonSample() {
@@ -175,6 +199,11 @@ fun ComponentCatalogAvatarButtonSample() {
     }
 }
 
+/**
+ * Black background with a centered Android logo icon at the top. Below it is the white text
+ * "Component Catalog". Further down, a circular image shows a white daisy in a field bathed in
+ * golden light.
+ */
 @RemoteComposable
 @Composable
 fun ComponentCatalogImageButtonSample() {
@@ -186,9 +215,7 @@ fun ComponentCatalogImageButtonSample() {
         // Simulating ImageButton with a box and background image since RemoteButton doesn't support
         // background images directly yet
         RemoteBox(
-            modifier =
-                RemoteModifier.size(60.rdp) // Hardcoded size
-                    .clip(RoundedCornerShape(percent = 50)), // Circle
+            modifier = RemoteModifier.size(60.rdp), // Hardcoded size
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
         ) {
@@ -196,12 +223,17 @@ fun ComponentCatalogImageButtonSample() {
                 bitmap = ImageBitmap.imageResource(id = R.drawable.photo_14),
                 contentDescription = "Background".rs,
                 contentScale = ContentScale.Crop,
-                modifier = RemoteModifier.fillMaxSize(),
+                modifier = RemoteModifier.size(60.rdp).clip(CircleShape, DpSize(60.dp, 60.dp)),
             )
         }
     }
 }
 
+/**
+ * Black screen with white text "Component Catalog" at the top, below an Android logo. A centered
+ * light purple rounded button features a message icon with horizontal lines and the word "Compact"
+ * in dark grey.
+ */
 @RemoteComposable
 @Composable
 fun ComponentCatalogCompactButtonSample() {
@@ -224,6 +256,10 @@ fun ComponentCatalogCompactButtonSample() {
     }
 }
 
+/**
+ * Dark UI: Centered Android logo above 'Component Catalog' text. Below, a lavender rounded card
+ * shows 'Title Card Content' in two lines.
+ */
 @RemoteComposable
 @Composable
 fun ComponentCatalogTitleCardSample() {
@@ -241,6 +277,11 @@ fun ComponentCatalogTitleCardSample() {
     }
 }
 
+/**
+ * Screenshot shows an Android robot icon above "Component Catalog" on a black background. Below, a
+ * light purple chat bubble features a circular profile picture of a woman. Inside, text reads "Ali"
+ * and "2:03 PM", followed by "Dinner in SF" and "Let's try that new restaurant."
+ */
 @RemoteComposable
 @Composable
 fun ComponentCatalogAppCardSample() {
@@ -271,6 +312,11 @@ fun ComponentCatalogAppCardSample() {
     }
 }
 
+/**
+ * Black background UI with an Android icon and "Component Catalog" title. A large circular progress
+ * indicator shows 75% completion in red, with the remaining 25% in dark gray. White text inside the
+ * circle reads "75%" and "Progress".
+ */
 @RemoteComposable
 @Composable
 fun ComponentCatalogCircularProgressIndicatorSample() {
@@ -336,6 +382,11 @@ fun ComponentCatalogCircularProgressIndicatorSample() {
     }
 }
 
+/**
+ * A dark mode screen with an Android logo and "Component Catalog" title. Below, a circular
+ * segmented progress bar shows 3 of 5 segments in red, and 2 in dark gray. Centered within the
+ * circle is white text: "3/5" (bold) and "Segments" (regular).
+ */
 @RemoteComposable
 @Composable
 fun ComponentCatalogSegmentedCircularProgressIndicatorSample() {
@@ -413,6 +464,10 @@ fun ComponentCatalogSegmentedCircularProgressIndicatorSample() {
     }
 }
 
+/**
+ * Dark UI with an Android robot icon above "Component Catalog" text. A dark gray rounded button
+ * below displays "Text Data" in light gray, stacked over "Content" in white.
+ */
 @RemoteComposable
 @Composable
 fun ComponentCatalogTextDataCardSample() {
@@ -443,6 +498,11 @@ fun ComponentCatalogTextDataCardSample() {
     }
 }
 
+/**
+ * A dark screen displays a grey Android logo at the top, followed by white text "Component
+ * Catalog". Below, a rounded grey button features stacked text "Icon Data" (grey) and "Content"
+ * (white), alongside a white message icon with horizontal lines.
+ */
 @RemoteComposable
 @Composable
 fun ComponentCatalogIconDataCardSample() {
@@ -479,6 +539,11 @@ fun ComponentCatalogIconDataCardSample() {
     }
 }
 
+/**
+ * A dark screen with an Android robot icon at the top, followed by the white text "Component
+ * Catalog". Below, a dark gray rounded button features a white running person icon on the left and
+ * stacked white text "Graphic Data Content" on the right.
+ */
 @RemoteComposable
 @Composable
 fun ComponentCatalogGraphicDataCardSample() {
@@ -515,6 +580,12 @@ fun ComponentCatalogGraphicDataCardSample() {
     }
 }
 
+/**
+ * A screen with a black background. At the top, a gray circle contains a dark Android bot icon.
+ * Below, white centered text reads 'Component Catalog.' The lower portion displays a nature photo
+ * of daisies and blurred grass, with white text 'Full Bleed' horizontally and vertically centered
+ * over the image. The photo is framed by significant black margins.
+ */
 @RemoteComposable
 @Composable
 fun ComponentCatalogFullBleedImageSample() {
