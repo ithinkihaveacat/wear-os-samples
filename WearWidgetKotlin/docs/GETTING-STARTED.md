@@ -22,7 +22,7 @@ runs. UI is defined by a "document" that is sent to a system-managed surface
 consistent, the remote architecture introduces nuances because the UI is
 displayed by a separate system player. The specific nuances of this remote
 model, particularly regarding how logic and interactions are handled, are
-detailed in the [Event Handling](#event-handling-actions-vs-lambdas) section.
+detailed in the [Event Handling](#event-handling:-actions-vs.-lambdas) section.
 
 **Choosing Your Implementation Strategy.** To ensure the best user experience
 across all device generations, you must decide how your app will provide content
@@ -345,7 +345,7 @@ next steps:
 - **Master the Core Concepts**: Deep dive into the
   [Technical Guide](#technical-guide) to understand the
   [Remote UI Programming Model](#remote-ui-programming-model) and how to handle
-  interactions using [Declarative Actions](#event-handling-actions-vs-lambdas).
+  interactions using [Declarative Actions](#event-handling:-actions-vs.-lambdas).
 - **Define Your Provider Contract**: Reference the
   [Manifest and XML Reference](#manifest-and-xml-reference) to configure your
   widget's capabilities, such as supported sizes (`SMALL` and `LARGE`), and set
@@ -362,22 +362,22 @@ devices. Because the platform supports a wide range of hardware—from legacy We
 OS 3 devices to modern Galaxy and Pixel Watches—the system's behavior depends on
 the services your app provides
 
-### Dual-Service Implementation (Recommended)
+### Dual-Service Implementation (Recommended) {#dual-service-implementation-(recommended)}
 
 This approach involves maintaining both a native Tile and a Widget. It is the
 recommended path for all apps that have an existing Tile version of the Widget
 that's being added. Providing two distinct services provides the best possible
 user experience across different devices.
 
-- **Tile Service:** Extend `TileService` (creating a service if you do not
-  already have one) and declare an intent filter for
+- **Tile Service:** Extend `TileService` and declare an intent filter for
   `androidx.wear.tiles.action.BIND_TILE_PROVIDER`.
 - **Widget Service:** Extend `GlanceWearWidgetService` and declare an intent
   filter for `androidx.glance.wear.action.BIND_WIDGET_PROVIDER`.
 - **Logical Grouping:** Use the `group` attribute in the widget configuration to
-  link the new implementation to your existing `TileService`, allowing the
-  system to recognize them as a single logical component. For technical
-  implementation details, see the
+  link the new implementation to your existing `TileService`. This allows the
+  system to recognize them as a single logical component and automatically
+  migrate the user's existing carousel slot to the new Widget on Wear OS 7+. For
+  technical implementation details, see the
   [Manifest and XML Reference](#manifest-and-xml-reference).
 
 **System Behavior for Dual-Service Setup:**
@@ -389,7 +389,7 @@ user experience across different devices.
 | **Wear OS 7 (No partial-height support, e.g., Pixel Watch)** | Native **Tile** is used   |
 | **Wear OS 7 (Partial-height support, e.g., Galaxy Watch)**   | Native **Widget** is used |
 
-### Single Service Implementation (Alternative)
+### Single Service Implementation (Alternative) {#single-service-implementation-(alternative)}
 
 A single service handles both protocols. While faster to implement, it relies on
 a compatibility mode to "translate" your widget into a Tile on older devices.
@@ -420,7 +420,7 @@ action—including visual samples and code for components like `RemoteBox`,
 `RemoteButton`, and `RemoteCanvas`—please see the
 [Component Gallery](https://github.com/ithinkihaveacat/wear-os-samples/blob/wear-widgets/WearWidgetKotlin/docs/COMPONENTS.md).
 
-#### Event Handling: Actions vs. Lambdas
+#### Event Handling: Actions vs. Lambdas {#event-handling:-actions-vs.-lambdas}
 
 Because widgets run in a remote process, they cannot execute local code
 (lambdas). Standard Compose syntax for event handling is replaced by
@@ -434,7 +434,7 @@ model imposes several constraints:
    (e.g., `Log.d()`, `viewModel.update()`) inside the handler.
 2. **Pre-calculated Logic:** Logic must be resolved at **composition time**.
    Instead of `onClick = { if (isActive) doThis() else doThat() }`, and assuming
-   isActive is known, you must conditionally pass the correct action object:
+   `isActive` is known, you must conditionally pass the correct action object:
    `onClick = if (isActive) ActionA else ActionB`.
 3. **State vs. Computation:** Actions like `ValueChange` do not increment values
    dynamically; they send instructions to the remote host to update a state key
@@ -446,26 +446,27 @@ model imposes several constraints:
 
 1. **Use Declarative Actions:** Replace `{ ... }` with `Action` objects such as
    `ValueChange`.
+
 2. **Handle Vararg Syntax:** When passing a single action to the named `onClick`
    parameter, wrap it in `arrayOf()`. Alternatively, pass it as the first
    positional argument to avoid the wrapper.
 
-   ```kotlin
-   // 1. Wrapped in array (Named argument)
-   RemoteButton(
-       modifier = RemoteModifier.padding(10.dp),
-       onClick = arrayOf(ValueChange(count, count + 1))
-   ) { ... }
+```kotlin
+// 1. Wrapped in array (Named argument)
+RemoteButton(
+    modifier = RemoteModifier.padding(10.dp),
+    onClick = arrayOf(ValueChange(count, count + 1))
+) { ... }
 
-   // 2. Positional argument (No array needed)
-   RemoteButton(
-       ValueChange(count, count + 1),
-       modifier = RemoteModifier.padding(10.dp)
-   ) { ... }
-   ```
+// 2. Positional argument (No array needed)
+RemoteButton(
+    ValueChange(count, count + 1),
+    modifier = RemoteModifier.padding(10.dp)
+) { ... }
+```
 
-   _Note: When passing an existing array of actions to the named parameter, pass
-   it directly without the spread operator (`*`)._
+_Note: When passing an existing array of actions to the named parameter, pass it
+directly without the spread operator (`*`)._
 
 #### Theming
 
@@ -527,9 +528,10 @@ time, maintaining visual consistency.
   _immediately_ during composition, using the app's current `LocalDensity`. This
   "bakes" the specific pixel value into the document sent to the System UI.
 - **`RemoteDp` (Deferred):** `RemoteDp` values (e.g., `10.rdp`) are serialized
-  as **data instructions** (e.g., "apply 10dp spacing"). The final pixel value
-  is calculated by the _System UI_ (the renderer) at display time, ensuring it
-  matches the exact density of the viewing surface.
+  as **data instructions** (e.g., "apply 10dp spacing" or even more dynamic "if
+  width > 200 apply 15dp else 10dp"). The final pixel value is calculated by the
+  _System UI_ (the renderer) at display time, ensuring it matches the exact
+  density of the viewing surface.
 
 **Why is `RemoteDp` needed?** It separates the _definition_ of the UI from its
 _execution_. This allows the System UI to cache, resize, or adapt the layout
@@ -598,9 +600,18 @@ your implementation can handle.
 
 - **`container`:** Declares a supported size. `SMALL` (around 70dp height) and
   `LARGE` (around 100dp height) are the standard Widget sizes.
-- **`group`**: (Optional) For **Dual-Service** setups (recommended), set this to
-  the fully qualified class name of your `TileService` to link them as a single
-  logical component.
+- **`group`**: (Optional) For **Dual-Service** setups, in most cases you should
+  set this to the fully qualified name of your `TileService`.
+  - On devices running Wear OS 7+, this value links the `TileService` and
+    `WidgetService` together as a single logical component—important to preserve
+    a user's carousel state if they upgrade their OS or device.
+  - If `group` is not provided, it defaults to the fully-qualified service name
+    of the Widget service, which may not be what you want.
+  - Avoid specifying the `group` multiple times, or changing its name, etc. This
+    feature is designed to create a one-time link from a single `WidgetService`
+    to a legacy `TileService`. Using it in other ways (for example to create
+    long alias "chains") has undefined behavior.
+  - `group` is ignored on Wear OS 6 and below.
 - **`preferredType`:** Specifies the default size used if the system/user
   doesn't request a specific one (e.g., when falling back from a legacy
   surface).
@@ -824,6 +835,14 @@ Implementation** strategy described in
 
 This setup allows the system to use the high-fidelity Widget on Wear 7+ surfaces
 while falling back to your existing Tile on older platforms.
+
+**Deprecating a tile? Reuse the service name.** If you decide to _replace_ an
+existing Tile with a Widget (following the
+[single service approach](<#single-service-implementation-(alternative)>)), be
+sure to reuse the original Service name to ensure the Widget takes the place of
+the Tile in the carousel. Wear OS 6 ignores the `group` attribute and identifies
+carousel entries strictly by Service name. Reusing the name prevents your Tile
+from disappearing from the carousel upon update.
 
 ## Known Issues and Limitations
 
@@ -1058,7 +1077,7 @@ drawConditionally(isToggled.not()) {
 }
 ```
 
-### `RemoteMaterialTheme.typography` Does Not Expose Semantic Styles
+### `RemoteMaterialTheme.typography` Does Not Expose Semantic Styles {#remotematerialtheme.typography-does-not-expose-semantic-styles}
 
 b/478828032
 
@@ -1152,7 +1171,7 @@ MaterialRemoteText(
 )
 ```
 
-### Crash when using `drawScaledBitmap` with Resource Bitmaps
+### Crash when using `drawScaledBitmap` with Resource Bitmaps {#crash-when-using-drawscaledbitmap-with-resource-bitmaps}
 
 b/479893918
 
@@ -1180,10 +1199,18 @@ drawScaledBitmap(
 )
 ```
 
-## Updates
+## Updates {#updates}
 
-_This section will be updated with updates, e.g. new lib version availability
-and fixes_
+### 1.1 — 9 Feb 2026
+
+- Renderer can be used to to preview different widget sizes.
+- Now possible to support both brand colors and the dynamic theme.
+- Known Issues
+  - Added [RemoteMaterialTheme.typography Does Not Expose Semantic Styles](#remotematerialtheme.typography-does-not-expose-semantic-styles).
+  - Added
+  [Crash when using drawScaledBitmap with Resource Bitmaps](#crash-when-using-drawscaledbitmap-with-resource-bitmaps).
+- Logical grouping only works with Wear OS 7+ (if replacing a tile, re-use the
+  service name.)
 
 ## Feedback
 
