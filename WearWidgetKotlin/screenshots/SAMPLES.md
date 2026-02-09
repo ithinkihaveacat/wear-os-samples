@@ -2,7 +2,9 @@
 
 ## SemanticStyleWorkaroundSample
 
-Android robot icon above "Wear Widget" text. A dark gray rounded rectangular widget displays "Semantic Styles Demo" and a large digital time "12:34" in white text on a black background.
+Android robot icon above "Wear Widget" text. A dark gray rounded rectangular
+widget displays "Semantic Styles Demo" and a large digital time "12:34" in white
+text on a black background.
 
 ![SemanticStyleWorkaroundSample](SemanticStyleWorkaroundSample.png)
 
@@ -48,7 +50,9 @@ fun SemanticStyleWorkaroundSample() {
 
 ## RotatedTextSample
 
-Screenshot shows an Android logo above the title "Wear Widget". Below, a dark gray outlined rectangle displays a white box rotated counter-clockwise, containing the red text "Hello world!".
+Screenshot shows an Android logo above the title "Wear Widget". Below, a dark
+gray outlined rectangle displays a white box rotated counter-clockwise,
+containing the red text "Hello world!".
 
 ![RotatedTextSample](RotatedTextSample.png)
 
@@ -91,7 +95,10 @@ fun RotatedTextSample(modifier: RemoteModifier = RemoteModifier) {
 
 ## AnchoredTextSample
 
-A screen with a white Android logo on a light gray circle, followed by "Wear Widget" text. Below, a white rounded rectangle shows "Top Left" in red, "Center" in black, and "Bottom Right" in blue, demonstrating UI placement. Black background.
+A screen with a white Android logo on a light gray circle, followed by "Wear
+Widget" text. Below, a white rounded rectangle shows "Top Left" in red, "Center"
+in black, and "Bottom Right" in blue, demonstrating UI placement. Black
+background.
 
 ![AnchoredTextSample](AnchoredTextSample.png)
 
@@ -174,7 +181,10 @@ fun AnchoredTextSample() {
 
 ## CanvasSample3
 
-Screen shows an Android icon and "Wear Widget" text at the top on a black background. Below, a dark gray rounded rectangular frame encloses a black area. Centered within, a bright green diamond shape has white, horizontal text "Rotated" overlaid.
+Screen shows an Android icon and "Wear Widget" text at the top on a black
+background. Below, a dark gray rounded rectangular frame encloses a black area.
+Centered within, a bright green diamond shape has white, horizontal text
+"Rotated" overlaid.
 
 ![CanvasSample3](CanvasSample3.png)
 
@@ -230,7 +240,10 @@ fun CanvasSample3() {
 
 ## SystemThemeComparisonSample
 
-A UI showing an Android Wear Widget. It features a dark gray rounded rectangle container with the title "System Theme" in white. Inside are two horizontal rounded buttons: "Primary Button" with dark text on light blue-gray, and "Secondary Button" with dark text on light gray. An Android logo is at the top.
+A UI showing an Android Wear Widget. It features a dark gray rounded rectangle
+container with the title "System Theme" in white. Inside are two horizontal
+rounded buttons: "Primary Button" with dark text on light blue-gray, and
+"Secondary Button" with dark text on light gray. An Android logo is at the top.
 
 ![SystemThemeComparisonSample](SystemThemeComparisonSample.png)
 
@@ -282,7 +295,9 @@ fun SystemThemeComparisonSample() {
 
 ## SystemThemeSample
 
-A dark screen displays a light gray Android icon above "Wear Widget". Below, a dark gray rounded rectangle contains "System Theme" text, and a light purple button labeled "Primary Button".
+A dark screen displays a light gray Android icon above "Wear Widget". Below, a
+dark gray rounded rectangle contains "System Theme" text, and a light purple
+button labeled "Primary Button".
 
 ![SystemThemeSample](SystemThemeSample.png)
 
@@ -315,7 +330,9 @@ fun SystemThemeSample() {
 
 ## AustralianThemeSample
 
-Android icon and "Wear Widget" title above a dark gray rounded card. The card displays "Aussie Theme" heading, a blue rounded button labeled "Primary (Blue)", and a red rounded button labeled "Secondary (Red)".
+Android icon and "Wear Widget" title above a dark gray rounded card. The card
+displays "Aussie Theme" heading, a blue rounded button labeled "Primary (Blue)",
+and a red rounded button labeled "Secondary (Red)".
 
 ![AustralianThemeSample](AustralianThemeSample.png)
 
@@ -390,7 +407,9 @@ fun AustralianThemeSample() {
 
 ## BoxSample1
 
-A black screen shows a circular Android icon, then "Wear Widget" in white text. Below it, a large, dark grey rounded rectangle displays "Box Sample 1" centered in white text.
+A black screen shows a circular Android icon, then "Wear Widget" in white text.
+Below it, a large, dark grey rounded rectangle displays "Box Sample 1" centered
+in white text.
 
 ![BoxSample1](BoxSample1.png)
 
@@ -417,7 +436,10 @@ fun BoxSample1() {
 
 ## BoxSample2
 
-Android logo and "Wear Widget" text. A dark grey rounded rectangle widget displays white text "Box Sample 2 (Border & Padding)", centered and surrounded by a distinct red rectangular border. The text is visibly padded from the red border, which itself is padded from the grey widget's edges.
+Android logo and "Wear Widget" text. A dark grey rounded rectangle widget
+displays white text "Box Sample 2 (Border & Padding)", centered and surrounded
+by a distinct red rectangular border. The text is visibly padded from the red
+border, which itself is padded from the grey widget's edges.
 
 ![BoxSample2](BoxSample2.png)
 
@@ -453,7 +475,9 @@ fun BoxSample2() {
 
 ## BoxSample3
 
-Android logo above "Wear Widget" text. Below, a large blue rectangle with a gray border. Inside the blue box, at the bottom right, is yellow text: "Box Sample 3 (Bottom End)".
+Android logo above "Wear Widget" text. Below, a large blue rectangle with a gray
+border. Inside the blue box, at the bottom right, is yellow text: "Box Sample 3
+(Bottom End)".
 
 ![BoxSample3](BoxSample3.png)
 
@@ -485,7 +509,9 @@ fun BoxSample3() {
 
 ## TextSample1
 
-Android logo above "Wear Widget" title. A dark-grey bordered, rounded green widget displays: white bold "TextSample1", white ellipsized "This is a long text that should wrap to multiple lin...", and green "Version 1.0".
+Android logo above "Wear Widget" title. A dark-grey bordered, rounded green
+widget displays: white bold "TextSample1", white ellipsized "This is a long text
+that should wrap to multiple lin...", and green "Version 1.0".
 
 ![TextSample1](TextSample1.png)
 
@@ -537,7 +563,9 @@ fun TextSample1() {
 
 ## TextSample1WithMargin
 
-UI screenshot with a black background. At the top, an Android icon above "Wear Widget" text. Below, a dark green rounded rectangular widget with a gray border. Inside, three lines of white text: "TextSample", "1", and "This is a long text".
+UI screenshot with a black background. At the top, an Android icon above "Wear
+Widget" text. Below, a dark green rounded rectangular widget with a gray border.
+Inside, three lines of white text: "TextSample", "1", and "This is a long text".
 
 ![TextSample1WithMargin](TextSample1WithMargin.png)
 
@@ -589,7 +617,10 @@ fun TextSample1WithMargin() {
 
 ## RowSample1
 
-A screen features an Android robot head logo and "Wear Widget" text at the top. Below, a dark gray bordered rectangle serves as a widget frame. Inside, three horizontal buttons are displayed: a red button with "Red" text, a green button with "Green" text, and a blue button with "Blue" text. All button text is white.
+A screen features an Android robot head logo and "Wear Widget" text at the top.
+Below, a dark gray bordered rectangle serves as a widget frame. Inside, three
+horizontal buttons are displayed: a red button with "Red" text, a green button
+with "Green" text, and a blue button with "Blue" text. All button text is white.
 
 ![RowSample1](RowSample1.png)
 
@@ -643,7 +674,10 @@ fun RowSample1() {
 
 ## RowSample2
 
-A screen displaying "Wear Widget" text, topped by an Android icon. Below, a dark gray rounded rectangular widget displays "Item 1" (light gray), "Item 2" (yellow, centered), and "Item 3" (light gray). Item 2 is visually prominent, indicating selection.
+A screen displaying "Wear Widget" text, topped by an Android icon. Below, a dark
+gray rounded rectangular widget displays "Item 1" (light gray), "Item 2"
+(yellow, centered), and "Item 3" (light gray). Item 2 is visually prominent,
+indicating selection.
 
 ![RowSample2](RowSample2.png)
 
@@ -682,7 +716,9 @@ fun RowSample2() {
 
 ## CollapsibleColumnSample1
 
-Android logo above "Wear Widget" text. Below, a rounded rectangular container displays centered, vertically stacked text: "Top (High)" in red, "Middle (Low)" in green, and "Bottom (High)" in blue.
+Android logo above "Wear Widget" text. Below, a rounded rectangular container
+displays centered, vertically stacked text: "Top (High)" in red, "Middle (Low)"
+in green, and "Bottom (High)" in blue.
 
 ![CollapsibleColumnSample1](CollapsibleColumnSample1.png)
 
@@ -729,7 +765,9 @@ fun CollapsibleColumnSample1() {
 
 ## ButtonSample1
 
-A dark screen shows an Android logo above "Wear Widget" text. Below, a large dark gray rounded rectangular card contains a smaller, centered light purple rounded button labeled "Simple Button".
+A dark screen shows an Android logo above "Wear Widget" text. Below, a large
+dark gray rounded rectangular card contains a smaller, centered light purple
+rounded button labeled "Simple Button".
 
 ![ButtonSample1](ButtonSample1.png)
 
@@ -762,7 +800,10 @@ fun ButtonSample1() {
 
 ## ButtonSample2
 
-UI screenshot on a black background. Top center features a light grey circular Android robot icon. Below it, white text "Wear Widget". A dark grey rounded rectangular container holds a light purple rounded button with a dark grey Android chip-like icon and the text "Button with Icon".
+UI screenshot on a black background. Top center features a light grey circular
+Android robot icon. Below it, white text "Wear Widget". A dark grey rounded
+rectangular container holds a light purple rounded button with a dark grey
+Android chip-like icon and the text "Button with Icon".
 
 ![ButtonSample2](ButtonSample2.png)
 
@@ -802,7 +843,10 @@ fun ButtonSample2() {
 
 ## ButtonSample3
 
-A Wear OS widget example on a black background. Centered text "Wear Widget" appears above a large dark grey rounded rectangle. Inside, a smaller, light purple-grey rounded rectangle is centered, displaying "Primary Label" (dark grey, bold) stacked above "Secondary Label" (light grey).
+A Wear OS widget example on a black background. Centered text "Wear Widget"
+appears above a large dark grey rounded rectangle. Inside, a smaller, light
+purple-grey rounded rectangle is centered, displaying "Primary Label" (dark
+grey, bold) stacked above "Secondary Label" (light grey).
 
 ![ButtonSample3](ButtonSample3.png)
 
@@ -835,7 +879,9 @@ fun ButtonSample3() {
 
 ## ButtonSample4
 
-Black background. Top: Android icon above "Wear Widget" text. Below, a large gray rounded rectangle contains a smaller, centered red rounded rectangle button with yellow text "Custom Colors".
+Black background. Top: Android icon above "Wear Widget" text. Below, a large
+gray rounded rectangle contains a smaller, centered red rounded rectangle button
+with yellow text "Custom Colors".
 
 ![ButtonSample4](ButtonSample4.png)
 
@@ -879,7 +925,10 @@ fun ButtonSample4() {
 
 ## ButtonSample6
 
-A screen with a black background shows an Android robot icon in a white circle at the top, above the white text "Wear Widget". Below this is a large dark grey rounded rectangle containing a smaller, lighter grey rounded button with the grey text "Disabled Button".
+A screen with a black background shows an Android robot icon in a white circle
+at the top, above the white text "Wear Widget". Below this is a large dark grey
+rounded rectangle containing a smaller, lighter grey rounded button with the
+grey text "Disabled Button".
 
 ![ButtonSample6](ButtonSample6.png)
 
@@ -913,7 +962,9 @@ fun ButtonSample6() {
 
 ## ButtonSample7
 
-A dark UI displays an Android logo, text "Wear Widget," and a rounded dark gray card. Inside the card are two horizontal, light gray, pill-shaped buttons: "Yes" on the left and "No" on the right.
+A dark UI displays an Android logo, text "Wear Widget," and a rounded dark gray
+card. Inside the card are two horizontal, light gray, pill-shaped buttons: "Yes"
+on the left and "No" on the right.
 
 ![ButtonSample7](ButtonSample7.png)
 
@@ -959,7 +1010,9 @@ fun ButtonSample7() {
 
 ## ButtonSample8
 
-Android logo above "Wear Widget" title. Below, a dark gray rounded dialog box contains two light purple, rounded buttons side-by-side. The left button says "Yes Confirm", and the right says "No Cancel".
+Android logo above "Wear Widget" title. Below, a dark gray rounded dialog box
+contains two light purple, rounded buttons side-by-side. The left button says
+"Yes Confirm", and the right says "No Cancel".
 
 ![ButtonSample8](ButtonSample8.png)
 
@@ -1001,7 +1054,10 @@ fun ButtonSample8() {
 
 ## ButtonSample9
 
-UI with Android logo, 'Wear Widget' title, and a 2x2 grid of rounded buttons on a black background. Buttons: top-left blue 'Toggle' (yellow text), top-right magenta 'Shape' (white text), bottom-left dark gray 'Click Me' (white text), bottom-right green 'Fixed' (white text).
+UI with Android logo, 'Wear Widget' title, and a 2x2 grid of rounded buttons on
+a black background. Buttons: top-left blue 'Toggle' (yellow text), top-right
+magenta 'Shape' (white text), bottom-left dark gray 'Click Me' (white text),
+bottom-right green 'Fixed' (white text).
 
 ![ButtonSample9](ButtonSample9.png)
 
@@ -1140,7 +1196,10 @@ fun ButtonSample9() {
 
 ## IconSample1
 
-Screenshot shows an Android Wear Widget. Top center: Android logo icon. Below, white text 'Wear Widget'. Inside a rounded rectangle frame on black, three tilted Android robot heads: small red, medium green, and large blue, increasing in size left to right.
+Screenshot shows an Android Wear Widget. Top center: Android logo icon. Below,
+white text 'Wear Widget'. Inside a rounded rectangle frame on black, three
+tilted Android robot heads: small red, medium green, and large blue, increasing
+in size left to right.
 
 ![IconSample1](IconSample1.png)
 
@@ -1194,7 +1253,10 @@ fun IconSample1() {
 
 ## GridSample1
 
-Screenshot showing a "Wear Widget" title and Android Wear OS icon above a gray-bordered frame. Inside the frame is a 2x2 grid of colored blocks: top-left red with "1", top-right blue with "2", bottom-left green with "3", and bottom-right yellow with "4".
+Screenshot showing a "Wear Widget" title and Android Wear OS icon above a
+gray-bordered frame. Inside the frame is a 2x2 grid of colored blocks: top-left
+red with "1", top-right blue with "2", bottom-left green with "3", and
+bottom-right yellow with "4".
 
 ![GridSample1](GridSample1.png)
 
@@ -1257,7 +1319,11 @@ fun GridSample1() {
 
 ## CardSample1
 
-A dark screen shows a light gray circular icon with an Android head, then white text "Wear Widget". Below, a dark gray rounded rectangle card features a tilted cyan Android icon on the left and stacked white text "Card Title", "Subtitle", "goes here" on the right. Small black triangles highlight each of the card's four corners.
+A dark screen shows a light gray circular icon with an Android head, then white
+text "Wear Widget". Below, a dark gray rounded rectangle card features a tilted
+cyan Android icon on the left and stacked white text "Card Title", "Subtitle",
+"goes here" on the right. Small black triangles highlight each of the card's
+four corners.
 
 ![CardSample1](CardSample1.png)
 
@@ -1316,7 +1382,10 @@ fun CardSample1() {
 
 ## CounterSample1
 
-A black screen shows an Android icon and "Wear Widget" text at the top. Below, a dark gray rounded rectangle contains a horizontal row of UI elements: a light gray oval button with a minus sign, a red rectangular box displaying "0" in white text, and a light gray oval button with a plus sign.
+A black screen shows an Android icon and "Wear Widget" text at the top. Below, a
+dark gray rounded rectangle contains a horizontal row of UI elements: a light
+gray oval button with a minus sign, a red rectangular box displaying "0" in
+white text, and a light gray oval button with a plus sign.
 
 ![CounterSample1](CounterSample1.png)
 
@@ -1373,7 +1442,9 @@ fun CounterSample1() {
 
 ## Material3ThemeSample
 
-Android robot logo above 'Wear Widget' text. Below is a rounded rectangular widget with a 5x4 grid of color swatches: shades of red, blue-grey, purple, and a bottom row of dark grey, medium grey, light grey, black, and white.
+Android robot logo above 'Wear Widget' text. Below is a rounded rectangular
+widget with a 5x4 grid of color swatches: shades of red, blue-grey, purple, and
+a bottom row of dark grey, medium grey, light grey, black, and white.
 
 ![Material3ThemeSample](Material3ThemeSample.png)
 
@@ -1436,7 +1507,9 @@ fun Material3ThemeSample() {
 
 ## CanvasSample1
 
-Android icon and text "Wear Widget" above a dark gray framed rectangle. Inside the frame, a red circle is centered at the top and a blue rectangle is centered at the bottom.
+Android icon and text "Wear Widget" above a dark gray framed rectangle. Inside
+the frame, a red circle is centered at the top and a blue rectangle is centered
+at the bottom.
 
 ![CanvasSample1](CanvasSample1.png)
 
@@ -1481,7 +1554,10 @@ fun CanvasSample1() {
 
 ## CanvasSample2
 
-A dark screen shows a white circle with a grey Android robot icon at the top center. Below it, white text reads "Wear Widget." Centered below the text is a large, dark grey rounded rectangle containing a bright yellow equilateral triangle.
+A dark screen shows a white circle with a grey Android robot icon at the top
+center. Below it, white text reads "Wear Widget." Centered below the text is a
+large, dark grey rounded rectangle containing a bright yellow equilateral
+triangle.
 
 ![CanvasSample2](CanvasSample2.png)
 
@@ -1529,7 +1605,10 @@ fun CanvasSample2() {
 
 ## GradientBackgroundSample
 
-Android icon and "Wear Widget" text at the top. Below, a dark-grey-bordered rectangle with rounded corners contains a red (top-left) to blue (bottom-right) gradient background. White text "Gradient Background" is centered within the rectangle.
+Android icon and "Wear Widget" text at the top. Below, a dark-grey-bordered
+rectangle with rounded corners contains a red (top-left) to blue (bottom-right)
+gradient background. White text "Gradient Background" is centered within the
+rectangle.
 
 ![GradientBackgroundSample](GradientBackgroundSample.png)
 
@@ -1562,7 +1641,10 @@ fun GradientBackgroundSample() {
 
 ## PendingIntentSample
 
-A Wear OS widget design features an Android robot logo above "Wear Widget" text. Below, a dark gray rounded rectangle container, representing the widget, frames a central light purple-blue rounded button with "Open App" in dark text, all on a black background.
+A Wear OS widget design features an Android robot logo above "Wear Widget" text.
+Below, a dark gray rounded rectangle container, representing the widget, frames
+a central light purple-blue rounded button with "Open App" in dark text, all on
+a black background.
 
 ![PendingIntentSample](PendingIntentSample.png)
 
@@ -1605,7 +1687,10 @@ fun PendingIntentSample() {
 
 ## VerticalScrollSample
 
-A UI displays an Android logo and "Wear Widget" title. Below, a dark grey rounded widget shows a vertical list of white text: "Header", "Item 0", "Item 1", "Item 2", "Item 3", with "Item 4" partially visible, indicating scrollable content.
+A UI displays an Android logo and "Wear Widget" title. Below, a dark grey
+rounded widget shows a vertical list of white text: "Header", "Item 0", "Item
+1", "Item 2", "Item 3", with "Item 4" partially visible, indicating scrollable
+content.
 
 ![VerticalScrollSample](VerticalScrollSample.png)
 
@@ -1645,7 +1730,9 @@ fun VerticalScrollSample() {
 
 ## MixedStyleSample
 
-A screen features an Android icon and "Wear Widget" text at the top. Below, a white rectangular card with rounded corners displays "Mixed Styles". The word "Mixed" is red and bold, while "Styles" is blue and italic.
+A screen features an Android icon and "Wear Widget" text at the top. Below, a
+white rectangular card with rounded corners displays "Mixed Styles". The word
+"Mixed" is red and bold, while "Styles" is blue and italic.
 
 ![MixedStyleSample](MixedStyleSample.png)
 
@@ -1726,7 +1813,10 @@ fun ConditionalRadiusSample() {
 
 ## TypographyScaleSample
 
-A Wear OS widget display with an Android robot icon and "Wear Widget" text at the top. Below, a rounded black rectangle contains three lines of text: "Title Style" in large cyan, "Default Body Style" in white, and "Caption Style" in white italics.
+A Wear OS widget display with an Android robot icon and "Wear Widget" text at
+the top. Below, a rounded black rectangle contains three lines of text: "Title
+Style" in large cyan, "Default Body Style" in white, and "Caption Style" in
+white italics.
 
 ![TypographyScaleSample](TypographyScaleSample.png)
 
@@ -1777,7 +1867,10 @@ fun TypographyScaleSample() {
 
 ## FullBleedImageButtonSample
 
-An Android Wear logo and "Wear Widget" text are centered above a rounded rectangular widget. The widget displays a background of a field with white daisies, overlaid by a circular profile picture of a woman with curly brown hair and sunglasses, set against a yellow circle.
+An Android Wear logo and "Wear Widget" text are centered above a rounded
+rectangular widget. The widget displays a background of a field with white
+daisies, overlaid by a circular profile picture of a woman with curly brown hair
+and sunglasses, set against a yellow circle.
 
 ![FullBleedImageButtonSample](FullBleedImageButtonSample.png)
 
@@ -1836,7 +1929,10 @@ fun FullBleedImageButtonSample() {
 
 ## BitmapCanvasSample
 
-A central Android robot icon appears above the white text "Wear Widget". Below this, a rounded rectangular image displays a soft-focus field of daisies and dry grass under warm light. The entire composition is set against a black background.
+A central Android robot icon appears above the white text "Wear Widget". Below
+this, a rounded rectangular image displays a soft-focus field of daisies and dry
+grass under warm light. The entire composition is set against a black
+background.
 
 ![BitmapCanvasSample](BitmapCanvasSample.png)
 
@@ -1866,3 +1962,65 @@ fun BitmapCanvasSample() {
 }
 ```
 
+## CustomThemeSample
+
+Demonstrates fallback theme behavior.
+
+1.  **Dynamic Theming ON (System Default):** The widget uses the system's
+    dynamic colors (e.g., Green).
+
+    ![CustomThemeSample_DynamicOn](CustomThemeSample_DynamicOn.png)
+
+2.  **Dynamic Theming OFF (App Fallback):** The widget uses the app-provided
+    `customColorScheme` (White/Black).
+
+    ![CustomThemeSample_DynamicOff](CustomThemeSample_DynamicOff.png)
+
+To disable dynamic theming, select "No theme" in Settings | Display | Color
+theme:
+
+![No Theme Setting](no-theme.png)
+
+```kotlin
+/**
+ * A sample demonstrating how to override the system theme with a custom color scheme using
+ * RemoteColorScheme. The theme sets the primary color to White.
+ */
+@RemoteComposable
+@Composable
+fun CustomThemeSample() {
+    val dummy = rememberRemoteIntValue { 0 }
+    // Define a custom color scheme where primary is White.
+    // This acts as the fallback when dynamic theming is disabled.
+    val customColorScheme = RemoteColorScheme(
+        colorScheme = ColorScheme(
+            primary = Color.White,
+            onPrimary = Color.Black,
+            primaryContainer = Color.White,
+            onPrimaryContainer = Color.Black
+        )
+    )
+
+    RemoteMaterialTheme(colorScheme = customColorScheme) {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
+                MaterialRemoteText("Custom Theme".rs)
+                RemoteBox(RemoteModifier.size(10.rdp))
+
+                // Use the theme's colors.
+                // If dynamic theming is ON, this will use system colors.
+                // If dynamic theming is OFF, this will use our customColorScheme (White/Black).
+                RemoteButton(
+                    onClick = ValueChange(dummy, 0.ri)
+                ) {
+                    MaterialRemoteText("Primary Button".rs)
+                }
+            }
+        }
+    }
+}
+```

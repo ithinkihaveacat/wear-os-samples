@@ -82,6 +82,7 @@ import androidx.wear.compose.remote.material3.RemoteImage
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 import androidx.wear.compose.remote.material3.buttonSizeModifier
+import androidx.wear.compose.material3.ColorScheme
 
 class WidgetCatalogService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = WidgetCatalog()
@@ -100,6 +101,7 @@ class WidgetCatalog : GlanceWearWidget() {
                 "CanvasSample3" -> CanvasSample3()
                 "SystemThemeComparisonSample" -> SystemThemeComparisonSample()
                 "SystemThemeSample" -> SystemThemeSample()
+                "CustomThemeSample" -> CustomThemeSample()
                 "AustralianThemeSample" -> AustralianThemeSample()
                 "BoxSample1" -> BoxSample1()
                 "BoxSample2" -> BoxSample2()
@@ -1713,6 +1715,48 @@ fun BitmapCanvasSample() {
                     scaleType = ContentScale.Crop,
                     contentDescription = "Background",
                 )
+            }
+        }
+    }
+}
+
+/**
+ * A sample demonstrating how to override the system theme with a custom color scheme using
+ * RemoteColorScheme. The theme sets the primary color to White.
+ */
+@RemoteComposable
+@Composable
+fun CustomThemeSample() {
+    val dummy = rememberRemoteIntValue { 0 }
+    // Define a custom color scheme where primary is White.
+    // This acts as the fallback when dynamic theming is disabled.
+    val customColorScheme = RemoteColorScheme(
+        colorScheme = ColorScheme(
+            primary = Color.White,
+            onPrimary = Color.Black,
+            primaryContainer = Color.White,
+            onPrimaryContainer = Color.Black
+        )
+    )
+
+    RemoteMaterialTheme(colorScheme = customColorScheme) {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
+                MaterialRemoteText("Custom Theme".rs)
+                RemoteBox(RemoteModifier.size(10.rdp))
+                
+                // Use the theme's colors. 
+                // If dynamic theming is ON, this will use system colors.
+                // If dynamic theming is OFF, this will use our customColorScheme (White/Black).
+                RemoteButton(
+                    onClick = ValueChange(dummy, 0.ri)
+                ) {
+                    MaterialRemoteText("Primary Button".rs)
+                }
             }
         }
     }
