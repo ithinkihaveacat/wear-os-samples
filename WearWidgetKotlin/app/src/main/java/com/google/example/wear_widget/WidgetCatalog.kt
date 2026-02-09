@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.remote.core.operations.TextFromFloat
 import androidx.compose.remote.creation.compose.action.ValueChange
 import androidx.compose.remote.creation.compose.action.pendingIntentAction
@@ -64,7 +65,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+
 import androidx.compose.ui.unit.sp
 import androidx.glance.wear.GlanceWearWidget
 import androidx.glance.wear.GlanceWearWidgetService
@@ -1677,7 +1680,7 @@ fun FullBleedImageButtonSample() {
                 RemoteBox(
                     modifier =
                         RemoteModifier.size(60.rdp)
-                            .clip(RoundedCornerShape(percent = 50)) // Circle
+                            .clip(CircleShape, DpSize(60.dp, 60.dp)) // Explicit size required (b/477860914)
                             .clickable(
                                 ValueChange(rememberRemoteIntValue { 0 }, 0.ri)
                             ), // Add click action if needed, currently empty
@@ -1685,7 +1688,7 @@ fun FullBleedImageButtonSample() {
                     verticalArrangement = RemoteArrangement.Center,
                 ) {
                     RemoteImage(
-                        bitmap = ImageBitmap.imageResource(id = R.drawable.ali),
+                        bitmap = ImageBitmap.imageResource(id = R.drawable.photo_17),
                         contentDescription = "Avatar".rs,
                         contentScale = ContentScale.Crop,
                         modifier = RemoteModifier.fillMaxSize(),
