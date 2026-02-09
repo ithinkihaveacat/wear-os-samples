@@ -1202,16 +1202,19 @@ drawScaledBitmap(
 
 ## Updates {#updates}
 
-### 1.1 — 9 Feb 2026
+### Wear Widgets EAP 1.1 — 9 Feb 2026
 
 #### Features
 
-- **Standalone Renderer:** A "Widget Tray Viewer" (the app name in the launcher)
-  has been added to the `com.google.android.wearable.protolayout.renderer`
-  package. This allows you to preview multiple widgets in SMALL and LARGE sizes
-  in a vertically scrolling carousel.
-- **Dependencies Updated:** [provide info on what dependencies have been
-  updated. include the build id for libraries still on the SNAPSHOT version]
+- **Standalone Renderer:** A standalone renderer has been added to the updated
+  `com.google.android.wearable.protolayout.renderer` package. (Find it under
+  "Widget Tray Viewer" in the launcher). This allows you to preview multiple
+  widgets in SMALL and LARGE sizes in a vertically scrolling carousel.
+- **Dependencies Updated:** The samples have been updated to target the latest
+  available library versions (including SNAPSHOTs where necessary) to
+  demonstrate the newest features and fixes. See
+  [Migration Instructions](#migration-instructions) for details on updating your
+  project.
 - **Expanded Component Samples:** Added new samples including
   `FullBleedImageButtonSample`, `RotatedTextSample`, `AnchoredTextSample`, and
   `BitmapCanvasSample` to demonstrate advanced rendering capabilities.
@@ -1220,53 +1223,55 @@ drawScaledBitmap(
   system-driven dynamic theming and custom brand overrides.
 - **Improved Developer Tools:** The `widget-switch` script has been rewritten to
   be faster and more reliable. It now waits for a "State saved" log confirmation
-  instead of force-stopping the app, preserving the process state.
-- **New Component Switcher:** Added a `component-switch` script to facilitate
-  rapid testing and switching of individual components within the
-  `ComponentCatalog`.
+  instead of force-stopping the app, preserving the process state. A
+  `component-switch` script has also been added to switch between the components
+  of `ComponentCatalog`.
 - **Semantic Typography Helper:** Added `MyWidgetTypography` to provide access
   to standard Wear OS text styles (e.g., `titleLarge`, `bodyMedium`) while they
   remain internal in the library.
+- **Documentation:** Added a new guide detailing the differences between Compose
+  and Remote Compose: [Compose Differences](COMPOSE-DIFFERENCES.md).
 
 #### Known Issues
 
 - [ADDED]
-  [RemoteMaterialTheme.typography Does Not Expose Semantic Styles](#remotematerialtheme.typography-does-not-expose-semantic-styles).
-- [ADDED]
-  [Crash when using drawScaledBitmap with Resource Bitmaps](#crash-when-using-drawscaledbitmap-with-resource-bitmaps).
-- [FIXED] **Multiple DataStores Active Crash:** The
-  `IllegalStateException: There are multiple DataStores active` crash has been
-  fixed in the library. The underlying conflict that occurred during rapid
+  [RemoteMaterialTheme.typography Does Not Expose Semantic Styles](#remotematerialtheme.typography-does-not-expose-semantic-styles):
+  Semantic text styles (e.g., `titleLarge`) are currently internal and cannot be
+  accessed directly. A workaround using a local `MyWidgetTypography` object is
+  provided.
+- [FIXED]
+  [Multiple DataStores Active Crash](#multiple-datastores-active-crash-datastore-conflict):
+  The `IllegalStateException: There are multiple DataStores active` crash has
+  been fixed in the library. The underlying conflict that occurred during rapid
   re-deployments or configuration changes is resolved.
-- [FIXED] **`drawScaledBitmap` Crash:** The crash when using `drawScaledBitmap`
-  with resource-backed bitmaps has been fixed. You can now use it without
-  explicitly providing the `srcSize` argument (see `BitmapCanvasSample`).
+- [FIXED]
+  [`drawScaledBitmap` Crash](#crash-when-using-drawscaledbitmap-with-resource-bitmaps):
+  The crash when using `drawScaledBitmap` with resource-backed bitmaps has been
+  fixed. You can now use it without explicitly providing the `srcSize` argument
+  (see `BitmapCanvasSample`).
 
 #### Migration Instructions
 
-- **Disable Remote Applier:** You **must** set
-  `RemoteComposeCreationComposeFlags.isRemoteApplierEnabled = false` in your
-  `Application.onCreate()` method. See WearWidgetApplication.kt [create link] in
-  the sample app.
-  - **Failing to do so may cause runtime crashes or incorrect behavior.**
-  - This requirement is temporary, and will soon be unnecessary [rewrite "be
-    unnecessary"].
-- **Mandatory Click Actions:** `RemoteButton` and `clickable` modifiers now
-  require a valid `Action` to be passed to the `onClick` parameter. Empty arrays
-  (`arrayOf()`) are no longer sufficient; you must provide a concrete action
-  (e.g., `ValueChange`, `SendIntent`) for the component to be interactive.
 - **Update Library Versions:** Update your `libs.versions.toml` or
   `build.gradle` to use `androidx.compose.remote:remote-core:1.0.0-alpha03` and
-  `androidx.glance.wear:wear:1.0.0-alpha02`.
-- **Update Manifest:** Ensure your custom `Application` class (e.g.,
-  `.WearWidgetApplication`) is registered in `AndroidManifest.xml`. If you are
-  using the catalogs, register the new `WidgetCatalogReceiver`.
-- **Adopt RemoteMaterialTheme:** Wrap your widget content in
-  `RemoteMaterialTheme { ... }` to ensure correct color and typography
-  resolution.
-- **Typography Workaround:** If you need semantic text styles, copy the
-  `MyWidgetTypography` object into your project and use it as a substitute for
-  `RemoteMaterialTheme.typography` until the official API is public.
+  `androidx.glance.wear:wear:1.0.0-alpha02`. For SNAPSHOT dependencies, use a
+  **Build ID** of 14765146.
+- **Disable Remote Applier:** You **must** set
+  `RemoteComposeCreationComposeFlags.isRemoteApplierEnabled = false` as early as
+  possible in your application's lifecycle (e.g., in `Application.onCreate()`).
+  - **Implementation Example:** The sample app achieves this by defining a
+    custom `WearWidgetApplication` class and registering it in the
+    `AndroidManifest.xml`.
+  - See
+    [WearWidgetApplication.kt](../app/src/main/java/com/google/example/wear_widget/WearWidgetApplication.kt)
+    for the code.
+  - This requirement is temporary and is expected to be removed in a future
+    alpha release.
+- **Mandatory Click Actions:** `RemoteButton` and `clickable` modifiers now
+  require a valid `Action` to be passed to the `onClick` parameter. Empty arrays
+  (`arrayOf()`) are no longer sufficient. See
+  [WidgetCatalog.kt](../app/src/main/java/com/google/example/wear_widget/WidgetCatalog.kt)
+  for examples.
 
 ## Feedback
 
