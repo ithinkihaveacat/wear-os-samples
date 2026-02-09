@@ -345,7 +345,8 @@ next steps:
 - **Master the Core Concepts**: Deep dive into the
   [Technical Guide](#technical-guide) to understand the
   [Remote UI Programming Model](#remote-ui-programming-model) and how to handle
-  interactions using [Declarative Actions](#event-handling:-actions-vs.-lambdas).
+  interactions using
+  [Declarative Actions](#event-handling:-actions-vs.-lambdas).
 - **Define Your Provider Contract**: Reference the
   [Manifest and XML Reference](#manifest-and-xml-reference) to configure your
   widget's capabilities, such as supported sizes (`SMALL` and `LARGE`), and set
@@ -1006,7 +1007,7 @@ render and attach the tile" error.
 - **For Blur:** There is no known workaround at this time. Avoid using blur
   effects until supported by the library/renderer.
 
-### Multiple DataStores Active Crash (DataStore Conflict) {#multiple-datastores-active-crash-datastore-conflict}
+### [FIXED] Multiple DataStores Active Crash (DataStore Conflict) {#multiple-datastores-active-crash-datastore-conflict}
 
 b/474292165
 
@@ -1171,7 +1172,7 @@ MaterialRemoteText(
 )
 ```
 
-### Crash when using `drawScaledBitmap` with Resource Bitmaps {#crash-when-using-drawscaledbitmap-with-resource-bitmaps}
+### [FIXED] Crash when using `drawScaledBitmap` with Resource Bitmaps {#crash-when-using-drawscaledbitmap-with-resource-bitmaps}
 
 b/479893918
 
@@ -1203,14 +1204,69 @@ drawScaledBitmap(
 
 ### 1.1 — 9 Feb 2026
 
-- Renderer can be used to to preview different widget sizes.
-- Now possible to support both brand colors and the dynamic theme.
-- Known Issues
-  - Added [RemoteMaterialTheme.typography Does Not Expose Semantic Styles](#remotematerialtheme.typography-does-not-expose-semantic-styles).
-  - Added
+#### Features
+
+- **Standalone Renderer:** A "Widget Tray Viewer" (the app name in the launcher)
+  has been added to the `com.google.android.wearable.protolayout.renderer`
+  package. This allows you to preview multiple widgets in SMALL and LARGE sizes
+  in a vertically scrolling carousel.
+- **Dependencies Updated:** [provide info on what dependencies have been
+  updated. include the build id for libraries still on the SNAPSHOT version]
+- **Expanded Component Samples:** Added new samples including
+  `FullBleedImageButtonSample`, `RotatedTextSample`, `AnchoredTextSample`, and
+  `BitmapCanvasSample` to demonstrate advanced rendering capabilities.
+- **Theming Support:** Introduced `CustomThemeSample` and updated existing
+  samples to fully utilize `RemoteMaterialTheme`, allowing for both
+  system-driven dynamic theming and custom brand overrides.
+- **Improved Developer Tools:** The `widget-switch` script has been rewritten to
+  be faster and more reliable. It now waits for a "State saved" log confirmation
+  instead of force-stopping the app, preserving the process state.
+- **New Component Switcher:** Added a `component-switch` script to facilitate
+  rapid testing and switching of individual components within the
+  `ComponentCatalog`.
+- **Semantic Typography Helper:** Added `MyWidgetTypography` to provide access
+  to standard Wear OS text styles (e.g., `titleLarge`, `bodyMedium`) while they
+  remain internal in the library.
+
+#### Known Issues
+
+- [ADDED]
+  [RemoteMaterialTheme.typography Does Not Expose Semantic Styles](#remotematerialtheme.typography-does-not-expose-semantic-styles).
+- [ADDED]
   [Crash when using drawScaledBitmap with Resource Bitmaps](#crash-when-using-drawscaledbitmap-with-resource-bitmaps).
-- Logical grouping only works with Wear OS 7+ (if replacing a tile, re-use the
-  service name.)
+- [FIXED] **Multiple DataStores Active Crash:** The
+  `IllegalStateException: There are multiple DataStores active` crash has been
+  fixed in the library. The underlying conflict that occurred during rapid
+  re-deployments or configuration changes is resolved.
+- [FIXED] **`drawScaledBitmap` Crash:** The crash when using `drawScaledBitmap`
+  with resource-backed bitmaps has been fixed. You can now use it without
+  explicitly providing the `srcSize` argument (see `BitmapCanvasSample`).
+
+#### Migration Instructions
+
+- **Disable Remote Applier:** You **must** set
+  `RemoteComposeCreationComposeFlags.isRemoteApplierEnabled = false` in your
+  `Application.onCreate()` method. See WearWidgetApplication.kt [create link] in
+  the sample app.
+  - **Failing to do so may cause runtime crashes or incorrect behavior.**
+  - This requirement is temporary, and will soon be unnecessary [rewrite "be
+    unnecessary"].
+- **Mandatory Click Actions:** `RemoteButton` and `clickable` modifiers now
+  require a valid `Action` to be passed to the `onClick` parameter. Empty arrays
+  (`arrayOf()`) are no longer sufficient; you must provide a concrete action
+  (e.g., `ValueChange`, `SendIntent`) for the component to be interactive.
+- **Update Library Versions:** Update your `libs.versions.toml` or
+  `build.gradle` to use `androidx.compose.remote:remote-core:1.0.0-alpha03` and
+  `androidx.glance.wear:wear:1.0.0-alpha02`.
+- **Update Manifest:** Ensure your custom `Application` class (e.g.,
+  `.WearWidgetApplication`) is registered in `AndroidManifest.xml`. If you are
+  using the catalogs, register the new `WidgetCatalogReceiver`.
+- **Adopt RemoteMaterialTheme:** Wrap your widget content in
+  `RemoteMaterialTheme { ... }` to ensure correct color and typography
+  resolution.
+- **Typography Workaround:** If you need semantic text styles, copy the
+  `MyWidgetTypography` object into your project and use it as a substitute for
+  `RemoteMaterialTheme.typography` until the official API is public.
 
 ## Feedback
 
