@@ -2,12 +2,14 @@
 name: ai-analysis
 description: >
   Command-line tools that delegate analysis tasks to AI models. Includes image
-  description, screenshot comparison, essay generation from text, and boolean
-  condition evaluation. Use for describing images, comparing UI states,
-  generating reports, evaluating conditions, or any task requiring AI inference.
-  Triggers: ai analysis, describe image, compare screenshots, generate essay,
-  evaluate condition, alt text, image description, UI comparison, visual diff,
-  satisfies condition, boolean evaluation, gemini.
+  description, screenshot comparison, smart cropping around people, token
+  counting, essay generation from text, and boolean condition evaluation. Use
+  for describing images, comparing UI states, cropping photos around faces,
+  counting tokens, generating reports, evaluating conditions, or any task
+  requiring AI inference. Triggers: ai analysis, describe image, compare
+  screenshots, smart crop, crop around people, face crop, count tokens, token
+  count, generate essay, evaluate condition, alt text, image description, UI
+  comparison, visual diff, satisfies condition, boolean evaluation, gemini.
 compatibility: >
   Requires curl and jq. Image tools also need base64 and magick (ImageMagick).
   Needs GEMINI_API_KEY environment variable and network access to
@@ -47,11 +49,17 @@ scripts/screenshot-describe screenshot.png
 # Compare two images for visual differences
 scripts/screenshot-compare before.png after.png
 
+# Smart crop image around detected people
+scripts/photo-smart-crop photo.jpg cropped.jpg
+
 # Generate essay-length analysis from text
 scripts/emerson "Summarize the key changes" < documentation.md
 
 # Evaluate a boolean condition against text
 echo "Hello world" | scripts/satisfies "is a greeting"
+
+# Count tokens in text
+cat document.md | scripts/token-count
 ```
 
 ## Script Overview
@@ -77,6 +85,33 @@ scripts/screenshot-compare IMAGE1 IMAGE2 [PROMPT]
 
 **Exit codes:** 0 differences found, 1 error, 2 images identical, 127 missing
 dependency
+
+### photo-smart-crop
+
+Smart crop images around detected people with a specified aspect ratio.
+Prioritizes faces, expands for headroom, enforces aspect ratio.
+
+```bash
+scripts/photo-smart-crop [--ratio W:H] INPUT OUTPUT
+```
+
+**Options:** `--ratio W:H` (default 5:3)
+
+**Exit codes:** 0 success, 1 error (no people found, API error), 2 rate limited,
+127 missing dependency
+
+**Examples:**
+
+```bash
+# Default 5:3 aspect ratio
+scripts/photo-smart-crop family.jpg family-cropped.jpg
+
+# 16:9 for video thumbnails
+scripts/photo-smart-crop --ratio 16:9 portrait.jpg thumbnail.jpg
+
+# Square crop for profile pictures
+scripts/photo-smart-crop --ratio 1:1 headshot.png avatar.png
+```
 
 ### emerson
 
@@ -115,6 +150,16 @@ if cat log.txt | scripts/satisfies "contains error messages"; then
   echo "Errors detected"
 fi
 ```
+
+### token-count
+
+Count tokens in text using the Gemini API.
+
+```bash
+cat file.txt | scripts/token-count
+```
+
+**Exit codes:** 0 success, 1 error, 127 missing dependency
 
 ## Image Encoding Notes
 

@@ -250,7 +250,7 @@ Environment:
 
 Commands:
   bootstrap [--no-emulator]
-                      Bootstrap SDK environment.
+                      Bootstrap SDK environment and patch tools.
                       Use --no-emulator to skip installing the emulator.
   doctor              Run diagnostics to check for common issues.
   list                List all available AVDs.
@@ -475,6 +475,23 @@ install_cli_tools() {
       sed -i '' 's/JAVA_VER=$($JAVACMD/JAVA_VER=$("$JAVACMD"/g' "${avdmanager_path}"
     else
       sed -i 's/JAVA_VER=$($JAVACMD/JAVA_VER=$("$JAVACMD"/g' "${avdmanager_path}"
+    fi
+  fi
+
+  local apkanalyzer_path="${install_dir}/bin/apkanalyzer"
+  # Conditionally patch apkanalyzer to fix a quoting bug.
+  # Missing quotes around $JAVACMD cause "test: : integer expression expected"
+  # error when JAVA_HOME contains spaces (common on macOS with Android Studio.app).
+  # See https://issuetracker.google.com/issues/466515412
+  # shellcheck disable=SC2016
+  if grep -q 'JAVA_VER=$($JAVACMD' "${apkanalyzer_path}" 2>/dev/null; then
+    echo "Patching apkanalyzer to fix quoting bug..."
+    cp "${apkanalyzer_path}" "${apkanalyzer_path}.backup"
+    # shellcheck disable=SC2016
+    if [[ "$os" == "mac" ]]; then
+      sed -i '' 's/JAVA_VER=$($JAVACMD/JAVA_VER=$("$JAVACMD"/g' "${apkanalyzer_path}"
+    else
+      sed -i 's/JAVA_VER=$($JAVACMD/JAVA_VER=$("$JAVACMD"/g' "${apkanalyzer_path}"
     fi
   fi
 
