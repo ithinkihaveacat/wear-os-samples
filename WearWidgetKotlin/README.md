@@ -112,9 +112,6 @@ Use the included `component-switch` script to quickly browse different component
 without code changes.
 
 ```bash
-# Initialize
-./component-switch --init
-
 # Switch layouts
 ./component-switch textButton
 ./component-switch appCard
@@ -126,9 +123,6 @@ Use the included `widget-switch` script to quickly browse different full widget
 samples.
 
 ```bash
-# Initialize
-./widget-switch --init
-
 # Switch layouts
 ./widget-switch BoxSample1
 ./widget-switch SystemThemeSample
