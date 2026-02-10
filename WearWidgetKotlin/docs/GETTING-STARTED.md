@@ -22,7 +22,7 @@ runs. UI is defined by a "document" that is sent to a system-managed surface
 consistent, the remote architecture introduces nuances because the UI is
 displayed by a separate system player. The specific nuances of this remote
 model, particularly regarding how logic and interactions are handled, are
-detailed in the [Event Handling](#event-handling:-actions-vs.-lambdas) section.
+detailed in the [Event Handling](#event-handling-actions-vs-lambdas) section.
 
 **Choosing Your Implementation Strategy.** To ensure the best user experience
 across all device generations, you must decide how your app will provide content
@@ -345,8 +345,7 @@ next steps:
 - **Master the Core Concepts**: Deep dive into the
   [Technical Guide](#technical-guide) to understand the
   [Remote UI Programming Model](#remote-ui-programming-model) and how to handle
-  interactions using
-  [Declarative Actions](#event-handling:-actions-vs.-lambdas).
+  interactions using [Declarative Actions](#event-handling-actions-vs-lambdas).
 - **Define Your Provider Contract**: Reference the
   [Manifest and XML Reference](#manifest-and-xml-reference) to configure your
   widget's capabilities, such as supported sizes (`SMALL` and `LARGE`), and set
@@ -363,7 +362,7 @@ devices. Because the platform supports a wide range of hardware—from legacy We
 OS 3 devices to modern Galaxy and Pixel Watches—the system's behavior depends on
 the services your app provides
 
-### Dual-Service Implementation (Recommended) {#dual-service-implementation-(recommended)}
+### Dual-Service Implementation (Recommended) {#dual-service-implementation-recommended}
 
 This approach involves maintaining both a native Tile and a Widget. It is the
 recommended path for all apps that have an existing Tile version of the Widget
@@ -421,7 +420,7 @@ action—including visual samples and code for components like `RemoteBox`,
 `RemoteButton`, and `RemoteCanvas`—please see the
 [Component Gallery](https://github.com/ithinkihaveacat/wear-os-samples/blob/wear-widgets/WearWidgetKotlin/docs/COMPONENTS.md).
 
-#### Event Handling: Actions vs. Lambdas {#event-handling:-actions-vs.-lambdas}
+#### Event Handling: Actions vs. Lambdas {#event-handling-actions-vs-lambdas}
 
 Because widgets run in a remote process, they cannot execute local code
 (lambdas). Standard Compose syntax for event handling is replaced by
@@ -1182,8 +1181,7 @@ configurations, multiple images may incorrectly display the content of the
 _last_ added image.
 
 **Workaround:** Use `RemoteCanvas` combined with `drawScaledBitmap` instead of
-the `RemoteImage` component. This avoids the internal state issue affecting the
-`ImageLayout` component.
+the `RemoteImage` component.
 
 ```kotlin
 // Define a helper composable
