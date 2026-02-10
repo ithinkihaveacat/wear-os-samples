@@ -390,7 +390,7 @@ user experience across different devices.
 | **Wear OS 7 (No partial-height support, e.g., Pixel Watch)** | Native **Tile** is used   |
 | **Wear OS 7 (Partial-height support, e.g., Galaxy Watch)**   | Native **Widget** is used |
 
-### Single Service Implementation (Alternative) {#single-service-implementation-(alternative)}
+### Single Service Implementation (Alternative) {#single-service-implementation}
 
 A single service handles both protocols. While faster to implement, it relies on
 a compatibility mode to "translate" your widget into a Tile on older devices.
@@ -839,11 +839,11 @@ while falling back to your existing Tile on older platforms.
 
 **Deprecating a tile? Reuse the service name.** If you decide to _replace_ an
 existing Tile with a Widget (following the
-[single service approach](<#single-service-implementation-(alternative)>)), be
-sure to reuse the original Service name to ensure the Widget takes the place of
-the Tile in the carousel. Wear OS 6 ignores the `group` attribute and identifies
-carousel entries strictly by Service name. Reusing the name prevents your Tile
-from disappearing from the carousel upon update.
+[single service approach](#single-service-implementation)), be sure to reuse the
+original Service name to ensure the Widget takes the place of the Tile in the
+carousel. Wear OS 6 ignores the `group` attribute and identifies carousel
+entries strictly by Service name. Reusing the name prevents your Tile from
+disappearing from the carousel upon update.
 
 ## Known Issues and Limitations
 
@@ -1078,7 +1078,7 @@ drawConditionally(isToggled.not()) {
 }
 ```
 
-### `RemoteMaterialTheme.typography` Does Not Expose Semantic Styles {#remotematerialtheme.typography-does-not-expose-semantic-styles}
+### `RemoteMaterialTheme.typography` Does Not Expose Semantic Styles {#typography-does-not-expose-semantic-styles}
 
 b/478828032
 
@@ -1090,7 +1090,7 @@ semantic text styles directly (e.g.,
 `RemoteMaterialTheme.typography.titleLarge`) causes a compilation error. This
 means you cannot use "semantic" text styles to `MaterialRemoteText` components.
 
-**Temporary Workaround: Use Local Typography Definitions**
+#### Temporary Workaround: Use Local Typography Definitions
 
 Until semantic styles are officially exposed via
 `RemoteMaterialTheme.typography`, you can unblock development by defining a
@@ -1172,6 +1172,48 @@ MaterialRemoteText(
 )
 ```
 
+### `RemoteImage` Visibility and Duplication Issues {#remoteimage-visibility-and-duplication-issues}
+
+b/483291287
+
+**Symptom:** When multiple `RemoteImage` composables are used in the same
+layout, the first image may fail to render (appearing invisible). In some
+configurations, multiple images may incorrectly display the content of the
+_last_ added image.
+
+**Workaround:** Use `RemoteCanvas` combined with `drawScaledBitmap` instead of
+the `RemoteImage` component. This avoids the internal state issue affecting the
+`ImageLayout` component.
+
+```kotlin
+// Define a helper composable
+@RemoteComposable
+@Composable
+fun CanvasRemoteImage(
+    bitmap: ImageBitmap,
+    contentDescription: String,
+    modifier: RemoteModifier = RemoteModifier,
+    contentScale: ContentScale = ContentScale.Fit
+) {
+    val remoteBitmap = bitmap.rb
+    RemoteCanvas(modifier = modifier) {
+        drawScaledBitmap(
+            image = remoteBitmap,
+            dstSize = RemoteSize(remote.component.width, remote.component.height),
+            scaleType = contentScale,
+            contentDescription = contentDescription,
+        )
+    }
+}
+
+// Usage
+CanvasRemoteImage(
+    bitmap = ImageBitmap.imageResource(id = R.drawable.my_image),
+    contentDescription = "My Image",
+    modifier = RemoteModifier.size(35.rdp)
+)
+```
+
 ### [FIXED] Crash when using `drawScaledBitmap` with Resource Bitmaps {#crash-when-using-drawscaledbitmap-with-resource-bitmaps}
 
 b/479893918
@@ -1235,10 +1277,14 @@ drawScaledBitmap(
 #### Known Issues
 
 - [ADDED]
-  [RemoteMaterialTheme.typography Does Not Expose Semantic Styles](#remotematerialtheme.typography-does-not-expose-semantic-styles):
+  [RemoteMaterialTheme.typography Does Not Expose Semantic Styles](#typography-does-not-expose-semantic-styles):
   Semantic text styles (e.g., `titleLarge`) are currently internal and cannot be
   accessed directly. A workaround using a local `MyWidgetTypography` object is
   provided.
+- [ADDED]
+  [RemoteImage Visibility and Duplication Issues](#remoteimage-visibility-and-duplication-issues):
+  Multiple `RemoteImage` instances may fail to render correctly. A workaround
+  using `RemoteCanvas` is provided.
 - [FIXED]
   [Multiple DataStores Active Crash](#multiple-datastores-active-crash-datastore-conflict):
   The `IllegalStateException: There are multiple DataStores active` crash has
