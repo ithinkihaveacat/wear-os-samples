@@ -84,6 +84,7 @@ list_layouts() {
     echo "  BitmapCanvasSample"
     echo "  TwoRemoteImagesWorkaround"
     echo "  TwoRemoteImagesBug"
+    echo "  DebugClickSample"
     exit 0
 }
 
@@ -118,7 +119,7 @@ fi
 LAYOUT="$1"
 
 # Validate layout name
-VALID_LAYOUTS="SemanticStyleWorkaroundSample CanvasSample3 SystemThemeComparisonSample SystemThemeSample CustomThemeSample AustralianThemeSample BoxSample1 BoxSample2 BoxSample3 TextSample1 TextSample1WithMargin RowSample1 RowSample2 CollapsibleColumnSample1 ButtonSample1 ButtonSample2 ButtonSample3 ButtonSample4 ButtonSample6 ButtonSample7 ButtonSample8 ButtonSample9 IconSample1 GridSample1 CardSample1 CounterSample1 Material3ThemeSample CanvasSample1 CanvasSample2 GradientBackgroundSample PendingIntentSample VerticalScrollSample MixedStyleSample ConditionalRadiusSample TypographyScaleSample AnchoredTextSample RotatedTextSample FullBleedImageButtonSample BitmapCanvasSample TwoRemoteImagesWorkaround TwoRemoteImagesBug"
+VALID_LAYOUTS="SemanticStyleWorkaroundSample CanvasSample3 SystemThemeComparisonSample SystemThemeSample CustomThemeSample AustralianThemeSample BoxSample1 BoxSample2 BoxSample3 TextSample1 TextSample1WithMargin RowSample1 RowSample2 CollapsibleColumnSample1 ButtonSample1 ButtonSample2 ButtonSample3 ButtonSample4 ButtonSample6 ButtonSample7 ButtonSample8 ButtonSample9 IconSample1 GridSample1 CardSample1 CounterSample1 Material3ThemeSample CanvasSample1 CanvasSample2 GradientBackgroundSample PendingIntentSample VerticalScrollSample MixedStyleSample ConditionalRadiusSample TypographyScaleSample AnchoredTextSample RotatedTextSample FullBleedImageButtonSample BitmapCanvasSample TwoRemoteImagesWorkaround TwoRemoteImagesBug DebugClickSample"
 
 if ! echo "$VALID_LAYOUTS" | grep -qw "$LAYOUT"; then
     echo "$(basename "$0"): unknown layout '$LAYOUT'" >&2
@@ -183,7 +184,7 @@ if [ -n "$INDEX" ]; then
         --es operation show-tile \
         --ei index "$INDEX" > /dev/null
     # Wait for the widget to be fully displayed to avoid screenshot issues
-    sleep 1
+    sleep 2
     echo "Success: Widget updated to '$LAYOUT'."
 else
     echo "Error: Failed to refresh tile." >&2

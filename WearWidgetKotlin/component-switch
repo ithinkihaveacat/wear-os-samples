@@ -161,7 +161,7 @@ if [ -n "$INDEX" ]; then
         --es operation show-tile \
         --ei index "$INDEX" > /dev/null
     # Wait for the widget to be fully displayed to avoid screenshot issues
-    sleep 1
+    sleep 2
     echo "Success: Widget updated to '$LAYOUT'."
 else
     echo "Error: Failed to refresh tile." >&2
