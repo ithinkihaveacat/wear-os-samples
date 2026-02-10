@@ -54,7 +54,9 @@ import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -141,6 +143,7 @@ class WidgetCatalog : GlanceWearWidget() {
                 "TwoRemoteImagesWorkaround" -> TwoRemoteImagesWorkaround()
                 "TwoRemoteImagesBug" -> TwoRemoteImagesBug()
                 "BitmapCanvasSample" -> BitmapCanvasSample()
+                "DebugClickSample" -> DebugClickSample()
                 else -> SemanticStyleWorkaroundSample()
             }
         }
@@ -1879,6 +1882,43 @@ fun TwoRemoteImagesBug() {
                     contentDescription = "Person".rs,
                     modifier = RemoteModifier.size(35.rdp),
                 )
+            }
+        }
+    }
+}
+
+@RemoteComposable
+@Composable
+fun DebugClickSample() {
+    val context = LocalContext.current
+    val intent = remember(context) { Intent("com.google.example.wear_widget.DEBUG_CLICK_ACTION").setPackage(context.packageName) }
+    val pendingIntent = remember(context) {
+        PendingIntent.getBroadcast(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+    }
+
+    RemoteMaterialTheme {
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            RemoteBox(
+                modifier = RemoteModifier
+                    .size(100.rdp)
+                    .background(Color.Red.rc)
+                    .clip(CircleShape, DpSize(100.dp, 100.dp))
+                    .clickable(
+                        pendingIntentAction(pendingIntent)
+                    ),
+                horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                verticalArrangement = RemoteArrangement.Center
+            ) {
+                MaterialRemoteText("Click Me".rs)
             }
         }
     }

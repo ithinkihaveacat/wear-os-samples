@@ -11,6 +11,10 @@ import kotlinx.coroutines.launch
 
 class WidgetCatalogReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
+        if (intent.action == "com.google.example.wear_widget.DEBUG_CLICK_ACTION") {
+            Log.d("WidgetCatalogRcvr", "DEBUG_CLICK_ACTION received! Click successful.")
+            return
+        }
         if (intent.action == "com.google.example.wear_widget.SET_WIDGET") {
             val layoutName = intent.getStringExtra("widget")
             if (layoutName != null) {
