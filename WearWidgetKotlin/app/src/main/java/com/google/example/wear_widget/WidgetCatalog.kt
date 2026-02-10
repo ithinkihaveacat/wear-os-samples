@@ -1660,6 +1660,13 @@ fun TypographyScaleSample() {
 fun FullBleedImageButtonSample() {
     val backgroundBitmap = ImageBitmap.imageResource(id = R.drawable.photo_14).rb
 
+    // Toggle state for click interaction
+    val state = rememberRemoteIntValue { 0 }
+    val isToggled = state eq 1.ri
+
+    // Overlay color: Semi-transparent Black when toggled, Transparent when not
+    val overlayColor = isToggled.select(Color(0xAA000000).rc, Color.Transparent.rc)
+
     RemoteMaterialTheme {
         RemoteBox(modifier = RemoteModifier.fillMaxSize()) {
             // Background (Full Bleed Image) using RemoteCanvas to avoid RemoteImage conflict
@@ -1684,8 +1691,8 @@ fun FullBleedImageButtonSample() {
                         RemoteModifier.size(60.rdp)
                             .clip(CircleShape, DpSize(60.dp, 60.dp)) // Explicit size required (b/477860914)
                             .clickable(
-                                ValueChange(rememberRemoteIntValue { 0 }, 0.ri)
-                            ), // Add click action if needed, currently empty
+                                ValueChange(state, state xor 1.ri)
+                            ),
                     horizontalAlignment = RemoteAlignment.CenterHorizontally,
                     verticalArrangement = RemoteArrangement.Center,
                 ) {
@@ -1694,6 +1701,11 @@ fun FullBleedImageButtonSample() {
                         contentDescription = "Avatar".rs,
                         contentScale = ContentScale.Crop,
                         modifier = RemoteModifier.fillMaxSize(),
+                    )
+                    
+                    // Overlay to indicate click state
+                    RemoteBox(
+                        modifier = RemoteModifier.fillMaxSize().background(overlayColor)
                     )
                 }
             }
