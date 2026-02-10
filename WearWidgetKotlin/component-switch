@@ -3,18 +3,16 @@
 # component-switch - Reliably switch ComponentCatalog widget layouts via ADB
 #
 # Usage:
-#   component-switch LAYOUT [WAIT_SECONDS]
+#   component-switch LAYOUT
 #
 # Arguments:
 #   LAYOUT         Layout name (textButton, iconButton, avatarButton, imageButton,
 #                  compactButton, titleCard, appCard, circularProgressIndicator,
 #                  segmentedCircularProgressIndicator, fullBleedImage, animatedBox)
-#   WAIT_SECONDS   Optional render wait time (default: 1.5)
 #
 # Examples:
 #   component-switch textButton
-#   component-switch appCard 2
-#   component-switch fullBleedImage 1
+#   component-switch appCard
 #
 # Notes:
 #   - Requires ANDROID_SERIAL to be set or a single device connected
@@ -29,14 +27,13 @@ COMPONENT="$PACKAGE/$SERVICE"
 
 usage() {
     cat <<EOF
-Usage: $(basename "$0") LAYOUT [WAIT_SECONDS]
+Usage: $(basename "$0") LAYOUT
        $(basename "$0") --list
 
 Switch ComponentCatalog widget layouts reliably via ADB.
 
 Arguments:
   LAYOUT         Layout name to switch to
-  WAIT_SECONDS   Render wait time in seconds (ignored, kept for compatibility)
 
 Options:
   --list         List available layouts
@@ -48,7 +45,6 @@ Available layouts:
 
 Examples:
   $(basename "$0") textButton      # Switch to textButton layout
-  $(basename "$0") appCard 2       # Switch with 2s render wait
 EOF
     exit 0
 }
@@ -164,6 +160,8 @@ if [ -n "$INDEX" ]; then
         -a com.google.android.wearable.app.DEBUG_SYSUI \
         --es operation show-tile \
         --ei index "$INDEX" > /dev/null
+    # Wait for the widget to be fully displayed to avoid screenshot issues
+    sleep 1
     echo "Success: Widget updated to '$LAYOUT'."
 else
     echo "Error: Failed to refresh tile." >&2

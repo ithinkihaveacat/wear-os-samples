@@ -3,15 +3,13 @@
 # widget-switch - Reliably switch WidgetCatalog layouts via ADB
 #
 # Usage:
-#   widget-switch LAYOUT [WAIT_SECONDS]
+#   widget-switch LAYOUT
 #
 # Arguments:
 #   LAYOUT         Layout name (e.g., BoxSample1, TextSample1, SystemThemeSample, etc.)
-#   WAIT_SECONDS   Optional render wait time (default: 1.5)
 #
 # Examples:
 #   widget-switch BoxSample1
-#   widget-switch SystemThemeSample 2
 #
 # Notes:
 #   - Requires ANDROID_SERIAL to be set or a single device connected
@@ -26,14 +24,13 @@ COMPONENT="$PACKAGE/$SERVICE"
 
 usage() {
     cat <<EOF
-Usage: $(basename "$0") LAYOUT [WAIT_SECONDS]
+Usage: $(basename "$0") LAYOUT
        $(basename "$0") --list
 
 Switch WidgetCatalog layouts reliably via ADB.
 
 Arguments:
   LAYOUT         Layout name to switch to
-  WAIT_SECONDS   Render wait time in seconds (ignored, kept for compatibility)
 
 Options:
   --list         List available layouts
@@ -185,6 +182,8 @@ if [ -n "$INDEX" ]; then
         -a com.google.android.wearable.app.DEBUG_SYSUI \
         --es operation show-tile \
         --ei index "$INDEX" > /dev/null
+    # Wait for the widget to be fully displayed to avoid screenshot issues
+    sleep 1
     echo "Success: Widget updated to '$LAYOUT'."
 else
     echo "Error: Failed to refresh tile." >&2
