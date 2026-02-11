@@ -50,7 +50,7 @@ fun FullBleedImageButtonSample() {
 
     RemoteMaterialTheme {
         RemoteBox(modifier = RemoteModifier.fillMaxSize()) {
-            // Background (Full Bleed Image) using RemoteCanvas to avoid RemoteImage conflict
+            // Background (Full Bleed Image) using RemoteCanvas to avoid RemoteImage conflict (b/483291287)
             RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
                 drawScaledBitmap(
                     image = backgroundBitmap,
@@ -83,7 +83,7 @@ fun FullBleedImageButtonSample() {
                         contentScale = ContentScale.Crop,
                         modifier = RemoteModifier.fillMaxSize(),
                     )
-                    
+
                     // Overlay to indicate click state
                     RemoteBox(
                         modifier = RemoteModifier.fillMaxSize().background(overlayColor)
