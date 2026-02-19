@@ -97,9 +97,9 @@ dependencies {
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.ui.tooling)
 
-    // If you are using Compose Navigation, use the Wear OS version (NOT the
-    // androidx.navigation:navigation-compose version), that is, uncomment the line below.
-    implementation(libs.wear.compose.navigation)
+    // Navigation 3
+    implementation(libs.wear.compose.navigation3)
+    implementation(libs.androidx.navigation3.ui)
 
     implementation(libs.androidx.ui.test.manifest)
 

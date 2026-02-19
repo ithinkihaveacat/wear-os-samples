@@ -50,16 +50,16 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TitleCard
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
-import androidx.wear.compose.navigation.SwipeDismissableNavHost
-import androidx.wear.compose.navigation.composable
-import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
+import androidx.compose.runtime.mutableStateListOf
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.ui.NavDisplay
+import androidx.wear.compose.navigation3.rememberSwipeDismissableSceneStrategy
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.example.android.wearable.composestarter.R
 import com.example.android.wearable.composestarter.presentation.theme.AppCardDefaults
 import com.example.android.wearable.composestarter.presentation.theme.WearAppTheme
-import com.google.android.horologist.compose.layout.ColumnItemType
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
+
 
 /**
  * Simple "Hello, World" app meant as a starting point for a new project using Compose for Wear OS.
@@ -83,21 +83,31 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun WearApp() {
-    val navController = rememberSwipeDismissableNavController()
+    val backStack = remember { mutableStateListOf<Screen>(Screen.Landing) }
+    val strategy = rememberSwipeDismissableSceneStrategy<Screen>()
 
     WearAppTheme {
         AppScaffold {
-            SwipeDismissableNavHost(navController = navController, startDestination = "menu") {
-                composable("menu") {
-                    GreetingScreen(
-                        "Android",
-                        onShowList = { navController.navigate("list") }
+            NavDisplay(
+                backStack = backStack,
+                sceneStrategy = strategy,
+                entryProvider = { screen ->
+                    NavEntry(
+                        key = screen,
+                        content = {
+                            when (screen) {
+                                Screen.Landing -> GreetingScreen(
+                                    "Android",
+                                    onShowList = { backStack.add(Screen.List) },
+                                    onShowTlc = { backStack.add(Screen.Tlc) }
+                                )
+                                Screen.List -> ListScreen()
+                                Screen.Tlc -> TlcEnhancementScreen()
+                            }
+                        }
                     )
                 }
-                composable("list") {
-                    ListScreen()
-                }
-            }
+            )
         }
     }
 }
@@ -106,14 +116,11 @@ fun WearApp() {
 fun GreetingScreen(
     greetingName: String,
     onShowList: () -> Unit,
+    onShowTlc: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberTransformingLazyColumnState()
 
-    /* If you have enough items in your list, use [TransformingLazyColumn] which is an optimized
-     * version of LazyColumn for wear devices with some added features. For more information,
-     * see d.android.com/wear/compose.
-     */
     ScreenScaffold(
         scrollState = scrollState,
         edgeButton = {
@@ -123,22 +130,22 @@ fun GreetingScreen(
             ) {
                 Text(stringResource(R.string.show_list))
             }
-        },
-        // The bottom padding value is always ignored when using EdgeButton because this button is
-        // always placed at the end of the screen.
-        // The `ScreenScaffold` parameter `edgeButtonSpacing` can be used to specify the
-        // gap between edgeButton and content.
-        contentPadding =
-            rememberResponsiveColumnPadding(
-                first = ColumnItemType.ListHeader
-            )
+        }
     ) { contentPadding ->
-        // Use workaround from Horologist for padding or wait until fix lands
         TransformingLazyColumn(
             state = scrollState,
-            contentPadding = contentPadding
+            contentPadding = contentPadding,
+            modifier = Modifier.fillMaxSize()
         ) {
-            item { Greeting(greetingName = greetingName, modifier = modifier.fillMaxSize()) }
+            item { Greeting(greetingName = greetingName, modifier = modifier.fillMaxWidth()) }
+            item {
+                Button(
+                    onClick = onShowTlc,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Show TLC Demo")
+                }
+            }
         }
     }
 }
@@ -147,29 +154,16 @@ fun GreetingScreen(
 fun ListScreen(modifier: Modifier = Modifier) {
     var showDialog by remember { mutableStateOf(false) }
 
-    /*
-     * Specifying the types of items that appear at the start and end of the list ensures that the
-     * appropriate padding is used.
-     */
     val listState = rememberTransformingLazyColumnState()
     val transformationSpec = rememberTransformationSpec()
 
     ScreenScaffold(
-        scrollState = listState,
-        /*
-         * TransformingLazyColumn takes care of the horizontal and vertical
-         * padding for the list and handles scrolling.
-         * Use workaround from Horologist for padding or wait until fix lands
-         */
-        contentPadding =
-            rememberResponsiveColumnPadding(
-                first = ColumnItemType.ListHeader,
-                last = ColumnItemType.IconButton
-            )
+        scrollState = listState
     ) { contentPadding ->
         TransformingLazyColumn(
             state = listState,
-            contentPadding = contentPadding
+            contentPadding = contentPadding,
+            modifier = Modifier.fillMaxSize()
         ) {
             item {
                 ListHeader(
@@ -319,7 +313,7 @@ fun SampleDialog(
 @WearPreviewFontScales
 @Composable
 fun GreetingScreenPreview() {
-    GreetingScreen("Preview Android", onShowList = {})
+    GreetingScreen("Preview Android", onShowList = {}, onShowTlc = {})
 }
 
 @WearPreviewDevices
