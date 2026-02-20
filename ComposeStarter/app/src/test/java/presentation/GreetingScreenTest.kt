@@ -37,7 +37,7 @@ class GreetingScreenTest(
             AppScaffold(
                 timeText = { ResponsiveTimeText(timeSource = FixedTimeSource) }
             ) {
-                GreetingScreen(greetingName = "screenshot", onShowList = {})
+                GreetingScreen(greetingName = "screenshot", onShowList = {}, onShowTlc = {})
             }
         }
 
