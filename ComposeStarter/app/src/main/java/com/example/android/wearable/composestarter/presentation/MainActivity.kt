@@ -21,7 +21,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -30,8 +32,13 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.scene.SceneStrategy
+import androidx.navigation3.ui.NavDisplay
+import androidx.wear.compose.foundation.LocalAmbientModeManager
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.foundation.rememberAmbientModeManager
 import androidx.wear.compose.material3.AlertDialog
 import androidx.wear.compose.material3.AlertDialogDefaults
 import androidx.wear.compose.material3.AppScaffold
@@ -50,17 +57,12 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TitleCard
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
-import androidx.compose.runtime.mutableStateListOf
-import androidx.navigation3.runtime.NavEntry
-import androidx.navigation3.ui.NavDisplay
-import androidx.navigation3.scene.SceneStrategy
 import androidx.wear.compose.navigation3.rememberSwipeDismissableSceneStrategy
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.example.android.wearable.composestarter.R
 import com.example.android.wearable.composestarter.presentation.theme.AppCardDefaults
 import com.example.android.wearable.composestarter.presentation.theme.WearAppTheme
-
 
 /**
  * Simple "Hello, World" app meant as a starting point for a new project using Compose for Wear OS.
@@ -86,29 +88,35 @@ class MainActivity : ComponentActivity() {
 fun WearApp() {
     val backStack = remember { mutableStateListOf<Screen>(Screen.Landing) }
     val strategy: SceneStrategy<Screen> = rememberSwipeDismissableSceneStrategy()
+    val ambientModeManager = rememberAmbientModeManager()
 
     WearAppTheme {
-        AppScaffold {
-            NavDisplay(
-                backStack = backStack,
-                sceneStrategy = strategy,
-                entryProvider = { screen ->
-                    NavEntry(
-                        key = screen,
-                        content = {
-                            when (screen) {
-                                Screen.Landing -> GreetingScreen(
-                                    "Android",
-                                    onShowList = { backStack.add(Screen.List) },
-                                    onShowTlc = { backStack.add(Screen.Tlc) }
-                                )
-                                Screen.List -> ListScreen()
-                                Screen.Tlc -> TlcEnhancementScreen()
+        CompositionLocalProvider(LocalAmbientModeManager provides ambientModeManager) {
+            AppScaffold {
+                NavDisplay(
+                    backStack = backStack,
+                    sceneStrategy = strategy,
+                    entryProvider = { screen ->
+                        NavEntry(
+                            key = screen,
+                            content = {
+                                when (screen) {
+                                    Screen.Landing ->
+                                        GreetingScreen(
+                                            "Android",
+                                            onShowList = { backStack.add(Screen.List) },
+                                            onShowTlc = { backStack.add(Screen.Tlc) },
+                                            onShowAmbient = { backStack.add(Screen.Ambient) }
+                                        )
+                                    Screen.List -> ListScreen()
+                                    Screen.Tlc -> TlcEnhancementScreen()
+                                    Screen.Ambient -> AmbientScreen()
+                                }
                             }
-                        }
-                    )
-                }
-            )
+                        )
+                    }
+                )
+            }
         }
     }
 }
@@ -118,6 +126,7 @@ fun GreetingScreen(
     greetingName: String,
     onShowList: () -> Unit,
     onShowTlc: () -> Unit,
+    onShowAmbient: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberTransformingLazyColumnState()
@@ -145,6 +154,14 @@ fun GreetingScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Show TLC Demo")
+                }
+            }
+            item {
+                Button(
+                    onClick = onShowAmbient,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Show Ambient Demo")
                 }
             }
         }
@@ -298,7 +315,7 @@ fun SampleDialog(
 @WearPreviewFontScales
 @Composable
 fun GreetingScreenPreview() {
-    GreetingScreen("Preview Android", onShowList = {}, onShowTlc = {})
+    GreetingScreen("Preview Android", onShowList = {}, onShowTlc = {}, onShowAmbient = {})
 }
 
 @WearPreviewDevices

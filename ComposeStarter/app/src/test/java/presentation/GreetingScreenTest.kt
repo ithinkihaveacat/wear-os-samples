@@ -35,13 +35,21 @@ class GreetingScreenTest(
         runTest {
             AppScaffold(
                 timeText = {
-                    TimeText(timeSource = object : TimeSource {
-                        @Composable
-                        override fun currentTime(): String = "10:10"
-                    })
+                    TimeText(
+                        timeSource =
+                            object : TimeSource {
+                                @Composable
+                                override fun currentTime(): String = "10:10"
+                            }
+                    )
                 }
             ) {
-                GreetingScreen(greetingName = "screenshot", onShowList = {}, onShowTlc = {})
+                GreetingScreen(
+                    greetingName = "screenshot",
+                    onShowList = {},
+                    onShowTlc = {},
+                    onShowAmbient = {}
+                )
             }
         }
 

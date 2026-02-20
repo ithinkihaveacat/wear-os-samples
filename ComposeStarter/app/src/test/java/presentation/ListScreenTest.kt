@@ -15,11 +15,11 @@
  */
 package presentation
 
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.performScrollToIndex
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
-import androidx.compose.runtime.Composable
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.TimeSource
 import androidx.wear.compose.material3.TimeText
@@ -39,10 +39,13 @@ class ListScreenTest(
         runTest {
             AppScaffold(
                 timeText = {
-                    TimeText(timeSource = object : TimeSource {
-                        @Composable
-                        override fun currentTime(): String = "10:10"
-                    })
+                    TimeText(
+                        timeSource =
+                            object : TimeSource {
+                                @Composable
+                                override fun currentTime(): String = "10:10"
+                            }
+                    )
                 }
             ) {
                 ListScreen()
