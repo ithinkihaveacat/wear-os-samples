@@ -6,7 +6,6 @@ androidx-wear-compose-material3 = "1.6.0-alpha10"
 androidx-wear-compose = "1.6.0-alpha10"
 androidx-navigation3 = "1.0.0"
 compose-ui-tooling = "1.5.6"
-horologist = "0.7.15"
 ktlint = "1.4.0"
 org-jetbrains-kotlin = "2.3.0"
 robolectric = "4.16.1"
@@ -25,7 +24,6 @@ compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 desugar-jdk-libs = "com.android.tools:desugar_jdk_libs:2.1.5"
-horologist-roboscreenshots = { module = "com.google.android.horologist:horologist-roboscreenshots", version.ref = "horologist" }
 junit = "junit:junit:4.13.2"
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "org-jetbrains-kotlin" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
@@ -39,7 +37,6 @@ wear-compose-material = { module = "androidx.wear.compose:compose-material3", ve
 wear-compose-navigation = { module = "androidx.wear.compose:compose-navigation", version.ref = "androidx-wear-compose" }
 wear-compose-navigation3 = { module = "androidx.wear.compose:compose-navigation3", version.ref = "androidx-wear-compose" }
 androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "androidx-navigation3" }
-horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologist" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }

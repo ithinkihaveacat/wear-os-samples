@@ -91,8 +91,6 @@ dependencies {
     implementation(libs.wear.compose.foundation)
     implementation(libs.androidx.material.icons.core)
 
-    implementation(libs.horologist.compose.layout)
-
     // Preview Tooling
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.ui.tooling)
@@ -112,7 +110,6 @@ dependencies {
     testImplementation(libs.roborazzi)
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.roborazzi.rule)
-    testImplementation(libs.horologist.roboscreenshots)
 
     androidTestImplementation(libs.test.ext.junit)
     androidTestImplementation(libs.test.espresso.core)
