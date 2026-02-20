@@ -16,7 +16,10 @@ import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.foundation.rotary.RotaryScrollableDefaults
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.SwitchButton
+import androidx.wear.compose.material3.SwitchButtonDefaults
 import androidx.wear.compose.material3.Text
 
 @Composable
@@ -49,20 +52,20 @@ fun TlcEnhancementScreen() {
                 }
             }
             item {
-                Button(
-                    onClick = { reverseLayout = !reverseLayout },
+                SwitchButton(
+                    checked = reverseLayout,
+                    onCheckedChange = { reverseLayout = it },
+                    label = { Text("Reverse Layout") },
                     modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Reverse: ${if (reverseLayout) "ON" else "OFF"}")
-                }
+                )
             }
             item {
-                Button(
-                    onClick = { useSnapping = !useSnapping },
+                SwitchButton(
+                    checked = useSnapping,
+                    onCheckedChange = { useSnapping = it },
+                    label = { Text("Snapping") },
                     modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Snap: ${if (useSnapping) "ON" else "OFF"}")
-                }
+                )
             }
             items(20) { index ->
                 Button(
