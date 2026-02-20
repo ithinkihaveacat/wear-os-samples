@@ -53,6 +53,7 @@ import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.compose.runtime.mutableStateListOf
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
+import androidx.navigation3.scene.SceneStrategy
 import androidx.wear.compose.navigation3.rememberSwipeDismissableSceneStrategy
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
@@ -84,7 +85,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun WearApp() {
     val backStack = remember { mutableStateListOf<Screen>(Screen.Landing) }
-    val strategy = rememberSwipeDismissableSceneStrategy<Screen>()
+    val strategy: SceneStrategy<Screen> = rememberSwipeDismissableSceneStrategy()
 
     WearAppTheme {
         AppScaffold {
