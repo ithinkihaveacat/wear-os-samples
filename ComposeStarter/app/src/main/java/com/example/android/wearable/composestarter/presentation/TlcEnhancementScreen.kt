@@ -68,14 +68,14 @@ fun TlcEnhancementScreen() {
                         .transformedHeight(this, transformationSpec),
                     transformation = SurfaceTransformation(transformationSpec)
                 ) {
-                    Text("TLC Demo Controls")
+                    Text(stringResource(R.string.tlc_settings))
                 }
             }
             item {
                 SwitchButton(
                     checked = reverseLayout,
                     onCheckedChange = { reverseLayout = it },
-                    label = { Text("Reverse Layout") },
+                    label = { Text(stringResource(R.string.reverse_layout)) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .transformedHeight(this, transformationSpec),
@@ -86,7 +86,7 @@ fun TlcEnhancementScreen() {
                 SwitchButton(
                     checked = useSnapping,
                     onCheckedChange = { useSnapping = it },
-                    label = { Text("Snapping") },
+                    label = { Text(stringResource(R.string.snapping)) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .transformedHeight(this, transformationSpec),
@@ -100,7 +100,7 @@ fun TlcEnhancementScreen() {
                         .fillMaxWidth()
                         .transformedHeight(this, transformationSpec),
                     transformation = SurfaceTransformation(transformationSpec)
-                ) { Text(text = "ListScreen Items") }
+                ) { Text(text = stringResource(R.string.item_list)) }
             }
             item {
                 TitleCard(
@@ -119,22 +119,6 @@ fun TlcEnhancementScreen() {
                 ) {
                     Text(stringResource(R.string.example_card_content))
                 }
-            }
-            item {
-                Button(
-                    label = {
-                        Text(
-                            text = stringResource(R.string.example_button_text),
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    },
-                    onClick = { },
-                    modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .transformedHeight(this, transformationSpec),
-                    transformation = SurfaceTransformation(transformationSpec)
-                )
             }
             item {
                 ButtonGroup(
@@ -176,11 +160,11 @@ fun TlcEnhancementScreen() {
                     }
                 }
             }
-            items(20) { index ->
+            items(10) { index ->
                 Button(
                     label = {
                         Text(
-                            text = "Item $index",
+                            text = stringResource(R.string.item_label, index + 1),
                             modifier = Modifier.fillMaxWidth()
                         )
                     },

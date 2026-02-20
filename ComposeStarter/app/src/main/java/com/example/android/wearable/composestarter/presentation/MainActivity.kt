@@ -194,22 +194,6 @@ fun ListScreen(modifier: Modifier = Modifier) {
                 }
             }
             item {
-                Button(
-                    label = {
-                        Text(
-                            text = stringResource(R.string.example_button_text),
-                            modifier = modifier.fillMaxWidth()
-                        )
-                    },
-                    onClick = { },
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .transformedHeight(this, transformationSpec),
-                    transformation = SurfaceTransformation(transformationSpec)
-                )
-            }
-            item {
                 ButtonGroup(
                     modifier =
                         modifier

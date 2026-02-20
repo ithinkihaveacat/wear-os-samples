@@ -22,5 +22,9 @@
     <string name="thumbs_up_button_content_description">Thumbs up Button</string>
     <string name="example_card_title">Example Title</string>
     <string name="example_card_content">Example Content\nMore Lines\nAnd More</string>
-    <string name="example_button_text">Example Button</string>
+    <string name="tlc_settings">TLC Settings</string>
+    <string name="reverse_layout">Reverse Layout</string>
+    <string name="snapping">Snapping</string>
+    <string name="item_list">Item List</string>
+    <string name="item_label">Item %1$d</string>
 </resources>
