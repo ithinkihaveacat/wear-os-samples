@@ -21,7 +21,7 @@ plugins {
 }
 
 android {
-    compileSdk = 35
+    compileSdk = 36
 
     namespace = "com.example.wear.tiles"
 
@@ -73,6 +73,13 @@ dependencies {
     implementation(libs.androidx.wear.tiles)
     implementation(libs.androidx.wear.protolayout.material)
     implementation(libs.androidx.wear.protolayout.material3)
+
+    // Wear Widget / Remote Compose libraries
+    implementation("androidx.compose.remote:remote-creation-compose:1.0.0-alpha03")
+    implementation("androidx.compose.remote:remote-core:1.0.0-alpha03")
+    implementation("androidx.glance.wear:wear:1.0.0-alpha02")
+    implementation("androidx.glance.wear:wear-core:1.0.0-alpha02")
+    implementation("androidx.wear.compose.remote:remote-material3:1.0.0-SNAPSHOT")
 
     // Tooling dependencies for previewing tiles in Android Studio.
     implementation(libs.androidx.tiles.tooling)

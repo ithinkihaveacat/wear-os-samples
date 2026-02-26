@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wearwidget-provider
+    description="@string/tile_messaging_description"
+    icon="@mipmap/bolt"
+    label="@string/tile_messaging_label"
+    preferredType="SMALL">
+
+    <container
+        type="SMALL"
+        previewImage="@drawable/tile_messaging" />
+    <container
+        type="LARGE"
+        previewImage="@drawable/tile_messaging" />
+</wearwidget-provider>
