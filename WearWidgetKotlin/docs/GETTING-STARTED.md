@@ -1240,6 +1240,43 @@ drawScaledBitmap(
 )
 ```
 
+### RemoteImage failures when using large or unscaled bitmaps
+
+b/488353353
+
+**Symptom:** When using `RemoteImage` with large or unscaled bitmaps, the entire
+widget or tile may fail to render, resulting in an **empty display**.
+
+The system logs typically contain a generic `ExecutionException: Timed out` from
+`ProtoTilesTileRendererImpl`. Deep analysis of the logs may reveal a low-level
+`!!! FAILED BINDER TRANSACTION !!!` or a `TransactionTooLargeException`, but
+these are often masked by the subsequent timeout.
+
+**Workaround:** Manually scale bitmaps to the exact required display size before
+converting them to `ImageBitmap` and passing them to `RemoteImage`.
+
+For example, if displaying a 48dp avatar:
+
+```kotlin
+val originalBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.large_image)
+val density = context.resources.displayMetrics.density
+val sizePx = (48 * density).toInt()
+
+// Scale the bitmap before conversion
+val scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, sizePx, sizePx, true)
+val imageBitmap = scaledBitmap.asImageBitmap()
+
+RemoteImage(
+    bitmap = imageBitmap,
+    contentDescription = "Scaled Image".rs,
+    modifier = RemoteModifier.size(48.rdp)
+)
+```
+
+**Note:** Avoid passing unscaled `ImageBitmap` objects directly from resources,
+as their decoded size (even after internal PNG compression) can easily exceed
+the IPC payload limit.
+
 ## Updates {#updates}
 
 ### Wear Widgets EAP 1.1 — 9 Feb 2026
