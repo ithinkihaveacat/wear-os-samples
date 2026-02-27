@@ -75,11 +75,12 @@ dependencies {
     implementation(libs.androidx.wear.protolayout.material3)
 
     // Wear Widget / Remote Compose libraries
-    implementation("androidx.compose.remote:remote-creation-compose:1.0.0-alpha03")
-    implementation("androidx.compose.remote:remote-core:1.0.0-alpha03")
+    implementation("androidx.compose.remote:remote-creation-compose:1.0.0-alpha05")
+    implementation("androidx.compose.remote:remote-core:1.0.0-alpha05")
     implementation("androidx.glance.wear:wear:1.0.0-alpha02")
     implementation("androidx.glance.wear:wear-core:1.0.0-alpha02")
     implementation("androidx.wear.compose.remote:remote-material3:1.0.0-SNAPSHOT")
+    implementation("androidx.wear.compose:compose-material3:1.0.0-alpha29")
 
     // Tooling dependencies for previewing tiles in Android Studio.
     implementation(libs.androidx.tiles.tooling)

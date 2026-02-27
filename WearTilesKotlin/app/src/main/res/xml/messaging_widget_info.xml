@@ -3,6 +3,7 @@
     description="@string/tile_messaging_description"
     icon="@mipmap/bolt"
     label="@string/tile_messaging_label"
+    group="com.example.wear.tiles.messaging.MessagingTileService"
     preferredType="SMALL">
 
     <container
