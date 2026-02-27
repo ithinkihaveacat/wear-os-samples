@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
-import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
@@ -51,25 +50,30 @@ class ImageTestWidget : GlanceWearWidget() {
 @RemoteComposable
 @Composable
 fun ImageTestWidgetContent(context: Context) {
-    // Large image (640x427) -> ~1.09MB in ARGB_8888.
-    // However, the library applies PNG compression (quality 90).
-    // This test determines if a single image still exceeds the 1MB Binder limit.
-    val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.taylor)
-    val imageBitmap = bitmap.asImageBitmap()
+    // Decoding distinct images once to avoid deduplication and redundant decoding
+    val imageBitmaps = listOf(
+        R.drawable.taylor,
+        R.drawable.ali,
+        R.drawable.photo_01,
+        R.drawable.photo_16
+    ).map { resId ->
+        BitmapFactory.decodeResource(context.resources, resId).asImageBitmap()
+    }
 
     RemoteMaterialTheme {
-        RemoteBox(
+        RemoteColumn(
             modifier = RemoteModifier.fillMaxSize(),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
         ) {
-            RemoteImage(
-                bitmap = imageBitmap,
-                contentDescription = "Single Taylor Image".rs,
-                contentScale = ContentScale.Fit,
-                modifier = RemoteModifier.fillMaxSize()
-            )
+            imageBitmaps.forEachIndexed { index, imageBitmap ->
+                RemoteImage(
+                    bitmap = imageBitmap,
+                    contentDescription = "Test Image $index".rs,
+                    contentScale = ContentScale.Fit,
+                    modifier = RemoteModifier.size(60.rdp)
+                )
+            }
         }
     }
 }
-
