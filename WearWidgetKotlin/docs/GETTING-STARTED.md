@@ -1277,6 +1277,21 @@ RemoteImage(
 as their decoded size (even after internal PNG compression) can easily exceed
 the IPC payload limit.
 
+### "Full Bleed" Backgrounds Limited to Solid Colors
+
+b/480859310
+
+**Symptom:** When attempting to use complex background treatments—such as
+images, gradients, or custom drawing—for the entire widget document, the
+treatment appears inset with a visible border from the container's background
+color. True "full bleed" rendering (where the background treatment extends to
+the very edges of the rounded widget container) is currently only possible with
+solid colors via `WearWidgetDocument(backgroundColor = ...)`.
+
+**Workaround:** There is no known workaround to achieve a true full-bleed effect
+with images or gradients at this time. To maintain visual consistency, ensure
+your content or inner backgrounds complement the document's `backgroundColor`.
+
 ## Updates {#updates}
 
 ### Wear Widgets EAP 1.1 — 9 Feb 2026
