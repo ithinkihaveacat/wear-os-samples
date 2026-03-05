@@ -68,6 +68,7 @@ class WidgetCatalog : GlanceWearWidget() {
                 "TwoRemoteImagesBug" -> TwoRemoteImagesBug()
                 "BitmapCanvasSample" -> BitmapCanvasSample()
                 "DebugClickSample" -> DebugClickSample()
+                "BackgroundTreatmentsSample" -> BackgroundTreatmentsSample()
                 else -> SemanticStyleWorkaroundSample()
             }
         }
