@@ -28,6 +28,12 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 import com.google.example.wear_widget.R
 
+/**
+ * A Wear OS widget displaying a 2x3 grid of different background treatments: 1. Vertical (Red to
+ * Yellow), 2. Radial (Blue center to Cyan edges), 3. Sweep (Green to Magenta), 4. Bitmap (Landscape
+ * photo), 5. Custom (Orange circle drawn via Canvas), 6. Horizontal (White to Gray). Each cell
+ * contains a centered white text label.
+ */
 @RemoteComposable
 @Composable
 fun BackgroundTreatmentsSample() {
