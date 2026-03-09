@@ -145,95 +145,20 @@ if [ "$STATE_SAVED" = false ]; then
     exit 1
 fi
 
-# 4. Refresh Tile using DEBUG_SURFACE
-# This debug command bypasses standard throttling.
-OUTPUT=$(adb shell am broadcast \
-    -a com.google.android.wearable.app.DEBUG_SURFACE \
-    --es operation add-tile \
-    --ecn component "$COMPONENT")
+# 4. Refresh Tile and Wait for Visibility using adb-tile-add
+# We delegate to the shared skill script which handles the robust
+# visibility checks and remote compose failure detection.
+ADB_TILE_ADD="${HOME}/.agents/skills/adb/scripts/adb-tile-add"
 
-# Extract Index
-INDEX=$(echo "$OUTPUT" | grep -o 'Index=\[[0-9]*\]' | sed 's/Index=\[\([0-9]*\)\]/\1/')
+if [ ! -x "$ADB_TILE_ADD" ]; then
+    echo "Error: adb-tile-add not found at $ADB_TILE_ADD" >&2
+    echo "Please ensure the adb agent skill is installed." >&2
+    exit 1
+fi
 
-if [ -n "$INDEX" ]; then
-    # Wait for the widget to be fully displayed to avoid screenshot issues
-    echo "Waiting for visibility..."
-    
-    # Start monitoring SysUI and potential errors
-    VISIBILITY_LOG=$(mktemp)
-    adb logcat -v time SysUI:I ProtoTilesTileRendererImpl:E AndroidRuntime:E *:S > "$VISIBILITY_LOG" &
-    VISIBILITY_PID=$!
-    # Update trap to kill both PIDs
-    trap 'kill "$LOG_PID" "$VISIBILITY_PID" 2>/dev/null || true; rm -f "$LOG_FILE" "$VISIBILITY_LOG"' EXIT
-
-    adb shell am broadcast \
-        -a com.google.android.wearable.app.DEBUG_SYSUI \
-        --es operation show-tile \
-        --ei index "$INDEX" > /dev/null
-
-    START_TIME=$(date +%s)
-    TIMEOUT=10
-    VISIBLE=false
-
-    while true; do
-        CURRENT_TIME=$(date +%s)
-        ELAPSED=$((CURRENT_TIME - START_TIME))
-        
-        if [ $ELAPSED -ge $TIMEOUT ]; then
-            echo "Warning: Timeout waiting for tile visibility ($TIMEOUT s)."
-            break
-        fi
-
-        # Check for Success
-        if grep -q "Visible tile added" "$VISIBILITY_LOG"; then
-            VISIBLE=true
-            break
-        fi
-
-        # Check for Failures
-        if grep -q "FATAL EXCEPTION" "$VISIBILITY_LOG"; then
-            echo "Error: App crash detected!"
-            grep -A 5 "FATAL EXCEPTION" "$VISIBILITY_LOG"
-            exit 1
-        fi
-        if grep -q "Error getting tile response" "$VISIBILITY_LOG"; then
-            echo "Error: Renderer failed to get tile response."
-            grep "Error getting tile response" "$VISIBILITY_LOG"
-            exit 1
-        fi
-        if grep -q "Failed to render and attach the tile" "$VISIBILITY_LOG"; then
-            echo "Error: Renderer failed to read or attach the document (e.g. unsupported modifier)."
-            grep -A 2 "Failed to render and attach the tile" "$VISIBILITY_LOG"
-            exit 1
-        fi
-
-        sleep 0.2
-    done
-
-    if [ "$VISIBLE" = true ]; then
-        # Continue monitoring for a short buffer to catch immediate crashes
-        sleep 1.5
-        if grep -q "FATAL EXCEPTION" "$VISIBILITY_LOG"; then
-            echo "Error: App crash detected after visibility!"
-            grep -A 5 "FATAL EXCEPTION" "$VISIBILITY_LOG"
-            exit 1
-        fi
-        if grep -q "Error getting tile response" "$VISIBILITY_LOG"; then
-            echo "Error: Renderer failed to get tile response."
-            grep "Error getting tile response" "$VISIBILITY_LOG"
-            exit 1
-        fi
-        if grep -q "Failed to render and attach the tile" "$VISIBILITY_LOG"; then
-            echo "Error: Renderer failed to read or attach the document (e.g. unsupported modifier) after visibility signal."
-            grep -A 2 "Failed to render and attach the tile" "$VISIBILITY_LOG"
-            exit 1
-        fi
-        echo "Success: Widget updated to '$LAYOUT'."
-    else
-         echo "Warning: Widget might not be visible (signal missed)."
-    fi
+if "$ADB_TILE_ADD" --wait "$COMPONENT"; then
+    echo "Success: Widget updated to '$LAYOUT'."
 else
-    echo "Error: Failed to refresh tile." >&2
-    echo "Output: $OUTPUT"
+    echo "Error: Failed to refresh and verify tile visibility." >&2
     exit 1
 fi
