@@ -201,6 +201,11 @@ if [ -n "$INDEX" ]; then
             grep "Error getting tile response" "$VISIBILITY_LOG"
             exit 1
         fi
+        if grep -q "Failed to render and attach the tile" "$VISIBILITY_LOG"; then
+            echo "Error: Renderer failed to read or attach the document (e.g. unsupported modifier)."
+            grep -A 2 "Failed to render and attach the tile" "$VISIBILITY_LOG"
+            exit 1
+        fi
 
         sleep 0.2
     done
@@ -216,6 +221,11 @@ if [ -n "$INDEX" ]; then
         if grep -q "Error getting tile response" "$VISIBILITY_LOG"; then
             echo "Error: Renderer failed to get tile response."
             grep "Error getting tile response" "$VISIBILITY_LOG"
+            exit 1
+        fi
+        if grep -q "Failed to render and attach the tile" "$VISIBILITY_LOG"; then
+            echo "Error: Renderer failed to read or attach the document (e.g. unsupported modifier) after visibility signal."
+            grep -A 2 "Failed to render and attach the tile" "$VISIBILITY_LOG"
             exit 1
         fi
         echo "Success: Widget updated to '$LAYOUT'."
