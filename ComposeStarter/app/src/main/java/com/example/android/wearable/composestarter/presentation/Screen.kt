@@ -15,12 +15,20 @@
  */
 package com.example.android.wearable.composestarter.presentation
 
-sealed class Screen {
-    data object Landing : Screen()
+import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.Serializable
 
-    data object List : Screen()
+@Serializable
+sealed interface Screen : NavKey {
+    @Serializable
+    data object Landing : Screen
 
-    data object Tlc : Screen()
+    @Serializable
+    data object List : Screen
 
-    data object Ambient : Screen()
+    @Serializable
+    data object Tlc : Screen
+
+    @Serializable
+    data object Ambient : Screen
 }

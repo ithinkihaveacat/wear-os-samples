@@ -19,6 +19,7 @@ plugins {
     id("com.android.application")
     alias(libs.plugins.roborazzi)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 android {
@@ -98,6 +99,8 @@ dependencies {
     // Navigation 3
     implementation(libs.wear.compose.navigation3)
     implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.androidx.ui.test.manifest)
 

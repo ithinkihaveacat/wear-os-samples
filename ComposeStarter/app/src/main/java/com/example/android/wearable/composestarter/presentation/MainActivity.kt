@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,8 +31,9 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.navigation3.runtime.NavEntry
-import androidx.navigation3.scene.SceneStrategy
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import androidx.wear.compose.foundation.LocalAmbientModeManager
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
@@ -86,8 +86,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun WearApp() {
-    val backStack = remember { mutableStateListOf<Screen>(Screen.Landing) }
-    val strategy: SceneStrategy<Screen> = rememberSwipeDismissableSceneStrategy()
+    val backStack = rememberNavBackStack(Screen.Landing)
+    val strategy = rememberSwipeDismissableSceneStrategy<NavKey>()
     val ambientModeManager = rememberAmbientModeManager()
 
     WearAppTheme {
@@ -96,25 +96,20 @@ fun WearApp() {
                 NavDisplay(
                     backStack = backStack,
                     sceneStrategy = strategy,
-                    entryProvider = { screen ->
-                        NavEntry(
-                            key = screen,
-                            content = {
-                                when (screen) {
-                                    Screen.Landing ->
-                                        GreetingScreen(
-                                            "Android",
-                                            onShowList = { backStack.add(Screen.List) },
-                                            onShowTlc = { backStack.add(Screen.Tlc) },
-                                            onShowAmbient = { backStack.add(Screen.Ambient) }
-                                        )
-                                    Screen.List -> ListScreen()
-                                    Screen.Tlc -> TlcEnhancementScreen()
-                                    Screen.Ambient -> AmbientScreen()
-                                }
+                    entryProvider =
+                        entryProvider {
+                            entry<Screen.Landing> {
+                                GreetingScreen(
+                                    "Android",
+                                    onShowList = { backStack.add(Screen.List) },
+                                    onShowTlc = { backStack.add(Screen.Tlc) },
+                                    onShowAmbient = { backStack.add(Screen.Ambient) }
+                                )
                             }
-                        )
-                    }
+                            entry<Screen.List> { ListScreen() }
+                            entry<Screen.Tlc> { TlcEnhancementScreen() }
+                            entry<Screen.Ambient> { AmbientScreen() }
+                        }
                 )
             }
         }
