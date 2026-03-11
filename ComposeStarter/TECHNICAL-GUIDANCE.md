@@ -92,7 +92,7 @@ Because of the constraints of the wrist-based form factor, several prominent Nav
 
 ---
 
-## 4. Shared Concepts: State Preservation Mechanics
+## 5. Shared Concepts: State Preservation Mechanics
 
 Despite the differences in presentation, the underlying mechanism for preserving the back stack across process death is identical on both platforms.
 
