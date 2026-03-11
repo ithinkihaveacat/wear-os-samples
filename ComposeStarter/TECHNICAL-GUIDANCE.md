@@ -27,17 +27,27 @@ Wear OS does not utilize multi-pane adaptive layouts. Instead, the entire `Scene
 
 ## 2. Animation and Transition Management
 
-The way screen transitions are animated differs fundamentally between the two platforms due to the need for native gesture handling on Wear OS.
+The way screen transitions are animated differs fundamentally based on the UX paradigms of the platforms. 
+
+On mobile, navigation transitions are typically "fire-and-forget"—a user taps a button, and a pre-defined animation (like a crossfade or slide) plays to completion. 
+
+On Wear OS, the primary method of backward navigation is a physical, interactive edge swipe. **The visual transition must track precisely with the user's finger movement**, allowing them to "peek" at the previous screen and smoothly snap back or cancel the gesture. This interactive, gesture-driven requirement forces a much more complex underlying implementation than simple Compose transitions. The `SwipeDismissableSceneStrategy` handles this abstraction, but it results in two completely different animation architectures under the hood depending on the OS version.
 
 ### Mobile: `NavDisplay` Transitions
 On mobile, transitions are typically handled globally by the `NavDisplay` composable itself, or overridden via metadata on a per-`NavEntry` basis.
-*   `NavDisplay` accepts `transitionSpec`, `popTransitionSpec`, and `predictivePopTransitionSpec` parameters (which take standard Compose `ContentTransform`s like `slideInHorizontally`).
-*   These are fed into the `AnimatedContent` underlying the `NavDisplay`.
+*   `NavDisplay` accepts `transitionSpec`, `popTransitionSpec`, and `predictivePopTransitionSpec` parameters.
+*   These are fed into the `AnimatedContent` container underlying the `NavDisplay`.
 
-### Wear OS: Complete Override (`val key: Any = Unit`)
-Wear OS completely bypasses the `NavDisplay`'s built-in `AnimatedContent` crossfades.
-*   **The `Unit` Key Hack:** Both `SwipeToDismissScene` and `PredictiveBackScene` force their internal `override val key: Any = Unit`. This tricks the `NavDisplay` into thinking the *scene itself* hasn't changed, even when the underlying `NavEntry` content has.
-*   **Custom Animatable:** Because `NavDisplay` animations are effectively disabled, `SwipeToDismissScene` and `PredictiveBackScene` use their own `Animatable` and `LaunchedEffect` blocks to manually drive the scale and fade transitions. This is necessary because the transition progress is tied directly to the user's physical finger swipe (via the `SwipeToDismissBox` state or the `NavigationBackHandler` progress), rather than a simple fire-and-forget `tween()`.
+### Wear OS API <= 35: The `Unit` Key Override
+On older API levels, Wear OS completely bypasses the `NavDisplay`'s built-in `AnimatedContent` crossfades to allow the physical gesture to drive the animation.
+*   **The `Unit` Key Hack:** The internal `SwipeToDismissScene` forces `override val key: Any = Unit`. This tricks the `NavDisplay` into thinking the *scene itself* hasn't changed, even when the underlying `NavEntry` content has. This prevents `NavDisplay` from triggering its "fire-and-forget" crossfades.
+*   **Manual Animation:** Because `NavDisplay` animations are disabled, the `SwipeToDismissScene` uses its own `Animatable` and `LaunchedEffect` blocks to manually drive a scale/fade entrance animation, while relying on the `SwipeToDismissBox` to handle the interactive exit animation directly tied to the user's finger gesture.
+
+### Wear OS API >= 36: Embracing `NavDisplay` (Predictive Back)
+Starting in API 36, Android introduced the system-level Predictive Back gesture, which standardizes interactive back animations across form factors. Wear OS aligns much closer to the mobile architecture here, fully utilizing `NavDisplay`'s capabilities.
+*   **Using Content Keys:** Unlike the older implementation, `PredictiveBackScene` correctly sets `override val key: Any = currentEntry.contentKey`. This allows `NavDisplay`'s `AnimatedContent` to trigger transitions.
+*   **Metadata Injection:** To achieve the distinct Wear OS "peek-through" scaling animations, `PredictiveBackScene` automatically injects Wear-specific `ContentTransform`s (like `scaleIn` and `slideOutHorizontally`) directly into the scene's `metadata` map.
+*   **Gesture Delegation:** It delegates the interactive, physical gesture tracking entirely to `NavDisplay`'s internal `NavigationBackHandler`, resulting in a cleaner implementation that natively supports the finger-tracking UX required on the wrist.
 
 ---
 
