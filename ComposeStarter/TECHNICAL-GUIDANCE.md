@@ -6,52 +6,38 @@ This document serves as a technical reference detailing the core architectural d
 
 ---
 
-## 1. Scene Strategies: `SwipeDismissableSceneStrategy` vs. Adaptive Layouts
+## 1. The Wear OS Scene Strategy & Animation Architecture
 
-The most significant divergence between Mobile and Wear OS in Navigation 3 revolves around the `SceneStrategy`. A `SceneStrategy` is the decision-maker that dictates *how* the `NavBackStack` (the list of `NavEntry` instances) is translated into a visual `Scene` on the screen.
+The most significant divergence between Mobile and Wear OS in Navigation 3 revolves around the `SceneStrategy` and how it dictates screen transitions. 
 
-### Mobile: Adaptive Multi-Pane Layouts
-On mobile, `SceneStrategy` is the primary mechanism for implementing adaptive layouts (e.g., list-detail views on tablets).
-*   **The Default:** `SinglePaneSceneStrategy`. It always displays the topmost `NavEntry`.
-*   **Adaptive Layouts:** Mobile relies heavily on the `androidx.compose.material3.adaptive:adaptive-navigation3` artifact. This provides advanced strategies like `ListDetailSceneStrategy`. It uses metadata attached to `NavEntry`s (e.g., `listPane()` or `detailPane()`) to dynamically construct split-pane views if the device window is wide enough.
-*   **Chaining Strategies:** Mobile developers often chain strategies (`CustomTwoPaneStrategy() then SinglePaneSceneStrategy()`) so the UI degrades gracefully on smaller screens.
+A `SceneStrategy` is the decision-maker that dictates *how* the `NavBackStack` (the list of `NavEntry` instances) is translated into a visual `Scene` on the screen.
+
+### Mobile: Adaptive Layouts and Global Transitions
+On mobile, the UX paradigm allows for complex, multi-pane layouts (like a list-detail view on a tablet) and "fire-and-forget" transition animations (like a crossfade when tapping a button).
+*   **Adaptive Strategies:** Mobile relies heavily on strategies like `ListDetailSceneStrategy` to dynamically construct split-pane views based on window size and `NavEntry` metadata.
+*   **`NavDisplay` Transitions:** Transitions are typically handled globally by the `NavDisplay` composable itself (via `transitionSpec` parameters) and fed directly into the underlying `AnimatedContent` container.
 
 ### Wear OS: Swipe-to-Dismiss and Predictive Back
-Wear OS does not utilize multi-pane adaptive layouts. Instead, the entire `SceneStrategy` concept is co-opted to integrate the ubiquitous "swipe-to-dismiss" gesture and OS-level predictive back animations.
-*   **The Wear Standard:** `SwipeDismissableSceneStrategy` (from `androidx.wear.compose:compose-navigation3`).
-*   **API Level Adaptation (The Hidden Complexity):** The `SwipeDismissableSceneStrategy` intelligently switches its internal `Scene` implementation based on the Android API level:
-    *   **API <= 35 (`SwipeToDismissScene`):** Wraps the content in a classic Wear Compose `SwipeToDismissBox`. The box detects the edge swipe and triggers the `onBack` action, popping the stack.
-    *   **API >= 36 (`PredictiveBackScene`):** Integrates with Android's modern Predictive Back system. It uses `NavigationBackHandler` to listen for system events and orchestrates the "peek-through" scaling animations natively.
+Wear OS does not utilize multi-pane adaptive layouts. Instead, the entire `SceneStrategy` concept is co-opted to integrate the ubiquitous "swipe-to-dismiss" gesture. 
 
----
+The visual transition on Wear OS must track precisely with the user's physical finger movement, allowing them to "peek" at the previous screen and smoothly snap back or cancel the gesture. This interactive requirement forces a much more complex underlying implementation than simple Compose transitions.
 
-## 2. Animation and Transition Management
+The **`SwipeDismissableSceneStrategy`** (from `androidx.wear.compose:compose-navigation3`) handles this abstraction. Crucially, it intelligently switches its internal `Scene` implementation based on the Android API level, resulting in two distinct animation architectures:
 
-The way screen transitions are animated differs fundamentally based on the UX paradigms of the platforms. 
-
-On mobile, navigation transitions are typically "fire-and-forget"—a user taps a button, and a pre-defined animation (like a crossfade or slide) plays to completion. 
-
-On Wear OS, the primary method of backward navigation is a physical, interactive edge swipe. **The visual transition must track precisely with the user's finger movement**, allowing them to "peek" at the previous screen and smoothly snap back or cancel the gesture. This interactive, gesture-driven requirement forces a much more complex underlying implementation than simple Compose transitions. The `SwipeDismissableSceneStrategy` handles this abstraction, but it results in two completely different animation architectures under the hood depending on the OS version.
-
-### Mobile: `NavDisplay` Transitions
-On mobile, transitions are typically handled globally by the `NavDisplay` composable itself, or overridden via metadata on a per-`NavEntry` basis.
-*   `NavDisplay` accepts `transitionSpec`, `popTransitionSpec`, and `predictivePopTransitionSpec` parameters.
-*   These are fed into the `AnimatedContent` container underlying the `NavDisplay`.
-
-### Wear OS API <= 35: The `Unit` Key Override
+#### API <= 35: The `Unit` Key Override
 On older API levels, Wear OS completely bypasses the `NavDisplay`'s built-in `AnimatedContent` crossfades to allow the physical gesture to drive the animation.
 *   **The `Unit` Key Hack:** The internal `SwipeToDismissScene` forces `override val key: Any = Unit`. This tricks the `NavDisplay` into thinking the *scene itself* hasn't changed, even when the underlying `NavEntry` content has. This prevents `NavDisplay` from triggering its "fire-and-forget" crossfades.
 *   **Manual Animation:** Because `NavDisplay` animations are disabled, the `SwipeToDismissScene` uses its own `Animatable` and `LaunchedEffect` blocks to manually drive a scale/fade entrance animation, while relying on the `SwipeToDismissBox` to handle the interactive exit animation directly tied to the user's finger gesture.
 
-### Wear OS API >= 36: Embracing `NavDisplay` (Predictive Back)
-Starting in API 36, Android introduced the system-level Predictive Back gesture, which standardizes interactive back animations across form factors. Wear OS aligns much closer to the mobile architecture here, fully utilizing `NavDisplay`'s capabilities.
+#### API >= 36: Embracing `NavDisplay` (Predictive Back)
+Starting in API 36, Android introduced the system-level Predictive Back gesture. Wear OS aligns much closer to the mobile architecture here, fully utilizing `NavDisplay`'s capabilities.
 *   **Using Content Keys:** Unlike the older implementation, `PredictiveBackScene` correctly sets `override val key: Any = currentEntry.contentKey`. This allows `NavDisplay`'s `AnimatedContent` to trigger transitions.
 *   **Metadata Injection:** To achieve the distinct Wear OS "peek-through" scaling animations, `PredictiveBackScene` automatically injects Wear-specific `ContentTransform`s (like `scaleIn` and `slideOutHorizontally`) directly into the scene's `metadata` map.
 *   **Gesture Delegation:** It delegates the interactive, physical gesture tracking entirely to `NavDisplay`'s internal `NavigationBackHandler`, resulting in a cleaner implementation that natively supports the finger-tracking UX required on the wrist.
 
 ---
 
-## 3. Wear-Specific Configuration Options
+## 2. Wear-Specific Configuration Options
 
 When initializing the `SwipeDismissableSceneStrategy` on Wear OS, there is an important configuration parameter you can provide that dictates back gesture behavior.
 
@@ -72,7 +58,7 @@ val strategy = rememberSwipeDismissableSceneStrategy<NavKey>(
 
 ---
 
-## 4. Unused Mobile Features on Wear OS
+## 3. Unused Mobile Features on Wear OS
 
 Because of the constraints of the wrist-based form factor, several prominent Navigation 3 features highlighted in the official documentation are generally inapplicable to Wear OS development.
 
@@ -92,7 +78,7 @@ Because of the constraints of the wrist-based form factor, several prominent Nav
 
 ---
 
-## 5. Shared Concepts: State Preservation Mechanics
+## 4. Shared Concepts: State Preservation Mechanics
 
 Despite the differences in presentation, the underlying mechanism for preserving the back stack across process death is identical on both platforms.
 
