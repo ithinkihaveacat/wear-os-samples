@@ -41,7 +41,42 @@ Wear OS completely bypasses the `NavDisplay`'s built-in `AnimatedContent` crossf
 
 ---
 
-## 3. Unused Mobile Features on Wear OS
+## 3. Wear-Specific Configuration Options
+
+When initializing the `SwipeDismissableSceneStrategy` on Wear OS, there are two important configuration parameters you can provide that dictate back gesture behavior.
+
+### Disabling User Swipes
+If you have a screen that requires horizontal swiping (like a map or a carousel), you may need to disable the system's swipe-to-dismiss gesture to prevent conflicts.
+
+You can do this globally by configuring the strategy:
+
+```kotlin
+val strategy = rememberSwipeDismissableSceneStrategy<NavKey>(
+    isUserSwipeEnabled = false // Disables user-initiated swipes
+)
+```
+*   **API <= 35:** This disables the swipe gesture detection within the underlying `SwipeToDismissBox`.
+*   **API >= 36:** This disables the `NavigationBackHandler`, preventing the OS from intercepting the edge swipe.
+
+*(Note: Currently, Navigation 3 does not offer a built-in way to toggle this dynamically on a per-screen basis via metadata. You must manage this state at the strategy level.)*
+
+### Accessing `SwipeToDismissBoxState`
+For advanced use cases (primarily on older API levels), you can manually provide the `SwipeToDismissBoxState` to the strategy. This is useful if you need to observe the exact pixel progress of a swipe or programmatically snap the box.
+
+```kotlin
+import androidx.wear.compose.foundation.rememberSwipeToDismissBoxState
+
+val swipeState = rememberSwipeToDismissBoxState()
+val strategy = rememberSwipeDismissableSceneStrategy<NavKey>(
+    swipeToDismissBoxState = swipeState
+)
+```
+*   **API <= 35:** This state object controls the `SwipeToDismissBox`.
+*   **API >= 36:** This state object is largely ignored, as gesture detection and progress are handled entirely by the OS Predictive Back system.
+
+---
+
+## 4. Unused Mobile Features on Wear OS
 
 Because of the constraints of the wrist-based form factor, several prominent Navigation 3 features highlighted in the official documentation are generally inapplicable to Wear OS development.
 
