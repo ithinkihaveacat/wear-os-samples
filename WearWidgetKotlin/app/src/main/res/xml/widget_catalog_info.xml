@@ -14,18 +14,18 @@
   limitations under the License.
   -->
 <wearwidget-provider
-    description="@string/hello_widget_description"
+    description="@string/widget_catalog_description"
     group="investigation_group"
     icon="@drawable/ic_launcher"
-    label="@string/hello_widget_label"
+    label="@string/widget_catalog_label"
     preferredType="SMALL">
 
     <container
         type="SMALL"
-        previewImage="@drawable/tile_preview" />
+        previewImage="@drawable/widget_catalog_small" />
 
     <container
         type="LARGE"
-        previewImage="@drawable/tile_preview" />
+        previewImage="@drawable/widget_catalog_large" />
 
 </wearwidget-provider>

@@ -22,10 +22,10 @@
 
     <container
         type="SMALL"
-        previewImage="@drawable/tile_preview" />
+        previewImage="@drawable/hello_widget_small" />
 
     <container
         type="LARGE"
-        previewImage="@drawable/tile_preview" />
+        previewImage="@drawable/hello_widget_large" />
 
 </wearwidget-provider>

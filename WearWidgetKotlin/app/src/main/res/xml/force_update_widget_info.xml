@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wearwidget-provider
-    description="@string/hello_widget_description"
+    description="@string/force_update_description"
     icon="@mipmap/ic_launcher"
-    label="Favorite Widget"
+    label="@string/force_update_label"
     preferredType="SMALL">
 
     <container
         type="SMALL"
-        previewImage="@drawable/tile_preview" />
+        previewImage="@drawable/force_update_small" />
     <container
         type="LARGE"
-        previewImage="@drawable/tile_preview" />
+        previewImage="@drawable/force_update_large" />
 
 </wearwidget-provider>

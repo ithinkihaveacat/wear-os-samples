@@ -50,19 +50,8 @@ class HelloWidget : GlanceWearWidget() {
 @RemoteComposable
 @Composable
 fun ImageTestWidgetContent(context: Context) {
-    // Decoding distinct images once to avoid deduplication and redundant decoding
-    val imageBitmaps = listOf(
-        R.drawable.ali,
-        R.drawable.photo_14,
-        R.drawable.photo_17,
-        R.drawable.ali,
-        R.drawable.photo_14,
-        R.drawable.photo_17,
-        R.drawable.photo_14,
-        R.drawable.photo_17
-    ).map { resId ->
-        BitmapFactory.decodeResource(context.resources, resId).asImageBitmap()
-    }
+    // Decoding only one image to be safe
+    val imageBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ali).asImageBitmap()
 
     RemoteMaterialTheme {
         RemoteColumn(
@@ -70,14 +59,12 @@ fun ImageTestWidgetContent(context: Context) {
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
         ) {
-            imageBitmaps.forEachIndexed { index, imageBitmap ->
-                RemoteImage(
-                    bitmap = imageBitmap,
-                    contentDescription = "Test Image $index".rs,
-                    contentScale = ContentScale.Fit,
-                    modifier = RemoteModifier.size(60.rdp)
-                )
-            }
+            RemoteImage(
+                bitmap = imageBitmap,
+                contentDescription = "Test Image".rs,
+                contentScale = ContentScale.Fit,
+                modifier = RemoteModifier.size(100.rdp)
+            )
         }
     }
 }

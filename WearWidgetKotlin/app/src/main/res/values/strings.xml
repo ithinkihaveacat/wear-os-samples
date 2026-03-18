@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">WearWidgetKotlin</string>
-    <string name="hello_widget_label">Wear Widget</string>
+    <string name="hello_widget_label">Hello Widget</string>
+    <string name="widget_catalog_label">Widget Catalog</string>
+    <string name="force_update_label">Force Update</string>
+    <string name="component_catalog_label">Component Catalog</string>
     <string name="hello_widget_description">AX Hello widget sample</string>
+    <string name="widget_catalog_description">Catalog of all available widget samples</string>
+    <string name="force_update_description">Sample for forcing widget updates</string>
+    <string name="component_catalog_description">Catalog of individual components</string>
     <string name="hello">Hello, Clem!</string>
 </resources>

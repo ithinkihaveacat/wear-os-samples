@@ -45,13 +45,13 @@
 
         <meta-data
             android:name="androidx.wear.tiles.PREVIEW"
-            android:resource="@drawable/tile_preview" />
+            android:resource="@drawable/hello_widget_fullscreen" />
     </service>
 
     <activity
         android:name=".ForceUpdateActivity"
         android:exported="true"
-        android:label="Force Update"
+        android:label="@string/force_update_label"
         android:theme="@android:style/Theme.DeviceDefault">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -62,7 +62,7 @@
     <service
         android:name=".ForceUpdateService"
         android:exported="true"
-        android:label="Favorite Widget"
+        android:label="@string/force_update_label"
         android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
 
         <intent-filter>
@@ -76,14 +76,14 @@
 
         <meta-data
             android:name="androidx.wear.tiles.PREVIEW"
-            android:resource="@drawable/tile_preview" />
+            android:resource="@drawable/force_update_fullscreen" />
     </service>
 
         <service
             android:name=".WidgetCatalogService"
             android:exported="true"
             android:icon="@drawable/ic_launcher"
-            android:label="@string/hello_widget_label"
+            android:label="@string/widget_catalog_label"
             android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
 
             <intent-filter>
@@ -97,7 +97,7 @@
 
             <meta-data
                 android:name="androidx.wear.tiles.PREVIEW"
-                android:resource="@drawable/tile_preview" />
+                android:resource="@drawable/widget_catalog_fullscreen" />
         </service>
 
         <activity
@@ -115,7 +115,7 @@
             android:name=".ComponentCatalogService"
             android:exported="true"
             android:icon="@drawable/ic_launcher"
-            android:label="Component Catalog"
+            android:label="@string/component_catalog_label"
             android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
 
             <intent-filter>
@@ -129,7 +129,7 @@
 
             <meta-data
                 android:name="androidx.wear.tiles.PREVIEW"
-                android:resource="@drawable/tile_preview" />
+                android:resource="@drawable/component_catalog_fullscreen" />
         </service>
 
         <receiver

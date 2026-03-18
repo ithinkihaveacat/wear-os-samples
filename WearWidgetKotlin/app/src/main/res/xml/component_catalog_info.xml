@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wearwidget-provider
-    description="Component Catalog Description"
+    description="@string/component_catalog_description"
     icon="@drawable/ic_launcher"
-    label="Component Catalog"
+    label="@string/component_catalog_label"
     preferredType="SMALL">
     <container
         type="SMALL"
-        previewImage="@drawable/tile_preview" />
+        previewImage="@drawable/component_catalog_small" />
     <container
         type="LARGE"
-        previewImage="@drawable/tile_preview" />
+        previewImage="@drawable/component_catalog_large" />
 </wearwidget-provider>
