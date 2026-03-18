@@ -290,10 +290,42 @@ emulator:
 ./gradlew :app:installDebug
 ```
 
-#### Add and Display the Tile
+#### Add and Preview your Widget
 
-Once the app is installed, you can use ADB to programmatically add and show the
-tile.
+There are two primary ways to preview your widget during development.
+
+##### Method A: Standalone Renderer (Development Tool)
+
+In production, `SMALL` and `LARGE` widgets will be visible via an OS-level
+integration. Because this OS-level integration is not yet available in developer
+environments, a standalone renderer app is provided as a development tool to
+bridge this gap. This tool allows you to preview partial-height widgets natively
+in a vertically scrolling list.
+
+1. **Launch the Renderer:** Open the app drawer on your watch and tap **Widget
+   Tray Viewer**. _(ADB shortcut:
+   `adb shell monkey -p com.google.android.wearable.protolayout.renderer 1`)_
+   ![Empty Renderer](images/renderer_empty.png)
+2. **Add a Widget:** Tap the **Add** button. You will see a list of available
+   widgets, displaying the `previewImage` you defined in your XML provider file.
+   Tap your widget (e.g., "Hello Widget (LARGE)") to add it to the tray.
+   ![Widget Selection List](images/renderer_selection.png)
+3. **Refresh a Widget:** If you update your widget's internal state (for
+   example, by running the `./widget-switch` script to change a layout), tap the
+   **Refresh** button below the widget. This forces the renderer to fetch the
+   latest UI without needing to remove and re-add the widget.
+   ![Populated Renderer](images/renderer_populated.png)
+4. **Clear Widgets:** Tap the **Clear** button (trash icon) to remove all
+   widgets from the tray.
+
+_Note: Adding and clearing widgets in this tool is conceptually similar to using
+the `adb-tile-add` and `adb-tile-remove` commands, but it operates specifically
+on this standalone preview surface rather than the system Tile carousel._
+
+##### Method B: System UI Tile Carousel (Compatibility Mode)
+
+To test how your widget translates to a full-screen Tile on older Wear OS
+versions, you can inject it directly into the system carousel using ADB.
 
 **1. Add the tile:**
 
@@ -323,9 +355,10 @@ Following these steps will add a new Hello World widget
 ([in compatibility mode](#current-and-future-renderers)) to your device. You can
 verify it by swiping through the tile carousel.
 
-![Hello World Widget](../screenshots/hello_world_widget.png) If your widget does
-not appear as expected after following the steps above, please consult the
-[Troubleshooting](#troubleshooting) section.
+![Hello World Widget](../screenshots/hello_world_widget.png)
+
+If your widget does not appear as expected after following the steps above,
+please consult the [Troubleshooting](#troubleshooting) section.
 
 ### 7. Congratulations! What's Next?
 
@@ -466,7 +499,7 @@ RemoteButton(
 ```
 
 _Note: When passing an existing array of actions to the named parameter, pass it
-directly without the spread operator (`*`)._
+directly without the spread operator (`_`).\*
 
 #### Theming
 
@@ -654,18 +687,18 @@ protocols.
 
 The Wear Widget ecosystem is currently in an Early Access phase. The renderer
 available today allows you to render Widgets in a fullscreen tile compatibility
-mode. Soon, we will share a new standalone renderer that will allow you to
-preview partial height widgets. This will provide a preview of your widgets as
-they will appear on Galaxy Watch devices running Wear OS 7.
+mode. A standalone renderer is also available as a development tool to preview
+partial height widgets (`SMALL` and `LARGE`). This provides a preview of your
+widgets as they will appear natively on devices running Wear OS 7+.
 
 While you define capabilities for both `SMALL` and `LARGE`, the actual runtime
 behavior depends on the device's capabilities and the stage of the rollout.
 
 #### Developer Support Roadmap
 
-| Platform                                       | Now                                                                                 | Feb 2026                                                                                                                                          |
-| :--------------------------------------------- | :---------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Emulators, Pixel Watch 2+, Galaxy Watch 5+** | **Tile Mode Only:** Renders as a Tile in compatibility mode (Icon \+ Label header). | **Widget Support:** A new standalone renderer app (coming soon) will be made available, which will enable testing of `SMALL` and `LARGE` Widgets. |
+| Platform                                       | Jan 2026                                                                            | Feb 2026                                                                                                          |
+| :--------------------------------------------- | :---------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------- |
+| **Emulators, Pixel Watch 2+, Galaxy Watch 5+** | **Tile Mode Only:** Renders as a Tile in compatibility mode (Icon \+ Label header). | **Widget Support:** A standalone renderer app is available, which enables testing of `SMALL` and `LARGE` Widgets. |
 
 ## Developer Workflow and Tools
 
