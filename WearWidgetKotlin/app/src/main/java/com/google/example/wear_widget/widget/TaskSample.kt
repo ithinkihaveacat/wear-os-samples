@@ -35,6 +35,11 @@ import androidx.wear.compose.remote.material3.RemoteIcon
 import androidx.compose.ui.unit.dp
 import com.google.example.wear_widget.R
 
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.remote.creation.compose.modifier.background
+import androidx.compose.remote.creation.compose.modifier.clip
+import androidx.compose.ui.unit.DpSize
+
 @RemoteComposable
 @Composable
 fun TaskSample() {
@@ -60,23 +65,35 @@ fun TaskSample() {
                         val height = remote.component.height
                         val centerX = width / 2f.rf
                         val centerY = height / 2f.rf
-                        val strokeWidth = 10f // equivalent to 5dp roughly at scale
+                        val strokeWidth = 14f // Thicker stroke
                         val radius = (width / 2f.rf) - (strokeWidth / 2f).rf
 
-                        // Track (Dark Green)
-                        drawCircle(
-                            paint =
-                                RemotePaint().apply {
-                                    remoteColor = Color(0xFF596913).rc
-                                    style = Paint.Style.STROKE
-                                    this.strokeWidth = strokeWidth
-                                    isAntiAlias = true
-                                },
-                            center = RemoteOffset(centerX, centerY),
-                            radius = radius,
-                        )
+                        val startAngle = 135f
+                        val progressSweep = 72f
+                        val gapAngle = 25f // Increased space between progress and track
+                        val totalTrackSweep = 270f // Horseshoe style with a 90-degree gap at the bottom
 
-                        // Progress (Light Green - 20% = 72 degrees)
+                        // Track (Dark Green) - Incomplete section
+                        val remainingSweep = totalTrackSweep - progressSweep - gapAngle
+                        if (remainingSweep > 0) {
+                            drawArc(
+                                paint =
+                                    RemotePaint().apply {
+                                        remoteColor = Color(0xFF596913).rc
+                                        style = Paint.Style.STROKE
+                                        this.strokeWidth = strokeWidth
+                                        strokeCap = Paint.Cap.ROUND
+                                        isAntiAlias = true
+                                    },
+                                startAngle = (startAngle + progressSweep + gapAngle).rf,
+                                sweepAngle = remainingSweep.rf,
+                                useCenter = false,
+                                topLeft = RemoteOffset((strokeWidth / 2f).rf, (strokeWidth / 2f).rf),
+                                size = RemoteSize(width - strokeWidth.rf, height - strokeWidth.rf),
+                            )
+                        }
+
+                        // Progress (Light Green) - Completed section
                         drawArc(
                             paint =
                                 RemotePaint().apply {
@@ -86,21 +103,30 @@ fun TaskSample() {
                                     strokeCap = Paint.Cap.ROUND
                                     isAntiAlias = true
                                 },
-                            startAngle = -90f.rf,
-                            sweepAngle = 72f.rf,
+                            startAngle = startAngle.rf, // Start bottom-left
+                            sweepAngle = progressSweep.rf,
                             useCenter = false,
                             topLeft = RemoteOffset((strokeWidth / 2f).rf, (strokeWidth / 2f).rf),
                             size = RemoteSize(width - strokeWidth.rf, height - strokeWidth.rf),
                         )
                     }
                     
-                    // Center Icon
-                    RemoteIcon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_check_24),
-                        contentDescription = "Checkmark".rs,
-                        modifier = RemoteModifier.size(32.rdp),
-                        tint = Color(0xFFCFE868).rc
-                    )
+                    // Center Icon wrapped in a solid circle
+                    RemoteBox(
+                        modifier = RemoteModifier
+                            .size(32.rdp)
+                            .clip(CircleShape, DpSize(32.dp, 32.dp))
+                            .background(Color(0xFFCFE868)),
+                        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                        verticalArrangement = RemoteArrangement.Center,
+                    ) {
+                        RemoteIcon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_check_24),
+                            contentDescription = "Checkmark".rs,
+                            modifier = RemoteModifier.size(24.rdp),
+                            tint = Color(0xFF3F4C00).rc // Dark green cutout
+                        )
+                    }
                 }
 
                 // Right Side: Typography

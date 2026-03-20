@@ -63,7 +63,7 @@ class ComponentCatalog : GlanceWearWidget() {
     ): WearWidgetData {
         val state = context.getComponentCatalogState()
         Log.d("ComponentCatalog", "provideWidgetData: layoutName='${state.layoutName}'")
-        return WearWidgetDocument(backgroundColor = Color.Black) {
+        return WearWidgetDocument(backgroundColor = Color.White) {
             when (state.layoutName) {
                 "textButton" -> ComponentCatalogTextButtonSample()
                 "iconButton" -> ComponentCatalogIconButtonSample()
