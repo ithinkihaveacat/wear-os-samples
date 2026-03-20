@@ -24,8 +24,10 @@ class WidgetCatalog : GlanceWearWidget() {
     ): WearWidgetData {
         val state = context.getWidgetCatalogState()
         Log.d("WidgetCatalog", "provideWidgetData: layoutName='${state.layoutName}'")
-        return WearWidgetDocument(backgroundColor = Color.DarkGray) {
+        val bgColor = if (state.layoutName == "TaskSample") Color(0xFF3F4C00) else Color(0xFF556B2F)
+        return WearWidgetDocument(backgroundColor = bgColor) {
             when (state.layoutName) {
+                "TaskSample" -> TaskSample()
                 "SemanticStyleWorkaroundSample" -> SemanticStyleWorkaroundSample()
                 "CanvasSample3" -> CanvasSample3()
                 "SystemThemeComparisonSample" -> SystemThemeComparisonSample()
