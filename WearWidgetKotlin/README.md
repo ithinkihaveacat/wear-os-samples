@@ -128,6 +128,40 @@ samples.
 ./widget-switch SystemThemeSample
 ```
 
+## Development Tools
+
+### Headless Screenshot Tool (`jvm-screenshot`)
+
+This repository includes `./jvm-screenshot`, a script designed for rapid,
+headless visual validation of UI components.
+
+**Why it's useful (for humans and AI agents):**
+It provides an instantaneous feedback loop (~10s) when modifying code or
+comparing a design to a reference image (like Figma). It bypasses the slow,
+error-prone process of building an APK, pushing it via ADB, and manipulating an
+emulator. Instead, it natively renders the `RemoteComposable` on the JVM using
+Robolectric and Roborazzi.
+
+**Usage:**
+
+```bash
+# Take a screenshot of a specific component
+./jvm-screenshot AustralianThemeSample
+./jvm-screenshot textButton
+```
+
+**Requirements & Context:**
+- The target component **must** be registered within the `when` block of the
+  pre-compiled test dispatcher:
+  `app/src/test/java/com/google/example/wear_widget/RoboScreenshotToolTest.kt`
+- If you request an unregistered component, the script will intentionally fail
+  with an actionable error message pointing you to the dispatcher file.
+- The output is always saved to `app/screenshots/<COMPOSABLE_NAME>.png`.
+- **Note:** While this avoids a full APK compilation, the underlying test runner
+  (`RoboScreenshotToolTest`) will be compiled on the first run, introducing
+  slight initial latency. Subsequent runs for registered components will be much
+  faster.
+
 ## Troubleshooting
 
 **Issue: Blank Widget** If the widget appears blank, especially after switching
