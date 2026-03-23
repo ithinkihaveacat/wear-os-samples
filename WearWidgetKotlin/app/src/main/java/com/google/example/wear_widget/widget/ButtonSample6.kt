@@ -15,6 +15,7 @@ import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
 import androidx.compose.remote.creation.compose.state.ri
+import androidx.compose.remote.creation.compose.state.rsp
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.wear.compose.remote.material3.RemoteButton
@@ -42,7 +43,7 @@ fun ButtonSample6() {
                 modifier = RemoteModifier.buttonSizeModifier(),
                 enabled = false.rb,
             ) {
-                MaterialRemoteText("Disabled Button".rs)
+                MaterialRemoteText("Disabled Button".rs, fontSize = 12.rsp)
             }
         }
     }

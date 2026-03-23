@@ -14,6 +14,7 @@ import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.padding
 import androidx.compose.remote.creation.compose.state.rc
+import androidx.compose.remote.creation.compose.state.rsp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -21,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 
 /**
- * Android logo above "Wear Widget" text. Below, a large blue rectangle with a gray border. Inside
+ * Android logo above "Wear Widget" title. Below, a large blue rectangle with a gray border. Inside
  * the blue box, at the bottom right, is yellow text: "Box Sample 3 (Bottom End)".
  */
 @RemoteComposable
@@ -38,6 +39,7 @@ fun BoxSample3() {
                 modifier = RemoteModifier.padding(10.dp),
                 text = "Box Sample 3\n(Bottom End)",
                 color = Color.Yellow.rc,
+                fontSize = 10.rsp,
                 textAlign = TextAlign.End,
             )
         }

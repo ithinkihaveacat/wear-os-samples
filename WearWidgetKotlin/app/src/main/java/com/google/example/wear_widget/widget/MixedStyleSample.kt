@@ -46,14 +46,14 @@ fun MixedStyleSample() {
                 RemoteText(
                     text = "Mixed ".rs,
                     color = Color.Red.rc,
-                    fontSize = 20.rsp,
+                    fontSize = 18.rsp,
                     fontWeight = FontWeight.Bold,
                 )
                 // Second part: Italic Blue Text
                 RemoteText(
                     text = "Styles".rs,
                     color = Color.Blue.rc,
-                    fontSize = 20.rsp,
+                    fontSize = 18.rsp,
                     fontStyle = FontStyle.Italic,
                 )
             }

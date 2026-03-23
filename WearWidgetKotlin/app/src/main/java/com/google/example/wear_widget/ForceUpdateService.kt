@@ -53,8 +53,8 @@ fun ForceUpdateWidgetContent(count: Int) {
         verticalArrangement = RemoteArrangement.Center,
     ) {
         RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
-            RemoteText(text = "Favorite Number".rs, color = Color.Gray.rc, fontSize = 12.rsp)
-            RemoteText(text = count.toString().rs, color = Color.White.rc, fontSize = 40.rsp)
+            RemoteText(text = "Favorite Number".rs, color = Color.Gray.rc, fontSize = 10.rsp)
+            RemoteText(text = count.toString().rs, color = Color.White.rc, fontSize = 34.rsp)
         }
     }
 }

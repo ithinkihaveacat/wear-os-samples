@@ -63,7 +63,7 @@ fun CounterSample1() {
                     RemoteText(
                         text = count.toRemoteString(10, TextFromFloat.PAD_PRE_NONE),
                         color = Color.White.rc,
-                        fontSize = 24.rsp,
+                        fontSize = 21.rsp,
                     )
                 }
 

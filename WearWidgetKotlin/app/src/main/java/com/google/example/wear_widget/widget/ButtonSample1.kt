@@ -13,6 +13,7 @@ import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
 import androidx.compose.remote.creation.compose.state.ri
+import androidx.compose.remote.creation.compose.state.rsp
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.wear.compose.remote.material3.RemoteButton
@@ -39,7 +40,7 @@ fun ButtonSample1() {
                 onClick = ValueChange(dummy, 0.ri),
                 modifier = RemoteModifier.buttonSizeModifier(),
             ) {
-                MaterialRemoteText("Simple Button".rs)
+                MaterialRemoteText("Simple Button".rs, fontSize = 12.rsp)
             }
         }
     }

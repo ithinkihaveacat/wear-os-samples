@@ -15,6 +15,7 @@ import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
 import androidx.compose.remote.creation.compose.state.ri
+import androidx.compose.remote.creation.compose.state.rsp
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -53,7 +54,7 @@ fun ButtonSample2() {
                         modifier = RemoteModifier.size(RemoteButtonDefaults.IconSize),
                     )
                 },
-                label = { MaterialRemoteText("Button with Icon".rs) },
+                label = { MaterialRemoteText("Button with Icon".rs, fontSize = 12.rsp) },
             )
         }
     }

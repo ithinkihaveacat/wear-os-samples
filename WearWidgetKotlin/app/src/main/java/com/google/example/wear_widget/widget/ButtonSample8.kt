@@ -14,6 +14,7 @@ import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
 import androidx.compose.remote.creation.compose.state.ri
+import androidx.compose.remote.creation.compose.state.rsp
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.wear.compose.remote.material3.RemoteButton
@@ -41,15 +42,15 @@ fun ButtonSample8() {
                 RemoteButton(
                     onClick = ValueChange(dummy, 0.ri),
                     modifier = RemoteModifier.weight(1f),
-                    label = { MaterialRemoteText("Yes".rs) },
-                    secondaryLabel = { MaterialRemoteText("Confirm".rs) },
+                    label = { MaterialRemoteText("Yes".rs, fontSize = 12.rsp) },
+                    secondaryLabel = { MaterialRemoteText("Confirm".rs, fontSize = 10.rsp) },
                 )
                 RemoteBox(RemoteModifier.size(RemoteButtonGroupDefaults.Spacing))
                 RemoteButton(
                     onClick = ValueChange(dummy, 0.ri),
                     modifier = RemoteModifier.weight(1f),
-                    label = { MaterialRemoteText("No".rs) },
-                    secondaryLabel = { MaterialRemoteText("Cancel".rs) },
+                    label = { MaterialRemoteText("No".rs, fontSize = 12.rsp) },
+                    secondaryLabel = { MaterialRemoteText("Cancel".rs, fontSize = 10.rsp) },
                 )
             }
         }

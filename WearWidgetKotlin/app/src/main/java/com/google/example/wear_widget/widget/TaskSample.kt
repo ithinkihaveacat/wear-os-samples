@@ -140,13 +140,13 @@ fun TaskSample() {
                     RemoteText(
                         text = "1",
                         color = Color(0xFFCFE868).rc,
-                        fontSize = 42.rsp,
+                        fontSize = 36.rsp,
                         fontWeight = FontWeight.Bold
                     )
                     RemoteText(
                         text = "of 5 tasks",
                         color = Color(0xFFCFE868).rc,
-                        fontSize = 14.rsp,
+                        fontSize = 12.rsp,
                         fontWeight = FontWeight.Medium
                     )
                 }

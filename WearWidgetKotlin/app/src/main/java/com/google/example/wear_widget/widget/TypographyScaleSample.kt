@@ -36,10 +36,10 @@ import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 @Composable
 fun TypographyScaleSample() {
     // Define our own "semantic" styles
-    val myTitleStyle = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.Cyan)
+    val myTitleStyle = TextStyle(fontSize = 21.sp, fontWeight = FontWeight.Bold, color = Color.Cyan)
 
     val myCaptionStyle =
-        TextStyle(fontSize = 12.sp, fontStyle = FontStyle.Italic, color = Color.LightGray)
+        TextStyle(fontSize = 10.sp, fontStyle = FontStyle.Italic, color = Color.LightGray)
 
     RemoteMaterialTheme {
         RemoteBox(
