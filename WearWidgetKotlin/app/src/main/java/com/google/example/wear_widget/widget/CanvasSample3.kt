@@ -63,7 +63,7 @@ fun CanvasSample3() {
                     paint =
                         RemotePaint().apply {
                             color = Color.White.rc
-                            textSize = 35f.rf
+                            textSize = 40f.rf
                         },
                 )
             }

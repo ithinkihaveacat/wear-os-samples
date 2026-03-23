@@ -47,14 +47,14 @@ fun TextSample1WithMargin() {
                 RemoteText(
                     text = "TextSample1".rs,
                     color = Color.White.rc,
-                    fontSize = 18.rsp,
+                    fontSize = 20.rsp,
                     fontWeight = FontWeight.Bold,
                 )
                 RemoteText(
                     text =
                         "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.".rs,
                     color = Color.LightGray.rc,
-                    fontSize = 10.rsp,
+                    fontSize = 14.rsp,
                     maxLines = 2,
                     overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
                     textAlign = androidx.compose.ui.text.style.TextAlign.Center,
@@ -62,7 +62,7 @@ fun TextSample1WithMargin() {
                 RemoteText(
                     text = "Version 1.0".rs,
                     color = Color.Cyan.rc,
-                    fontSize = 8.rsp,
+                    fontSize = 10.rsp,
                     fontStyle = FontStyle.Italic,
                 )
             }

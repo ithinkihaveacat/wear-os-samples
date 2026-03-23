@@ -14,7 +14,6 @@ import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
 import androidx.compose.remote.creation.compose.state.ri
-import androidx.compose.remote.creation.compose.state.rsp
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -25,9 +24,9 @@ import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 import androidx.wear.compose.remote.material3.buttonSizeModifier
 
 /**
- * A dark screen with a top-centered light grey circular icon featuring a dark grey Android logo.
- * Below, white text "Wear Widget". A dark gray rounded card houses a centered pink button labeled
- * "Custom Colors" in dark gray.
+ * Black background. Top: Android icon above "Wear Widget" text. Below, a large gray rounded
+ * rectangle contains a smaller, centered red rounded rectangle button with yellow text "Custom
+ * Colors".
  */
 @RemoteComposable
 @Composable
@@ -44,17 +43,17 @@ fun ButtonSample4() {
                 modifier = RemoteModifier.buttonSizeModifier(),
                 colors =
                     RemoteButtonColors(
-                        containerColor = Color.Magenta.rc,
-                        contentColor = Color.Black.rc,
-                        secondaryContentColor = Color.Black.rc,
-                        iconColor = Color.Black.rc,
+                        containerColor = Color.Red.rc,
+                        contentColor = Color.Yellow.rc,
+                        secondaryContentColor = Color.Yellow.rc,
+                        iconColor = Color.Yellow.rc,
                         disabledContainerColor = Color.Gray.rc,
                         disabledContentColor = Color.LightGray.rc,
                         disabledSecondaryContentColor = Color.LightGray.rc,
                         disabledIconColor = Color.LightGray.rc,
                     ),
             ) {
-                MaterialRemoteText("Custom Colors".rs, fontSize = 12.rsp)
+                MaterialRemoteText("Custom Colors".rs)
             }
         }
     }

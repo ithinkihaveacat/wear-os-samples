@@ -49,7 +49,7 @@ fun AnchoredTextSample() {
                     paint =
                         RemotePaint().apply {
                             color = Color.Black.rc
-                            textSize = 26f.rf
+                            textSize = 30f.rf
                         },
                 )
 
@@ -65,7 +65,7 @@ fun AnchoredTextSample() {
                     paint =
                         RemotePaint().apply {
                             color = Color.Red.rc
-                            textSize = 18f.rf
+                            textSize = 20f.rf
                         },
                 )
 
@@ -81,7 +81,7 @@ fun AnchoredTextSample() {
                     paint =
                         RemotePaint().apply {
                             color = Color.Blue.rc
-                            textSize = 18f.rf
+                            textSize = 20f.rf
                         },
                 )
             }

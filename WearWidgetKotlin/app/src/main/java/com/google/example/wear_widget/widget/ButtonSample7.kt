@@ -17,7 +17,6 @@ import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
 import androidx.compose.remote.creation.compose.state.ri
-import androidx.compose.remote.creation.compose.state.rsp
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
@@ -49,14 +48,14 @@ fun ButtonSample7() {
                     onClick = ValueChange(dummy, 0.ri),
                     modifier = RemoteModifier.weight(1f),
                 ) {
-                    MaterialRemoteText("Yes".rs, fontSize = 12.rsp)
+                    MaterialRemoteText("Yes".rs)
                 }
                 RemoteBox(RemoteModifier.size(4.rdp)) // Spacing
                 RemoteButton(
                     onClick = ValueChange(dummy, 0.ri),
                     modifier = RemoteModifier.weight(1f),
                 ) {
-                    MaterialRemoteText("No".rs, fontSize = 12.rsp)
+                    MaterialRemoteText("No".rs)
                 }
             }
         }

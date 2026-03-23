@@ -22,7 +22,6 @@ import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
 import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.remote.creation.compose.state.ri
-import androidx.compose.remote.creation.compose.state.rsp
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -87,7 +86,7 @@ fun ButtonSample9() {
                                 disabledIconColor = Color.LightGray.rc,
                             ),
                     ) {
-                        MaterialRemoteText("Toggle".rs, fontSize = 12.rsp)
+                        MaterialRemoteText("Toggle".rs)
                     }
                     RemoteBox(RemoteModifier.size(4.rdp))
                     // Button 2: Shape Shifter
@@ -108,7 +107,7 @@ fun ButtonSample9() {
                                 disabledIconColor = Color.LightGray.rc,
                             ),
                     ) {
-                        MaterialRemoteText("Shape".rs, fontSize = 12.rsp)
+                        MaterialRemoteText("Shape".rs)
                     }
                 }
 
@@ -136,7 +135,7 @@ fun ButtonSample9() {
                                 disabledIconColor = Color.LightGray.rc,
                             ),
                     ) {
-                        MaterialRemoteText(button3Text, fontSize = 12.rsp)
+                        MaterialRemoteText(button3Text)
                     }
                     RemoteBox(RemoteModifier.size(4.rdp))
                     // Button 4: Static
@@ -155,7 +154,7 @@ fun ButtonSample9() {
                                 disabledIconColor = Color.LightGray.rc,
                             ),
                     ) {
-                        MaterialRemoteText("Fixed".rs, fontSize = 12.rsp)
+                        MaterialRemoteText("Fixed".rs)
                     }
                 }
             }
