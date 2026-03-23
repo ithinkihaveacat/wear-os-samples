@@ -34,7 +34,9 @@ TARGET="$1"
 echo "Generating screenshot for $TARGET..."
 
 if ! ./gradlew testDebugUnitTest --tests "com.google.example.wear_widget.RoboScreenshotToolTest" -Drobo.screenshot.target="$TARGET" --quiet; then
-    echo "Error: Screenshot generation failed. Check if '$TARGET' is a valid composable." >&2
+    echo "Error: Screenshot generation failed for '$TARGET'." >&2
+    echo "       Make sure the composable exists and is added to the 'when' block in:" >&2
+    echo "       app/src/test/java/com/google/example/wear_widget/RoboScreenshotToolTest.kt" >&2
     exit 1
 fi
 

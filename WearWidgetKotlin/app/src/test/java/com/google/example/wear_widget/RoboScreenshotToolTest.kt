@@ -129,6 +129,6 @@ class RoboScreenshotToolTest {
         rootNode.captureRoboImage(dummyFile.absolutePath)
         dummyFile.delete()
 
-        rootNode.captureRoboImage("screenshots/\${target}.png")
+        rootNode.captureRoboImage("screenshots/${target}.png")
     }
 }
