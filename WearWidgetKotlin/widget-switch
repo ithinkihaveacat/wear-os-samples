@@ -169,17 +169,13 @@ if [ "$STATE_SAVED" = false ]; then
 fi
 
 # 4. Refresh Tile and Wait for Visibility using adb-tile-add
-# We delegate to the shared skill script which handles the robust
-# visibility checks and remote compose failure detection.
-ADB_TILE_ADD="${HOME}/.agents/skills/adb/scripts/adb-tile-add"
-
-if [ ! -x "$ADB_TILE_ADD" ]; then
-    echo "Error: adb-tile-add not found at $ADB_TILE_ADD" >&2
-    echo "Please ensure the adb agent skill is installed." >&2
+if ! hash adb-tile-add 2>/dev/null; then
+    echo "Error: 'adb-tile-add' not found in PATH." >&2
+    echo "Please ensure the adb agent skill is installed and its scripts are in your PATH." >&2
     exit 1
 fi
 
-if "$ADB_TILE_ADD" --wait "$COMPONENT"; then
+if adb-tile-add --wait "$COMPONENT"; then
     echo "Success: Widget updated to '$LAYOUT'."
 else
     echo "Error: Failed to refresh and verify tile visibility." >&2

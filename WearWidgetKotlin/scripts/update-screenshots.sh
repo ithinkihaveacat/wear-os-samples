@@ -11,6 +11,17 @@ if [ ! -f "widget-switch" ]; then
     exit 1
 fi
 
+require() {
+  if ! hash "$1" 2>/dev/null; then
+    echo "Error: '$1' not found in PATH."
+    echo "Please ensure the relevant agent skill (adb or ai-tools) is installed and its scripts are in your PATH."
+    exit 127
+  fi
+}
+
+require adb-screenshot
+require screenshot-compare
+
 mkdir -p screenshots/temp
 
 # Extract valid layouts from widget-switch source
@@ -52,12 +63,12 @@ for LAYOUT in $LAYOUTS_TO_PROCESS; do
     fi
     
     TEMP_FILE="screenshots/temp/$LAYOUT.png"
-    .gemini/skills/adb/scripts/adb-screenshot "$TEMP_FILE"
+    adb-screenshot "$TEMP_FILE"
     
     if [ -f "$FILE" ]; then
         # Compare
         set +e
-        .gemini/skills/ai-analysis/scripts/screenshot-compare "$FILE" "$TEMP_FILE" "Check for visual differences"
+        screenshot-compare "$FILE" "$TEMP_FILE" "Check for visual differences"
         RET=$?
         set -e
         
