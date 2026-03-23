@@ -2,6 +2,8 @@
 
 package com.google.example.wear_widget.widget
 
+import androidx.compose.remote.creation.compose.state.rf
+import androidx.compose.remote.creation.compose.state.rsp
 import android.annotation.SuppressLint
 
 import androidx.compose.remote.core.operations.TextFromFloat
@@ -61,7 +63,7 @@ fun CounterSample1() {
                     RemoteText(
                         text = count.toRemoteString(10, TextFromFloat.PAD_PRE_NONE),
                         color = Color.White.rc,
-                        fontSize = 24.sp,
+                        fontSize = 24.rsp,
                     )
                 }
 

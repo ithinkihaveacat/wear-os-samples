@@ -116,7 +116,7 @@ fun BackgroundTreatmentsSample() {
                     modifier = RemoteModifier.weight(1f).fillMaxSize().drawWithContent {
                         // Custom background: orange circle
                         drawCircle(
-                            paint = RemotePaint().apply { remoteColor = Color(0xFFFFA500).rc },
+                            paint = RemotePaint().apply { color = Color(0xFFFFA500).rc },
                             radius = (remoteWidth.min(remoteHeight) / 2.5f)
                         )
                         drawContent()

@@ -26,11 +26,11 @@ import androidx.glance.wear.GlanceWearWidget
 import androidx.glance.wear.GlanceWearWidgetService
 import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
-import androidx.glance.wear.WearWidgetParams
+import androidx.glance.wear.core.WearWidgetParams
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rs
-import androidx.wear.compose.remote.material3.RemoteImage
+import androidx.compose.remote.creation.compose.layout.RemoteImage
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 
 class HelloWidgetService : GlanceWearWidgetService() {

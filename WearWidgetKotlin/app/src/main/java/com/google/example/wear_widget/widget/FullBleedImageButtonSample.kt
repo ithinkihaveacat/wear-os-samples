@@ -31,7 +31,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.remote.material3.RemoteImage
+import androidx.compose.remote.creation.compose.layout.RemoteImage
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import com.google.example.wear_widget.R
 

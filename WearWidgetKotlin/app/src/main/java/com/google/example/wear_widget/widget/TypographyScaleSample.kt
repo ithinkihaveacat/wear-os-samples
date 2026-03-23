@@ -21,6 +21,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.compose.remote.creation.compose.state.rc
+import androidx.compose.remote.creation.compose.state.asRemoteTextUnit
+import androidx.compose.remote.creation.compose.text.RemoteTextStyle
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 
@@ -48,9 +51,9 @@ fun TypographyScaleSample() {
                 // 1. Title style applied manually
                 MaterialRemoteText(
                     text = "Title Style".rs,
-                    fontSize = myTitleStyle.fontSize,
+                    fontSize = myTitleStyle.fontSize.asRemoteTextUnit(),
                     fontWeight = myTitleStyle.fontWeight,
-                    color = RemoteColor(myTitleStyle.color),
+                    color = myTitleStyle.color.rc,
                 )
 
                 RemoteBox(RemoteModifier.size(12.rdp))
@@ -61,7 +64,7 @@ fun TypographyScaleSample() {
                 RemoteBox(RemoteModifier.size(12.rdp))
 
                 // 3. Caption style applied via 'style' parameter
-                MaterialRemoteText(text = "Caption Style".rs, style = myCaptionStyle)
+                MaterialRemoteText(text = "Caption Style".rs, style = RemoteTextStyle.fromTextStyle(myCaptionStyle))
             }
         }
     }

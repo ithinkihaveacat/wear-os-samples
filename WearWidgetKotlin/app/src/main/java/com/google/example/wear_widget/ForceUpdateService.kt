@@ -2,6 +2,8 @@
 
 package com.google.example.wear_widget
 
+import androidx.compose.remote.creation.compose.state.rf
+import androidx.compose.remote.creation.compose.state.rsp
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
@@ -21,7 +23,7 @@ import androidx.glance.wear.GlanceWearWidget
 import androidx.glance.wear.GlanceWearWidgetService
 import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
-import androidx.glance.wear.WearWidgetParams
+import androidx.glance.wear.core.WearWidgetParams
 
 @SuppressLint("RestrictedApi")
 class ForceUpdateService : GlanceWearWidgetService() {
@@ -51,8 +53,8 @@ fun ForceUpdateWidgetContent(count: Int) {
         verticalArrangement = RemoteArrangement.Center,
     ) {
         RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
-            RemoteText(text = "Favorite Number".rs, color = Color.Gray.rc, fontSize = 12.sp)
-            RemoteText(text = count.toString().rs, color = Color.White.rc, fontSize = 40.sp)
+            RemoteText(text = "Favorite Number".rs, color = Color.Gray.rc, fontSize = 12.rsp)
+            RemoteText(text = count.toString().rs, color = Color.White.rc, fontSize = 40.rsp)
         }
     }
 }

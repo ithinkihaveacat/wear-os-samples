@@ -10,7 +10,7 @@ import androidx.glance.wear.GlanceWearWidget
 import androidx.glance.wear.GlanceWearWidgetService
 import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
-import androidx.glance.wear.WearWidgetParams
+import androidx.glance.wear.core.WearWidgetParams
 import com.google.example.wear_widget.widget.*
 
 class WidgetCatalogService : GlanceWearWidgetService() {

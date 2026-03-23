@@ -16,6 +16,8 @@
 
 package com.google.example.wear_widget // Adjust to your package
 
+import androidx.compose.remote.creation.compose.state.rc
+import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.ui.text.TextStyle
 import androidx.wear.compose.material3.Typography
 

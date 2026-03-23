@@ -45,13 +45,11 @@ fun AnchoredTextSample() {
                     text = "Center".rs,
                     anchorX = centerX,
                     anchorY = centerY,
-                    panx = 0f.rf,
-                    pany = 0f.rf,
                     flags = 0,
                     paint =
                         RemotePaint().apply {
-                            remoteColor = Color.Black.rc
-                            textSize = 30f
+                            color = Color.Black.rc
+                            textSize = 30f.rf
                         },
                 )
 
@@ -63,13 +61,11 @@ fun AnchoredTextSample() {
                     text = "Top Left".rs,
                     anchorX = 0f.rf,
                     anchorY = 0f.rf,
-                    panx = -1f.rf,
-                    pany = 1f.rf,
                     flags = 0,
                     paint =
                         RemotePaint().apply {
-                            remoteColor = Color.Red.rc
-                            textSize = 20f
+                            color = Color.Red.rc
+                            textSize = 20f.rf
                         },
                 )
 
@@ -81,13 +77,11 @@ fun AnchoredTextSample() {
                     text = "Bottom Right".rs,
                     anchorX = width,
                     anchorY = height,
-                    panx = 1f.rf,
-                    pany = -1f.rf,
                     flags = 0,
                     paint =
                         RemotePaint().apply {
-                            remoteColor = Color.Blue.rc
-                            textSize = 20f
+                            color = Color.Blue.rc
+                            textSize = 20f.rf
                         },
                 )
             }

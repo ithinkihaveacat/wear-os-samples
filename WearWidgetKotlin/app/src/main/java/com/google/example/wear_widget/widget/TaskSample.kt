@@ -22,9 +22,12 @@ import androidx.compose.remote.creation.compose.state.RemotePaint
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rf
+import androidx.compose.remote.creation.compose.state.rsp
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PaintingStyle
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -79,10 +82,10 @@ fun TaskSample() {
                             drawArc(
                                 paint =
                                     RemotePaint().apply {
-                                        remoteColor = Color(0xFF596913).rc
-                                        style = Paint.Style.STROKE
-                                        this.strokeWidth = strokeWidth
-                                        strokeCap = Paint.Cap.ROUND
+                                        color = Color(0xFF596913).rc
+                                        style = PaintingStyle.Stroke
+                                        this.strokeWidth = strokeWidth.rf
+                                        strokeCap = StrokeCap.Round
                                         isAntiAlias = true
                                     },
                                 startAngle = (startAngle + progressSweep + gapAngle).rf,
@@ -97,10 +100,10 @@ fun TaskSample() {
                         drawArc(
                             paint =
                                 RemotePaint().apply {
-                                    remoteColor = Color(0xFFCFE868).rc
-                                    style = Paint.Style.STROKE
-                                    this.strokeWidth = strokeWidth
-                                    strokeCap = Paint.Cap.ROUND
+                                    color = Color(0xFFCFE868).rc
+                                    style = PaintingStyle.Stroke
+                                    this.strokeWidth = strokeWidth.rf
+                                    strokeCap = StrokeCap.Round
                                     isAntiAlias = true
                                 },
                             startAngle = startAngle.rf, // Start bottom-left
@@ -137,13 +140,13 @@ fun TaskSample() {
                     RemoteText(
                         text = "1",
                         color = Color(0xFFCFE868).rc,
-                        fontSize = 42.sp,
+                        fontSize = 42.rsp,
                         fontWeight = FontWeight.Bold
                     )
                     RemoteText(
                         text = "of 5 tasks",
                         color = Color(0xFFCFE868).rc,
-                        fontSize = 14.sp,
+                        fontSize = 14.rsp,
                         fontWeight = FontWeight.Medium
                     )
                 }

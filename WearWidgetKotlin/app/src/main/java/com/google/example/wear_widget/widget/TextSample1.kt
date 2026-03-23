@@ -14,6 +14,9 @@ import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.state.rc
+import androidx.compose.remote.creation.compose.state.rf
+import androidx.compose.remote.creation.compose.state.rsp
+import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
@@ -40,24 +43,24 @@ fun TextSample1() {
                 verticalArrangement = RemoteArrangement.Center,
             ) {
                 RemoteText(
-                    text = "TextSample1",
+                    text = "TextSample1".rs,
                     color = Color.White.rc,
-                    fontSize = 20.sp,
+                    fontSize = 20.rsp,
                     fontWeight = FontWeight.Bold,
                 )
                 RemoteText(
                     text =
-                        "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.",
+                        "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.".rs,
                     color = Color.LightGray.rc,
-                    fontSize = 14.sp,
+                    fontSize = 14.rsp,
                     maxLines = 2,
                     overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
                     textAlign = androidx.compose.ui.text.style.TextAlign.Center,
                 )
                 RemoteText(
-                    text = "Version 1.0",
+                    text = "Version 1.0".rs,
                     color = Color.Cyan.rc,
-                    fontSize = 10.sp,
+                    fontSize = 10.rsp,
                     fontStyle = FontStyle.Italic,
                 )
             }

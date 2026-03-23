@@ -41,14 +41,14 @@ fun CanvasSample1() {
 
                 // Draw a circle
                 drawCircle(
-                    paint = RemotePaint().apply { remoteColor = Color.Red.rc },
+                    paint = RemotePaint().apply { color = Color.Red.rc },
                     radius = 50f.rf,
                     center = RemoteOffset(centerX, centerY),
                 )
 
                 // Draw a rect
                 drawRect(
-                    paint = RemotePaint().apply { remoteColor = Color.Blue.rc },
+                    paint = RemotePaint().apply { color = Color.Blue.rc },
                     topLeft = RemoteOffset(centerX - 100f.rf, centerY + 60f.rf),
                     size = RemoteSize(200f.rf, 50f.rf),
                 )

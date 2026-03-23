@@ -16,6 +16,8 @@ import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.remote.creation.compose.text.RemoteTextStyle
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 import com.google.example.wear_widget.MyWidgetTypography
@@ -40,18 +42,18 @@ fun SemanticStyleWorkaroundSample() {
             ) {
                 MaterialRemoteText(
                     text = "Semantic Styles Demo".rs,
-                    style = MyWidgetTypography.titleLarge,
+                    style = RemoteTextStyle.fromTextStyle(MyWidgetTypography.titleLarge),
                 )
 
                 RemoteBox(RemoteModifier.size(16.rdp))
 
-                MaterialRemoteText(text = "12:34".rs, style = MyWidgetTypography.numeralLarge)
+                MaterialRemoteText(text = "12:34".rs, style = RemoteTextStyle.fromTextStyle(MyWidgetTypography.numeralLarge))
 
                 RemoteBox(RemoteModifier.size(12.rdp))
 
                 MaterialRemoteText(
                     text = "Session complete".rs,
-                    style = MyWidgetTypography.titleMedium,
+                    style = RemoteTextStyle.fromTextStyle(MyWidgetTypography.titleMedium),
                 )
             }
         }

@@ -32,6 +32,8 @@ import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PaintingStyle
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -44,12 +46,12 @@ import androidx.glance.wear.GlanceWearWidget
 import androidx.glance.wear.GlanceWearWidgetService
 import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
-import androidx.glance.wear.WearWidgetParams
+import androidx.glance.wear.core.WearWidgetParams
 import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteButtonColors
 import androidx.wear.compose.remote.material3.RemoteButtonDefaults
 import androidx.wear.compose.remote.material3.RemoteIcon
-import androidx.wear.compose.remote.material3.RemoteImage
+import androidx.compose.remote.creation.compose.layout.RemoteImage
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 
 class ComponentCatalogService : GlanceWearWidgetService() {
@@ -338,9 +340,9 @@ fun ComponentCatalogCircularProgressIndicatorSample() {
                 drawCircle(
                     paint =
                         RemotePaint().apply {
-                            remoteColor = Color.DarkGray.rc
-                            style = Paint.Style.STROKE
-                            this.strokeWidth = strokeWidth
+                            color = Color.DarkGray.rc
+                            style = PaintingStyle.Stroke
+                            this.strokeWidth = strokeWidth.rf
                             isAntiAlias = true
                         },
                     center = RemoteOffset(centerX, centerY),
@@ -351,10 +353,10 @@ fun ComponentCatalogCircularProgressIndicatorSample() {
                 drawArc(
                     paint =
                         RemotePaint().apply {
-                            remoteColor = Color.Red.rc
-                            style = Paint.Style.STROKE
-                            this.strokeWidth = strokeWidth
-                            strokeCap = Paint.Cap.ROUND
+                            color = Color.Red.rc
+                            style = PaintingStyle.Stroke
+                            this.strokeWidth = strokeWidth.rf
+                            strokeCap = StrokeCap.Round
                             isAntiAlias = true
                         },
                     startAngle = -90f.rf,
@@ -412,10 +414,10 @@ fun ComponentCatalogSegmentedCircularProgressIndicatorSample() {
                     drawArc(
                         paint =
                             RemotePaint().apply {
-                                remoteColor = Color.Red.rc
-                                style = Paint.Style.STROKE
-                                this.strokeWidth = strokeWidth
-                                strokeCap = Paint.Cap.ROUND
+                                color = Color.Red.rc
+                                style = PaintingStyle.Stroke
+                                this.strokeWidth = strokeWidth.rf
+                                strokeCap = StrokeCap.Round
                                 isAntiAlias = true
                             },
                         startAngle = startAngle,
@@ -432,10 +434,10 @@ fun ComponentCatalogSegmentedCircularProgressIndicatorSample() {
                     drawArc(
                         paint =
                             RemotePaint().apply {
-                                remoteColor = Color.DarkGray.rc
-                                style = Paint.Style.STROKE
-                                this.strokeWidth = strokeWidth
-                                strokeCap = Paint.Cap.ROUND
+                                color = Color.DarkGray.rc
+                                style = PaintingStyle.Stroke
+                                this.strokeWidth = strokeWidth.rf
+                                strokeCap = StrokeCap.Round
                                 isAntiAlias = true
                             },
                         startAngle = startAngle,

@@ -42,7 +42,7 @@ fun CanvasSample2() {
 
                 // Draw a triangle path
                 val path =
-                    Path().apply {
+                    androidx.compose.remote.creation.RemotePath().apply {
                         moveTo(0f, -50f)
                         lineTo(50f, 50f)
                         lineTo(-50f, 50f)
@@ -52,7 +52,7 @@ fun CanvasSample2() {
                 translate(centerX, centerY) {
                     drawPath(
                         path = path,
-                        paint = RemotePaint().apply { remoteColor = Color.Yellow.rc },
+                        paint = RemotePaint().apply { color = Color.Yellow.rc },
                     )
                 }
             }

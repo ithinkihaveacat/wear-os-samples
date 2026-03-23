@@ -2,6 +2,8 @@
 
 package com.google.example.wear_widget.widget
 
+import androidx.compose.remote.creation.compose.state.rf
+import androidx.compose.remote.creation.compose.state.rsp
 import android.annotation.SuppressLint
 
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
@@ -44,14 +46,14 @@ fun MixedStyleSample() {
                 RemoteText(
                     text = "Mixed ".rs,
                     color = Color.Red.rc,
-                    fontSize = 20.sp,
+                    fontSize = 20.rsp,
                     fontWeight = FontWeight.Bold,
                 )
                 // Second part: Italic Blue Text
                 RemoteText(
                     text = "Styles".rs,
                     color = Color.Blue.rc,
-                    fontSize = 20.sp,
+                    fontSize = 20.rsp,
                     fontStyle = FontStyle.Italic,
                 )
             }

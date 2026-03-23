@@ -2,6 +2,7 @@
 
 package com.google.example.wear_widget.widget
 
+import androidx.compose.remote.creation.compose.state.rc
 import android.annotation.SuppressLint
 
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
@@ -19,7 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.imageResource
-import androidx.wear.compose.remote.material3.RemoteImage
+import androidx.compose.remote.creation.compose.layout.RemoteImage
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import com.google.example.wear_widget.R
 

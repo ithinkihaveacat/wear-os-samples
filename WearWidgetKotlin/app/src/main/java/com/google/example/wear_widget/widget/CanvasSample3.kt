@@ -47,7 +47,7 @@ fun CanvasSample3() {
                     rotate(45f.rf) {
                         translate(-centerX, -centerY) {
                             drawRect(
-                                paint = RemotePaint().apply { remoteColor = Color.Green.rc },
+                                paint = RemotePaint().apply { color = Color.Green.rc },
                                 topLeft = RemoteOffset(centerX - 40f.rf, centerY - 40f.rf),
                                 size = RemoteSize(80f.rf, 80f.rf),
                             )
@@ -62,8 +62,8 @@ fun CanvasSample3() {
                     anchorY = centerY,
                     paint =
                         RemotePaint().apply {
-                            remoteColor = Color.White.rc
-                            textSize = 40f
+                            color = Color.White.rc
+                            textSize = 40f.rf
                         },
                 )
             }
