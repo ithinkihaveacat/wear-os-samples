@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") COMPOSABLE_NAME
+
+Take a headless screenshot of a RemoteComposable using Robolectric and Roborazzi.
+
+This script provides a rapid, developer-friendly workflow to generate visual
+previews of individual Wear OS widget components without needing an emulator.
+It dynamically injects the target composable into a pre-compiled test suite to
+minimize latency.
+
+Arguments:
+  COMPOSABLE_NAME   Name of the composable function to render (e.g., AustralianThemeSample)
+
+Options:
+  --help            Display this help message and exit
+
+Examples:
+  $(basename "$0") AustralianThemeSample
+  $(basename "$0") ButtonSample1
+  $(basename "$0") textButton
+
+Notes:
+  The target composable must be registered in the exhaustive 'when' block within
+  the test dispatcher: app/src/test/java/com/google/example/wear_widget/RoboScreenshotToolTest.kt
+EOF
+  exit 0
+}
+
+if [[ "${1:-}" == "help" || "${1:-}" == "--help" ]]; then
+  usage
+fi
+
+if [[ $# -lt 1 ]]; then
+  echo "$(basename "$0"): missing composable name operand" >&2
+  echo "Try '$(basename "$0") --help' for more information." >&2
+  exit 1
+fi
+
+TARGET="$1"
+
+# Print progress to stderr so stdout could theoretically be piped if we returned data
+echo "Generating screenshot for $TARGET..." >&2
+
+if ! ./gradlew testDebugUnitTest --tests "com.google.example.wear_widget.RoboScreenshotToolTest" -Drobo.screenshot.target="$TARGET" --quiet; then
+  echo "$(basename "$0"): screenshot generation failed for '$TARGET'" >&2
+  echo "Make sure the composable exists and is added to the 'when' block in:" >&2
+  echo "app/src/test/java/com/google/example/wear_widget/RoboScreenshotToolTest.kt" >&2
+  exit 1
+fi
+
+OUTPUT_PATH="app/screenshots/${TARGET}.png"
+if [[ -f "$OUTPUT_PATH" ]]; then
+  # Output successful data to stdout
+  echo "Success: Screenshot saved to $PWD/$OUTPUT_PATH"
+else
+  echo "$(basename "$0"): test passed but screenshot was not found at $OUTPUT_PATH" >&2
+  exit 1
+fi
