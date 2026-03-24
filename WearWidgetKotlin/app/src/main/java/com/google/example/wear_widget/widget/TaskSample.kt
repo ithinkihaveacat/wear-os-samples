@@ -49,7 +49,7 @@ import androidx.compose.ui.unit.DpSize
 @RemoteComposable
 @Composable
 fun TaskSample() {
-    RemoteMaterialTheme {
+    
         ProvideRemoteTextStyle(value = RemoteTextStyle.fromTextStyle(MyWidgetTypography.bodyMedium)) {
             RemoteBox(
             modifier = RemoteModifier.fillMaxSize(),
@@ -67,6 +67,9 @@ fun TaskSample() {
                     verticalArrangement = RemoteArrangement.Center,
                 ) {
                     // Custom Circular Progress Indicator using Canvas
+                    val trackColor = RemoteMaterialTheme.colorScheme.surfaceContainerHigh
+                    val progressColor = RemoteMaterialTheme.colorScheme.primary
+                    
                     RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
                         val width = remote.component.width
                         val height = remote.component.height
@@ -86,7 +89,7 @@ fun TaskSample() {
                             drawArc(
                                 paint =
                                     RemotePaint().apply {
-                                        color = Color(0xFF596913).rc
+                                        color = trackColor
                                         style = PaintingStyle.Stroke
                                         this.strokeWidth = strokeWidth.rf
                                         strokeCap = StrokeCap.Round
@@ -104,7 +107,7 @@ fun TaskSample() {
                         drawArc(
                             paint =
                                 RemotePaint().apply {
-                                    color = Color(0xFFCFE868).rc
+                                    color = progressColor
                                     style = PaintingStyle.Stroke
                                     this.strokeWidth = strokeWidth.rf
                                     strokeCap = StrokeCap.Round
@@ -123,7 +126,8 @@ fun TaskSample() {
                         modifier = RemoteModifier
                             .size(32.rdp)
                             .clip(CircleShape, DpSize(32.dp, 32.dp))
-                            .background(Color(0xFFCFE868)),
+                            // Uses RemoteColor overload
+                            .background(RemoteMaterialTheme.colorScheme.primary),
                         horizontalAlignment = RemoteAlignment.CenterHorizontally,
                         verticalArrangement = RemoteArrangement.Center,
                     ) {
@@ -131,7 +135,7 @@ fun TaskSample() {
                             imageVector = ImageVector.vectorResource(id = R.drawable.ic_check_24),
                             contentDescription = "Checkmark".rs,
                             modifier = RemoteModifier.size(24.rdp),
-                            tint = Color(0xFF3F4C00).rc // Dark green cutout
+                            tint = RemoteMaterialTheme.colorScheme.onPrimary // Dark green cutout equivalent
                         )
                     }
                 }
@@ -143,13 +147,13 @@ fun TaskSample() {
                 ) {
                     MaterialRemoteText(
                         text = "1".rs,
-                        color = Color(0xFFCFE868).rc,
+                        color = RemoteMaterialTheme.colorScheme.onPrimaryContainer,
                         fontSize = 42.rsp,
                         fontWeight = FontWeight.Bold
                     )
                     MaterialRemoteText(
                         text = "of 5 tasks".rs,
-                        color = Color(0xFFCFE868).rc,
+                        color = RemoteMaterialTheme.colorScheme.onPrimaryContainer,
                         fontSize = 14.rsp,
                         fontWeight = FontWeight.Medium
                     )
@@ -157,5 +161,4 @@ fun TaskSample() {
             }
         }
     }
-}
 }
