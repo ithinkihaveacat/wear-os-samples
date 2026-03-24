@@ -1,6 +1,6 @@
 # Getting Started with Wear Widgets {#getting-started-with-wear-widgets}
 
-**Version 1.0** Jan 20, 2026
+**Version 1.1** Feb 11, 2026
 
 **What are Wear Widgets?** Starting with select Wear 7 platforms, full-screen
 Tiles will evolve into partial-height Widgets. Widgets are a new glanceable
@@ -22,7 +22,8 @@ runs. UI is defined by a "document" that is sent to a system-managed surface
 consistent, the remote architecture introduces nuances because the UI is
 displayed by a separate system player. The specific nuances of this remote
 model, particularly regarding how logic and interactions are handled, are
-detailed in the [Event Handling](#event-handling-actions-vs-lambdas) section.
+detailed in the [Remote UI Programming Model](#remote-ui-programming-model)
+section.
 
 **Choosing Your Implementation Strategy.** To ensure the best user experience
 across all device generations, you must decide how your app will provide content
@@ -140,7 +141,8 @@ widget class extending `GlanceWearWidget`. The UI is defined using
 `@RemoteComposable` functions.
 
 **Note:** Currently you must add `@file:SuppressLint("RestrictedApi")` to the
-top of your Kotlin file to use the Alpha APIs.
+top of your Kotlin file to use the Alpha APIs. See
+[Multiple APIs Are Restricted](#multiple-apis-are-restricted).
 
 ### 1. Define the Service
 
@@ -466,8 +468,8 @@ model imposes several constraints:
 1. **No Arbitrary Code Execution:** You cannot execute standard Kotlin code
    (e.g., `Log.d()`, `viewModel.update()`) inside the handler.
 2. **Pre-calculated Logic:** Logic must be resolved at **composition time**.
-   Instead of `onClick = { if (isActive) doThis() else doThat() }`, and assuming
-   `isActive` is known, you must conditionally pass the correct action object:
+   Instead of `onClick = { if (isActive) doThis() else doThat() }`, you must
+   conditionally pass the correct action object:
    `onClick = if (isActive) ActionA else ActionB`.
 3. **State vs. Computation:** Actions like `ValueChange` do not increment values
    dynamically; they send instructions to the remote host to update a state key
@@ -639,7 +641,7 @@ your implementation can handle.
     `WidgetService` together as a single logical component—important to preserve
     a user's carousel state if they upgrade their OS or device.
   - If `group` is not provided, it defaults to the fully-qualified service name
-    of the Widget service, which may not be what you want.
+    of the Widget service, since it won't be part of a group.
   - Avoid specifying the `group` multiple times, or changing its name, etc. This
     feature is designed to create a one-time link from a single `WidgetService`
     to a legacy `TileService`. Using it in other ways (for example to create
@@ -842,7 +844,7 @@ significantly.
 | **Tween Animations**      | **Developer or Renderer Controlled.** Developers can provide an `AnimationSpec` but can also arrange for interpolation to be handled automatically by the renderer when dynamic values change.                            | **Developer Controlled.** Explicit `animationSpec` allows precise control over duration, delay, and easing curves (e.g. `tween`, `spring`).                                                                   |
 | **Text Formatting**       | **Spannable Support.** Supports mixed styles (bold, italic) and inline images via `Spannable`.                                                                                                                            | **Uniform Style.** `RemoteText` accepts a single string. Styles apply to the whole text. No `AnnotatedString` support.                                                                                        |
 | **Lifecycle**             | **Manual.** Developers must override `onTileAddEvent` for initialization (e.g., state setup, starting components) and `onTileRemoveEvent` for cleanup. Rendering requires handling separate layout and resource requests. | **Automated.** `GlanceWearWidgetService` manages session lifecycles internally. Optional `onAdded`/`onRemoved` hooks are available. Content and resources are resolved in a unified `provideWidgetData` pass. |
-| **Resource Management**   | **Versioned.** Uses `onTileResourcesRequest` to serve and version resources (images) independently of the layout.                                                                                                         | **Direct Binding.** Resources are handled transparently within the composition, similar to standard Compose (e.g., `R.drawable`).                                                                             |
+| **Resource Management**   | **Versioned.** Uses `onTileResourcesRequest` to serve and version resources (images) independently of the layout in the older versions of Tiles library.                                                                  | **Direct Binding.** Resources are handled transparently within the composition, similar to standard Compose (e.g., `R.drawable`).                                                                             |
 | **Telemetry / Tracking**  | **Built-in Callback.** `onRecentInteractionEventsAsync` provides a stream of recent click events.                                                                                                                         | **Support Planned.**                                                                                                                                                                                          |
 
 ## Migrating from Legacy Tiles
@@ -893,6 +895,50 @@ Many APIs (e.g., `.rs`, `.rf`, `RemotePainter`) are currently marked as
 `@file:SuppressLint("RestrictedApi")` at the top of each file (or
 `@SuppressLint("RestrictedApi")` immediately above a function). This enables
 access to the full API surface.
+
+### `RemoteModifier.background(RemoteColor)` Ignores Clipping
+
+b/495827025
+
+**Symptom:** When applying a dynamic `RemoteColor` (e.g., from
+`RemoteMaterialTheme.colorScheme`) using the `background()` modifier, any
+preceding `clip()` modifiers are ignored. The component will render as an
+unclipped rectangle or square.
+
+**Workaround:** To draw a shaped background with a dynamic theme color, use a
+`RemoteCanvas` and explicitly draw the shape (e.g., `drawCircle` or
+`drawRoundRect`) with a `RemotePaint` object instead of using the `background`
+modifier.
+
+```kotlin
+val iconBgColor = RemoteMaterialTheme.colorScheme.primary
+
+// Fails (ignores CircleShape clip, renders as square)
+RemoteBox(
+    modifier = RemoteModifier
+        .size(32.rdp)
+        .clip(CircleShape, DpSize(32.dp, 32.dp))
+        .background(iconBgColor),
+) {
+    // ...
+}
+
+// Works: Explicit Canvas drawing
+RemoteBox(modifier = RemoteModifier.size(32.rdp)) {
+    RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+        val w = remote.component.width
+        val h = remote.component.height
+        drawCircle(
+            paint = RemotePaint().apply {
+                color = iconBgColor
+                style = PaintingStyle.Fill
+            },
+            center = RemoteOffset(w / 2f.rf, h / 2f.rf),
+            radius = w / 2f.rf
+        )
+    }
+}
+```
 
 ### `RemoteModifier.clip()` Requires Explicit Size for Relative Shapes
 
@@ -1326,6 +1372,34 @@ with images or gradients at this time. To maintain visual consistency, ensure
 your content or inner backgrounds complement the document's `backgroundColor`.
 
 ## Updates {#updates}
+
+### Next
+
+Features
+
+- [b/478828032](http://b/478828032) — semantic text styles
+- Updated Renderer
+  - [https://android-review.git.corp.google.com/c/platform/frameworks/support/+/3964947](https://android-review.git.corp.google.com/c/platform/frameworks/support/+/3964947)
+    — automatic refresh in standalone viewer (Debug builds only)
+- TODO(stillers): copy across the new viewer (can change the widget shape) DONE
+  [https://g3doc.corp.google.com/java/com/google/android/clockwork/prototiles/renderer/experimental/README.md?cl=head](https://g3doc.corp.google.com/java/com/google/android/clockwork/prototiles/renderer/experimental/README.md?cl=head)
+
+Changes
+
+- some packages moved around
+  - API package change:
+    [Move APIs in \`glance:wear:wear-core\` into the package \`androidx.glance.wear.c...](https://android-review.git.corp.google.com/c/platform/frameworks/support/+/3948600)
+  - [Add \`GlanceWearWidgetManager\` class and \`getActiveWidgets\` api.](https://android-review.git.corp.google.com/c/platform/frameworks/support/+/3940182)
+    - Helper removed:
+      [Remove \`fetchActiveWidgetsForProvider\` api.](https://android-review.git.corp.google.com/c/platform/frameworks/support/+/3961303)
+
+Other
+
+- [RemoteImage failures when using large or unscaled bitmaps](#remoteimage-failures-when-using-large-or-unscaled-bitmaps)
+- full bleed backgrounds limited to solid colors
+- TODO: update [Current and Future Renderers](#current-and-future-renderers) to
+  reflect current state. reference from
+  [6\. Build and Deploy](#6.-build-and-deploy)
 
 ### Wear Widgets EAP 1.1 — 9 Feb 2026
 
