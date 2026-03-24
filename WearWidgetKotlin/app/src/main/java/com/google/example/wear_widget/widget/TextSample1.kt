@@ -9,7 +9,7 @@ import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
-import androidx.compose.remote.creation.compose.layout.RemoteText
+import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
@@ -22,7 +22,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.wear.compose.remote.material3.ProvideRemoteTextStyle
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
+import androidx.compose.remote.creation.compose.text.RemoteTextStyle
+import com.google.example.wear_widget.MyWidgetTypography
 
 /**
  * Android logo above "Wear Widget" title. A dark-grey bordered, rounded green widget displays:
@@ -33,7 +36,8 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 @Composable
 fun TextSample1() {
     RemoteMaterialTheme {
-        RemoteBox(
+        ProvideRemoteTextStyle(value = RemoteTextStyle.fromTextStyle(MyWidgetTypography.bodyMedium)) {
+            RemoteBox(
             modifier = RemoteModifier.fillMaxSize().background(Color(0xFF006400)),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
@@ -42,13 +46,13 @@ fun TextSample1() {
                 horizontalAlignment = RemoteAlignment.CenterHorizontally,
                 verticalArrangement = RemoteArrangement.Center,
             ) {
-                RemoteText(
+                MaterialRemoteText(
                     text = "TextSample1".rs,
                     color = Color.White.rc,
                     fontSize = 20.rsp,
                     fontWeight = FontWeight.Bold,
                 )
-                RemoteText(
+                MaterialRemoteText(
                     text =
                         "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.".rs,
                     color = Color.LightGray.rc,
@@ -57,7 +61,7 @@ fun TextSample1() {
                     overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
                     textAlign = androidx.compose.ui.text.style.TextAlign.Center,
                 )
-                RemoteText(
+                MaterialRemoteText(
                     text = "Version 1.0".rs,
                     color = Color.Cyan.rc,
                     fontSize = 10.rsp,
@@ -66,4 +70,5 @@ fun TextSample1() {
             }
         }
     }
+}
 }

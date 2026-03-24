@@ -13,7 +13,7 @@ import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.layout.RemoteOffset
 import androidx.compose.remote.creation.compose.layout.RemoteRow
 import androidx.compose.remote.creation.compose.layout.RemoteSize
-import androidx.compose.remote.creation.compose.layout.RemoteText
+import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.padding
@@ -33,7 +33,10 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.wear.compose.remote.material3.ProvideRemoteTextStyle
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
+import androidx.compose.remote.creation.compose.text.RemoteTextStyle
+import com.google.example.wear_widget.MyWidgetTypography
 import androidx.wear.compose.remote.material3.RemoteIcon
 import androidx.compose.ui.unit.dp
 import com.google.example.wear_widget.R
@@ -47,7 +50,8 @@ import androidx.compose.ui.unit.DpSize
 @Composable
 fun TaskSample() {
     RemoteMaterialTheme {
-        RemoteBox(
+        ProvideRemoteTextStyle(value = RemoteTextStyle.fromTextStyle(MyWidgetTypography.bodyMedium)) {
+            RemoteBox(
             modifier = RemoteModifier.fillMaxSize(),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
@@ -137,14 +141,14 @@ fun TaskSample() {
                     horizontalAlignment = RemoteAlignment.Start,
                     verticalArrangement = RemoteArrangement.Center,
                 ) {
-                    RemoteText(
-                        text = "1",
+                    MaterialRemoteText(
+                        text = "1".rs,
                         color = Color(0xFFCFE868).rc,
                         fontSize = 42.rsp,
                         fontWeight = FontWeight.Bold
                     )
-                    RemoteText(
-                        text = "of 5 tasks",
+                    MaterialRemoteText(
+                        text = "of 5 tasks".rs,
                         color = Color(0xFFCFE868).rc,
                         fontSize = 14.rsp,
                         fontWeight = FontWeight.Medium
@@ -153,4 +157,5 @@ fun TaskSample() {
             }
         }
     }
+}
 }
