@@ -42,42 +42,40 @@ import com.google.example.wear_widget.R
 @RemoteComposable
 @Composable
 fun CardSample1() {
-    val dummy = rememberRemoteIntValue { 0 }
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+val dummy = rememberRemoteIntValue { 0 }
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteButton(
+            onClick = ValueChange(dummy, 0.ri),
+            modifier = RemoteModifier.fillMaxSize().padding(10.dp),
+            enabled = false.rb, // act as container
+            colors =
+                RemoteButtonColors(
+                    containerColor = Color.DarkGray.rc,
+                    contentColor = Color.White.rc,
+                    secondaryContentColor = Color.LightGray.rc,
+                    iconColor = Color.White.rc,
+                    disabledContainerColor = Color.DarkGray.rc,
+                    disabledContentColor = Color.White.rc,
+                    disabledSecondaryContentColor = Color.LightGray.rc,
+                    disabledIconColor = Color.White.rc,
+                ),
         ) {
-            RemoteButton(
-                onClick = ValueChange(dummy, 0.ri),
-                modifier = RemoteModifier.fillMaxSize().padding(10.dp),
-                enabled = false.rb, // act as container
-                colors =
-                    RemoteButtonColors(
-                        containerColor = Color.DarkGray.rc,
-                        contentColor = Color.White.rc,
-                        secondaryContentColor = Color.LightGray.rc,
-                        iconColor = Color.White.rc,
-                        disabledContainerColor = Color.DarkGray.rc,
-                        disabledContentColor = Color.White.rc,
-                        disabledSecondaryContentColor = Color.LightGray.rc,
-                        disabledIconColor = Color.White.rc,
-                    ),
-            ) {
-                RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically) {
-                    RemoteIcon(
-                        imageVector =
-                            ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
-                        contentDescription = "Card Icon".rs,
-                        modifier = RemoteModifier.size(40.rdp),
-                        tint = Color.Cyan.rc,
-                    )
-                    RemoteBox(RemoteModifier.size(10.rdp))
-                    RemoteColumn {
-                        MaterialRemoteText("Card Title".rs)
-                        MaterialRemoteText("Subtitle goes here".rs)
-                    }
+            RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically) {
+                RemoteIcon(
+                    imageVector =
+                        ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
+                    contentDescription = "Card Icon".rs,
+                    modifier = RemoteModifier.size(40.rdp),
+                    tint = Color.Cyan.rc,
+                )
+                RemoteBox(RemoteModifier.size(10.rdp))
+                RemoteColumn {
+                    MaterialRemoteText("Card Title".rs)
+                    MaterialRemoteText("Subtitle goes here".rs)
                 }
             }
         }

@@ -27,25 +27,23 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 @RemoteComposable
 @Composable
 fun RowSample2() {
-    // WORKAROUND: Replaced RemoteCollapsibleRow with RemoteRow due to an "Invalid enum value:
-    // Orientation"
-    // error when rendering the RemoteCollapsibleRow. It seems the RemoteCollapsibleRow's
-    // orientation parameter was not being correctly handled by the renderer.
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+// WORKAROUND: Replaced RemoteCollapsibleRow with RemoteRow due to an "Invalid enum value:
+// Orientation"
+// error when rendering the RemoteCollapsibleRow. It seems the RemoteCollapsibleRow's
+// orientation parameter was not being correctly handled by the renderer.
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteRow(
+            modifier = RemoteModifier.fillMaxSize().padding(5.dp),
+            horizontalArrangement = RemoteArrangement.SpaceBetween,
+            verticalAlignment = RemoteAlignment.CenterVertically,
         ) {
-            RemoteRow(
-                modifier = RemoteModifier.fillMaxSize().padding(5.dp),
-                horizontalArrangement = RemoteArrangement.SpaceBetween,
-                verticalAlignment = RemoteAlignment.CenterVertically,
-            ) {
-                RemoteText("Item 1", color = Color.White.rc)
-                RemoteText("Item 2", color = Color.Yellow.rc)
-                RemoteText("Item 3", color = Color.Gray.rc)
-            }
+            RemoteText("Item 1", color = Color.White.rc)
+            RemoteText("Item 2", color = Color.Yellow.rc)
+            RemoteText("Item 3", color = Color.Gray.rc)
         }
     }
 }

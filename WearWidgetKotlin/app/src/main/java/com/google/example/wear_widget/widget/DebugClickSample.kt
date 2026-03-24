@@ -33,36 +33,34 @@ import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 @RemoteComposable
 @Composable
 fun DebugClickSample() {
-    val context = LocalContext.current
-    val intent = remember(context) { Intent("com.google.example.wear_widget.DEBUG_CLICK_ACTION").setPackage(context.packageName) }
-    val pendingIntent = remember(context) {
-        PendingIntent.getBroadcast(
-            context,
-            0,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
-    }
+val context = LocalContext.current
+val intent = remember(context) { Intent("com.google.example.wear_widget.DEBUG_CLICK_ACTION").setPackage(context.packageName) }
+val pendingIntent = remember(context) {
+    PendingIntent.getBroadcast(
+        context,
+        0,
+        intent,
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+    )
+}
 
-    RemoteMaterialTheme {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
         RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
+            modifier = RemoteModifier
+                .size(100.rdp)
+                .background(Color.Red.rc)
+                .clip(CircleShape, DpSize(100.dp, 100.dp))
+                .clickable(
+                    pendingIntentAction(pendingIntent)
+                ),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+            verticalArrangement = RemoteArrangement.Center
         ) {
-            RemoteBox(
-                modifier = RemoteModifier
-                    .size(100.rdp)
-                    .background(Color.Red.rc)
-                    .clip(CircleShape, DpSize(100.dp, 100.dp))
-                    .clickable(
-                        pendingIntentAction(pendingIntent)
-                    ),
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                verticalArrangement = RemoteArrangement.Center
-            ) {
-                MaterialRemoteText("Click Me".rs)
-            }
+            MaterialRemoteText("Click Me".rs)
         }
     }
 }

@@ -29,47 +29,45 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 @RemoteComposable
 @Composable
 fun GridSample1() {
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteColumn(
+            modifier = RemoteModifier.fillMaxSize().padding(20.dp),
+            verticalArrangement = RemoteArrangement.SpaceEvenly,
         ) {
-            RemoteColumn(
-                modifier = RemoteModifier.fillMaxSize().padding(20.dp),
-                verticalArrangement = RemoteArrangement.SpaceEvenly,
-            ) {
-                RemoteRow(modifier = RemoteModifier.weight(1f)) {
-                    RemoteBox(
-                        modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Red),
-                        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                        verticalArrangement = RemoteArrangement.Center,
-                    ) {
-                        RemoteText("1", color = Color.White.rc)
-                    }
-                    RemoteBox(
-                        modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Blue),
-                        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                        verticalArrangement = RemoteArrangement.Center,
-                    ) {
-                        RemoteText("2", color = Color.White.rc)
-                    }
+            RemoteRow(modifier = RemoteModifier.weight(1f)) {
+                RemoteBox(
+                    modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Red),
+                    horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                    verticalArrangement = RemoteArrangement.Center,
+                ) {
+                    RemoteText("1", color = Color.White.rc)
                 }
-                RemoteRow(modifier = RemoteModifier.weight(1f)) {
-                    RemoteBox(
-                        modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Green),
-                        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                        verticalArrangement = RemoteArrangement.Center,
-                    ) {
-                        RemoteText("3", color = Color.Black.rc)
-                    }
-                    RemoteBox(
-                        modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Yellow),
-                        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                        verticalArrangement = RemoteArrangement.Center,
-                    ) {
-                        RemoteText("4", color = Color.Black.rc)
-                    }
+                RemoteBox(
+                    modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Blue),
+                    horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                    verticalArrangement = RemoteArrangement.Center,
+                ) {
+                    RemoteText("2", color = Color.White.rc)
+                }
+            }
+            RemoteRow(modifier = RemoteModifier.weight(1f)) {
+                RemoteBox(
+                    modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Green),
+                    horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                    verticalArrangement = RemoteArrangement.Center,
+                ) {
+                    RemoteText("3", color = Color.Black.rc)
+                }
+                RemoteBox(
+                    modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Yellow),
+                    horizontalAlignment = RemoteAlignment.CenterHorizontally,
+                    verticalArrangement = RemoteArrangement.Center,
+                ) {
+                    RemoteText("4", color = Color.Black.rc)
                 }
             }
         }

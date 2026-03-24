@@ -31,30 +31,28 @@ import androidx.wear.compose.remote.material3.buttonSizeModifier
 @RemoteComposable
 @Composable
 fun ButtonSample4() {
-    val dummy = rememberRemoteIntValue { 0 }
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+val dummy = rememberRemoteIntValue { 0 }
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteButton(
+            onClick = ValueChange(dummy, 0.ri),
+            modifier = RemoteModifier.buttonSizeModifier(),
+            colors =
+                RemoteButtonColors(
+                    containerColor = Color.Red.rc,
+                    contentColor = Color.Yellow.rc,
+                    secondaryContentColor = Color.Yellow.rc,
+                    iconColor = Color.Yellow.rc,
+                    disabledContainerColor = Color.Gray.rc,
+                    disabledContentColor = Color.LightGray.rc,
+                    disabledSecondaryContentColor = Color.LightGray.rc,
+                    disabledIconColor = Color.LightGray.rc,
+                ),
         ) {
-            RemoteButton(
-                onClick = ValueChange(dummy, 0.ri),
-                modifier = RemoteModifier.buttonSizeModifier(),
-                colors =
-                    RemoteButtonColors(
-                        containerColor = Color.Red.rc,
-                        contentColor = Color.Yellow.rc,
-                        secondaryContentColor = Color.Yellow.rc,
-                        iconColor = Color.Yellow.rc,
-                        disabledContainerColor = Color.Gray.rc,
-                        disabledContentColor = Color.LightGray.rc,
-                        disabledSecondaryContentColor = Color.LightGray.rc,
-                        disabledIconColor = Color.LightGray.rc,
-                    ),
-            ) {
-                MaterialRemoteText("Custom Colors".rs)
-            }
+            MaterialRemoteText("Custom Colors".rs)
         }
     }
 }

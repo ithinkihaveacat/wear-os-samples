@@ -28,49 +28,47 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 @RemoteComposable
 @Composable
 fun Material3ThemeSample() {
-    RemoteMaterialTheme {
-        RemoteColumn(modifier = RemoteModifier.fillMaxSize()) {
-            RemoteColorRow {
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.error)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.errorDim)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.errorContainer)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.onError)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.onErrorContainer)
-            }
-            RemoteColorRow {
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.primary)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.primaryDim)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.primaryContainer)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.onPrimary)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.onPrimaryContainer)
-            }
-            RemoteColorRow {
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.secondary)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.secondaryDim)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.secondaryContainer)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.onSecondary)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.onSecondaryContainer)
-            }
-            RemoteColorRow {
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.tertiary)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.tertiaryDim)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.tertiaryContainer)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.onTertiary)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.onTertiaryContainer)
-            }
-            RemoteColorRow {
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.surfaceContainer)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.surfaceContainerLow)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.surfaceContainerHigh)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.onSurface)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.onSurfaceVariant)
-            }
-            RemoteColorRow {
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.outline)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.outlineVariant)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.background)
-                RemoteColorBox(RemoteMaterialTheme.colorScheme.onBackground)
-            }
+    RemoteColumn(modifier = RemoteModifier.fillMaxSize()) {
+        RemoteColorRow {
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.error)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.errorDim)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.errorContainer)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.onError)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.onErrorContainer)
+        }
+        RemoteColorRow {
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.primary)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.primaryDim)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.primaryContainer)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.onPrimary)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.onPrimaryContainer)
+        }
+        RemoteColorRow {
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.secondary)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.secondaryDim)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.secondaryContainer)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.onSecondary)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.onSecondaryContainer)
+        }
+        RemoteColorRow {
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.tertiary)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.tertiaryDim)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.tertiaryContainer)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.onTertiary)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.onTertiaryContainer)
+        }
+        RemoteColorRow {
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.surfaceContainer)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.surfaceContainerLow)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.surfaceContainerHigh)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.onSurface)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        RemoteColorRow {
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.outline)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.outlineVariant)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.background)
+            RemoteColorBox(RemoteMaterialTheme.colorScheme.onBackground)
         }
     }
 }
@@ -78,13 +76,13 @@ fun Material3ThemeSample() {
 @RemoteComposable
 @Composable
 private fun RemoteColumnScope.RemoteColorRow(
-    content: @RemoteComposable @Composable RemoteRowScope.() -> Unit
+content: @RemoteComposable @Composable RemoteRowScope.() -> Unit
 ) {
-    RemoteRow(modifier = RemoteModifier.fillMaxWidth().weight(1f), content = content)
+RemoteRow(modifier = RemoteModifier.fillMaxWidth().weight(1f), content = content)
 }
 
 @RemoteComposable
 @Composable
 private fun RemoteRowScope.RemoteColorBox(color: RemoteColor) {
-    RemoteBox(modifier = RemoteModifier.fillMaxHeight().weight(1f).background(color))
+RemoteBox(modifier = RemoteModifier.fillMaxHeight().weight(1f).background(color))
 }

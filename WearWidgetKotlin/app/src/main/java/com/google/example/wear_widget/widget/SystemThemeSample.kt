@@ -29,19 +29,17 @@ import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 @RemoteComposable
 @Composable
 fun SystemThemeSample() {
-    val dummy = rememberRemoteIntValue { 0 }
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
-        ) {
-            RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
-                MaterialRemoteText("System Theme".rs)
-                RemoteBox(RemoteModifier.size(10.rdp))
-                RemoteButton(onClick = ValueChange(dummy, 0.ri)) {
-                    MaterialRemoteText("Primary Button".rs)
-                }
+val dummy = rememberRemoteIntValue { 0 }
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
+            MaterialRemoteText("System Theme".rs)
+            RemoteBox(RemoteModifier.size(10.rdp))
+            RemoteButton(onClick = ValueChange(dummy, 0.ri)) {
+                MaterialRemoteText("Primary Button".rs)
             }
         }
     }

@@ -34,23 +34,21 @@ import com.google.example.wear_widget.MyWidgetTypography
 @RemoteComposable
 @Composable
 fun BoxSample2() {
-    // Box with padding and border
-    RemoteMaterialTheme {
-        ProvideRemoteTextStyle(value = RemoteTextStyle.fromTextStyle(MyWidgetTypography.bodyMedium)) {
-            RemoteBox(
-                modifier =
-                    RemoteModifier.fillMaxSize()
-                        .padding(20.dp)
-                        .border(width = 2.rdp, color = Color.Red.rc),
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                verticalArrangement = RemoteArrangement.Center,
-            ) {
-                MaterialRemoteText(
-                    text = "Box Sample 2\n(Border & Padding)".rs,
-                    color = Color.White.rc,
-                    textAlign = TextAlign.Center,
-                )
-            }
+// Box with padding and border
+    ProvideRemoteTextStyle(value = RemoteTextStyle.fromTextStyle(MyWidgetTypography.bodyMedium)) {
+        RemoteBox(
+            modifier =
+                RemoteModifier.fillMaxSize()
+                    .padding(20.dp)
+                    .border(width = 2.rdp, color = Color.Red.rc),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            MaterialRemoteText(
+                text = "Box Sample 2\n(Border & Padding)".rs,
+                color = Color.White.rc,
+                textAlign = TextAlign.Center,
+            )
         }
     }
 }

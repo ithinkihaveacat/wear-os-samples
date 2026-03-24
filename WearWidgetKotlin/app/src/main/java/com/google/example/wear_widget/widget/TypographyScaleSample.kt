@@ -35,37 +35,35 @@ import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 @RemoteComposable
 @Composable
 fun TypographyScaleSample() {
-    // Define our own "semantic" styles
-    val myTitleStyle = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.Cyan)
+// Define our own "semantic" styles
+val myTitleStyle = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.Cyan)
 
-    val myCaptionStyle =
-        TextStyle(fontSize = 12.sp, fontStyle = FontStyle.Italic, color = Color.LightGray)
+val myCaptionStyle =
+    TextStyle(fontSize = 12.sp, fontStyle = FontStyle.Italic, color = Color.LightGray)
 
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
-        ) {
-            RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
-                // 1. Title style applied manually
-                MaterialRemoteText(
-                    text = "Title Style".rs,
-                    fontSize = myTitleStyle.fontSize.asRemoteTextUnit(),
-                    fontWeight = myTitleStyle.fontWeight,
-                    color = myTitleStyle.color.rc,
-                )
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
+            // 1. Title style applied manually
+            MaterialRemoteText(
+                text = "Title Style".rs,
+                fontSize = myTitleStyle.fontSize.asRemoteTextUnit(),
+                fontWeight = myTitleStyle.fontWeight,
+                color = myTitleStyle.color.rc,
+            )
 
-                RemoteBox(RemoteModifier.size(12.rdp))
+            RemoteBox(RemoteModifier.size(12.rdp))
 
-                // 2. Default style (bodyLarge) provided by RemoteMaterialTheme
-                MaterialRemoteText("Default Body Style".rs)
+            // 2. Default style (bodyLarge) provided by RemoteMaterialTheme
+            MaterialRemoteText("Default Body Style".rs)
 
-                RemoteBox(RemoteModifier.size(12.rdp))
+            RemoteBox(RemoteModifier.size(12.rdp))
 
-                // 3. Caption style applied via 'style' parameter
-                MaterialRemoteText(text = "Caption Style".rs, style = RemoteTextStyle.fromTextStyle(myCaptionStyle))
-            }
+            // 3. Caption style applied via 'style' parameter
+            MaterialRemoteText(text = "Caption Style".rs, style = RemoteTextStyle.fromTextStyle(myCaptionStyle))
         }
     }
 }

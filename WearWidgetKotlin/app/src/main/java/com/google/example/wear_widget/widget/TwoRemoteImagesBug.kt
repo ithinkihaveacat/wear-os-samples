@@ -33,32 +33,30 @@ import com.google.example.wear_widget.R
 @RemoteComposable
 @Composable
 fun TwoRemoteImagesBug() {
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteRow(
+            verticalAlignment = RemoteAlignment.CenterVertically,
+            horizontalArrangement = RemoteArrangement.CenterHorizontally,
         ) {
-            RemoteRow(
-                verticalAlignment = RemoteAlignment.CenterVertically,
-                horizontalArrangement = RemoteArrangement.CenterHorizontally,
-            ) {
-                // Image 1: Landscape
-                RemoteImage(
-                    bitmap = ImageBitmap.imageResource(id = R.drawable.photo_14),
-                    contentDescription = "Landscape".rs,
-                    modifier = RemoteModifier.size(35.rdp),
-                )
+            // Image 1: Landscape
+            RemoteImage(
+                bitmap = ImageBitmap.imageResource(id = R.drawable.photo_14),
+                contentDescription = "Landscape".rs,
+                modifier = RemoteModifier.size(35.rdp),
+            )
 
-                RemoteBox(RemoteModifier.size(10.rdp))
+            RemoteBox(RemoteModifier.size(10.rdp))
 
-                // Image 2: Person
-                RemoteImage(
-                    bitmap = ImageBitmap.imageResource(id = R.drawable.photo_17),
-                    contentDescription = "Person".rs,
-                    modifier = RemoteModifier.size(35.rdp),
-                )
-            }
+            // Image 2: Person
+            RemoteImage(
+                bitmap = ImageBitmap.imageResource(id = R.drawable.photo_17),
+                contentDescription = "Person".rs,
+                modifier = RemoteModifier.size(35.rdp),
+            )
         }
     }
 }

@@ -39,41 +39,39 @@ import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 @RemoteComposable
 @Composable
 fun CounterSample1() {
-    val count = rememberRemoteIntValue { 0 }
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+val count = rememberRemoteIntValue { 0 }
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteRow(
+            verticalAlignment = RemoteAlignment.CenterVertically,
+            horizontalArrangement = RemoteArrangement.CenterHorizontally,
         ) {
-            RemoteRow(
-                verticalAlignment = RemoteAlignment.CenterVertically,
-                horizontalArrangement = RemoteArrangement.CenterHorizontally,
+            RemoteButton(
+                onClick = ValueChange(count, count - 1.ri),
+                modifier = RemoteModifier.size(40.rdp),
             ) {
-                RemoteButton(
-                    onClick = ValueChange(count, count - 1.ri),
-                    modifier = RemoteModifier.size(40.rdp),
-                ) {
-                    MaterialRemoteText("-".rs)
-                }
+                MaterialRemoteText("-".rs)
+            }
 
-                RemoteBox(RemoteModifier.size(10.rdp))
+            RemoteBox(RemoteModifier.size(10.rdp))
 
-                RemoteBox(modifier = RemoteModifier.background(Color.Red)) {
-                    RemoteText(
-                        text = count.toRemoteString(10, TextFromFloat.PAD_PRE_NONE),
-                        color = Color.White.rc,
-                        fontSize = 24.rsp,
-                    )
-                }
+            RemoteBox(modifier = RemoteModifier.background(Color.Red)) {
+                RemoteText(
+                    text = count.toRemoteString(10, TextFromFloat.PAD_PRE_NONE),
+                    color = Color.White.rc,
+                    fontSize = 24.rsp,
+                )
+            }
 
-                RemoteBox(RemoteModifier.size(10.rdp))
-                RemoteButton(
-                    onClick = ValueChange(count, count + 1.ri),
-                    modifier = RemoteModifier.size(40.rdp),
-                ) {
-                    MaterialRemoteText("+".rs)
-                }
+            RemoteBox(RemoteModifier.size(10.rdp))
+            RemoteButton(
+                onClick = ValueChange(count, count + 1.ri),
+                modifier = RemoteModifier.size(40.rdp),
+            ) {
+                MaterialRemoteText("+".rs)
             }
         }
     }

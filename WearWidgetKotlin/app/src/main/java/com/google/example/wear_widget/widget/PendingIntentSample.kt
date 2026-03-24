@@ -29,29 +29,27 @@ import com.google.example.wear_widget.MainActivity
 @RemoteComposable
 @Composable
 fun PendingIntentSample() {
-    val context = androidx.compose.ui.platform.LocalContext.current
-    val intent =
-        Intent(context, MainActivity::class.java).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
-    val pendingIntent =
-        PendingIntent.getActivity(
-            context,
-            0,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
-        )
+val context = androidx.compose.ui.platform.LocalContext.current
+val intent =
+    Intent(context, MainActivity::class.java).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
+val pendingIntent =
+    PendingIntent.getActivity(
+        context,
+        0,
+        intent,
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+    )
 
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteButton(
+            modifier = RemoteModifier.buttonSizeModifier(),
+            onClick = pendingIntentAction(pendingIntent),
         ) {
-            RemoteButton(
-                modifier = RemoteModifier.buttonSizeModifier(),
-                onClick = pendingIntentAction(pendingIntent),
-            ) {
-                MaterialRemoteText("Open App".rs)
-            }
+            MaterialRemoteText("Open App".rs)
         }
     }
 }

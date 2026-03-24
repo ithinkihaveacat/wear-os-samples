@@ -30,28 +30,26 @@ import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 @RemoteComposable
 @Composable
 fun ButtonSample8() {
-    val dummy = rememberRemoteIntValue { 0 }
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
-        ) {
-            RemoteButtonGroup {
-                RemoteButton(
-                    onClick = ValueChange(dummy, 0.ri),
-                    modifier = RemoteModifier.weight(1f),
-                    label = { MaterialRemoteText("Yes".rs) },
-                    secondaryLabel = { MaterialRemoteText("Confirm".rs) },
-                )
-                RemoteBox(RemoteModifier.size(RemoteButtonGroupDefaults.Spacing))
-                RemoteButton(
-                    onClick = ValueChange(dummy, 0.ri),
-                    modifier = RemoteModifier.weight(1f),
-                    label = { MaterialRemoteText("No".rs) },
-                    secondaryLabel = { MaterialRemoteText("Cancel".rs) },
-                )
-            }
+val dummy = rememberRemoteIntValue { 0 }
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteButtonGroup {
+            RemoteButton(
+                onClick = ValueChange(dummy, 0.ri),
+                modifier = RemoteModifier.weight(1f),
+                label = { MaterialRemoteText("Yes".rs) },
+                secondaryLabel = { MaterialRemoteText("Confirm".rs) },
+            )
+            RemoteBox(RemoteModifier.size(RemoteButtonGroupDefaults.Spacing))
+            RemoteButton(
+                onClick = ValueChange(dummy, 0.ri),
+                modifier = RemoteModifier.weight(1f),
+                label = { MaterialRemoteText("No".rs) },
+                secondaryLabel = { MaterialRemoteText("Cancel".rs) },
+            )
         }
     }
 }

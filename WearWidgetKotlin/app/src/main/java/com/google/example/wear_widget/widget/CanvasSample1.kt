@@ -27,32 +27,30 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 @RemoteComposable
 @Composable
 fun CanvasSample1() {
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
-        ) {
-            RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
-                val width = remote.component.width
-                val height = remote.component.height
-                val centerX = width / 2f.rf
-                val centerY = height / 2f.rf
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+            val width = remote.component.width
+            val height = remote.component.height
+            val centerX = width / 2f.rf
+            val centerY = height / 2f.rf
 
-                // Draw a circle
-                drawCircle(
-                    paint = RemotePaint().apply { color = Color.Red.rc },
-                    radius = 50f.rf,
-                    center = RemoteOffset(centerX, centerY),
-                )
+            // Draw a circle
+            drawCircle(
+                paint = RemotePaint().apply { color = Color.Red.rc },
+                radius = 50f.rf,
+                center = RemoteOffset(centerX, centerY),
+            )
 
-                // Draw a rect
-                drawRect(
-                    paint = RemotePaint().apply { color = Color.Blue.rc },
-                    topLeft = RemoteOffset(centerX - 100f.rf, centerY + 60f.rf),
-                    size = RemoteSize(200f.rf, 50f.rf),
-                )
-            }
+            // Draw a rect
+            drawRect(
+                paint = RemotePaint().apply { color = Color.Blue.rc },
+                topLeft = RemoteOffset(centerX - 100f.rf, centerY + 60f.rf),
+                size = RemoteSize(200f.rf, 50f.rf),
+            )
         }
     }
 }

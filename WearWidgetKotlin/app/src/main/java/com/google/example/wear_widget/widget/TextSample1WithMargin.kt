@@ -34,38 +34,36 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 @RemoteComposable
 @Composable
 fun TextSample1WithMargin() {
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize().background(Color(0xFF006400)).padding(30.dp),
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color(0xFF006400)).padding(30.dp),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteColumn(
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
         ) {
-            RemoteColumn(
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                verticalArrangement = RemoteArrangement.Center,
-            ) {
-                RemoteText(
-                    text = "TextSample1".rs,
-                    color = Color.White.rc,
-                    fontSize = 20.rsp,
-                    fontWeight = FontWeight.Bold,
-                )
-                RemoteText(
-                    text =
-                        "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.".rs,
-                    color = Color.LightGray.rc,
-                    fontSize = 14.rsp,
-                    maxLines = 2,
-                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-                )
-                RemoteText(
-                    text = "Version 1.0".rs,
-                    color = Color.Cyan.rc,
-                    fontSize = 10.rsp,
-                    fontStyle = FontStyle.Italic,
-                )
-            }
+            RemoteText(
+                text = "TextSample1".rs,
+                color = Color.White.rc,
+                fontSize = 20.rsp,
+                fontWeight = FontWeight.Bold,
+            )
+            RemoteText(
+                text =
+                    "This is a long text that should wrap to multiple lines to demonstrate the multi-line capability.".rs,
+                color = Color.LightGray.rc,
+                fontSize = 14.rsp,
+                maxLines = 2,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+            )
+            RemoteText(
+                text = "Version 1.0".rs,
+                color = Color.Cyan.rc,
+                fontSize = 10.rsp,
+                fontStyle = FontStyle.Italic,
+            )
         }
     }
 }

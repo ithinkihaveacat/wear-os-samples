@@ -28,33 +28,31 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 @RemoteComposable
 @Composable
 fun CanvasSample2() {
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
-        ) {
-            RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
-                val width = remote.component.width
-                val height = remote.component.height
-                val centerX = width / 2f.rf
-                val centerY = height / 2f.rf
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+            val width = remote.component.width
+            val height = remote.component.height
+            val centerX = width / 2f.rf
+            val centerY = height / 2f.rf
 
-                // Draw a triangle path
-                val path =
-                    androidx.compose.remote.creation.RemotePath().apply {
-                        moveTo(0f, -50f)
-                        lineTo(50f, 50f)
-                        lineTo(-50f, 50f)
-                        close()
-                    }
-
-                translate(centerX, centerY) {
-                    drawPath(
-                        path = path,
-                        paint = RemotePaint().apply { color = Color.Yellow.rc },
-                    )
+            // Draw a triangle path
+            val path =
+                androidx.compose.remote.creation.RemotePath().apply {
+                    moveTo(0f, -50f)
+                    lineTo(50f, 50f)
+                    lineTo(-50f, 50f)
+                    close()
                 }
+
+            translate(centerX, centerY) {
+                drawPath(
+                    path = path,
+                    paint = RemotePaint().apply { color = Color.Yellow.rc },
+                )
             }
         }
     }

@@ -32,31 +32,29 @@ import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 @RemoteComposable
 @Composable
 fun ButtonSample7() {
-    val dummy = rememberRemoteIntValue { 0 }
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+val dummy = rememberRemoteIntValue { 0 }
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteRow(
+            modifier = RemoteModifier.padding(horizontal = 11.dp),
+            horizontalArrangement = RemoteArrangement.CenterHorizontally,
+            verticalAlignment = RemoteAlignment.CenterVertically,
         ) {
-            RemoteRow(
-                modifier = RemoteModifier.padding(horizontal = 11.dp),
-                horizontalArrangement = RemoteArrangement.CenterHorizontally,
-                verticalAlignment = RemoteAlignment.CenterVertically,
+            RemoteButton(
+                onClick = ValueChange(dummy, 0.ri),
+                modifier = RemoteModifier.weight(1f),
             ) {
-                RemoteButton(
-                    onClick = ValueChange(dummy, 0.ri),
-                    modifier = RemoteModifier.weight(1f),
-                ) {
-                    MaterialRemoteText("Yes".rs)
-                }
-                RemoteBox(RemoteModifier.size(4.rdp)) // Spacing
-                RemoteButton(
-                    onClick = ValueChange(dummy, 0.ri),
-                    modifier = RemoteModifier.weight(1f),
-                ) {
-                    MaterialRemoteText("No".rs)
-                }
+                MaterialRemoteText("Yes".rs)
+            }
+            RemoteBox(RemoteModifier.size(4.rdp)) // Spacing
+            RemoteButton(
+                onClick = ValueChange(dummy, 0.ri),
+                modifier = RemoteModifier.weight(1f),
+            ) {
+                MaterialRemoteText("No".rs)
             }
         }
     }

@@ -29,33 +29,31 @@ import com.google.example.wear_widget.MyWidgetTypography
 @RemoteComposable
 @Composable
 fun SemanticStyleWorkaroundSample() {
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteColumn(
+            modifier = RemoteModifier.fillMaxWidth(),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
         ) {
-            RemoteColumn(
-                modifier = RemoteModifier.fillMaxWidth(),
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                verticalArrangement = RemoteArrangement.Center,
-            ) {
-                MaterialRemoteText(
-                    text = "Semantic Styles Demo".rs,
-                    style = RemoteTextStyle.fromTextStyle(MyWidgetTypography.titleLarge),
-                )
+            MaterialRemoteText(
+                text = "Semantic Styles Demo".rs,
+                style = RemoteTextStyle.fromTextStyle(MyWidgetTypography.titleLarge),
+            )
 
-                RemoteBox(RemoteModifier.size(16.rdp))
+            RemoteBox(RemoteModifier.size(16.rdp))
 
-                MaterialRemoteText(text = "12:34".rs, style = RemoteTextStyle.fromTextStyle(MyWidgetTypography.numeralLarge))
+            MaterialRemoteText(text = "12:34".rs, style = RemoteTextStyle.fromTextStyle(MyWidgetTypography.numeralLarge))
 
-                RemoteBox(RemoteModifier.size(12.rdp))
+            RemoteBox(RemoteModifier.size(12.rdp))
 
-                MaterialRemoteText(
-                    text = "Session complete".rs,
-                    style = RemoteTextStyle.fromTextStyle(MyWidgetTypography.titleMedium),
-                )
-            }
+            MaterialRemoteText(
+                text = "Session complete".rs,
+                style = RemoteTextStyle.fromTextStyle(MyWidgetTypography.titleMedium),
+            )
         }
     }
 }

@@ -31,42 +31,40 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 @RemoteComposable
 @Composable
 fun CanvasSample3() {
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
-        ) {
-            RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
-                val width = remote.component.width
-                val height = remote.component.height
-                val centerX = width / 2f.rf
-                val centerY = height / 2f.rf
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+            val width = remote.component.width
+            val height = remote.component.height
+            val centerX = width / 2f.rf
+            val centerY = height / 2f.rf
 
-                translate(centerX, centerY) {
-                    rotate(45f.rf) {
-                        translate(-centerX, -centerY) {
-                            drawRect(
-                                paint = RemotePaint().apply { color = Color.Green.rc },
-                                topLeft = RemoteOffset(centerX - 40f.rf, centerY - 40f.rf),
-                                size = RemoteSize(80f.rf, 80f.rf),
-                            )
-                        }
+            translate(centerX, centerY) {
+                rotate(45f.rf) {
+                    translate(-centerX, -centerY) {
+                        drawRect(
+                            paint = RemotePaint().apply { color = Color.Green.rc },
+                            topLeft = RemoteOffset(centerX - 40f.rf, centerY - 40f.rf),
+                            size = RemoteSize(80f.rf, 80f.rf),
+                        )
                     }
                 }
-
-                // Anchored Text
-                drawAnchoredText(
-                    text = "Rotated".rs,
-                    anchorX = centerX,
-                    anchorY = centerY,
-                    paint =
-                        RemotePaint().apply {
-                            color = Color.White.rc
-                            textSize = 40f.rf
-                        },
-                )
             }
+
+            // Anchored Text
+            drawAnchoredText(
+                text = "Rotated".rs,
+                anchorX = centerX,
+                anchorY = centerY,
+                paint =
+                    RemotePaint().apply {
+                        color = Color.White.rc
+                        textSize = 40f.rf
+                    },
+            )
         }
     }
 }

@@ -32,31 +32,29 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 @RemoteComposable
 @Composable
 fun MixedStyleSample() {
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize().background(Color.White),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.White),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteRow(
+            verticalAlignment = RemoteAlignment.CenterVertically,
+            horizontalArrangement = RemoteArrangement.CenterHorizontally,
         ) {
-            RemoteRow(
-                verticalAlignment = RemoteAlignment.CenterVertically,
-                horizontalArrangement = RemoteArrangement.CenterHorizontally,
-            ) {
-                // First part: Bold Red Text
-                RemoteText(
-                    text = "Mixed ".rs,
-                    color = Color.Red.rc,
-                    fontSize = 20.rsp,
-                    fontWeight = FontWeight.Bold,
-                )
-                // Second part: Italic Blue Text
-                RemoteText(
-                    text = "Styles".rs,
-                    color = Color.Blue.rc,
-                    fontSize = 20.rsp,
-                    fontStyle = FontStyle.Italic,
-                )
-            }
+            // First part: Bold Red Text
+            RemoteText(
+                text = "Mixed ".rs,
+                color = Color.Red.rc,
+                fontSize = 20.rsp,
+                fontWeight = FontWeight.Bold,
+            )
+            // Second part: Italic Blue Text
+            RemoteText(
+                text = "Styles".rs,
+                color = Color.Blue.rc,
+                fontSize = 20.rsp,
+                fontStyle = FontStyle.Italic,
+            )
         }
     }
 }

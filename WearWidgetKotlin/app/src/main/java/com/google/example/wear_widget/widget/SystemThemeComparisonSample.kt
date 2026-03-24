@@ -34,36 +34,34 @@ import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 @RemoteComposable
 @Composable
 fun SystemThemeComparisonSample() {
-    val dummy = rememberRemoteIntValue { 0 }
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
-        ) {
-            RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
-                MaterialRemoteText("System Theme".rs)
-                RemoteBox(RemoteModifier.size(10.rdp))
-                RemoteButton(onClick = ValueChange(dummy, 0.ri)) {
-                    MaterialRemoteText("Primary Button".rs)
-                }
-                RemoteBox(RemoteModifier.size(10.rdp))
-                RemoteButton(
-                    onClick = ValueChange(dummy, 0.ri),
-                    colors =
-                        RemoteButtonColors(
-                            containerColor = RemoteMaterialTheme.colorScheme.secondary,
-                            contentColor = RemoteMaterialTheme.colorScheme.onSecondary,
-                            secondaryContentColor = RemoteMaterialTheme.colorScheme.onSecondary,
-                            iconColor = RemoteMaterialTheme.colorScheme.onSecondary,
-                            disabledContainerColor = Color.Gray.rc,
-                            disabledContentColor = Color.LightGray.rc,
-                            disabledSecondaryContentColor = Color.LightGray.rc,
-                            disabledIconColor = Color.LightGray.rc,
-                        ),
-                ) {
-                    MaterialRemoteText("Secondary Button".rs)
-                }
+val dummy = rememberRemoteIntValue { 0 }
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
+            MaterialRemoteText("System Theme".rs)
+            RemoteBox(RemoteModifier.size(10.rdp))
+            RemoteButton(onClick = ValueChange(dummy, 0.ri)) {
+                MaterialRemoteText("Primary Button".rs)
+            }
+            RemoteBox(RemoteModifier.size(10.rdp))
+            RemoteButton(
+                onClick = ValueChange(dummy, 0.ri),
+                colors =
+                    RemoteButtonColors(
+                        containerColor = RemoteMaterialTheme.colorScheme.secondary,
+                        contentColor = RemoteMaterialTheme.colorScheme.onSecondary,
+                        secondaryContentColor = RemoteMaterialTheme.colorScheme.onSecondary,
+                        iconColor = RemoteMaterialTheme.colorScheme.onSecondary,
+                        disabledContainerColor = Color.Gray.rc,
+                        disabledContentColor = Color.LightGray.rc,
+                        disabledSecondaryContentColor = Color.LightGray.rc,
+                        disabledIconColor = Color.LightGray.rc,
+                    ),
+            ) {
+                MaterialRemoteText("Secondary Button".rs)
             }
         }
     }

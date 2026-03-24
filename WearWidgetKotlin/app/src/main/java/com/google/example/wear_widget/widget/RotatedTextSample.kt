@@ -48,30 +48,28 @@ import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 @RemoteComposable
 @Composable
 fun RotatedTextSample(modifier: RemoteModifier = RemoteModifier) {
-    RemoteMaterialTheme {
+    RemoteBox(
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
         RemoteBox(
-            modifier = modifier.fillMaxSize(),
+            modifier =
+                RemoteModifier.background(Color.White)
+                    .drawWithContent {
+                        val width = remote.component.width
+                        val height = remote.component.height
+                        val centerX = width / 2f.rf
+                        val centerY = height / 2f.rf
+                        translate(centerX, centerY) {
+                            rotate(66f.rf) { translate(-centerX, -centerY) { drawContent() } }
+                        }
+                    }
+                    .padding(10.dp),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
         ) {
-            RemoteBox(
-                modifier =
-                    RemoteModifier.background(Color.White)
-                        .drawWithContent {
-                            val width = remote.component.width
-                            val height = remote.component.height
-                            val centerX = width / 2f.rf
-                            val centerY = height / 2f.rf
-                            translate(centerX, centerY) {
-                                rotate(66f.rf) { translate(-centerX, -centerY) { drawContent() } }
-                            }
-                        }
-                        .padding(10.dp),
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                verticalArrangement = RemoteArrangement.Center,
-            ) {
-                RemoteText(text = "Hello world!", color = Color.Red.rc)
-            }
+            RemoteText(text = "Hello world!", color = Color.Red.rc)
         }
     }
 }

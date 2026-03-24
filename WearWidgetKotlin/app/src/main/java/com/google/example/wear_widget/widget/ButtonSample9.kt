@@ -39,123 +39,121 @@ import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 @RemoteComposable
 @Composable
 fun ButtonSample9() {
-    val state = rememberRemoteIntValue { 0 }
-    val isToggled = state eq 1.ri
+val state = rememberRemoteIntValue { 0 }
+val isToggled = state eq 1.ri
 
-    // Dynamic Color
-    val containerColor = isToggled.select(Color.Red.rc, Color.Blue.rc)
-    val contentColor = isToggled.select(Color.White.rc, Color.Yellow.rc)
+// Dynamic Color
+val containerColor = isToggled.select(Color.Red.rc, Color.Blue.rc)
+val contentColor = isToggled.select(Color.White.rc, Color.Yellow.rc)
 
-    // Dynamic Shape (Radius)
-    val radiusDp = isToggled.select(50f.rf, 8f.rf).asRemoteDp()
-    val dynamicShape = RemoteRoundedCornerShape(radiusDp)
+// Dynamic Shape (Radius)
+val radiusDp = isToggled.select(50f.rf, 8f.rf).asRemoteDp()
+val dynamicShape = RemoteRoundedCornerShape(radiusDp)
 
-    // Dynamic Text
-    val button3Text = isToggled.select("Clicked!".rs, "Click Me".rs)
+// Dynamic Text
+val button3Text = isToggled.select("Clicked!".rs, "Click Me".rs)
 
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteColumn(
+            modifier = RemoteModifier.fillMaxSize().padding(10.dp),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
         ) {
-            RemoteColumn(
-                modifier = RemoteModifier.fillMaxSize().padding(10.dp),
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                verticalArrangement = RemoteArrangement.Center,
+            // Row 1
+            RemoteRow(
+                modifier = RemoteModifier.weight(1f).fillMaxSize(),
+                horizontalArrangement = RemoteArrangement.CenterHorizontally,
             ) {
-                // Row 1
-                RemoteRow(
-                    modifier = RemoteModifier.weight(1f).fillMaxSize(),
-                    horizontalArrangement = RemoteArrangement.CenterHorizontally,
+                // Button 1: Toggles State (Master Switch)
+                RemoteButton(
+                    modifier =
+                        RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
+                    onClick = ValueChange(state, state xor 1.ri),
+                    colors =
+                        RemoteButtonColors(
+                            containerColor = containerColor,
+                            contentColor = contentColor,
+                            secondaryContentColor = contentColor,
+                            iconColor = contentColor,
+                            disabledContainerColor = Color.Gray.rc,
+                            disabledContentColor = Color.LightGray.rc,
+                            disabledSecondaryContentColor = Color.LightGray.rc,
+                            disabledIconColor = Color.LightGray.rc,
+                        ),
                 ) {
-                    // Button 1: Toggles State (Master Switch)
-                    RemoteButton(
-                        modifier =
-                            RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
-                        onClick = ValueChange(state, state xor 1.ri),
-                        colors =
-                            RemoteButtonColors(
-                                containerColor = containerColor,
-                                contentColor = contentColor,
-                                secondaryContentColor = contentColor,
-                                iconColor = contentColor,
-                                disabledContainerColor = Color.Gray.rc,
-                                disabledContentColor = Color.LightGray.rc,
-                                disabledSecondaryContentColor = Color.LightGray.rc,
-                                disabledIconColor = Color.LightGray.rc,
-                            ),
-                    ) {
-                        MaterialRemoteText("Toggle".rs)
-                    }
-                    RemoteBox(RemoteModifier.size(4.rdp))
-                    // Button 2: Shape Shifter
-                    RemoteButton(
-                        onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
-                        modifier =
-                            RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
-                        shape = dynamicShape,
-                        colors =
-                            RemoteButtonColors(
-                                containerColor = Color.Magenta.rc,
-                                contentColor = Color.White.rc,
-                                secondaryContentColor = Color.White.rc,
-                                iconColor = Color.White.rc,
-                                disabledContainerColor = Color.Gray.rc,
-                                disabledContentColor = Color.LightGray.rc,
-                                disabledSecondaryContentColor = Color.LightGray.rc,
-                                disabledIconColor = Color.LightGray.rc,
-                            ),
-                    ) {
-                        MaterialRemoteText("Shape".rs)
-                    }
+                    MaterialRemoteText("Toggle".rs)
                 }
-
                 RemoteBox(RemoteModifier.size(4.rdp))
-
-                // Row 2
-                RemoteRow(
-                    modifier = RemoteModifier.weight(1f).fillMaxSize(),
-                    horizontalArrangement = RemoteArrangement.CenterHorizontally,
+                // Button 2: Shape Shifter
+                RemoteButton(
+                    onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
+                    modifier =
+                        RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
+                    shape = dynamicShape,
+                    colors =
+                        RemoteButtonColors(
+                            containerColor = Color.Magenta.rc,
+                            contentColor = Color.White.rc,
+                            secondaryContentColor = Color.White.rc,
+                            iconColor = Color.White.rc,
+                            disabledContainerColor = Color.Gray.rc,
+                            disabledContentColor = Color.LightGray.rc,
+                            disabledSecondaryContentColor = Color.LightGray.rc,
+                            disabledIconColor = Color.LightGray.rc,
+                        ),
                 ) {
-                    // Button 3: Text Change
-                    RemoteButton(
-                        onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
-                        modifier =
-                            RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
-                        colors =
-                            RemoteButtonColors(
-                                containerColor = Color.DarkGray.rc,
-                                contentColor = Color.White.rc,
-                                secondaryContentColor = Color.White.rc,
-                                iconColor = Color.White.rc,
-                                disabledContainerColor = Color.Gray.rc,
-                                disabledContentColor = Color.LightGray.rc,
-                                disabledSecondaryContentColor = Color.LightGray.rc,
-                                disabledIconColor = Color.LightGray.rc,
-                            ),
-                    ) {
-                        MaterialRemoteText(button3Text)
-                    }
-                    RemoteBox(RemoteModifier.size(4.rdp))
-                    // Button 4: Static
-                    RemoteButton(
-                        onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
-                        modifier = RemoteModifier.weight(1f).fillMaxSize(),
-                        colors =
-                            RemoteButtonColors(
-                                containerColor = Color.Green.rc,
-                                contentColor = Color.Black.rc,
-                                secondaryContentColor = Color.Black.rc,
-                                iconColor = Color.Black.rc,
-                                disabledContainerColor = Color.Gray.rc,
-                                disabledContentColor = Color.LightGray.rc,
-                                disabledSecondaryContentColor = Color.LightGray.rc,
-                                disabledIconColor = Color.LightGray.rc,
-                            ),
-                    ) {
-                        MaterialRemoteText("Fixed".rs)
-                    }
+                    MaterialRemoteText("Shape".rs)
+                }
+            }
+
+            RemoteBox(RemoteModifier.size(4.rdp))
+
+            // Row 2
+            RemoteRow(
+                modifier = RemoteModifier.weight(1f).fillMaxSize(),
+                horizontalArrangement = RemoteArrangement.CenterHorizontally,
+            ) {
+                // Button 3: Text Change
+                RemoteButton(
+                    onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
+                    modifier =
+                        RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
+                    colors =
+                        RemoteButtonColors(
+                            containerColor = Color.DarkGray.rc,
+                            contentColor = Color.White.rc,
+                            secondaryContentColor = Color.White.rc,
+                            iconColor = Color.White.rc,
+                            disabledContainerColor = Color.Gray.rc,
+                            disabledContentColor = Color.LightGray.rc,
+                            disabledSecondaryContentColor = Color.LightGray.rc,
+                            disabledIconColor = Color.LightGray.rc,
+                        ),
+                ) {
+                    MaterialRemoteText(button3Text)
+                }
+                RemoteBox(RemoteModifier.size(4.rdp))
+                // Button 4: Static
+                RemoteButton(
+                    onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
+                    modifier = RemoteModifier.weight(1f).fillMaxSize(),
+                    colors =
+                        RemoteButtonColors(
+                            containerColor = Color.Green.rc,
+                            contentColor = Color.Black.rc,
+                            secondaryContentColor = Color.Black.rc,
+                            iconColor = Color.Black.rc,
+                            disabledContainerColor = Color.Gray.rc,
+                            disabledContentColor = Color.LightGray.rc,
+                            disabledSecondaryContentColor = Color.LightGray.rc,
+                            disabledIconColor = Color.LightGray.rc,
+                        ),
+                ) {
+                    MaterialRemoteText("Fixed".rs)
                 }
             }
         }

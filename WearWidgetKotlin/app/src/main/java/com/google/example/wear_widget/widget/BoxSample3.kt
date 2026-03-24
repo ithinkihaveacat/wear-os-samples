@@ -27,19 +27,17 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 @RemoteComposable
 @Composable
 fun BoxSample3() {
-    // Box with different alignment (BottomEnd)
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize().background(Color.Blue),
-            horizontalAlignment = RemoteAlignment.End,
-            verticalArrangement = RemoteArrangement.Bottom,
-        ) {
-            RemoteText(
-                modifier = RemoteModifier.padding(10.dp),
-                text = "Box Sample 3\n(Bottom End)",
-                color = Color.Yellow.rc,
-                textAlign = TextAlign.End,
-            )
-        }
+// Box with different alignment (BottomEnd)
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.Blue),
+        horizontalAlignment = RemoteAlignment.End,
+        verticalArrangement = RemoteArrangement.Bottom,
+    ) {
+        RemoteText(
+            modifier = RemoteModifier.padding(10.dp),
+            text = "Box Sample 3\n(Bottom End)",
+            color = Color.Yellow.rc,
+            textAlign = TextAlign.End,
+        )
     }
 }

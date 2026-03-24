@@ -29,38 +29,36 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 @RemoteComposable
 @Composable
 fun RowSample1() {
-    RemoteMaterialTheme {
-        RemoteBox(
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteRow(
             modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+            horizontalArrangement = RemoteArrangement.CenterHorizontally,
+            verticalAlignment = RemoteAlignment.CenterVertically,
         ) {
-            RemoteRow(
-                modifier = RemoteModifier.fillMaxSize(),
-                horizontalArrangement = RemoteArrangement.CenterHorizontally,
-                verticalAlignment = RemoteAlignment.CenterVertically,
-            ) {
-                RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Red)) {
-                    RemoteText(
-                        "Red",
-                        color = Color.White.rc,
-                        modifier = RemoteModifier.padding(5.dp),
-                    )
-                }
-                RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Green)) {
-                    RemoteText(
-                        "Green",
-                        color = Color.Black.rc,
-                        modifier = RemoteModifier.padding(5.dp),
-                    )
-                }
-                RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Blue)) {
-                    RemoteText(
-                        "Blue",
-                        color = Color.White.rc,
-                        modifier = RemoteModifier.padding(5.dp),
-                    )
-                }
+            RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Red)) {
+                RemoteText(
+                    "Red",
+                    color = Color.White.rc,
+                    modifier = RemoteModifier.padding(5.dp),
+                )
+            }
+            RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Green)) {
+                RemoteText(
+                    "Green",
+                    color = Color.Black.rc,
+                    modifier = RemoteModifier.padding(5.dp),
+                )
+            }
+            RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Blue)) {
+                RemoteText(
+                    "Blue",
+                    color = Color.White.rc,
+                    modifier = RemoteModifier.padding(5.dp),
+                )
             }
         }
     }

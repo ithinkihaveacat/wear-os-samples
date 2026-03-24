@@ -28,18 +28,16 @@ import com.google.example.wear_widget.R
 @RemoteComposable
 @Composable
 fun BitmapCanvasSample() {
-    val backgroundBitmap = ImageBitmap.imageResource(id = R.drawable.photo_14).rb
+val backgroundBitmap = ImageBitmap.imageResource(id = R.drawable.photo_14).rb
 
-    RemoteMaterialTheme {
-        RemoteBox(modifier = RemoteModifier.fillMaxSize()) {
-            RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
-                drawScaledBitmap(
-                    image = backgroundBitmap,
-                    dstSize = RemoteSize(remote.component.width, remote.component.height),
-                    scaleType = ContentScale.Crop,
-                    contentDescription = "Background",
-                )
-            }
+    RemoteBox(modifier = RemoteModifier.fillMaxSize()) {
+        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+            drawScaledBitmap(
+                image = backgroundBitmap,
+                dstSize = RemoteSize(remote.component.width, remote.component.height),
+                scaleType = ContentScale.Crop,
+                contentDescription = "Background",
+            )
         }
     }
 }

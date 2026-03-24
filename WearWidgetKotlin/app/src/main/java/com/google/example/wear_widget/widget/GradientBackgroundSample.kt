@@ -28,19 +28,17 @@ import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 @RemoteComposable
 @Composable
 fun GradientBackgroundSample() {
-    val gradient =
-        RemoteLinearGradient(
-            colors = listOf(Color.Red.rc, Color.Blue.rc),
-            start = RemoteOffset.Zero,
-            end = null,
-        )
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize().background(brush = gradient),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
-        ) {
-            MaterialRemoteText("Gradient Background".rs)
-        }
+val gradient =
+    RemoteLinearGradient(
+        colors = listOf(Color.Red.rc, Color.Blue.rc),
+        start = RemoteOffset.Zero,
+        end = null,
+    )
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(brush = gradient),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        MaterialRemoteText("Gradient Background".rs)
     }
 }

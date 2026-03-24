@@ -43,56 +43,54 @@ import com.google.example.wear_widget.R
 @RemoteComposable
 @Composable
 fun FullBleedImageButtonSample() {
-    val backgroundBitmap = ImageBitmap.imageResource(id = R.drawable.photo_14).rb
+val backgroundBitmap = ImageBitmap.imageResource(id = R.drawable.photo_14).rb
 
-    // Toggle state for click interaction
-    val state = rememberRemoteIntValue { 0 }
-    val isToggled = state eq 1.ri
+// Toggle state for click interaction
+val state = rememberRemoteIntValue { 0 }
+val isToggled = state eq 1.ri
 
-    // Overlay color: Semi-transparent Black when toggled, Transparent when not
-    val overlayColor = isToggled.select(Color(0xAA000000).rc, Color.Transparent.rc)
+// Overlay color: Semi-transparent Black when toggled, Transparent when not
+val overlayColor = isToggled.select(Color(0xAA000000).rc, Color.Transparent.rc)
 
-    RemoteMaterialTheme {
-        RemoteBox(modifier = RemoteModifier.fillMaxSize()) {
-            // Background (Full Bleed Image) using RemoteCanvas to avoid RemoteImage conflict (b/483291287)
-            RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
-                drawScaledBitmap(
-                    image = backgroundBitmap,
-                    dstSize = RemoteSize(remote.component.width, remote.component.height),
-                    scaleType = ContentScale.Crop,
-                    contentDescription = "Background",
-                )
-            }
+    RemoteBox(modifier = RemoteModifier.fillMaxSize()) {
+        // Background (Full Bleed Image) using RemoteCanvas to avoid RemoteImage conflict (b/483291287)
+        RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+            drawScaledBitmap(
+                image = backgroundBitmap,
+                dstSize = RemoteSize(remote.component.width, remote.component.height),
+                scaleType = ContentScale.Crop,
+                contentDescription = "Background",
+            )
+        }
 
-            // Overlay with Floating Image Button
+        // Overlay with Floating Image Button
+        RemoteBox(
+            modifier = RemoteModifier.fillMaxSize(),
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
+            verticalArrangement = RemoteArrangement.Center,
+        ) {
+            // The floating Image Button (using imageButton pattern but made clickable)
             RemoteBox(
-                modifier = RemoteModifier.fillMaxSize(),
+                modifier =
+                    RemoteModifier.size(60.rdp)
+                        .clip(CircleShape, DpSize(60.dp, 60.dp)) // Explicit size required (b/477860914)
+                        .clickable(
+                            ValueChange(state, state xor 1.ri)
+                        ),
                 horizontalAlignment = RemoteAlignment.CenterHorizontally,
                 verticalArrangement = RemoteArrangement.Center,
             ) {
-                // The floating Image Button (using imageButton pattern but made clickable)
-                RemoteBox(
-                    modifier =
-                        RemoteModifier.size(60.rdp)
-                            .clip(CircleShape, DpSize(60.dp, 60.dp)) // Explicit size required (b/477860914)
-                            .clickable(
-                                ValueChange(state, state xor 1.ri)
-                            ),
-                    horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                    verticalArrangement = RemoteArrangement.Center,
-                ) {
-                    RemoteImage(
-                        bitmap = ImageBitmap.imageResource(id = R.drawable.photo_17),
-                        contentDescription = "Avatar".rs,
-                        contentScale = ContentScale.Crop,
-                        modifier = RemoteModifier.fillMaxSize(),
-                    )
+                RemoteImage(
+                    bitmap = ImageBitmap.imageResource(id = R.drawable.photo_17),
+                    contentDescription = "Avatar".rs,
+                    contentScale = ContentScale.Crop,
+                    modifier = RemoteModifier.fillMaxSize(),
+                )
 
-                    // Overlay to indicate click state
-                    RemoteBox(
-                        modifier = RemoteModifier.fillMaxSize().background(overlayColor)
-                    )
-                }
+                // Overlay to indicate click state
+                RemoteBox(
+                    modifier = RemoteModifier.fillMaxSize().background(overlayColor)
+                )
             }
         }
     }

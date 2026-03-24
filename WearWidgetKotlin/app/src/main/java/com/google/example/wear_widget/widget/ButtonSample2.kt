@@ -35,26 +35,24 @@ import com.google.example.wear_widget.R
 @RemoteComposable
 @Composable
 fun ButtonSample2() {
-    val dummy = rememberRemoteIntValue { 0 }
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
-        ) {
-            RemoteButton(
-                onClick = ValueChange(dummy, 0.ri),
-                modifier = RemoteModifier.buttonSizeModifier(),
-                icon = {
-                    RemoteIcon(
-                        imageVector =
-                            ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
-                        contentDescription = "Icon".rs,
-                        modifier = RemoteModifier.size(RemoteButtonDefaults.IconSize),
-                    )
-                },
-                label = { MaterialRemoteText("Button with Icon".rs) },
-            )
-        }
+val dummy = rememberRemoteIntValue { 0 }
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteButton(
+            onClick = ValueChange(dummy, 0.ri),
+            modifier = RemoteModifier.buttonSizeModifier(),
+            icon = {
+                RemoteIcon(
+                    imageVector =
+                        ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
+                    contentDescription = "Icon".rs,
+                    modifier = RemoteModifier.size(RemoteButtonDefaults.IconSize),
+                )
+            },
+            label = { MaterialRemoteText("Button with Icon".rs) },
+        )
     }
 }

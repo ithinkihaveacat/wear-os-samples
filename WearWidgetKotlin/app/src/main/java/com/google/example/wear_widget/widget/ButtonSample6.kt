@@ -30,20 +30,18 @@ import androidx.wear.compose.remote.material3.buttonSizeModifier
 @RemoteComposable
 @Composable
 fun ButtonSample6() {
-    val dummy = rememberRemoteIntValue { 0 }
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+val dummy = rememberRemoteIntValue { 0 }
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteButton(
+            onClick = ValueChange(dummy, 0.ri),
+            modifier = RemoteModifier.buttonSizeModifier(),
+            enabled = false.rb,
         ) {
-            RemoteButton(
-                onClick = ValueChange(dummy, 0.ri),
-                modifier = RemoteModifier.buttonSizeModifier(),
-                enabled = false.rb,
-            ) {
-                MaterialRemoteText("Disabled Button".rs)
-            }
+            MaterialRemoteText("Disabled Button".rs)
         }
     }
 }

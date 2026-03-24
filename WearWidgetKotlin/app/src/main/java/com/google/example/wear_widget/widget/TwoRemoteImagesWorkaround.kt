@@ -39,20 +39,20 @@ import com.google.example.wear_widget.R
 @RemoteComposable
 @Composable
 fun CanvasRemoteImage(
-    bitmap: ImageBitmap,
-    contentDescription: String,
-    modifier: RemoteModifier = RemoteModifier,
-    contentScale: ContentScale = ContentScale.Fit
+bitmap: ImageBitmap,
+contentDescription: String,
+modifier: RemoteModifier = RemoteModifier,
+contentScale: ContentScale = ContentScale.Fit
 ) {
-    val remoteBitmap = bitmap.rb
-    RemoteCanvas(modifier = modifier) {
-        drawScaledBitmap(
-            image = remoteBitmap,
-            dstSize = RemoteSize(remote.component.width, remote.component.height),
-            scaleType = contentScale,
-            contentDescription = contentDescription,
-        )
-    }
+val remoteBitmap = bitmap.rb
+RemoteCanvas(modifier = modifier) {
+    drawScaledBitmap(
+        image = remoteBitmap,
+        dstSize = RemoteSize(remote.component.width, remote.component.height),
+        scaleType = contentScale,
+        contentDescription = contentDescription,
+    )
+}
 }
 
 /**
@@ -63,32 +63,30 @@ fun CanvasRemoteImage(
 @RemoteComposable
 @Composable
 fun TwoRemoteImagesWorkaround() {
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(Color.Black),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteRow(
+            verticalAlignment = RemoteAlignment.CenterVertically,
+            horizontalArrangement = RemoteArrangement.CenterHorizontally,
         ) {
-            RemoteRow(
-                verticalAlignment = RemoteAlignment.CenterVertically,
-                horizontalArrangement = RemoteArrangement.CenterHorizontally,
-            ) {
-                // Image 1: Landscape
-                CanvasRemoteImage(
-                    bitmap = ImageBitmap.imageResource(id = R.drawable.photo_14),
-                    contentDescription = "Landscape",
-                    modifier = RemoteModifier.size(35.rdp),
-                )
+            // Image 1: Landscape
+            CanvasRemoteImage(
+                bitmap = ImageBitmap.imageResource(id = R.drawable.photo_14),
+                contentDescription = "Landscape",
+                modifier = RemoteModifier.size(35.rdp),
+            )
 
-                RemoteBox(RemoteModifier.size(10.rdp))
+            RemoteBox(RemoteModifier.size(10.rdp))
 
-                // Image 2: Person
-                CanvasRemoteImage(
-                    bitmap = ImageBitmap.imageResource(id = R.drawable.photo_17),
-                    contentDescription = "Person",
-                    modifier = RemoteModifier.size(35.rdp),
-                )
-            }
+            // Image 2: Person
+            CanvasRemoteImage(
+                bitmap = ImageBitmap.imageResource(id = R.drawable.photo_17),
+                contentDescription = "Person",
+                modifier = RemoteModifier.size(35.rdp),
+            )
         }
     }
 }

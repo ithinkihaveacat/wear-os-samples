@@ -29,26 +29,24 @@ import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 @RemoteComposable
 @Composable
 fun VerticalScrollSample() {
-    val scrollState = rememberRemoteScrollState()
-    RemoteMaterialTheme {
-        RemoteBox(
-            modifier = RemoteModifier.fillMaxSize(),
+val scrollState = rememberRemoteScrollState()
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Top,
+    ) {
+        RemoteColumn(
+            modifier = RemoteModifier.fillMaxWidth().verticalScroll(scrollState),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Top,
         ) {
-            RemoteColumn(
-                modifier = RemoteModifier.fillMaxWidth().verticalScroll(scrollState),
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                verticalArrangement = RemoteArrangement.Top,
-            ) {
-                MaterialRemoteText("Header".rs)
+            MaterialRemoteText("Header".rs)
+            RemoteBox(RemoteModifier.size(10.rdp))
+            for (i in 0 until 10) {
+                MaterialRemoteText(("Item " + i).rs)
                 RemoteBox(RemoteModifier.size(10.rdp))
-                for (i in 0 until 10) {
-                    MaterialRemoteText(("Item " + i).rs)
-                    RemoteBox(RemoteModifier.size(10.rdp))
-                }
-                MaterialRemoteText("Footer".rs)
             }
+            MaterialRemoteText("Footer".rs)
         }
     }
 }

@@ -25,33 +25,31 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 @RemoteComposable
 @Composable
 fun CollapsibleColumnSample1() {
-    RemoteMaterialTheme {
-        RemoteBox(
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        RemoteCollapsibleColumn(
             modifier = RemoteModifier.fillMaxSize(),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+            verticalArrangement = RemoteArrangement.SpaceEvenly,
         ) {
-            RemoteCollapsibleColumn(
-                modifier = RemoteModifier.fillMaxSize(),
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                verticalArrangement = RemoteArrangement.SpaceEvenly,
-            ) {
-                RemoteText(
-                    "Top (High)",
-                    color = Color.Red.rc,
-                    modifier = RemoteModifier.priority(1.0f),
-                )
-                RemoteText(
-                    "Middle (Low)",
-                    color = Color.Green.rc,
-                    modifier = RemoteModifier.priority(0.1f),
-                )
-                RemoteText(
-                    "Bottom (High)",
-                    color = Color.Blue.rc,
-                    modifier = RemoteModifier.priority(1.0f),
-                )
-            }
+            RemoteText(
+                "Top (High)",
+                color = Color.Red.rc,
+                modifier = RemoteModifier.priority(1.0f),
+            )
+            RemoteText(
+                "Middle (Low)",
+                color = Color.Green.rc,
+                modifier = RemoteModifier.priority(0.1f),
+            )
+            RemoteText(
+                "Bottom (High)",
+                color = Color.Blue.rc,
+                modifier = RemoteModifier.priority(1.0f),
+            )
         }
     }
 }
