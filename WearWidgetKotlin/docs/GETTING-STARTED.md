@@ -884,51 +884,6 @@ disappearing from the carousel upon update.
 This section tracks technical hurdles and API limitations in the current
 ALPHA/SNAPSHOT versions.
 
-### Dynamic Theme Colors for Document Backgrounds Require Manual Binding
-
-**Symptom:** You cannot set the `background` of a `WearWidgetDocument` to a
-dynamic theme color using `RemoteColorScheme` properties (e.g.,
-`colorScheme.surfaceContainerLow`). Attempting to do so results in a compiler
-error:
-`@Composable invocations can only happen from the context of a @Composable function`.
-
-**Workaround:** Create a local `ColorScheme` to retrieve the static fallback
-value, then manually construct a named `RemoteColor` using
-`RemoteColor.createNamedRemoteColor(...)`. Pass this manually constructed
-dynamic color to the document background. Ensure you initialize the
-`RemoteMaterialTheme` using a `RemoteColorScheme` seeded with the same local
-`ColorScheme` so your foreground components and document background stay in
-sync.
-
-```kotlin
-override suspend fun provideWidgetData(
-    context: Context,
-    params: WearWidgetParams,
-): WearWidgetData {
-    // 1. Instantiate the standard local Material3 ColorScheme
-    val localColorScheme = ColorScheme()
-
-    // 2. Create the Remote version to pass into the Theme
-    val remoteColorScheme = RemoteColorScheme(localColorScheme)
-
-    // 3. Manually bind the dynamic system color using the canonical WearM3 name
-    val dynamicBg = RemoteColor.createNamedRemoteColor(
-        "WearM3.primaryContainer",
-        localColorScheme.primaryContainer
-    )
-
-    return WearWidgetDocument(
-        // 4. Set the dynamic background
-        background = WearWidgetBrush.color(dynamicBg)
-    ) {
-        // 5. Apply the synced color scheme to foreground elements
-        RemoteMaterialTheme(colorScheme = remoteColorScheme) {
-            MyWidgetContent()
-        }
-    }
-}
-```
-
 ### Multiple APIs Are Restricted
 
 b/474354218
@@ -1371,6 +1326,51 @@ solid colors via `WearWidgetDocument(backgroundColor = ...)`.
 **Workaround:** There is no known workaround to achieve a true full-bleed effect
 with images or gradients at this time. To maintain visual consistency, ensure
 your content or inner backgrounds complement the document's `backgroundColor`.
+
+### Dynamic Theme Colors for Document Backgrounds Require Manual Binding
+
+**Symptom:** You cannot set the `background` of a `WearWidgetDocument` to a
+dynamic theme color using `RemoteColorScheme` properties (e.g.,
+`colorScheme.surfaceContainerLow`). Attempting to do so results in a compiler
+error:
+`@Composable invocations can only happen from the context of a @Composable function`.
+
+**Workaround:** Create a local `ColorScheme` to retrieve the static fallback
+value, then manually construct a named `RemoteColor` using
+`RemoteColor.createNamedRemoteColor(...)`. Pass this manually constructed
+dynamic color to the document background. Ensure you initialize the
+`RemoteMaterialTheme` using a `RemoteColorScheme` seeded with the same local
+`ColorScheme` so your foreground components and document background stay in
+sync.
+
+```kotlin
+override suspend fun provideWidgetData(
+    context: Context,
+    params: WearWidgetParams,
+): WearWidgetData {
+    // 1. Instantiate the standard local Material3 ColorScheme
+    val localColorScheme = ColorScheme()
+
+    // 2. Create the Remote version to pass into the Theme
+    val remoteColorScheme = RemoteColorScheme(localColorScheme)
+
+    // 3. Manually bind the dynamic system color using the canonical WearM3 name
+    val dynamicBg = RemoteColor.createNamedRemoteColor(
+        "WearM3.primaryContainer",
+        localColorScheme.primaryContainer
+    )
+
+    return WearWidgetDocument(
+        // 4. Set the dynamic background
+        background = WearWidgetBrush.color(dynamicBg)
+    ) {
+        // 5. Apply the synced color scheme to foreground elements
+        RemoteMaterialTheme(colorScheme = remoteColorScheme) {
+            MyWidgetContent()
+        }
+    }
+}
+```
 
 ### `RemoteModifier.background(RemoteColor)` Ignores Clipping
 
