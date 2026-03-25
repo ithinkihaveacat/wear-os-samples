@@ -1,6 +1,6 @@
 # Getting Started with Wear Widgets {#getting-started-with-wear-widgets}
 
-**Version 1.1** Feb 11, 2026
+**Version 1.2** Mar 24, 2026
 
 **What are Wear Widgets?** Starting with select Wear 7 platforms, full-screen
 Tiles will evolve into partial-height Widgets. Widgets are a new glanceable
@@ -941,50 +941,6 @@ Many APIs (e.g., `.rs`, `.rf`, `RemotePainter`) are currently marked as
 `@SuppressLint("RestrictedApi")` immediately above a function). This enables
 access to the full API surface.
 
-### `RemoteModifier.background(RemoteColor)` Ignores Clipping
-
-b/495827025
-
-**Symptom:** When applying a dynamic `RemoteColor` (e.g., from
-`RemoteMaterialTheme.colorScheme`) using the `background()` modifier, any
-preceding `clip()` modifiers are ignored. The component will render as an
-unclipped rectangle or square.
-
-**Workaround:** To draw a shaped background with a dynamic theme color, use a
-`RemoteCanvas` and explicitly draw the shape (e.g., `drawCircle` or
-`drawRoundRect`) with a `RemotePaint` object instead of using the `background`
-modifier.
-
-```kotlin
-val iconBgColor = RemoteMaterialTheme.colorScheme.primary
-
-// Fails (ignores CircleShape clip, renders as square)
-RemoteBox(
-    modifier = RemoteModifier
-        .size(32.rdp)
-        .clip(CircleShape, DpSize(32.dp, 32.dp))
-        .background(iconBgColor),
-) {
-    // ...
-}
-
-// Works: Explicit Canvas drawing
-RemoteBox(modifier = RemoteModifier.size(32.rdp)) {
-    RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
-        val w = remote.component.width
-        val h = remote.component.height
-        drawCircle(
-            paint = RemotePaint().apply {
-                color = iconBgColor
-                style = PaintingStyle.Fill
-            },
-            center = RemoteOffset(w / 2f.rf, h / 2f.rf),
-            radius = w / 2f.rf
-        )
-    }
-}
-```
-
 ### `RemoteModifier.clip()` Requires Explicit Size for Relative Shapes
 
 b/477860914
@@ -1415,6 +1371,50 @@ solid colors via `WearWidgetDocument(backgroundColor = ...)`.
 **Workaround:** There is no known workaround to achieve a true full-bleed effect
 with images or gradients at this time. To maintain visual consistency, ensure
 your content or inner backgrounds complement the document's `backgroundColor`.
+
+### `RemoteModifier.background(RemoteColor)` Ignores Clipping
+
+b/495827025
+
+**Symptom:** When applying a dynamic `RemoteColor` (e.g., from
+`RemoteMaterialTheme.colorScheme`) using the `background()` modifier, any
+preceding `clip()` modifiers are ignored. The component will render as an
+unclipped rectangle or square.
+
+**Workaround:** To draw a shaped background with a dynamic theme color, use a
+`RemoteCanvas` and explicitly draw the shape (e.g., `drawCircle` or
+`drawRoundRect`) with a `RemotePaint` object instead of using the `background`
+modifier.
+
+```kotlin
+val iconBgColor = RemoteMaterialTheme.colorScheme.primary
+
+// Fails (ignores CircleShape clip, renders as square)
+RemoteBox(
+    modifier = RemoteModifier
+        .size(32.rdp)
+        .clip(CircleShape, DpSize(32.dp, 32.dp))
+        .background(iconBgColor),
+) {
+    // ...
+}
+
+// Works: Explicit Canvas drawing
+RemoteBox(modifier = RemoteModifier.size(32.rdp)) {
+    RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
+        val w = remote.component.width
+        val h = remote.component.height
+        drawCircle(
+            paint = RemotePaint().apply {
+                color = iconBgColor
+                style = PaintingStyle.Fill
+            },
+            center = RemoteOffset(w / 2f.rf, h / 2f.rf),
+            radius = w / 2f.rf
+        )
+    }
+}
+```
 
 ## Updates {#updates}
 
