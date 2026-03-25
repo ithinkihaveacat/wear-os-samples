@@ -22,6 +22,8 @@ SERVICE=".WidgetCatalogService"
 RECEIVER=".WidgetCatalogReceiver"
 COMPONENT="$PACKAGE/$SERVICE"
 
+VALID_LAYOUTS="TaskSample SemanticStyleSample CanvasSample3 SystemThemeComparisonSample SystemThemeSample CustomThemeSample AustralianThemeSample BoxSample1 BoxSample2 BoxSample3 TextSample1 TextSample1WithMargin RowSample1 RowSample2 CollapsibleColumnSample1 ButtonSample1 ButtonSample2 ButtonSample3 ButtonSample4 ButtonSample6 ButtonSample7 ButtonSample8 ButtonSample9 IconSample1 GridSample1 CardSample1 CounterSample1 Material3ThemeSample CanvasSample1 CanvasSample2 GradientBackgroundSample PendingIntentSample VerticalScrollSample MixedStyleSample ConditionalRadiusSample TypographyScaleSample AnchoredTextSample RotatedTextSample FullBleedImageButtonSample BitmapCanvasSample TwoRemoteImagesWorkaround TwoRemoteImagesBug DebugClickSample BackgroundTreatmentsSample"
+
 usage() {
     cat <<EOF
 Usage: $(basename "$0") LAYOUT
@@ -42,50 +44,9 @@ EOF
 }
 
 list_layouts() {
-    echo "Available layouts:"
-    echo "  SemanticStyleWorkaroundSample"
-    echo "  CanvasSample3"
-    echo "  SystemThemeComparisonSample"
-    echo "  SystemThemeSample"
-    echo "  CustomThemeSample"
-    echo "  AustralianThemeSample"
-    echo "  BoxSample1"
-    echo "  BoxSample2"
-    echo "  BoxSample3"
-    echo "  TextSample1"
-    echo "  TextSample1WithMargin"
-    echo "  RowSample1"
-    echo "  RowSample2"
-    echo "  CollapsibleColumnSample1"
-    echo "  ButtonSample1"
-    echo "  ButtonSample2"
-    echo "  ButtonSample3"
-    echo "  ButtonSample4"
-    echo "  ButtonSample6"
-    echo "  ButtonSample7"
-    echo "  ButtonSample8"
-    echo "  ButtonSample9"
-    echo "  IconSample1"
-    echo "  GridSample1"
-    echo "  CardSample1"
-    echo "  CounterSample1"
-    echo "  Material3ThemeSample"
-    echo "  CanvasSample1"
-    echo "  CanvasSample2"
-    echo "  GradientBackgroundSample"
-    echo "  PendingIntentSample"
-    echo "  VerticalScrollSample"
-    echo "  MixedStyleSample"
-    echo "  ConditionalRadiusSample"
-    echo "  TypographyScaleSample"
-    echo "  AnchoredTextSample"
-    echo "  RotatedTextSample"
-    echo "  FullBleedImageButtonSample"
-    echo "  BitmapCanvasSample"
-    echo "  TwoRemoteImagesWorkaround"
-    echo "  TwoRemoteImagesBug"
-    echo "  DebugClickSample"
-    echo "  BackgroundTreatmentsSample"
+    for layout in $VALID_LAYOUTS; do
+        echo "$layout"
+    done
     exit 0
 }
 
@@ -120,8 +81,6 @@ fi
 LAYOUT="$1"
 
 # Validate layout name
-VALID_LAYOUTS="TaskSample SemanticStyleWorkaroundSample CanvasSample3 SystemThemeComparisonSample SystemThemeSample CustomThemeSample AustralianThemeSample BoxSample1 BoxSample2 BoxSample3 TextSample1 TextSample1WithMargin RowSample1 RowSample2 CollapsibleColumnSample1 ButtonSample1 ButtonSample2 ButtonSample3 ButtonSample4 ButtonSample6 ButtonSample7 ButtonSample8 ButtonSample9 IconSample1 GridSample1 CardSample1 CounterSample1 Material3ThemeSample CanvasSample1 CanvasSample2 GradientBackgroundSample PendingIntentSample VerticalScrollSample MixedStyleSample ConditionalRadiusSample TypographyScaleSample AnchoredTextSample RotatedTextSample FullBleedImageButtonSample BitmapCanvasSample TwoRemoteImagesWorkaround TwoRemoteImagesBug DebugClickSample BackgroundTreatmentsSample"
-
 if ! echo "$VALID_LAYOUTS" | grep -qw "$LAYOUT"; then
     echo "$(basename "$0"): unknown layout '$LAYOUT'" >&2
     echo "Use --list to see available layouts" >&2

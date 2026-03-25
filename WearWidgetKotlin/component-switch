@@ -38,11 +38,6 @@ Arguments:
 Options:
   --list         List available layouts
 
-Available layouts:
-  textButton, iconButton, avatarButton, imageButton, compactButton,
-  titleCard, appCard, circularProgressIndicator,
-  segmentedCircularProgressIndicator, fullBleedImage, animatedBox
-
 Examples:
   $(basename "$0") textButton      # Switch to textButton layout
 EOF
@@ -50,18 +45,9 @@ EOF
 }
 
 list_layouts() {
-    echo "Available layouts:"
-    echo "  textButton"
-    echo "  iconButton"
-    echo "  avatarButton"
-    echo "  imageButton"
-    echo "  compactButton"
-    echo "  titleCard"
-    echo "  appCard"
-    echo "  circularProgressIndicator"
-    echo "  segmentedCircularProgressIndicator"
-    echo "  fullBleedImage"
-    echo "  animatedBox"
+    for layout in $VALID_LAYOUTS; do
+        echo "$layout"
+    done
     exit 0
 }
 
