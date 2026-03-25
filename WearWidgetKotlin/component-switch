@@ -25,10 +25,13 @@ SERVICE=".ComponentCatalogService"
 RECEIVER=".ComponentCatalogReceiver"
 COMPONENT="$PACKAGE/$SERVICE"
 
+VALID_LAYOUTS="textButton iconButton avatarButton imageButton compactButton titleCard appCard textDataCard iconDataCard graphicDataCard circularProgressIndicator segmentedCircularProgressIndicator fullBleedImage animatedBox"
+
 usage() {
     cat <<EOF
 Usage: $(basename "$0") LAYOUT
        $(basename "$0") --list
+       $(basename "$0") --all
 
 Switch ComponentCatalog widget layouts reliably via ADB.
 
@@ -37,6 +40,7 @@ Arguments:
 
 Options:
   --list         List available layouts
+  --all          Switch through all available layouts sequentially
 
 Examples:
   $(basename "$0") textButton      # Switch to textButton layout
@@ -51,6 +55,15 @@ list_layouts() {
     exit 0
 }
 
+switch_all() {
+    for layout in $VALID_LAYOUTS; do
+        echo "------------------------------------------------------------"
+        echo "Switching to: $layout"
+        "$0" "$layout" || echo "Error: Failed to switch to $layout"
+    done
+    exit 0
+}
+
 require() { hash "$@" || exit 127; }
 
 if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
@@ -59,6 +72,11 @@ fi
 
 if [[ "${1:-}" == "--list" ]]; then
     list_layouts
+fi
+
+if [[ "${1:-}" == "--all" ]]; then
+    require adb
+    switch_all
 fi
 
 if [[ $# -lt 1 ]]; then

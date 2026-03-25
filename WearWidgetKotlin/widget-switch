@@ -28,6 +28,7 @@ usage() {
     cat <<EOF
 Usage: $(basename "$0") LAYOUT
        $(basename "$0") --list
+       $(basename "$0") --all
 
 Switch WidgetCatalog layouts reliably via ADB.
 
@@ -36,6 +37,7 @@ Arguments:
 
 Options:
   --list         List available layouts
+  --all          Switch through all available layouts sequentially
 
 Examples:
   $(basename "$0") BoxSample1      # Switch to BoxSample1
@@ -50,6 +52,15 @@ list_layouts() {
     exit 0
 }
 
+switch_all() {
+    for layout in $VALID_LAYOUTS; do
+        echo "------------------------------------------------------------"
+        echo "Switching to: $layout"
+        "$0" "$layout" || echo "Error: Failed to switch to $layout"
+    done
+    exit 0
+}
+
 require() { hash "$@" || exit 127; }
 
 if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
@@ -58,6 +69,11 @@ fi
 
 if [[ "${1:-}" == "--list" ]]; then
     list_layouts
+fi
+
+if [[ "${1:-}" == "--all" ]]; then
+    require adb
+    switch_all
 fi
 
 if [[ $# -lt 1 ]]; then
