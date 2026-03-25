@@ -46,6 +46,9 @@ TARGET="$1"
 # Print progress to stderr so stdout could theoretically be piped if we returned data
 echo "Generating screenshot for $TARGET..." >&2
 
+# Suppress Robolectric native logging bug
+export ANDROID_LOG_TAGS=""
+
 if ! ./gradlew testDebugUnitTest --tests "com.google.example.wear_widget.RoboScreenshotToolTest" -Drobo.screenshot.target="$TARGET" --quiet; then
   echo "$(basename "$0"): screenshot generation failed for '$TARGET'" >&2
   echo "Make sure the composable exists and is added to the 'when' block in:" >&2
