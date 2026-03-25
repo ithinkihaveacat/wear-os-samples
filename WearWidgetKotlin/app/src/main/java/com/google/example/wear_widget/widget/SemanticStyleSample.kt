@@ -1,8 +1,7 @@
-@file:SuppressLint("RestrictedApi")
+
 
 package com.google.example.wear_widget.widget
 
-import android.annotation.SuppressLint
 
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
@@ -20,7 +19,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.remote.creation.compose.text.RemoteTextStyle
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
-import com.google.example.wear_widget.MyWidgetTypography
 
 /**
  * Android robot icon above "Wear Widget" text. A dark gray rounded rectangular widget displays
@@ -28,7 +26,7 @@ import com.google.example.wear_widget.MyWidgetTypography
  */
 @RemoteComposable
 @Composable
-fun SemanticStyleWorkaroundSample() {
+fun SemanticStyleSample() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
@@ -41,18 +39,18 @@ fun SemanticStyleWorkaroundSample() {
         ) {
             MaterialRemoteText(
                 text = "Semantic Styles Demo".rs,
-                style = RemoteTextStyle.fromTextStyle(MyWidgetTypography.titleLarge),
+                style = RemoteMaterialTheme.typography.titleLarge,
             )
 
             RemoteBox(RemoteModifier.size(16.rdp))
 
-            MaterialRemoteText(text = "12:34".rs, style = RemoteTextStyle.fromTextStyle(MyWidgetTypography.numeralLarge))
+            MaterialRemoteText(text = "12:34".rs, style = RemoteMaterialTheme.typography.numeralLarge)
 
             RemoteBox(RemoteModifier.size(12.rdp))
 
             MaterialRemoteText(
                 text = "Session complete".rs,
-                style = RemoteTextStyle.fromTextStyle(MyWidgetTypography.titleMedium),
+                style = RemoteMaterialTheme.typography.titleMedium,
             )
         }
     }

@@ -1,8 +1,6 @@
-@file:SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
 
-import android.annotation.SuppressLint
 
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
@@ -23,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.compose.remote.material3.ProvideRemoteTextStyle
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
-import com.google.example.wear_widget.MyWidgetTypography
 
 /**
  * Android logo and "Wear Widget" text. A dark grey rounded rectangle widget displays white text
@@ -35,7 +32,7 @@ import com.google.example.wear_widget.MyWidgetTypography
 @Composable
 fun BoxSample2() {
 // Box with padding and border
-    ProvideRemoteTextStyle(value = RemoteTextStyle.fromTextStyle(MyWidgetTypography.bodyMedium)) {
+    ProvideRemoteTextStyle(value = RemoteMaterialTheme.typography.bodyMedium) {
         RemoteBox(
             modifier =
                 RemoteModifier.fillMaxSize()

@@ -1,10 +1,8 @@
-@file:SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
 
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rs
-import android.annotation.SuppressLint
 
 import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteCanvas

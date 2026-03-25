@@ -54,7 +54,7 @@ class RoboScreenshotToolTest {
                         when (target) {
                             // Widget Catalog
                             "TaskSample" -> TaskSample()
-                            "SemanticStyleWorkaroundSample" -> SemanticStyleWorkaroundSample()
+                            "SemanticStyleSample" -> SemanticStyleSample()
                             "CanvasSample3" -> CanvasSample3()
                             "SystemThemeComparisonSample" -> SystemThemeComparisonSample()
                             "SystemThemeSample" -> SystemThemeSample()

@@ -1,8 +1,6 @@
-@file:SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
 
-import android.annotation.SuppressLint
 import android.graphics.Paint
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
@@ -36,7 +34,6 @@ import androidx.compose.ui.unit.sp
 import androidx.wear.compose.remote.material3.ProvideRemoteTextStyle
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.compose.remote.creation.compose.text.RemoteTextStyle
-import com.google.example.wear_widget.MyWidgetTypography
 import androidx.wear.compose.remote.material3.RemoteIcon
 import androidx.compose.ui.unit.dp
 import com.google.example.wear_widget.R
@@ -50,7 +47,7 @@ import androidx.compose.ui.unit.DpSize
 @Composable
 fun TaskSample() {
     
-        ProvideRemoteTextStyle(value = RemoteTextStyle.fromTextStyle(MyWidgetTypography.bodyMedium)) {
+        ProvideRemoteTextStyle(value = RemoteMaterialTheme.typography.bodyMedium) {
             RemoteBox(
             modifier = RemoteModifier.fillMaxSize(),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,

@@ -1,8 +1,6 @@
-@file:SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
 import android.util.Log

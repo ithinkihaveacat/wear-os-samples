@@ -1,12 +1,12 @@
 # Widget Samples
 
-## SemanticStyleWorkaroundSample
+## SemanticStyleSample
 
 Android robot icon above "Wear Widget" text. A dark gray rounded rectangular
 widget displays "Semantic Styles Demo" and a large digital time "12:34" in white
 text on a black background.
 
-![SemanticStyleWorkaroundSample](SemanticStyleWorkaroundSample.png)
+![SemanticStyleSample](SemanticStyleSample.png)
 
 ```kotlin
 /**
@@ -15,7 +15,7 @@ text on a black background.
  */
 @RemoteComposable
 @Composable
-fun SemanticStyleWorkaroundSample() {
+fun SemanticStyleSample() {
     RemoteMaterialTheme {
         RemoteBox(
             modifier = RemoteModifier.fillMaxSize(),

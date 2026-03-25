@@ -1,8 +1,6 @@
-@file:SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
 
-import android.annotation.SuppressLint
 
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.remote.creation.compose.action.ValueChange

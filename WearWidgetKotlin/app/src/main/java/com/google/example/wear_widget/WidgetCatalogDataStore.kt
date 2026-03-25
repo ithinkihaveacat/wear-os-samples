@@ -21,7 +21,7 @@ suspend fun Context.getWidgetCatalogState(): WidgetCatalogState {
         widgetCatalogDataStore.data
             .map { preferences ->
                 preferences[stringPreferencesKey(LAYOUT_NAME_KEY)]
-                    ?: "SemanticStyleWorkaroundSample"
+                    ?: "SemanticStyleSample"
             }
             .first()
     )

@@ -140,9 +140,7 @@ A Wear Widget consists of a service extending `GlanceWearWidgetService` and a
 widget class extending `GlanceWearWidget`. The UI is defined using
 `@RemoteComposable` functions.
 
-**Note:** Currently you must add `@file:SuppressLint("RestrictedApi")` to the
-top of your Kotlin file to use the Alpha APIs. See
-[Multiple APIs Are Restricted](#multiple-apis-are-restricted).
+ 
 
 ### 1. Define the Service
 
@@ -536,6 +534,13 @@ fun MyCustomWidget() {
 }
 ```
 
+#### Semantic Typography
+
+Semantic typography styles are provided by `RemoteMaterialTheme.typography`.
+For examples of how to apply standard Wear OS text styles (e.g., `titleLarge`, `bodyMedium`),
+see the `SemanticStyleSample` or `TextSample1` in the Component Gallery.
+
+
 #### Type Conversions
 
 When working with Remote UI components, you frequently need to convert standard
@@ -884,7 +889,7 @@ disappearing from the carousel upon update.
 This section tracks technical hurdles and API limitations in the current
 ALPHA/SNAPSHOT versions.
 
-### Multiple APIs Are Restricted
+### [FIXED] Multiple APIs Are Restricted
 
 b/474354218
 
@@ -1112,7 +1117,7 @@ drawConditionally(isToggled.not()) {
 }
 ```
 
-### `RemoteMaterialTheme.typography` Does Not Expose Semantic Styles {#typography-does-not-expose-semantic-styles}
+### [FIXED] `RemoteMaterialTheme.typography` Does Not Expose Semantic Styles {#typography-does-not-expose-semantic-styles}
 
 b/478828032
 

@@ -1,8 +1,6 @@
-@file:SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.util.Log
@@ -49,7 +47,6 @@ class HelloWidget : GlanceWearWidget() {
     }
 }
 
-@SuppressLint("RestrictedApi")
 @RemoteComposable
 @Composable
 fun ImageTestWidgetContent(context: Context) {

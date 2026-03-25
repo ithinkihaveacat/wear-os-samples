@@ -1,8 +1,6 @@
-@file:SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import androidx.compose.ui.graphics.Color
@@ -43,7 +41,7 @@ class WidgetCatalog : GlanceWearWidget() {
             RemoteMaterialTheme(colorScheme = remoteColorScheme) {
                 when (state.layoutName) {
                     "TaskSample" -> TaskSample()
-                    "SemanticStyleWorkaroundSample" -> SemanticStyleWorkaroundSample()
+                    "SemanticStyleSample" -> SemanticStyleSample()
                     "CanvasSample3" -> CanvasSample3()
                     "SystemThemeComparisonSample" -> SystemThemeComparisonSample()
                     "SystemThemeSample" -> SystemThemeSample()
@@ -86,7 +84,7 @@ class WidgetCatalog : GlanceWearWidget() {
                     "BitmapCanvasSample" -> BitmapCanvasSample()
                     "DebugClickSample" -> DebugClickSample()
                     "BackgroundTreatmentsSample" -> BackgroundTreatmentsSample()
-                    else -> SemanticStyleWorkaroundSample()
+                    else -> SemanticStyleSample()
                 }
             }
         }

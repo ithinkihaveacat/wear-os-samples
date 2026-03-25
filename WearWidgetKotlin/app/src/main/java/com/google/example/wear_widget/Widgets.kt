@@ -1,10 +1,8 @@
-@file:SuppressLint("RestrictedApi")
 @file:Suppress("COMPOSE_APPLIER_CALL_MISMATCH") // b/446706254
 
 package com.google.example.wear_widget
 
 import androidx.compose.remote.creation.compose.state.rc
-import android.annotation.SuppressLint
 import androidx.compose.remote.core.operations.TextFromFloat
 import androidx.compose.remote.creation.ExperimentalRemoteCreationApi
 import androidx.compose.remote.creation.compose.action.ValueChange

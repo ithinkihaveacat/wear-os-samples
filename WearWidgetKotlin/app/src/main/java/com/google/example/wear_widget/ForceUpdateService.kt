@@ -1,10 +1,8 @@
-@file:SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget
 
 import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.remote.creation.compose.state.rsp
-import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
@@ -25,12 +23,10 @@ import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.core.WearWidgetParams
 
-@SuppressLint("RestrictedApi")
 class ForceUpdateService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = ForceUpdateWidget()
 }
 
-@SuppressLint("RestrictedApi")
 class ForceUpdateWidget : GlanceWearWidget() {
     override suspend fun provideWidgetData(
         context: Context,
@@ -43,7 +39,6 @@ class ForceUpdateWidget : GlanceWearWidget() {
     }
 }
 
-@SuppressLint("RestrictedApi")
 @RemoteComposable
 @Composable
 fun ForceUpdateWidgetContent(count: Int) {
