@@ -18,6 +18,10 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 import androidx.wear.compose.remote.material3.buttonSizeModifier
 import com.google.example.wear_widget.MainActivity
+import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.remote.creation.compose.action.ValueChange
+import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
+import androidx.compose.remote.creation.compose.state.ri
 
 /**
  * A Wear OS widget design features an Android robot logo above "Wear Widget" text. Below, a dark
@@ -28,6 +32,8 @@ import com.google.example.wear_widget.MainActivity
 @Composable
 fun PendingIntentSample() {
 val context = androidx.compose.ui.platform.LocalContext.current
+val isInspectionMode = LocalInspectionMode.current
+val dummy = rememberRemoteIntValue { 0 }
 val intent =
     Intent(context, MainActivity::class.java).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
 val pendingIntent =
@@ -45,7 +51,7 @@ val pendingIntent =
     ) {
         RemoteButton(
             modifier = RemoteModifier.buttonSizeModifier(),
-            onClick = pendingIntentAction(pendingIntent),
+            onClick = if (isInspectionMode) ValueChange(dummy, 0.ri) else pendingIntentAction(pendingIntent),
         ) {
             MaterialRemoteText("Open App".rs)
         }

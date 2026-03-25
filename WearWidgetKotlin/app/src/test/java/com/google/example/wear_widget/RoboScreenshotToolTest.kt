@@ -35,6 +35,7 @@ class RoboScreenshotToolTest {
             ?: throw IllegalArgumentException("Target composable must be specified via system property 'robo.screenshot.target'")
 
         composeTestRule.setContent {
+            androidx.compose.runtime.CompositionLocalProvider(androidx.compose.ui.platform.LocalInspectionMode provides true) {
             RemotePreview(WEAR_WIDGETS) {
                 RemoteBox(
                     modifier = RemoteModifier
@@ -121,6 +122,7 @@ class RoboScreenshotToolTest {
             }
         }
 
+            }
         composeTestRule.waitForIdle()
 
         val rootNode = composeTestRule.onAllNodes(isRoot())[0]
