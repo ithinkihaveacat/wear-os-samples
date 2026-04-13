@@ -1426,6 +1426,15 @@ RemoteBox(modifier = RemoteModifier.size(32.rdp)) {
       contentAlignment = RemoteAlignment.Center,
   )
   ```
+- **`rememberRemoteIntValue` Migration:** Deprecated in `androidx.compose.remote:remote-creation-compose:1.0.0-alpha07`. Replace with `rememberMutableRemoteInt(initialValue)`. Note that `rememberMutableRemoteInt` takes a literal value rather than a lambda.
+  Replace:
+  ```kotlin
+  val count = rememberRemoteIntValue { 0 }
+  ```
+  With:
+  ```kotlin
+  val count = rememberMutableRemoteInt(0)
+  ```
 
 ### Wear Widgets EAP 1.2 — 24 Mar 2026 {#wear-widgets-eap-12-24-mar-2026}
 
