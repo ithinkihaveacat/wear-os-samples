@@ -20,7 +20,7 @@ import androidx.wear.compose.remote.material3.buttonSizeModifier
 import com.google.example.wear_widget.MainActivity
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.remote.creation.compose.action.ValueChange
-import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
+import androidx.compose.remote.creation.compose.state.rememberMutableRemoteInt
 import androidx.compose.remote.creation.compose.state.ri
 
 /**
@@ -33,7 +33,7 @@ import androidx.compose.remote.creation.compose.state.ri
 fun PendingIntentSample() {
 val context = androidx.compose.ui.platform.LocalContext.current
 val isInspectionMode = LocalInspectionMode.current
-val dummy = rememberRemoteIntValue { 0 }
+val dummy = rememberMutableRemoteInt(0)
 val intent =
     Intent(context, MainActivity::class.java).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
 val pendingIntent =

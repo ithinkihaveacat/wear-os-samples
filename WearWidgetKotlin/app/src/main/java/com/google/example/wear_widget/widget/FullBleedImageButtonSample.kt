@@ -19,7 +19,7 @@ import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rdp
-import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
+import androidx.compose.remote.creation.compose.state.rememberMutableRemoteInt
 import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
@@ -44,7 +44,7 @@ fun FullBleedImageButtonSample() {
 val backgroundBitmap = ImageBitmap.imageResource(id = R.drawable.photo_14).rb
 
 // Toggle state for click interaction
-val state = rememberRemoteIntValue { 0 }
+val state = rememberMutableRemoteInt(0)
 val isToggled = state eq 1.ri
 
 // Overlay color: Semi-transparent Black when toggled, Transparent when not

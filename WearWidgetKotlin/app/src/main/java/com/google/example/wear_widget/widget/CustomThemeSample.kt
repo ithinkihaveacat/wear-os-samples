@@ -12,7 +12,7 @@ import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.state.rdp
-import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
+import androidx.compose.remote.creation.compose.state.rememberMutableRemoteInt
 import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
@@ -30,7 +30,7 @@ import androidx.wear.compose.material3.ColorScheme
 @RemoteComposable
 @Composable
 fun CustomThemeSample() {
-    val dummy = rememberRemoteIntValue { 0 }
+    val dummy = rememberMutableRemoteInt(0)
     // Define a custom color scheme where primary is White.
     // This acts as the fallback when dynamic theming is disabled.
     val customColorScheme = RemoteColorScheme(

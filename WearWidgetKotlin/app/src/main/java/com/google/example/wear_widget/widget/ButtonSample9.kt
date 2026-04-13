@@ -18,7 +18,7 @@ import androidx.compose.remote.creation.compose.shapes.RemoteRoundedCornerShape
 import androidx.compose.remote.creation.compose.state.asRemoteDp
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rdp
-import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
+import androidx.compose.remote.creation.compose.state.rememberMutableRemoteInt
 import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.compose.state.rs
@@ -38,7 +38,7 @@ import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 @RemoteComposable
 @Composable
 fun ButtonSample9() {
-val state = rememberRemoteIntValue { 0 }
+val state = rememberMutableRemoteInt(0)
 val isToggled = state eq 1.ri
 
 // Dynamic Color
@@ -88,7 +88,7 @@ val button3Text = isToggled.select("Clicked!".rs, "Click Me".rs)
                 RemoteBox(RemoteModifier.size(4.rdp))
                 // Button 2: Shape Shifter
                 RemoteButton(
-                    onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
+                    onClick = ValueChange(rememberMutableRemoteInt(0), 0.ri),
                     modifier =
                         RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
                     shape = dynamicShape,
@@ -117,7 +117,7 @@ val button3Text = isToggled.select("Clicked!".rs, "Click Me".rs)
             ) {
                 // Button 3: Text Change
                 RemoteButton(
-                    onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
+                    onClick = ValueChange(rememberMutableRemoteInt(0), 0.ri),
                     modifier =
                         RemoteModifier.weight(1f).fillMaxSize().animationSpec(enabled = true),
                     colors =
@@ -137,7 +137,7 @@ val button3Text = isToggled.select("Clicked!".rs, "Click Me".rs)
                 RemoteBox(RemoteModifier.size(4.rdp))
                 // Button 4: Static
                 RemoteButton(
-                    onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
+                    onClick = ValueChange(rememberMutableRemoteInt(0), 0.ri),
                     modifier = RemoteModifier.weight(1f).fillMaxSize(),
                     colors =
                         RemoteButtonColors(

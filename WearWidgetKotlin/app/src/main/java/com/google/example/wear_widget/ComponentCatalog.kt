@@ -25,7 +25,7 @@ import androidx.compose.remote.creation.compose.state.asRdp
 import androidx.compose.remote.creation.compose.state.asRemoteDp
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rdp
-import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
+import androidx.compose.remote.creation.compose.state.rememberMutableRemoteInt
 import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.compose.state.rs
@@ -98,7 +98,7 @@ class ComponentCatalog : GlanceWearWidget() {
 @Composable
 fun ComponentCatalogAnimatedBoxSample() {
     // Define a remote state key for toggling
-    val state = rememberRemoteIntValue { 0 }
+    val state = rememberMutableRemoteInt(0)
     val isToggled = state eq 1.ri
 
     // Derive animated properties based on the remote state
@@ -136,7 +136,7 @@ fun ComponentCatalogTextButtonSample() {
         modifier = RemoteModifier.fillMaxSize(),
         contentAlignment = RemoteAlignment.Center,
     ) {
-        RemoteButton(onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri)) {
+        RemoteButton(onClick = ValueChange(rememberMutableRemoteInt(0), 0.ri)) {
             MaterialRemoteText(text = "Text Button".rs)
         }
     }
@@ -154,7 +154,7 @@ fun ComponentCatalogIconButtonSample() {
         modifier = RemoteModifier.fillMaxSize(),
         contentAlignment = RemoteAlignment.Center,
     ) {
-        RemoteButton(onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri)) {
+        RemoteButton(onClick = ValueChange(rememberMutableRemoteInt(0), 0.ri)) {
             RemoteIcon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.android_24px),
                 contentDescription = "Message".rs,
@@ -177,7 +177,7 @@ fun ComponentCatalogAvatarButtonSample() {
         modifier = RemoteModifier.fillMaxSize(),
         contentAlignment = RemoteAlignment.Center,
     ) {
-        RemoteButton(onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri)) {
+        RemoteButton(onClick = ValueChange(rememberMutableRemoteInt(0), 0.ri)) {
             RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically) {
                 RemoteImage(
                     bitmap = ImageBitmap.imageResource(id = R.drawable.ali),
@@ -237,7 +237,7 @@ fun ComponentCatalogCompactButtonSample() {
         contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteButton(
-            onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
+            onClick = ValueChange(rememberMutableRemoteInt(0), 0.ri),
             icon = {
                 RemoteIcon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_message_24),
@@ -261,7 +261,7 @@ fun ComponentCatalogTitleCardSample() {
         modifier = RemoteModifier.fillMaxSize(),
         contentAlignment = RemoteAlignment.Center,
     ) {
-        RemoteButton(onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri)) {
+        RemoteButton(onClick = ValueChange(rememberMutableRemoteInt(0), 0.ri)) {
             RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
                 MaterialRemoteText(text = "Title Card".rs, fontWeight = FontWeight.Bold)
                 MaterialRemoteText(text = "Content".rs)
@@ -282,7 +282,7 @@ fun ComponentCatalogAppCardSample() {
         modifier = RemoteModifier.fillMaxSize(),
         contentAlignment = RemoteAlignment.Center,
     ) {
-        RemoteButton(onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri)) {
+        RemoteButton(onClick = ValueChange(rememberMutableRemoteInt(0), 0.ri)) {
             RemoteColumn {
                 RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically) {
                     RemoteImage(
@@ -464,7 +464,7 @@ fun ComponentCatalogTextDataCardSample() {
         contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteButton(
-            onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
+            onClick = ValueChange(rememberMutableRemoteInt(0), 0.ri),
             colors =
                 RemoteButtonColors(
                     containerColor = Color.DarkGray.rc,
@@ -498,7 +498,7 @@ fun ComponentCatalogIconDataCardSample() {
         contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteButton(
-            onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
+            onClick = ValueChange(rememberMutableRemoteInt(0), 0.ri),
             colors =
                 RemoteButtonColors(
                     containerColor = Color.DarkGray.rc,
@@ -538,7 +538,7 @@ fun ComponentCatalogGraphicDataCardSample() {
         contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteButton(
-            onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
+            onClick = ValueChange(rememberMutableRemoteInt(0), 0.ri),
             colors =
                 RemoteButtonColors(
                     containerColor = Color.DarkGray.rc,

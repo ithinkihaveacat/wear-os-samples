@@ -16,7 +16,7 @@ import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.creation.compose.state.rdp
-import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
+import androidx.compose.remote.creation.compose.state.rememberMutableRemoteInt
 import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.remote.creation.profile.Profile
@@ -38,7 +38,7 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 @Composable
 @RemoteComposable
 fun WidgetButtonSample(modifier: RemoteModifier = RemoteModifier) {
-    val tapCount = rememberRemoteIntValue { 0 }
+    val tapCount = rememberMutableRemoteInt(0)
     val countSuffix = " (".rs + tapCount.toRemoteString(10, TextFromFloat.PAD_PRE_NONE) + " taps)"
 
     RemoteButton(ValueChange(tapCount, tapCount + 1), modifier = modifier) {
@@ -96,7 +96,7 @@ class ProfilePreviewParameterProvider : PreviewParameterProvider<Profile> {
 @Composable
 @RemoteComposable
 fun RemoteButtonEnabled() {
-    val dummy = rememberRemoteIntValue { 0 }
+    val dummy = rememberMutableRemoteInt(0)
     RemoteButton(
         onClick = ValueChange(dummy, 0.ri),
         modifier = RemoteModifier.buttonSizeModifier(),
