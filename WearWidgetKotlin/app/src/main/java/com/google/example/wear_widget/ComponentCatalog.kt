@@ -45,7 +45,10 @@ import androidx.glance.wear.GlanceWearWidget
 import androidx.glance.wear.GlanceWearWidgetService
 import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
+import androidx.glance.wear.WearWidgetBrush
+import androidx.compose.remote.creation.compose.state.rc
 import androidx.glance.wear.core.WearWidgetParams
+import androidx.glance.wear.color
 import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteButtonColors
 import androidx.wear.compose.remote.material3.RemoteButtonDefaults
@@ -64,7 +67,7 @@ class ComponentCatalog : GlanceWearWidget() {
     ): WearWidgetData {
         val state = context.getComponentCatalogState()
         Log.d("ComponentCatalog", "provideWidgetData: layoutName='${state.layoutName}'")
-        return WearWidgetDocument(backgroundColor = Color.White) {
+        return WearWidgetDocument(background = WearWidgetBrush.color(Color.White.rc)) {
             when (state.layoutName) {
                 "textButton" -> ComponentCatalogTextButtonSample()
                 "iconButton" -> ComponentCatalogIconButtonSample()

@@ -21,7 +21,9 @@ import androidx.glance.wear.GlanceWearWidget
 import androidx.glance.wear.GlanceWearWidgetService
 import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
+import androidx.glance.wear.WearWidgetBrush
 import androidx.glance.wear.core.WearWidgetParams
+import androidx.glance.wear.color
 
 class ForceUpdateService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = ForceUpdateWidget()
@@ -33,7 +35,7 @@ class ForceUpdateWidget : GlanceWearWidget() {
         params: WearWidgetParams,
     ): WearWidgetData {
         val count = context.getCounterState().count
-        return WearWidgetDocument(backgroundColor = Color.Black) {
+        return WearWidgetDocument(background = WearWidgetBrush.color(Color.Black.rc)) {
             ForceUpdateWidgetContent(count)
         }
     }

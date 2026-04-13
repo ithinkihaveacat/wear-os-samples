@@ -24,7 +24,9 @@ import androidx.glance.wear.GlanceWearWidget
 import androidx.glance.wear.GlanceWearWidgetService
 import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
+import androidx.glance.wear.WearWidgetBrush
 import androidx.glance.wear.core.WearWidgetParams
+import androidx.glance.wear.color
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rs
@@ -41,7 +43,7 @@ class HelloWidget : GlanceWearWidget() {
         params: WearWidgetParams,
     ): WearWidgetData {
         Log.d("HelloWidget", "provideWidgetData")
-        return WearWidgetDocument(backgroundColor = Color(0xFFFFF9C4)) {
+        return WearWidgetDocument(background = WearWidgetBrush.color(Color(0xFFFFF9C4).rc)) {
             ImageTestWidgetContent(context)
         }
     }
