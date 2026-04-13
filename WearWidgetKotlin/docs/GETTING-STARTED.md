@@ -920,40 +920,20 @@ RemoteModifier
     .clip(CircleShape, DpSize(60.dp, 60.dp))
 ```
 
-### `RemoteModifier.padding` Lacks `RemoteDp` Support {#remotemodifierpadding-lacks-remotedp-support}
+### [FIXED] `RemoteModifier.padding` Lacks `RemoteDp` Support {#remotemodifierpadding-lacks-remotedp-support}
+
+> [!NOTE]
+> Fixed in `1.0.0-alpha07`. `RemoteModifier.padding` now supports `RemoteDp` (e.g., `10.rdp`).
 
 b/470964182
 
-The `RemoteModifier.padding` extension functions do not currently accept
-`RemoteDp` values. They only support `RemoteFloat` (which requires raw pixel
-values or manual conversion) or standard Compose `Dp` (which requires a
-`@Composable` context to convert). Unlike other layout modifiers in the library
-(such as `RemoteModifier.size` and `RemoteModifier.border`), `padding` does not
-support `RemoteDp`.
+The `RemoteModifier.padding` extension functions previously did not accept
+`RemoteDp` values. They only supported `RemoteFloat` or standard Compose `Dp`.
+Now they fully support `RemoteDp`.
 
 ```kotlin
-// Fails compilation
-RemoteModifier.padding(10.dp.asRdp())
-
-// Works: Parallel modifiers like 'border' support RemoteDp
-RemoteModifier.border(width = 10.dp.asRdp(), color = Color.Red)
+RemoteModifier.padding(10.rdp)
 ```
-
-**Workaround:** Use standard Compose `Dp` (e.g., `11.dp`) which utilizes a
-built-in `@Composable` conversion. Alternatively, you can manually wrap the
-value in a `RemotePaddingValues` object, though this still performs immediate
-resolution internally:
-
-```kotlin
-// Option 1: Standard Compose Dp
-RemoteModifier.padding(10.dp)
-
-// Option 2: Explicit RemotePaddingValues wrapper
-RemoteModifier.padding(RemotePaddingValues(all = 10.rdp))
-```
-
-You can also manually define extension functions that accept `RemoteDp` and
-delegate to `padding(all.toPx())`.
 
 ### [FIXED] `RemoteArrangement.Center` Can Only Be Used in Vertical Contexts {#remotearrangementcenter-can-only-be-used-in-vertical-contexts}
 
@@ -1428,6 +1408,7 @@ RemoteBox(modifier = RemoteModifier.size(32.rdp)) {
 
 - **\[FIXED\]** `RemoteBox` API Aligned with Compose `Box`. Usages migrated to `contentAlignment`.
 - **\[FIXED\]** `RemoteArrangement.Center` Can Only Be Used in Vertical Contexts.
+- **\[FIXED\]** `RemoteModifier.padding` Lacks `RemoteDp` Support.
 
 #### Migration Instructions {#migration-instructions-13}
 
