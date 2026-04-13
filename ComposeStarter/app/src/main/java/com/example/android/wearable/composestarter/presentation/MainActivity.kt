@@ -63,6 +63,24 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.example.android.wearable.composestarter.R
 import com.example.android.wearable.composestarter.presentation.theme.AppCardDefaults
 import com.example.android.wearable.composestarter.presentation.theme.WearAppTheme
+import kotlinx.serialization.Serializable
+import androidx.wear.compose.material3.ListHeaderDefaults
+import androidx.wear.compose.material3.ButtonDefaults
+
+@Serializable
+sealed interface Screen : NavKey {
+    @Serializable
+    data object Landing : Screen
+
+    @Serializable
+    data object List : Screen
+
+    @Serializable
+    data object Tlc : Screen
+
+    @Serializable
+    data object Ambient : Screen
+}
 
 /**
  * Simple "Hello, World" app meant as a starting point for a new project using Compose for Wear OS.
@@ -93,23 +111,25 @@ fun WearApp() {
     WearAppTheme {
         CompositionLocalProvider(LocalAmbientModeManager provides ambientModeManager) {
             AppScaffold {
+                val entryProvider = remember {
+                    entryProvider<NavKey> {
+                        entry<Screen.Landing> {
+                            GreetingScreen(
+                                "Android",
+                                onShowList = { backStack.add(Screen.List) },
+                                onShowTlc = { backStack.add(Screen.Tlc) },
+                                onShowAmbient = { backStack.add(Screen.Ambient) }
+                            )
+                        }
+                        entry<Screen.List> { ListScreen() }
+                        entry<Screen.Tlc> { TlcEnhancementScreen() }
+                        entry<Screen.Ambient> { AmbientScreen() }
+                    }
+                }
                 NavDisplay(
                     backStack = backStack,
-                    sceneStrategy = strategy,
-                    entryProvider =
-                        entryProvider {
-                            entry<Screen.Landing> {
-                                GreetingScreen(
-                                    "Android",
-                                    onShowList = { backStack.add(Screen.List) },
-                                    onShowTlc = { backStack.add(Screen.Tlc) },
-                                    onShowAmbient = { backStack.add(Screen.Ambient) }
-                                )
-                            }
-                            entry<Screen.List> { ListScreen() }
-                            entry<Screen.Tlc> { TlcEnhancementScreen() }
-                            entry<Screen.Ambient> { AmbientScreen() }
-                        }
+                    entryProvider = entryProvider,
+                    sceneStrategies = listOf(strategy)
                 )
             }
         }
@@ -142,7 +162,14 @@ fun GreetingScreen(
             contentPadding = contentPadding,
             modifier = Modifier.fillMaxSize()
         ) {
-            item { Greeting(greetingName = greetingName, modifier = modifier.fillMaxWidth()) }
+            item {
+                Greeting(
+                    greetingName = greetingName,
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .minimumVerticalContentPadding(ListHeaderDefaults.minimumTopListContentPadding)
+                )
+            }
             item {
                 Button(
                     onClick = onShowTlc,
@@ -180,10 +207,10 @@ fun ListScreen(modifier: Modifier = Modifier) {
         ) {
             item {
                 ListHeader(
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .transformedHeight(this, transformationSpec),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(ListHeaderDefaults.minimumTopListContentPadding),
                     transformation = SurfaceTransformation(transformationSpec)
                 ) { Text(text = "Header") }
             }
@@ -207,13 +234,14 @@ fun ListScreen(modifier: Modifier = Modifier) {
             }
             item {
                 ButtonGroup(
-                    modifier =
-                        modifier
-                            .graphicsLayer {
-                                with(transformationSpec) {
-                                    applyContainerTransformation(scrollProgress)
-                                }
-                            }.transformedHeight(this, transformationSpec)
+                    modifier = modifier
+                        .graphicsLayer {
+                            with(transformationSpec) {
+                                applyContainerTransformation(scrollProgress)
+                            }
+                        }
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding)
                 ) {
                     FilledIconButton(
                         onClick = { showDialog = true },
