@@ -1417,6 +1417,35 @@ RemoteBox(modifier = RemoteModifier.size(32.rdp)) {
 
 ## Updates {#updates}
 
+### Wear Widgets EAP 1.3 (Placeholder) {#wear-widgets-eap-13}
+
+#### Features {#features-13}
+
+- **Dependencies Updated:** Updated `androidx.compose.remote` to `1.0.0-alpha07`.
+- **Removed SNAPSHOT Dependencies:** `androidx.wear.compose.remote:remote-material3` has been updated to `1.0.0-alpha01`, removing the need for `1.0.0-SNAPSHOT`.
+
+#### Known Issues {#known-issues-13}
+
+- **\[FIXED\]** `RemoteBox` API Aligned with Compose `Box`. Usages migrated to `contentAlignment`.
+- **\[FIXED\]** `RemoteArrangement.Center` Can Only Be Used in Vertical Contexts.
+
+#### Migration Instructions {#migration-instructions-13}
+
+- **RemoteBox Migration:** `RemoteBox` now uses `contentAlignment` instead of `horizontalAlignment` and `verticalArrangement`. This is a breaking change.
+  Replace:
+  ```kotlin
+  RemoteBox(
+      horizontalAlignment = RemoteAlignment.CenterHorizontally,
+      verticalArrangement = RemoteArrangement.Center,
+  )
+  ```
+  With:
+  ```kotlin
+  RemoteBox(
+      contentAlignment = RemoteAlignment.Center,
+  )
+  ```
+
 ### Wear Widgets EAP 1.2 — 24 Mar 2026 {#wear-widgets-eap-12-24-mar-2026}
 
 #### Features {#features}
