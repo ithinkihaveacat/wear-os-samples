@@ -64,7 +64,7 @@ val button3Text = isToggled.select("Clicked!".rs, "Click Me".rs)
             // Row 1
             RemoteRow(
                 modifier = RemoteModifier.weight(1f).fillMaxSize(),
-                horizontalArrangement = RemoteArrangement.CenterHorizontally,
+                horizontalArrangement = RemoteArrangement.Center,
             ) {
                 // Button 1: Toggles State (Master Switch)
                 RemoteButton(
@@ -113,7 +113,7 @@ val button3Text = isToggled.select("Clicked!".rs, "Click Me".rs)
             // Row 2
             RemoteRow(
                 modifier = RemoteModifier.weight(1f).fillMaxSize(),
-                horizontalArrangement = RemoteArrangement.CenterHorizontally,
+                horizontalArrangement = RemoteArrangement.Center,
             ) {
                 // Button 3: Text Change
                 RemoteButton(

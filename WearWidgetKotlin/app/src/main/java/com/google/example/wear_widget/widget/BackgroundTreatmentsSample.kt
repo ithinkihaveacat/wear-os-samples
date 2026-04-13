@@ -43,7 +43,7 @@ fun BackgroundTreatmentsSample() {
         // Row 1: Vertical and Radial Gradients
         RemoteRow(
             modifier = RemoteModifier.weight(1f).fillMaxSize(),
-            horizontalArrangement = RemoteArrangement.CenterHorizontally
+            horizontalArrangement = RemoteArrangement.Center
         ) {
             // Vertical Gradient
             val vGradient = RemoteBrush.verticalGradient(
@@ -73,7 +73,7 @@ fun BackgroundTreatmentsSample() {
         // Row 2: Sweep Gradient and Bitmap Background
         RemoteRow(
             modifier = RemoteModifier.weight(1f).fillMaxSize(),
-            horizontalArrangement = RemoteArrangement.CenterHorizontally
+            horizontalArrangement = RemoteArrangement.Center
         ) {
             // Sweep Gradient
             val sGradient = RemoteBrush.sweepGradient(
@@ -106,7 +106,7 @@ fun BackgroundTreatmentsSample() {
         // Row 3: Custom Drawing and Horizontal Gradient
         RemoteRow(
             modifier = RemoteModifier.weight(1f).fillMaxSize(),
-            horizontalArrangement = RemoteArrangement.CenterHorizontally
+            horizontalArrangement = RemoteArrangement.Center
         ) {
             // Custom drawing
             RemoteBox(

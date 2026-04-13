@@ -68,7 +68,7 @@ fun TwoRemoteImagesWorkaround() {
     ) {
         RemoteRow(
             verticalAlignment = RemoteAlignment.CenterVertically,
-            horizontalArrangement = RemoteArrangement.CenterHorizontally,
+            horizontalArrangement = RemoteArrangement.Center,
         ) {
             // Image 1: Landscape
             CanvasRemoteImage(

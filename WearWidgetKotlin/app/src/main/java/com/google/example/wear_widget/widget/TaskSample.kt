@@ -55,7 +55,7 @@ fun TaskSample() {
         ) {
             RemoteRow(
                 verticalAlignment = RemoteAlignment.CenterVertically,
-                horizontalArrangement = RemoteArrangement.CenterHorizontally,
+                horizontalArrangement = RemoteArrangement.Center,
             ) {
                 // Left Side: Circular Progress + Icon stacked
                 RemoteBox(

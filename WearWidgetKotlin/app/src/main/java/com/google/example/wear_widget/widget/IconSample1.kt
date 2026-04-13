@@ -36,7 +36,7 @@ fun IconSample1() {
     ) {
         RemoteRow(
             verticalAlignment = RemoteAlignment.CenterVertically,
-            horizontalArrangement = RemoteArrangement.CenterHorizontally,
+            horizontalArrangement = RemoteArrangement.Center,
         ) {
             RemoteIcon(
                 imageVector =

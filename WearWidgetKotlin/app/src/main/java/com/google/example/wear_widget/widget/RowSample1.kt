@@ -34,7 +34,7 @@ fun RowSample1() {
     ) {
         RemoteRow(
             modifier = RemoteModifier.fillMaxSize(),
-            horizontalArrangement = RemoteArrangement.CenterHorizontally,
+            horizontalArrangement = RemoteArrangement.Center,
             verticalAlignment = RemoteAlignment.CenterVertically,
         ) {
             RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Red)) {

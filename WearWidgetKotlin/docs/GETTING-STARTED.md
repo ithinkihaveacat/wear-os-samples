@@ -957,9 +957,13 @@ RemoteModifier.padding(RemotePaddingValues(all = 10.rdp))
 You can also manually define extension functions that accept `RemoteDp` and
 delegate to `padding(all.toPx())`.
 
-### `RemoteArrangement.Center` Can Only Be Used in Vertical Contexts
+### [FIXED] `RemoteArrangement.Center` Can Only Be Used in Vertical Contexts
+
+> [!NOTE]
+> Fixed in `1.0.0-alpha07`. `RemoteArrangement.Center` now implements `HorizontalOrVertical` and can be used in both `RemoteRow` and `RemoteColumn`.
 
 b/471153933
+
 
 **Symptom:** A type mismatch error occurs when using `RemoteArrangement.Center`
 in a `RemoteRow`.

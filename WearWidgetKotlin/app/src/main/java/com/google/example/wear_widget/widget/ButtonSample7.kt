@@ -38,7 +38,7 @@ val dummy = rememberRemoteIntValue { 0 }
     ) {
         RemoteRow(
             modifier = RemoteModifier.padding(horizontal = 11.dp),
-            horizontalArrangement = RemoteArrangement.CenterHorizontally,
+            horizontalArrangement = RemoteArrangement.Center,
             verticalAlignment = RemoteAlignment.CenterVertically,
         ) {
             RemoteButton(

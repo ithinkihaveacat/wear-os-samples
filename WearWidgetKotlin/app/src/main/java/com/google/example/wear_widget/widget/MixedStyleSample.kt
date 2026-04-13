@@ -37,7 +37,7 @@ fun MixedStyleSample() {
     ) {
         RemoteRow(
             verticalAlignment = RemoteAlignment.CenterVertically,
-            horizontalArrangement = RemoteArrangement.CenterHorizontally,
+            horizontalArrangement = RemoteArrangement.Center,
         ) {
             // First part: Bold Red Text
             RemoteText(

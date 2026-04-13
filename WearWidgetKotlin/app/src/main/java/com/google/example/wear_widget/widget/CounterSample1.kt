@@ -45,7 +45,7 @@ val count = rememberRemoteIntValue { 0 }
     ) {
         RemoteRow(
             verticalAlignment = RemoteAlignment.CenterVertically,
-            horizontalArrangement = RemoteArrangement.CenterHorizontally,
+            horizontalArrangement = RemoteArrangement.Center,
         ) {
             RemoteButton(
                 onClick = ValueChange(count, count - 1.ri),
