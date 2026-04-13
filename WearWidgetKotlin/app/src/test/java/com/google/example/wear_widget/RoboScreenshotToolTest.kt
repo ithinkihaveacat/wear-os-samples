@@ -41,16 +41,14 @@ class RoboScreenshotToolTest {
                     modifier = RemoteModifier
                         .fillMaxSize()
                         .background(Color.Black),
-                    horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                    verticalArrangement = RemoteArrangement.Center
+                    contentAlignment = RemoteAlignment.Center
                 ) {
                     RemoteBox(
                         modifier = RemoteModifier
                             .size(170.rdp)
                             .background(Color.DarkGray)
                             .padding(10.dp),
-                        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                        verticalArrangement = RemoteArrangement.Center
+                        contentAlignment = RemoteAlignment.Center
                     ) {
                         when (target) {
                             // Widget Catalog

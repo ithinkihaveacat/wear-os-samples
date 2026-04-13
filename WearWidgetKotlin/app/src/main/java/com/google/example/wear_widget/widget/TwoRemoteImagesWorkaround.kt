@@ -63,8 +63,7 @@ RemoteCanvas(modifier = modifier) {
 fun TwoRemoteImagesWorkaround() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteRow(
             verticalAlignment = RemoteAlignment.CenterVertically,

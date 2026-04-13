@@ -50,8 +50,7 @@ fun TaskSample() {
         ProvideRemoteTextStyle(value = RemoteMaterialTheme.typography.bodyMedium) {
             RemoteBox(
             modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+            contentAlignment = RemoteAlignment.Center,
         ) {
             RemoteRow(
                 verticalAlignment = RemoteAlignment.CenterVertically,
@@ -60,8 +59,7 @@ fun TaskSample() {
                 // Left Side: Circular Progress + Icon stacked
                 RemoteBox(
                     modifier = RemoteModifier.padding(right = 12.dp).size(60.rdp),
-                    horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                    verticalArrangement = RemoteArrangement.Center,
+                    contentAlignment = RemoteAlignment.Center,
                 ) {
                     // Custom Circular Progress Indicator using Canvas
                     val trackColor = RemoteMaterialTheme.colorScheme.surfaceContainerHigh
@@ -121,8 +119,7 @@ fun TaskSample() {
                     // Center Icon wrapped in a solid circle
                     RemoteBox(
                         modifier = RemoteModifier.size(32.rdp),
-                        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                        verticalArrangement = RemoteArrangement.Center,
+                        contentAlignment = RemoteAlignment.Center,
                     ) {
                         val iconBgColor = RemoteMaterialTheme.colorScheme.primary
                         val iconTintColor = RemoteMaterialTheme.colorScheme.onPrimary

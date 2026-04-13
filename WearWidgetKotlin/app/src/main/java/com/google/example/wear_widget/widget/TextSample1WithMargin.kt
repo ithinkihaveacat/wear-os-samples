@@ -34,8 +34,7 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 fun TextSample1WithMargin() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(Color(0xFF006400)).padding(30.dp),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteColumn(
             horizontalAlignment = RemoteAlignment.CenterHorizontally,

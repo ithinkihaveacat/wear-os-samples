@@ -28,8 +28,7 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 fun AnchoredTextSample() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(Color.White),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
             val width = remote.component.width

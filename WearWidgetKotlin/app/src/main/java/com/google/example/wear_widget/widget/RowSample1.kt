@@ -29,8 +29,7 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 fun RowSample1() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteRow(
             modifier = RemoteModifier.fillMaxSize(),

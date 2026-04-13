@@ -40,8 +40,7 @@ fun CounterSample1() {
 val count = rememberRemoteIntValue { 0 }
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteRow(
             verticalAlignment = RemoteAlignment.CenterVertically,

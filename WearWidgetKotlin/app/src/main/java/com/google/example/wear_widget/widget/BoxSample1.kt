@@ -24,8 +24,7 @@ fun BoxSample1() {
 // Simple Box with background color and centered text
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteText(text = "Box Sample 1", color = Color.White.rc)
     }

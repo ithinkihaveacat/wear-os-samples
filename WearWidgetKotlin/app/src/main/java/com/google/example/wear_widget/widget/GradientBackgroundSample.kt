@@ -34,8 +34,7 @@ val gradient =
     )
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(brush = gradient),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         MaterialRemoteText("Gradient Background".rs)
     }

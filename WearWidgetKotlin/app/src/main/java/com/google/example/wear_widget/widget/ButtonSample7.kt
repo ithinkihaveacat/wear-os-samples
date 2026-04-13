@@ -33,8 +33,7 @@ fun ButtonSample7() {
 val dummy = rememberRemoteIntValue { 0 }
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteRow(
             modifier = RemoteModifier.padding(horizontal = 11.dp),

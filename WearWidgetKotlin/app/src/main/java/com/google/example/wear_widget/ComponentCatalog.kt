@@ -22,6 +22,7 @@ import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.clickable
 import androidx.compose.remote.creation.compose.state.RemotePaint
 import androidx.compose.remote.creation.compose.state.asRdp
+import androidx.compose.remote.creation.compose.state.asRemoteDp
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rememberRemoteIntValue
@@ -106,8 +107,7 @@ fun ComponentCatalogAnimatedBoxSample() {
 
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteBox(
             modifier =
@@ -134,8 +134,7 @@ fun ComponentCatalogAnimatedBoxSample() {
 fun ComponentCatalogTextButtonSample() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteButton(onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri)) {
             MaterialRemoteText(text = "Text Button".rs)
@@ -153,8 +152,7 @@ fun ComponentCatalogTextButtonSample() {
 fun ComponentCatalogIconButtonSample() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteButton(onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri)) {
             RemoteIcon(
@@ -177,8 +175,7 @@ fun ComponentCatalogIconButtonSample() {
 fun ComponentCatalogAvatarButtonSample() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteButton(onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri)) {
             RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically) {
@@ -209,15 +206,13 @@ fun ComponentCatalogAvatarButtonSample() {
 fun ComponentCatalogImageButtonSample() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         // Simulating ImageButton with a box and background image since RemoteButton doesn't support
         // background images directly yet
         RemoteBox(
             modifier = RemoteModifier.size(60.rdp), // Hardcoded size
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+            contentAlignment = RemoteAlignment.Center,
         ) {
             RemoteImage(
                 bitmap = ImageBitmap.imageResource(id = R.drawable.photo_14),
@@ -239,8 +234,7 @@ fun ComponentCatalogImageButtonSample() {
 fun ComponentCatalogCompactButtonSample() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteButton(
             onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
@@ -265,8 +259,7 @@ fun ComponentCatalogCompactButtonSample() {
 fun ComponentCatalogTitleCardSample() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteButton(onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri)) {
             RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
@@ -287,8 +280,7 @@ fun ComponentCatalogTitleCardSample() {
 fun ComponentCatalogAppCardSample() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteButton(onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri)) {
             RemoteColumn {
@@ -322,8 +314,7 @@ fun ComponentCatalogAppCardSample() {
 fun ComponentCatalogCircularProgressIndicatorSample() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteBox(modifier = RemoteModifier.size(100.rdp)) {
             RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
@@ -366,8 +357,7 @@ fun ComponentCatalogCircularProgressIndicatorSample() {
             }
             RemoteBox(
                 modifier = RemoteModifier.fillMaxSize(),
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                verticalArrangement = RemoteArrangement.Center,
+                contentAlignment = RemoteAlignment.Center,
             ) {
                 RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
                     MaterialRemoteText(
@@ -392,8 +382,7 @@ fun ComponentCatalogCircularProgressIndicatorSample() {
 fun ComponentCatalogSegmentedCircularProgressIndicatorSample() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteBox(modifier = RemoteModifier.size(100.rdp)) {
             RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
@@ -448,8 +437,7 @@ fun ComponentCatalogSegmentedCircularProgressIndicatorSample() {
             }
             RemoteBox(
                 modifier = RemoteModifier.fillMaxSize(),
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                verticalArrangement = RemoteArrangement.Center,
+                contentAlignment = RemoteAlignment.Center,
             ) {
                 RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
                     MaterialRemoteText(
@@ -473,8 +461,7 @@ fun ComponentCatalogSegmentedCircularProgressIndicatorSample() {
 fun ComponentCatalogTextDataCardSample() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteButton(
             onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
@@ -508,8 +495,7 @@ fun ComponentCatalogTextDataCardSample() {
 fun ComponentCatalogIconDataCardSample() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteButton(
             onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
@@ -549,8 +535,7 @@ fun ComponentCatalogIconDataCardSample() {
 fun ComponentCatalogGraphicDataCardSample() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteButton(
             onClick = ValueChange(rememberRemoteIntValue { 0 }, 0.ri),
@@ -599,8 +584,7 @@ fun ComponentCatalogFullBleedImageSample() {
         // Overlay Text
         RemoteBox(
             modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+            contentAlignment = RemoteAlignment.Center,
         ) {
             MaterialRemoteText(
                 text = "Full Bleed".rs,

@@ -44,8 +44,7 @@ class ForceUpdateWidget : GlanceWearWidget() {
 fun ForceUpdateWidgetContent(count: Int) {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
             RemoteText(text = "Favorite Number".rs, color = Color.Gray.rc, fontSize = 12.rsp)

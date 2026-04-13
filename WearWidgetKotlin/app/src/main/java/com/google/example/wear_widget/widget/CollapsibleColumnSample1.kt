@@ -25,8 +25,7 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 fun CollapsibleColumnSample1() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteCollapsibleColumn(
             modifier = RemoteModifier.fillMaxSize(),

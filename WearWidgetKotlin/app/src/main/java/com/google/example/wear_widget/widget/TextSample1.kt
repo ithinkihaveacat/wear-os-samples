@@ -35,8 +35,7 @@ fun TextSample1() {
     ProvideRemoteTextStyle(value = RemoteMaterialTheme.typography.bodyMedium) {
         RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(Color(0xFF006400)),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteColumn(
             horizontalAlignment = RemoteAlignment.CenterHorizontally,

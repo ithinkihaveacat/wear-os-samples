@@ -28,8 +28,7 @@ fun BoxSample3() {
 // Box with different alignment (BottomEnd)
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(Color.Blue),
-        horizontalAlignment = RemoteAlignment.End,
-        verticalArrangement = RemoteArrangement.Bottom,
+        contentAlignment = RemoteAlignment.BottomEnd,
     ) {
         RemoteText(
             modifier = RemoteModifier.padding(10.dp),

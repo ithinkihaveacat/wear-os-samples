@@ -41,8 +41,7 @@ val myCaptionStyle =
 
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
             // 1. Title style applied manually

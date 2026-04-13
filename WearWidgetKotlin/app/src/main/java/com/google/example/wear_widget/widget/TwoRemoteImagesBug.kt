@@ -33,8 +33,7 @@ import com.google.example.wear_widget.R
 fun TwoRemoteImagesBug() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteRow(
             verticalAlignment = RemoteAlignment.CenterVertically,

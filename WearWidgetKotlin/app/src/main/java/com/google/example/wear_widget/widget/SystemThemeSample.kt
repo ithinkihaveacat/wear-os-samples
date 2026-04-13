@@ -30,8 +30,7 @@ fun SystemThemeSample() {
 val dummy = rememberRemoteIntValue { 0 }
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
             MaterialRemoteText("System Theme".rs)

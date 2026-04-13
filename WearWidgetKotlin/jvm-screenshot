@@ -47,7 +47,7 @@ TARGET="$1"
 echo "Generating screenshot for $TARGET..." >&2
 
 # Suppress Robolectric native logging bug
-export ANDROID_LOG_TAGS=""
+unset ANDROID_LOG_TAGS
 
 if ! ./gradlew testDebugUnitTest --tests "com.google.example.wear_widget.RoboScreenshotToolTest" -Drobo.screenshot.target="$TARGET" --quiet; then
   echo "$(basename "$0"): screenshot generation failed for '$TARGET'" >&2

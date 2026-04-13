@@ -30,8 +30,7 @@ fun VerticalScrollSample() {
 val scrollState = rememberRemoteScrollState()
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Top,
+        contentAlignment = RemoteAlignment.TopCenter,
     ) {
         RemoteColumn(
             modifier = RemoteModifier.fillMaxWidth().verticalScroll(scrollState),

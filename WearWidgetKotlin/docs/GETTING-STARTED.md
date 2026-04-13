@@ -984,49 +984,41 @@ Remote Compose, `RemoteArrangement.Center` is typed as
 `SpaceEvenly`, and `SpaceAround`, which implement the `HorizontalOrVertical`
 interface.
 
-### `RemoteBox` Differs from Compose `Box` {#remotebox-differs-from-compose-box}
+### [FIXED] `RemoteBox` Differs from Compose `Box` {#remotebox-differs-from-compose-box}
+
+> [!NOTE]
+> Fixed in `1.0.0-alpha07`. `RemoteBox` now uses `contentAlignment: RemoteAlignment` just like standard Compose `Box`.
+
+> [!WARNING]
+> This is a breaking change. Existing usages of `RemoteBox` with `horizontalAlignment` and `verticalArrangement` must be updated to use `contentAlignment`.
+
+**Migration:**
+Replace:
+```kotlin
+RemoteBox(
+    horizontalAlignment = RemoteAlignment.CenterHorizontally,
+    verticalArrangement = RemoteArrangement.Center,
+)
+```
+With:
+```kotlin
+RemoteBox(
+    contentAlignment = RemoteAlignment.Center,
+)
+```
+
+For other alignments, use `RemoteAlignment` constants (e.g., `RemoteAlignment.BottomEnd`).
 
 b/471212869
 
-The `RemoteBox` API differs from standard Compose `Box` in two ways:
+The `RemoteBox` API previously differed from standard Compose `Box` in two ways:
 
 1. **Parameter count:** `Box` uses a single `contentAlignment` parameter;
-   `RemoteBox` uses separate `horizontalAlignment` and `verticalArrangement`
+   `RemoteBox` used separate `horizontalAlignment` and `verticalArrangement`
    parameters.
-2. **Vertical axis type:** `RemoteBox` uses `RemoteArrangement.Vertical` for
-   vertical positioning. This is inconsistent with `RemoteRow`, which uses
+2. **Vertical axis type:** `RemoteBox` used `RemoteArrangement.Vertical` for
+   vertical positioning. This was inconsistent with `RemoteRow`, which uses
    `RemoteAlignment.Vertical` for vertical positioning.
-
-**Standard Compose (`Box`):**
-
-```kotlin
-Box(
-    modifier = Modifier.fillMaxSize(),
-    contentAlignment = Alignment.Center  // Single parameter for both axes
-) { ... }
-```
-
-**Remote Compose (`RemoteBox`):**
-
-```kotlin
-RemoteBox(
-    modifier = RemoteModifier.fillMaxSize(),
-    horizontalAlignment = RemoteAlignment.CenterHorizontally,
-    verticalArrangement = RemoteArrangement.Center,  // Note: Arrangement, not Alignment
-) { ... }
-```
-
-**Comparison with `RemoteRow` and `RemoteColumn`:**
-
-| Container      | Horizontal Parameter           | Vertical Parameter           |
-| :------------- | :----------------------------- | :--------------------------- |
-| `RemoteRow`    | `RemoteArrangement.Horizontal` | `RemoteAlignment.Vertical`   |
-| `RemoteColumn` | `RemoteAlignment.Horizontal`   | `RemoteArrangement.Vertical` |
-| `RemoteBox`    | `RemoteAlignment.Horizontal`   | `RemoteArrangement.Vertical` |
-
-**Workaround:** Specify both parameters when using `RemoteBox`. For vertical
-positioning, use `RemoteArrangement` constants (`Top`, `Center`, `Bottom`)
-rather than `RemoteAlignment` constants (`Top`, `CenterVertically`, `Bottom`).
 
 ### `RemoteModifier.graphicsLayer` Rendering Failures {#remotemodifiergraphicslayer-rendering-failures}
 

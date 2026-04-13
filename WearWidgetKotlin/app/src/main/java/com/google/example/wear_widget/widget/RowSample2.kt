@@ -31,8 +31,7 @@ fun RowSample2() {
 // orientation parameter was not being correctly handled by the renderer.
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteRow(
             modifier = RemoteModifier.fillMaxSize().padding(5.dp),

@@ -29,8 +29,7 @@ import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 fun SemanticStyleSample() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteColumn(
             modifier = RemoteModifier.fillMaxWidth(),

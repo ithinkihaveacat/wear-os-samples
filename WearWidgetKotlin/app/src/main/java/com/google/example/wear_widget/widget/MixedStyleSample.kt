@@ -32,8 +32,7 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 fun MixedStyleSample() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(Color.White),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteRow(
             verticalAlignment = RemoteAlignment.CenterVertically,

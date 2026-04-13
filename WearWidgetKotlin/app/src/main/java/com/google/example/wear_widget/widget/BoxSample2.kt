@@ -38,8 +38,7 @@ fun BoxSample2() {
                 RemoteModifier.fillMaxSize()
                     .padding(20.dp)
                     .border(width = 2.rdp, color = Color.Red.rc),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+            contentAlignment = RemoteAlignment.Center,
         ) {
             MaterialRemoteText(
                 text = "Box Sample 2\n(Border & Padding)".rs,

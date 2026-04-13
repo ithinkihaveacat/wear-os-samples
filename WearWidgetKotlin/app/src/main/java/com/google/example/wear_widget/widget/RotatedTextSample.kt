@@ -14,8 +14,6 @@ import androidx.compose.remote.creation.compose.layout.RemoteOffset
 import androidx.compose.remote.creation.compose.layout.RemoteRow
 import androidx.compose.remote.creation.compose.layout.RemoteSize
 import androidx.compose.remote.creation.compose.layout.RemoteText
-import androidx.compose.remote.creation.compose.layout.rotate
-import androidx.compose.remote.creation.compose.layout.translate
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.drawWithContent
@@ -48,8 +46,7 @@ import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 fun RotatedTextSample(modifier: RemoteModifier = RemoteModifier) {
     RemoteBox(
         modifier = modifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteBox(
             modifier =
@@ -64,8 +61,7 @@ fun RotatedTextSample(modifier: RemoteModifier = RemoteModifier) {
                         }
                     }
                     .padding(10.dp),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+            contentAlignment = RemoteAlignment.Center,
         ) {
             RemoteText(text = "Hello world!", color = Color.Red.rc)
         }

@@ -64,8 +64,7 @@ val overlayColor = isToggled.select(Color(0xAA000000).rc, Color.Transparent.rc)
         // Overlay with Floating Image Button
         RemoteBox(
             modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center,
+            contentAlignment = RemoteAlignment.Center,
         ) {
             // The floating Image Button (using imageButton pattern but made clickable)
             RemoteBox(
@@ -75,8 +74,7 @@ val overlayColor = isToggled.select(Color(0xAA000000).rc, Color.Transparent.rc)
                         .clickable(
                             ValueChange(state, state xor 1.ri)
                         ),
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                verticalArrangement = RemoteArrangement.Center,
+                contentAlignment = RemoteAlignment.Center,
             ) {
                 RemoteImage(
                     bitmap = ImageBitmap.imageResource(id = R.drawable.photo_17),

@@ -83,8 +83,7 @@ private fun Container(
 ) {
     RemoteBox(
         modifier,
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
         content = content,
     )
 }

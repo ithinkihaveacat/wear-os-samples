@@ -31,8 +31,7 @@ fun ButtonSample6() {
 val dummy = rememberRemoteIntValue { 0 }
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteButton(
             onClick = ValueChange(dummy, 0.ri),

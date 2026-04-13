@@ -27,8 +27,7 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 fun CanvasSample1() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
             val width = remote.component.width

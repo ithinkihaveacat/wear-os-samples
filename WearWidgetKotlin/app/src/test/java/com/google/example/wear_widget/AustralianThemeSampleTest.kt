@@ -37,15 +37,13 @@ class AustralianThemeSampleTest {
                     modifier = RemoteModifier
                         .fillMaxSize()
                         .background(Color.Black),
-                    horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                    verticalArrangement = RemoteArrangement.Center
+                    contentAlignment = RemoteAlignment.Center
                 ) {
                     RemoteBox(
                         modifier = RemoteModifier
                             .size(170.rdp)
                             .background(Color.DarkGray),
-                        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                        verticalArrangement = RemoteArrangement.Center
+                        contentAlignment = RemoteAlignment.Center
                     ) {
                         AustralianThemeSample()
                     }

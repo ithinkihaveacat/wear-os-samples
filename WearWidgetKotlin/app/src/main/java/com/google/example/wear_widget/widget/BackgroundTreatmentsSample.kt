@@ -16,6 +16,7 @@ import androidx.compose.remote.creation.compose.shaders.sweepGradient
 import androidx.compose.remote.creation.compose.shaders.verticalGradient
 import androidx.compose.remote.creation.compose.state.RemotePaint
 import androidx.compose.remote.creation.compose.state.rc
+import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
@@ -51,8 +52,7 @@ fun BackgroundTreatmentsSample() {
             )
             RemoteBox(
                 modifier = RemoteModifier.weight(1f).fillMaxSize().background(brush = vGradient),
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                verticalArrangement = RemoteArrangement.Center
+                contentAlignment = RemoteAlignment.Center,
             ) {
                 MaterialRemoteText("Vertical".rs)
             }
@@ -63,8 +63,7 @@ fun BackgroundTreatmentsSample() {
             )
             RemoteBox(
                 modifier = RemoteModifier.weight(1f).fillMaxSize().background(brush = rGradient),
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                verticalArrangement = RemoteArrangement.Center
+                contentAlignment = RemoteAlignment.Center,
             ) {
                 MaterialRemoteText("Radial".rs)
             }
@@ -81,8 +80,7 @@ fun BackgroundTreatmentsSample() {
             )
             RemoteBox(
                 modifier = RemoteModifier.weight(1f).fillMaxSize().background(brush = sGradient),
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                verticalArrangement = RemoteArrangement.Center
+                contentAlignment = RemoteAlignment.Center,
             ) {
                 MaterialRemoteText("Sweep".rs)
             }
@@ -92,8 +90,7 @@ fun BackgroundTreatmentsSample() {
             val painter = painterRemoteBitmap(bitmap)
             RemoteBox(
                 modifier = RemoteModifier.weight(1f).fillMaxSize().background(painter),
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                verticalArrangement = RemoteArrangement.Center
+                contentAlignment = RemoteAlignment.Center,
             ) {
                 // Semi-transparent overlay to make text readable
                 RemoteBox(
@@ -114,12 +111,11 @@ fun BackgroundTreatmentsSample() {
                     // Custom background: orange circle
                     drawCircle(
                         paint = RemotePaint().apply { color = Color(0xFFFFA500).rc },
-                        radius = (remoteWidth.min(remoteHeight) / 2.5f)
+                        radius = (width.min(height) / 2.5f.rf)
                     )
                     drawContent()
                 },
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                verticalArrangement = RemoteArrangement.Center
+                contentAlignment = RemoteAlignment.Center,
             ) {
                 MaterialRemoteText("Custom".rs)
             }
@@ -130,8 +126,7 @@ fun BackgroundTreatmentsSample() {
             )
             RemoteBox(
                 modifier = RemoteModifier.weight(1f).fillMaxSize().background(brush = hGradient),
-                horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                verticalArrangement = RemoteArrangement.Center
+                contentAlignment = RemoteAlignment.Center,
             ) {
                 MaterialRemoteText("Horizontal".rs)
             }

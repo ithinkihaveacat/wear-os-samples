@@ -46,8 +46,7 @@ val pendingIntent = remember(context) {
 
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteBox(
             modifier = RemoteModifier
@@ -61,8 +60,7 @@ val pendingIntent = remember(context) {
                         it.clickable(pendingIntentAction(pendingIntent))
                     }
                 },
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-            verticalArrangement = RemoteArrangement.Center
+            contentAlignment = RemoteAlignment.Center,
         ) {
             MaterialRemoteText("Click Me".rs)
         }

@@ -29,8 +29,7 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 fun GridSample1() {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
+        contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteColumn(
             modifier = RemoteModifier.fillMaxSize().padding(20.dp),
@@ -39,15 +38,13 @@ fun GridSample1() {
             RemoteRow(modifier = RemoteModifier.weight(1f)) {
                 RemoteBox(
                     modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Red),
-                    horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                    verticalArrangement = RemoteArrangement.Center,
+                    contentAlignment = RemoteAlignment.Center,
                 ) {
                     RemoteText("1", color = Color.White.rc)
                 }
                 RemoteBox(
                     modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Blue),
-                    horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                    verticalArrangement = RemoteArrangement.Center,
+                    contentAlignment = RemoteAlignment.Center,
                 ) {
                     RemoteText("2", color = Color.White.rc)
                 }
@@ -55,15 +52,13 @@ fun GridSample1() {
             RemoteRow(modifier = RemoteModifier.weight(1f)) {
                 RemoteBox(
                     modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Green),
-                    horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                    verticalArrangement = RemoteArrangement.Center,
+                    contentAlignment = RemoteAlignment.Center,
                 ) {
                     RemoteText("3", color = Color.Black.rc)
                 }
                 RemoteBox(
                     modifier = RemoteModifier.weight(1f).fillMaxSize().background(Color.Yellow),
-                    horizontalAlignment = RemoteAlignment.CenterHorizontally,
-                    verticalArrangement = RemoteArrangement.Center,
+                    contentAlignment = RemoteAlignment.Center,
                 ) {
                     RemoteText("4", color = Color.Black.rc)
                 }
