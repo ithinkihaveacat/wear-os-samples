@@ -134,15 +134,13 @@ dependencies {
 }
 ```
 
-## Quick Start: Building a Hello World Widget
+## Quick Start: Building a Hello World Widget {#quick-start-building-a-hello-world-widget}
 
 A Wear Widget consists of a service extending `GlanceWearWidgetService` and a
 widget class extending `GlanceWearWidget`. The UI is defined using
 `@RemoteComposable` functions.
 
- 
-
-### 1. Define the Service
+### Define the Service {#define-the-service}
 
 The service is the entry point that the system binds to.
 
@@ -157,7 +155,7 @@ class HelloWidgetService : GlanceWearWidgetService() {
 }
 ```
 
-### 2. Define the Widget
+### Define the Widget {#define-the-widget}
 
 The widget class provides the data and layout for the widget.
 
@@ -183,7 +181,7 @@ class HelloWidget : GlanceWearWidget() {
 }
 ```
 
-### 3. Define the Content
+### Define the Content {#define-the-content}
 
 The content is built using Remote Compose components.
 
@@ -217,7 +215,7 @@ fun HelloWidgetContent() {
 }
 ```
 
-### 4. Create the Widget Configuration XML
+### Create the Widget Configuration XML {#create-the-widget-configuration-xml}
 
 Create a new file `res/xml/hello_widget_info.xml` to define the widget's
 properties and supported sizes. (This filename is just an example; you will
@@ -245,7 +243,7 @@ When defining your widget's metadata, follow these guidelines:
 </wearwidget-provider>
 ```
 
-### 5. Register in AndroidManifest.xml
+### Register in AndroidManifest.xml {#register-in-androidmanifestxml}
 
 Register the service in your `AndroidManifest.xml` with the required intent
 filters and metadata.
@@ -279,9 +277,9 @@ For a quick start, you can create a simple vector drawable in
 </service>
 ```
 
-### 6. Build and Deploy
+### Build and Deploy {#build-and-deploy}
 
-#### Build and Install
+#### Build and Install {#build-and-install}
 
 Build the project and install the debug APK onto your connected device or
 emulator:
@@ -290,11 +288,11 @@ emulator:
 ./gradlew :app:installDebug
 ```
 
-#### Add and Preview your Widget
+#### Add and Preview your Widget {#add-and-preview-your-widget}
 
 There are two primary ways to preview your widget during development.
 
-##### Method A: Standalone Renderer (Development Tool)
+##### Method A: Standalone Renderer (Development Tool) {#method-a-standalone-renderer-development-tool}
 
 In production, `SMALL` and `LARGE` widgets will be visible via an OS-level
 integration. Because this OS-level integration is not yet available in developer
@@ -322,7 +320,7 @@ _Note: Adding and clearing widgets in this tool is conceptually similar to using
 the `adb-tile-add` and `adb-tile-remove` commands, but it operates specifically
 on this standalone preview surface rather than the system Tile carousel._
 
-##### Method B: System UI Tile Carousel (Compatibility Mode)
+##### Method B: System UI Tile Carousel (Compatibility Mode) {#method-b-system-ui-tile-carousel-compatibility-mode}
 
 To test how your widget translates to a full-screen Tile on older Wear OS
 versions, you can inject it directly into the system carousel using ADB.
@@ -360,7 +358,7 @@ verify it by swiping through the tile carousel.
 If your widget does not appear as expected after following the steps above,
 please consult the [Troubleshooting](#troubleshooting) section.
 
-### 7. Congratulations! What's Next?
+### Congratulations! What's Next? {#congratulations-whats-next}
 
 You've successfully set up your environment, built a "Hello World" widget, and
 got it running on a device. To continue your journey, we recommend the following
@@ -388,7 +386,7 @@ next steps:
   how/what widgets can be previewed today and what's coming next, including
   upcoming support for the vertically scrolling carousel.
 
-## Implementation Strategies
+## Implementation Strategies {#implementation-strategies}
 
 Wear OS 7 introduces support for partial-height vertical scrolling on select
 devices. Because the platform supports a wide range of hardware—from legacy Wear
@@ -440,12 +438,12 @@ a compatibility mode to "translate" your widget into a Tile on older devices.
 | **Wear OS 7 (No partial-height support)** | Widget is **translated to a Tile**            |
 | **Wear OS 7 (Partial-height support)**    | Native **Widget** is used                     |
 
-## Technical Guide
+## Technical Guide {#technical-guide}
 
 This section covers the architecture of building a Remote UI and how that UI
 integrates with the Wear OS system.
 
-### Remote UI Programming Model
+### Remote UI Programming Model {#remote-ui-programming-model}
 
 Wear widgets leverage Remote Compose, which features a declarative DSL that
 aligns with Modern Android Development. To see these building blocks in
@@ -501,19 +499,19 @@ RemoteButton(
 _Note: When passing an existing array of actions to the named parameter, pass it
 directly without the spread operator (`_`).\*
 
-#### Theming
+#### Theming {#theming}
 
 The visual presentation of Wear Widgets is governed by the `RemoteMaterialTheme`
 composable. This system allows widgets to adapt to the user's system theme
 (Dynamic Theming) or enforce a specific brand identity (Custom Theming).
 
-#### Dynamic Theming (System Theme)
+#### Dynamic Theming (System Theme) {#dynamic-theming-system-theme}
 
 By default (when no `colorScheme` is provided), `RemoteMaterialTheme` uses the
 system's dynamic color scheme. This is the **recommended approach** to ensure
 widgets feel like a native part of the user's experience.
 
-#### Custom Theming (Fixed / Brand Colors)
+#### Custom Theming (Fixed / Brand Colors) {#custom-theming-fixed-brand-colors}
 
 If a specific brand identity is required, you can provide a custom
 `RemoteColorScheme`.
@@ -534,14 +532,14 @@ fun MyCustomWidget() {
 }
 ```
 
-#### Semantic Typography
+#### Semantic Typography {#semantic-typography}
 
-Semantic typography styles are provided by `RemoteMaterialTheme.typography`.
-For examples of how to apply standard Wear OS text styles (e.g., `titleLarge`, `bodyMedium`),
-see the `SemanticStyleSample` or `TextSample1` in the Component Gallery.
+Semantic typography styles are provided by `RemoteMaterialTheme.typography`. For
+examples of how to apply standard Wear OS text styles (e.g., `titleLarge`,
+`bodyMedium`), see the `SemanticStyleSample` or `TextSample1` in the Component
+Gallery.
 
-
-#### Type Conversions
+#### Type Conversions {#type-conversions}
 
 When working with Remote UI components, you frequently need to convert standard
 Kotlin/Compose types (like `Color`, `Dp`, `String`, `Int`) into their `Remote`
@@ -557,7 +555,7 @@ to reduce boilerplate:
 - **Integers:** `1.ri` (instead of `RemoteInt(1)`)
 - **Floats:** `1f.rf` (instead of `RemoteFloat(1f)`)
 
-#### Understanding Remote Dimensions (`RemoteDp`)
+#### Understanding Remote Dimensions (`RemoteDp`) {#understanding-remote-dimensions-remotedp}
 
 Remote Compose introduces `RemoteDp` to distinguish between **immediate** and
 **deferred** layout resolution. Developers should specify `RemoteDp` where
@@ -585,14 +583,14 @@ _Note: As mentioned in "Known Issues", some modifiers like `.padding()`
 currently only accept `Dp`. These will resolve to absolute pixel units at
 composition time._
 
-#### Component Gallery
+#### Component Gallery {#component-gallery}
 
 For a visual overview of the available components and layout samples (including
 `RemoteBox`, `RemoteButton`, `RemoteCanvas`, and more) along with their
 corresponding code, please refer to the
 **[Widget Component Gallery](../screenshots/SAMPLES.md)**.
 
-#### Triggering Updates from App Code
+#### Triggering Updates from App Code {#triggering-updates-from-app-code}
 
 While client-side state changes can update the widget instantly, you often need
 to push new data from your application (e.g., from a background worker or after
@@ -608,14 +606,14 @@ HelloWidget().triggerUpdate(context, componentName)
 Calling this will cause the system to re-bind to your `GlanceWearWidgetService`
 and call `provideWidgetData` again to fetch the latest UI.
 
-### Manifest and XML Reference
+### Manifest and XML Reference {#manifest-and-xml-reference}
 
 Once you have selected an implementation strategy (Dual- or Single-Service), you
 must establish the contract between your app and the Wear OS surface. This
 contract establishes your widget's supported configurations and tells the system
 how to connect to your service.
 
-#### Defining Capabilities (XML)
+#### Defining Capabilities (XML) {#defining-capabilities-xml}
 
 The `wearwidget-provider` XML file serves as the source of truth for your
 widget's supported configurations. It tells the system which container types
@@ -656,7 +654,7 @@ your implementation can handle.
   doesn't request a specific one (e.g., when falling back from a legacy
   surface).
 
-#### The Binding Contract (Manifest)
+#### The Binding Contract (Manifest) {#the-binding-contract-manifest}
 
 The system binds to your widget through a Service. To support the transition
 from legacy Tiles to modern Widgets, this service supports two different
@@ -690,7 +688,7 @@ protocols.
 - **Intent Filters:** Only include
   `androidx.wear.tiles.action.BIND_TILE_PROVIDER` if you _don't_ have a Tile.
 
-### Current and Future Renderers
+### Current and Future Renderers {#current-and-future-renderers}
 
 The Wear Widget ecosystem is currently in an Early Access phase. The renderer
 available today allows you to render Widgets in a fullscreen tile compatibility
@@ -701,15 +699,15 @@ widgets as they will appear natively on devices running Wear OS 7+.
 While you define capabilities for both `SMALL` and `LARGE`, the actual runtime
 behavior depends on the device's capabilities and the stage of the rollout.
 
-#### Developer Support Roadmap
+#### Developer Support Roadmap {#developer-support-roadmap}
 
 | Platform                                       | Jan 2026                                                                            | Feb 2026                                                                                                          |
 | :--------------------------------------------- | :---------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------- |
 | **Emulators, Pixel Watch 2+, Galaxy Watch 5+** | **Tile Mode Only:** Renders as a Tile in compatibility mode (Icon \+ Label header). | **Widget Support:** A standalone renderer app is available, which enables testing of `SMALL` and `LARGE` Widgets. |
 
-## Developer Workflow and Tools
+## Developer Workflow and Tools {#developer-workflow-and-tools}
 
-### Previews
+### Previews {#previews}
 
 To enable Compose Previews, use `RemotePreview` combined with
 `@WearPreviewDevices`. Note that preview dependencies must be included in the
@@ -730,9 +728,9 @@ previews in a single file. While you may use these previews where functional, we
 recommend verifying your widget's appearance and behavior on an emulator or
 physical device for the most reliable experience and highest fidelity.
 
-## Troubleshooting
+## Troubleshooting {#troubleshooting}
 
-### Build Failure: minSdk version conflict
+### Build Failure: minSdk version conflict {#build-failure-minsdk-version-conflict}
 
 **Symptom:** The build fails with a manifest merger error indicating that a
 library's `minSdk` (e.g., 29) is higher than the application's `minSdk` (e.g.,
@@ -805,7 +803,7 @@ see the documentation for
 **Symptom:** The widget adds successfully but displays as a completely black
 screen or fails to appear.
 
-#### Cause 1: Package name not allowlisted
+#### Cause 1: Package name not allowlisted {#cause-1-package-name-not-allowlisted}
 
 The renderer enforces a package name allowlist. If your package is not on the
 list, the UI will not render.
@@ -825,13 +823,13 @@ you).
 01-08 06:21:02.164 10032 28409 28409 E ProtoTilesTileRendererImpl: Caused by: awk: Provider is not allowlisted for Remote Compose. com.example.android.wearable.composestarter/.HelloWidgetService
 ```
 
-#### Cause 2: DataStore Conflict
+#### Cause 2: DataStore Conflict {#cause-2-datastore-conflict}
 
 This is often caused by a DataStore conflict during rapid re-deployment; see
 [Multiple DataStores Active Crash](#multiple-datastores-active-crash-datastore-conflict)
 for more details.
 
-## Feature Comparison: Tiles vs. Widgets
+## Feature Comparison: Tiles vs. Widgets {#feature-comparison-tiles-vs-widgets}
 
 While Wear Widgets share some conceptual similarities with Tiles (both render on
 a remote system surface), their capabilities and development models differ
@@ -852,7 +850,7 @@ significantly.
 | **Resource Management**   | **Versioned.** Uses `onTileResourcesRequest` to serve and version resources (images) independently of the layout in the older versions of Tiles library.                                                                  | **Direct Binding.** Resources are handled transparently within the composition, similar to standard Compose (e.g., `R.drawable`).                                                                             |
 | **Telemetry / Tracking**  | **Built-in Callback.** `onRecentInteractionEventsAsync` provides a stream of recent click events.                                                                                                                         | **Support Planned.**                                                                                                                                                                                          |
 
-## Migrating from Legacy Tiles
+## Migrating from Legacy Tiles {#migrating-from-legacy-tiles}
 
 Adding modern Widget support to an existing `TileService` is a seamless process
 for your users.
@@ -861,7 +859,7 @@ To maintain the highest quality experience, you should follow the **Dual-Service
 Implementation** strategy described in
 [Detailed Implementation Strategies](#implementation-strategies).
 
-### Migration Checklist
+### Migration Checklist {#migration-checklist}
 
 1. **Implement the widget**: Create a new `GlanceWearWidgetService` for your
    Widget.
@@ -884,12 +882,12 @@ carousel. Wear OS 6 ignores the `group` attribute and identifies carousel
 entries strictly by Service name. Reusing the name prevents your Tile from
 disappearing from the carousel upon update.
 
-## Known Issues and Limitations
+## Known Issues and Limitations {#known-issues-and-limitations}
 
 This section tracks technical hurdles and API limitations in the current
 ALPHA/SNAPSHOT versions.
 
-### [FIXED] Multiple APIs Are Restricted
+### [FIXED] Multiple APIs Are Restricted {#multiple-apis-are-restricted}
 
 b/474354218
 
@@ -901,7 +899,7 @@ Many APIs (e.g., `.rs`, `.rf`, `RemotePainter`) are currently marked as
 `@SuppressLint("RestrictedApi")` immediately above a function). This enables
 access to the full API surface.
 
-### `RemoteModifier.clip()` Requires Explicit Size for Relative Shapes
+### `RemoteModifier.clip()` Requires Explicit Size for Relative Shapes {#remotemodifierclip-requires-explicit-size-for-relative-shapes}
 
 b/477860914
 
@@ -922,7 +920,7 @@ RemoteModifier
     .clip(CircleShape, DpSize(60.dp, 60.dp))
 ```
 
-### `RemoteModifier.padding` Lacks `RemoteDp` Support
+### `RemoteModifier.padding` Lacks `RemoteDp` Support {#remotemodifierpadding-lacks-remotedp-support}
 
 b/470964182
 
@@ -957,7 +955,7 @@ RemoteModifier.padding(RemotePaddingValues(all = 10.rdp))
 You can also manually define extension functions that accept `RemoteDp` and
 delegate to `padding(all.toPx())`.
 
-### [FIXED] `RemoteArrangement.Center` Can Only Be Used in Vertical Contexts
+### [FIXED] `RemoteArrangement.Center` Can Only Be Used in Vertical Contexts {#remotearrangementcenter-can-only-be-used-in-vertical-contexts}
 
 > [!NOTE]
 > Fixed in `1.0.0-alpha07`. `RemoteArrangement.Center` now implements `HorizontalOrVertical` and can be used in both `RemoteRow` and `RemoteColumn`.
@@ -986,7 +984,7 @@ Remote Compose, `RemoteArrangement.Center` is typed as
 `SpaceEvenly`, and `SpaceAround`, which implement the `HorizontalOrVertical`
 interface.
 
-### `RemoteBox` Differs from Compose `Box`
+### `RemoteBox` Differs from Compose `Box` {#remotebox-differs-from-compose-box}
 
 b/471212869
 
@@ -1030,7 +1028,7 @@ RemoteBox(
 positioning, use `RemoteArrangement` constants (`Top`, `Center`, `Bottom`)
 rather than `RemoteAlignment` constants (`Top`, `CenterVertically`, `Bottom`).
 
-### `RemoteModifier.graphicsLayer` Rendering Failures
+### `RemoteModifier.graphicsLayer` Rendering Failures {#remotemodifiergraphicslayer-rendering-failures}
 
 [b/473745800](http://b/473745800)
 
@@ -1090,7 +1088,7 @@ adb shell am broadcast \
 The system typically restarts the service automatically after configuration
 changes, but a manual force-stop may be necessary if it remains blank.
 
-### Android Studio Preview Limitations
+### Android Studio Preview Limitations {#android-studio-preview-limitations}
 
 b/431932822
 
@@ -1103,7 +1101,7 @@ expected.
 **Workaround:** Deploying the widget to an emulator or physical device provides
 the most reliable method to confirm the appearance and behavior.
 
-### `drawArc` `useCenter` Parameter Requires Static Boolean
+### `drawArc` `useCenter` Parameter Requires Static Boolean {#drawarc-usecenter-parameter-requires-static-boolean}
 
 **Symptom:** You encounter a compilation error when trying to pass a
 `RemoteBoolean` to the `useCenter` parameter of `drawArc` in `RemoteCanvas` or
@@ -1133,7 +1131,7 @@ semantic text styles directly (e.g.,
 `RemoteMaterialTheme.typography.titleLarge`) causes a compilation error. This
 means you cannot use "semantic" text styles to `MaterialRemoteText` components.
 
-#### Temporary Workaround: Use Local Typography Definitions
+#### Temporary Workaround: Use Local Typography Definitions {#temporary-workaround-use-local-typography-definitions}
 
 Until semantic styles are officially exposed via
 `RemoteMaterialTheme.typography`, you can unblock development by defining a
@@ -1284,7 +1282,7 @@ drawScaledBitmap(
 )
 ```
 
-### RemoteImage failures when using large or unscaled bitmaps
+### RemoteImage failures when using large or unscaled bitmaps {#remoteimage-failures-when-using-large-or-unscaled-bitmaps}
 
 b/488353353
 
@@ -1321,7 +1319,7 @@ RemoteImage(
 as their decoded size (even after internal PNG compression) can easily exceed
 the IPC payload limit.
 
-### "Full Bleed" Backgrounds Limited to Solid Colors
+### "Full Bleed" Backgrounds Limited to Solid Colors {#full-bleed-backgrounds-limited-to-solid-colors}
 
 b/480859310
 
@@ -1336,7 +1334,7 @@ solid colors via `WearWidgetDocument(backgroundColor = ...)`.
 with images or gradients at this time. To maintain visual consistency, ensure
 your content or inner backgrounds complement the document's `backgroundColor`.
 
-### Dynamic Theme Colors for Document Backgrounds Require Manual Binding
+### Dynamic Theme Colors for Document Backgrounds Require Manual Binding {#dynamic-theme-colors-for-document-backgrounds-require-manual-binding}
 
 **Symptom:** You cannot set the `background` of a `WearWidgetDocument` to a
 dynamic theme color using `RemoteColorScheme` properties (e.g.,
@@ -1381,7 +1379,7 @@ override suspend fun provideWidgetData(
 }
 ```
 
-### `RemoteModifier.background(RemoteColor)` Ignores Clipping
+### `RemoteModifier.background(RemoteColor)` Ignores Clipping {#remotemodifierbackgroundremotecolor-ignores-clipping}
 
 b/495827025
 
@@ -1427,37 +1425,79 @@ RemoteBox(modifier = RemoteModifier.size(32.rdp)) {
 
 ## Updates {#updates}
 
-### Next
+### Wear Widgets EAP 1.2 — 24 Mar 2026 {#wear-widgets-eap-12-24-mar-2026}
 
-Features
+#### Features {#features}
 
-- [b/478828032](http://b/478828032) — semantic text styles
-- Updated Renderer
-  - [https://android-review.git.corp.google.com/c/platform/frameworks/support/+/3964947](https://android-review.git.corp.google.com/c/platform/frameworks/support/+/3964947)
-    — automatic refresh in standalone viewer (Debug builds only)
-- TODO(stillers): copy across the new viewer (can change the widget shape) DONE
-  [https://g3doc.corp.google.com/java/com/google/android/clockwork/prototiles/renderer/experimental/README.md?cl=head](https://g3doc.corp.google.com/java/com/google/android/clockwork/prototiles/renderer/experimental/README.md?cl=head)
+- **Semantic Text Styles are available.** See
+  [Semantic Typography](#semantic-typography).
+- **Standalone Renderer Updates.** A few user-facing features have been added to
+  make it more usable. See
+  [Add and Preview your Widget](#add-and-preview-your-widget).
+- **Dependencies Updated:** The
+  [samples](https://github.com/ithinkihaveacat/wear-os-samples/tree/wear-widgets/WearWidgetKotlin)
+  have been updated to target the latest available library versions (including
+  SNAPSHOTs where necessary) to demonstrate the newest features and fixes. See
+  [Migration Instructions](#migration-instructions) for details on updating your
+  project.
 
-Changes
+#### Known Issues {#known-issues}
 
-- some packages moved around
-  - API package change:
-    [Move APIs in \`glance:wear:wear-core\` into the package \`androidx.glance.wear.c...](https://android-review.git.corp.google.com/c/platform/frameworks/support/+/3948600)
-  - [Add \`GlanceWearWidgetManager\` class and \`getActiveWidgets\` api.](https://android-review.git.corp.google.com/c/platform/frameworks/support/+/3940182)
-    - Helper removed:
-      [Remove \`fetchActiveWidgetsForProvider\` api.](https://android-review.git.corp.google.com/c/platform/frameworks/support/+/3961303)
+- **\[ADDED\]**
+  [RemoteImage failures when using large or unscaled bitmaps](#remoteimage-failures-when-using-large-or-unscaled-bitmaps):
+  Using `RemoteImage` with large or unscaled bitmaps can cause the widget to
+  fail to render and display an empty screen. A workaround is to manually scale
+  bitmaps to the exact required display size before use.
+- **\[ADDED\]**
+  ["Full Bleed" Backgrounds Limited to Solid Colors](#full-bleed-backgrounds-limited-to-solid-colors):
+  Complex backgrounds like images or gradients appear inset with a visible
+  border rather than true "full bleed". Currently, full bleed rendering is only
+  possible with solid colors and there is no known workaround.
+- **\[ADDED\]**
+  [Dynamic Theme Colors for Document Backgrounds Require Manual Binding](#dynamic-theme-colors-for-document-backgrounds-require-manual-binding):
+  Setting a document background to a dynamic theme color using
+  `RemoteColorScheme` causes a compiler error. A workaround is to manually
+  construct a named `RemoteColor` using a local `ColorScheme` fallback.
+- **\[ADDED\]**
+  [RemoteModifier.background(RemoteColor) Ignores Clipping](#remotemodifierbackgroundremotecolor-ignores-clipping):
+  Applying a dynamic `RemoteColor` with the `background()` modifier ignores any
+  preceding `clip()` modifiers. To create a shaped background, use
+  `RemoteCanvas` to explicitly draw the shape instead.
+- **\[FIXED\]** [Multiple APIs Are Restricted](#multiple-apis-are-restricted):
+  The issue where many APIs (like `.rs`, `.rf`, `RemotePainter`) were marked as
+  restricted and required suppressing lint errors with
+  `@SuppressLint("RestrictedApi")` has been fixed.
+- **\[FIXED\]**
+  [RemoteMaterialTheme.typography Does Not Expose Semantic Styles](#typography-does-not-expose-semantic-styles):
+  The issue where semantic text styles (e.g., `titleLarge`) were internal and
+  required a local `MyWidgetTypography` helper object to access has been fixed.
 
-Other
+#### Migration Instructions {#migration-instructions}
 
-- [RemoteImage failures when using large or unscaled bitmaps](#remoteimage-failures-when-using-large-or-unscaled-bitmaps)
-- full bleed backgrounds limited to solid colors
-- TODO: update [Current and Future Renderers](#current-and-future-renderers) to
-  reflect current state. reference from
-  [6\. Build and Deploy](#6.-build-and-deploy)
+- **Update Library Versions:** Update your `libs.versions.toml` or
+  `build.gradle` to use `androidx.compose.remote` libraries at
+  **`1.0.0-alpha06`** and `androidx.glance.wear` libraries at
+  **`1.0.0-alpha05`**. For SNAPSHOT dependencies, update the Maven repository
+  URL to use a **Build ID** of **`14978996`**.
+- **Package Name Changes:** Several classes have moved to new packages. Most
+  notably, `WearWidgetParams` has moved to
+  `androidx.glance.wear.core.WearWidgetParams`, and `RemoteImage` is now located
+  at `androidx.compose.remote.creation.compose.layout.RemoteImage`.
+- **Semantic Text Styles:** Semantic text styles (e.g., `titleLarge`,
+  `bodyMedium`) are now natively available through
+  `RemoteMaterialTheme.typography`. You can apply them directly to your text
+  components and remove any temporary local workarounds (like
+  `MyWidgetTypography`). See [Semantic Typography](#semantic-typography).
+- **Drawing API Updates:** `RemotePaint` properties now utilize Compose-native
+  graphics classes rather than standard Android `Paint` equivalents. When
+  drawing, you must now use `PaintingStyle.Stroke` (instead of
+  `Paint.Style.STROKE`) and `StrokeCap.Round` (instead of `Paint.Cap.ROUND`).
+  Additionally, properties like `strokeWidth` must now be explicitly converted
+  to remote floats using `.rf`.
 
-### Wear Widgets EAP 1.1 — 9 Feb 2026
+### Wear Widgets EAP 1.1 — 9 Feb 2026 {#wear-widgets-eap-11-9-feb-2026}
 
-#### Features
+#### Features {#features-1-1}
 
 - **Standalone Renderer:** A standalone renderer has been added to the updated
   `com.google.android.wearable.protolayout.renderer` package. (Find it under
@@ -1485,7 +1525,7 @@ Other
 - **Documentation:** Added a new guide detailing the differences between Compose
   and Remote Compose: [Compose Differences](COMPOSE-DIFFERENCES.md).
 
-#### Known Issues
+#### Known Issues {#known-issues-1-1}
 
 - [ADDED]
   [Dynamic Theme Colors for Document Backgrounds Require Manual Binding](#dynamic-theme-colors-for-document-backgrounds-require-manual-binding):
@@ -1512,7 +1552,7 @@ Other
   fixed. You can now use it without explicitly providing the `srcSize` argument
   (see `BitmapCanvasSample`).
 
-#### Migration Instructions
+#### Migration Instructions {#migration-instructions-1-1}
 
 - **Update Library Versions:** Update your `libs.versions.toml` or
   `build.gradle` to use `androidx.compose.remote:remote-core:1.0.0-alpha03` and
@@ -1535,7 +1575,7 @@ Other
   [WidgetCatalog.kt](../app/src/main/java/com/google/example/wear_widget/WidgetCatalog.kt)
   for examples.
 
-## Feedback
+## Feedback {#feedback}
 
 As this project is currently in an **Early Access Program (EAP)** phase, your
 participation and feedback are critical to shaping the future of Wear Widgets.
