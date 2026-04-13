@@ -120,17 +120,18 @@ fun AmbientScreenInteractivePreview() {
 @WearPreviewFontScales
 @Composable
 fun AmbientScreenAmbientPreview() {
-    val ambientManager = remember {
-        object : AmbientModeManager {
-            override val currentAmbientMode: AmbientMode =
-                AmbientMode.Ambient(
-                    isBurnInProtectionRequired = false,
-                    isLowBitAmbientSupported = false
-                )
+    val ambientManager =
+        remember {
+            object : AmbientModeManager {
+                override val currentAmbientMode: AmbientMode =
+                    AmbientMode.Ambient(
+                        isBurnInProtectionRequired = false,
+                        isLowBitAmbientSupported = false
+                    )
 
-            override suspend fun withAmbientTick(block: () -> Unit) {}
+                override suspend fun withAmbientTick(block: () -> Unit) {}
+            }
         }
-    }
     CompositionLocalProvider(LocalAmbientModeManager provides ambientManager) {
         AmbientScreen()
     }

@@ -43,6 +43,7 @@ import androidx.wear.compose.material3.AlertDialog
 import androidx.wear.compose.material3.AlertDialogDefaults
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ButtonGroup
 import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.EdgeButtonSize
@@ -50,6 +51,7 @@ import androidx.wear.compose.material3.FilledIconButton
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconButtonDefaults
 import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.ListHeaderDefaults
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.SurfaceTransformation
@@ -64,8 +66,6 @@ import com.example.android.wearable.composestarter.R
 import com.example.android.wearable.composestarter.presentation.theme.AppCardDefaults
 import com.example.android.wearable.composestarter.presentation.theme.WearAppTheme
 import kotlinx.serialization.Serializable
-import androidx.wear.compose.material3.ListHeaderDefaults
-import androidx.wear.compose.material3.ButtonDefaults
 
 @Serializable
 sealed interface Screen : NavKey {
@@ -111,21 +111,22 @@ fun WearApp() {
     WearAppTheme {
         CompositionLocalProvider(LocalAmbientModeManager provides ambientModeManager) {
             AppScaffold {
-                val entryProvider = remember {
-                    entryProvider<NavKey> {
-                        entry<Screen.Landing> {
-                            GreetingScreen(
-                                "Android",
-                                onShowList = { backStack.add(Screen.List) },
-                                onShowTlc = { backStack.add(Screen.Tlc) },
-                                onShowAmbient = { backStack.add(Screen.Ambient) }
-                            )
+                val entryProvider =
+                    remember {
+                        entryProvider<NavKey> {
+                            entry<Screen.Landing> {
+                                GreetingScreen(
+                                    "Android",
+                                    onShowList = { backStack.add(Screen.List) },
+                                    onShowTlc = { backStack.add(Screen.Tlc) },
+                                    onShowAmbient = { backStack.add(Screen.Ambient) }
+                                )
+                            }
+                            entry<Screen.List> { ListScreen() }
+                            entry<Screen.Tlc> { TlcEnhancementScreen() }
+                            entry<Screen.Ambient> { AmbientScreen() }
                         }
-                        entry<Screen.List> { ListScreen() }
-                        entry<Screen.Tlc> { TlcEnhancementScreen() }
-                        entry<Screen.Ambient> { AmbientScreen() }
                     }
-                }
                 NavDisplay(
                     backStack = backStack,
                     entryProvider = entryProvider,
@@ -165,9 +166,12 @@ fun GreetingScreen(
             item {
                 Greeting(
                     greetingName = greetingName,
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .minimumVerticalContentPadding(ListHeaderDefaults.minimumTopListContentPadding)
+                    modifier =
+                        modifier
+                            .fillMaxWidth()
+                            .minimumVerticalContentPadding(
+                                ListHeaderDefaults.minimumTopListContentPadding
+                            )
                 )
             }
             item {
@@ -207,10 +211,13 @@ fun ListScreen(modifier: Modifier = Modifier) {
         ) {
             item {
                 ListHeader(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .transformedHeight(this, transformationSpec)
-                        .minimumVerticalContentPadding(ListHeaderDefaults.minimumTopListContentPadding),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
+                            .minimumVerticalContentPadding(
+                                ListHeaderDefaults.minimumTopListContentPadding
+                            ),
                     transformation = SurfaceTransformation(transformationSpec)
                 ) { Text(text = "Header") }
             }
@@ -234,14 +241,16 @@ fun ListScreen(modifier: Modifier = Modifier) {
             }
             item {
                 ButtonGroup(
-                    modifier = modifier
-                        .graphicsLayer {
-                            with(transformationSpec) {
-                                applyContainerTransformation(scrollProgress)
-                            }
-                        }
-                        .transformedHeight(this, transformationSpec)
-                        .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding)
+                    modifier =
+                        modifier
+                            .graphicsLayer {
+                                with(transformationSpec) {
+                                    applyContainerTransformation(scrollProgress)
+                                }
+                            }.transformedHeight(this, transformationSpec)
+                            .minimumVerticalContentPadding(
+                                ButtonDefaults.minimumVerticalListContentPadding
+                            )
                 ) {
                     FilledIconButton(
                         onClick = { showDialog = true },
