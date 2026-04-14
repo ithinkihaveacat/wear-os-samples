@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:android.annotation.SuppressLint("RestrictedApi")
+
 package com.google.example.wear_widget.widget
 
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment

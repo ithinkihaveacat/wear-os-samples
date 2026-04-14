@@ -13,7 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:android.annotation.SuppressLint("RestrictedApi")
+
 package com.google.example.wear_widget.widget
+import com.google.example.wear_widget.PreviewWearLarge
+import com.google.example.wear_widget.WidgetPreview
+
 
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteBox
@@ -47,5 +52,14 @@ fun BoxSample3() {
             color = Color.Yellow.rc,
             textAlign = TextAlign.End,
         )
+    }
+}
+
+
+@PreviewWearLarge
+@Composable
+fun BoxSample3Preview() {
+    WidgetPreview {
+        BoxSample3()
     }
 }

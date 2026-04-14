@@ -13,7 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:android.annotation.SuppressLint("RestrictedApi")
+
 package com.google.example.wear_widget.widget
+import com.google.example.wear_widget.PreviewWearLarge
+import com.google.example.wear_widget.WidgetPreview
+
 
 import android.app.PendingIntent
 import android.content.Intent
@@ -67,5 +72,14 @@ fun PendingIntentSample() {
         ) {
             MaterialRemoteText("Open App".rs)
         }
+    }
+}
+
+
+@PreviewWearLarge
+@Composable
+fun PendingIntentSamplePreview() {
+    WidgetPreview {
+        PendingIntentSample()
     }
 }

@@ -15,6 +15,8 @@
  */
 @file:Suppress("COMPOSE_APPLIER_CALL_MISMATCH") // b/446706254
 
+@file:android.annotation.SuppressLint("RestrictedApi")
+
 package com.google.example.wear_widget
 
 import androidx.compose.remote.core.operations.TextFromFloat

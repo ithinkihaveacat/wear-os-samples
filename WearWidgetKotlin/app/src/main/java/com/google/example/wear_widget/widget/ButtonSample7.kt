@@ -13,7 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:android.annotation.SuppressLint("RestrictedApi")
+
 package com.google.example.wear_widget.widget
+import com.google.example.wear_widget.PreviewWearLarge
+import com.google.example.wear_widget.WidgetPreview
+
 
 import androidx.compose.remote.creation.compose.action.ValueChange
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
@@ -65,5 +70,14 @@ fun ButtonSample7() {
                 MaterialRemoteText("No".rs)
             }
         }
+    }
+}
+
+
+@PreviewWearLarge
+@Composable
+fun ButtonSample7Preview() {
+    WidgetPreview {
+        ButtonSample7()
     }
 }

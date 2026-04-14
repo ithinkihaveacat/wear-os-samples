@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:android.annotation.SuppressLint("RestrictedApi")
+
 package com.google.example.wear_widget.widget
 
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
@@ -29,6 +31,8 @@ import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.google.example.wear_widget.PreviewWearLarge
+import com.google.example.wear_widget.WidgetPreview
 
 /**
  * Screenshot shows an Android logo above the title "Wear Widget". Below, a dark gray outlined
@@ -60,3 +64,12 @@ fun RotatedTextSample(modifier: RemoteModifier = RemoteModifier) {
         }
     }
 }
+
+@PreviewWearLarge
+@Composable
+fun RotatedTextSamplePreview() {
+    WidgetPreview {
+        RotatedTextSample()
+    }
+}
+
