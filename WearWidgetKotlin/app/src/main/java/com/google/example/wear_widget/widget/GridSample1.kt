@@ -16,9 +16,6 @@
 @file:android.annotation.SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
-import com.google.example.wear_widget.PreviewWearLarge
-import com.google.example.wear_widget.WidgetPreview
-
 
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
@@ -35,6 +32,8 @@ import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.google.example.wear_widget.PreviewWearLarge
+import com.google.example.wear_widget.WidgetPreview
 
 /**
  * Screenshot showing a "Wear Widget" title and Android Wear OS icon above a gray-bordered frame.
@@ -84,11 +83,8 @@ fun GridSample1() {
     }
 }
 
-
 @PreviewWearLarge
 @Composable
 fun GridSample1Preview() {
-    WidgetPreview {
-        GridSample1()
-    }
+    WidgetPreview { GridSample1() }
 }

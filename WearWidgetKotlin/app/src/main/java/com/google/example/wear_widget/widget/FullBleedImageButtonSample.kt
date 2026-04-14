@@ -16,9 +16,6 @@
 @file:android.annotation.SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
-import com.google.example.wear_widget.PreviewWearLarge
-import com.google.example.wear_widget.WidgetPreview
-
 
 import androidx.compose.remote.creation.compose.action.ValueChange
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
@@ -45,7 +42,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
+import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.R
+import com.google.example.wear_widget.WidgetPreview
 
 /**
  * An Android Wear logo and "Wear Widget" text are centered above a rounded rectangular widget. The
@@ -103,11 +102,8 @@ fun FullBleedImageButtonSample() {
     }
 }
 
-
 @PreviewWearLarge
 @Composable
 fun FullBleedImageButtonSamplePreview() {
-    WidgetPreview {
-        FullBleedImageButtonSample()
-    }
+    WidgetPreview { FullBleedImageButtonSample() }
 }

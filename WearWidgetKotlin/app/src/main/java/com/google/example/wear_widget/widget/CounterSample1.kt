@@ -16,9 +16,6 @@
 @file:android.annotation.SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
-import com.google.example.wear_widget.PreviewWearLarge
-import com.google.example.wear_widget.WidgetPreview
-
 
 import androidx.compose.remote.core.operations.TextFromFloat
 import androidx.compose.remote.creation.compose.action.ValueChange
@@ -42,6 +39,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
+import com.google.example.wear_widget.PreviewWearLarge
+import com.google.example.wear_widget.WidgetPreview
 
 /**
  * A black screen shows an Android icon and "Wear Widget" text at the top. Below, a dark gray
@@ -89,11 +88,8 @@ fun CounterSample1() {
     }
 }
 
-
 @PreviewWearLarge
 @Composable
 fun CounterSample1Preview() {
-    WidgetPreview {
-        CounterSample1()
-    }
+    WidgetPreview { CounterSample1() }
 }

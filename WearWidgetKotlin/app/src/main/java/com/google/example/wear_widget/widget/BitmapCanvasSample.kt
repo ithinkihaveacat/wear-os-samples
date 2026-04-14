@@ -16,9 +16,6 @@
 @file:android.annotation.SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
-import com.google.example.wear_widget.PreviewWearLarge
-import com.google.example.wear_widget.WidgetPreview
-
 
 import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteCanvas
@@ -31,7 +28,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
+import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.R
+import com.google.example.wear_widget.WidgetPreview
 
 /**
  * A central Android robot icon appears above the white text "Wear Widget". Below this, a rounded
@@ -55,11 +54,8 @@ fun BitmapCanvasSample() {
     }
 }
 
-
 @PreviewWearLarge
 @Composable
 fun BitmapCanvasSamplePreview() {
-    WidgetPreview {
-        BitmapCanvasSample()
-    }
+    WidgetPreview { BitmapCanvasSample() }
 }

@@ -68,8 +68,5 @@ fun RotatedTextSample(modifier: RemoteModifier = RemoteModifier) {
 @PreviewWearLarge
 @Composable
 fun RotatedTextSamplePreview() {
-    WidgetPreview {
-        RotatedTextSample()
-    }
+    WidgetPreview { RotatedTextSample() }
 }
-

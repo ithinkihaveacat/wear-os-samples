@@ -16,9 +16,6 @@
 @file:android.annotation.SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
-import com.google.example.wear_widget.PreviewWearLarge
-import com.google.example.wear_widget.WidgetPreview
-
 
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
@@ -43,7 +40,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.imageResource
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
+import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.R
+import com.google.example.wear_widget.WidgetPreview
 
 /**
  * A Wear OS widget displaying a 2x3 grid of different background treatments: 1. Vertical (Red to
@@ -152,11 +151,8 @@ fun BackgroundTreatmentsSample() {
     }
 }
 
-
 @PreviewWearLarge
 @Composable
 fun BackgroundTreatmentsSamplePreview() {
-    WidgetPreview {
-        BackgroundTreatmentsSample()
-    }
+    WidgetPreview { BackgroundTreatmentsSample() }
 }

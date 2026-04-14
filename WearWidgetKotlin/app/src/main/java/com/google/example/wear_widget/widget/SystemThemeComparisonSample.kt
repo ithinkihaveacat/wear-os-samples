@@ -16,9 +16,6 @@
 @file:android.annotation.SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
-import com.google.example.wear_widget.PreviewWearLarge
-import com.google.example.wear_widget.WidgetPreview
-
 
 import androidx.compose.remote.creation.compose.action.ValueChange
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
@@ -39,6 +36,8 @@ import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteButtonColors
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
+import com.google.example.wear_widget.PreviewWearLarge
+import com.google.example.wear_widget.WidgetPreview
 
 /**
  * A UI showing an Android Wear Widget. It features a dark gray rounded rectangle container with the
@@ -81,11 +80,8 @@ fun SystemThemeComparisonSample() {
     }
 }
 
-
 @PreviewWearLarge
 @Composable
 fun SystemThemeComparisonSamplePreview() {
-    WidgetPreview {
-        SystemThemeComparisonSample()
-    }
+    WidgetPreview { SystemThemeComparisonSample() }
 }

@@ -16,9 +16,6 @@
 @file:android.annotation.SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
-import com.google.example.wear_widget.PreviewWearLarge
-import com.google.example.wear_widget.WidgetPreview
-
 
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
@@ -48,7 +45,9 @@ import androidx.wear.compose.remote.material3.ProvideRemoteTextStyle
 import androidx.wear.compose.remote.material3.RemoteIcon
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
+import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.R
+import com.google.example.wear_widget.WidgetPreview
 
 @RemoteComposable
 @Composable
@@ -180,11 +179,8 @@ fun TaskSample() {
     }
 }
 
-
 @PreviewWearLarge
 @Composable
 fun TaskSamplePreview() {
-    WidgetPreview {
-        TaskSample()
-    }
+    WidgetPreview { TaskSample() }
 }

@@ -16,9 +16,6 @@
 @file:android.annotation.SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
-import com.google.example.wear_widget.PreviewWearLarge
-import com.google.example.wear_widget.WidgetPreview
-
 
 import android.app.PendingIntent
 import android.content.Intent
@@ -42,6 +39,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
+import com.google.example.wear_widget.PreviewWearLarge
+import com.google.example.wear_widget.WidgetPreview
 
 @RemoteComposable
 @Composable
@@ -83,11 +82,8 @@ fun DebugClickSample() {
     }
 }
 
-
 @PreviewWearLarge
 @Composable
 fun DebugClickSamplePreview() {
-    WidgetPreview {
-        DebugClickSample()
-    }
+    WidgetPreview { DebugClickSample() }
 }

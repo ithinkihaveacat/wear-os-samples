@@ -16,9 +16,6 @@
 @file:android.annotation.SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
-import com.google.example.wear_widget.PreviewWearLarge
-import com.google.example.wear_widget.WidgetPreview
-
 
 import androidx.compose.remote.creation.compose.action.ValueChange
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
@@ -44,7 +41,9 @@ import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteButtonColors
 import androidx.wear.compose.remote.material3.RemoteIcon
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
+import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.R
+import com.google.example.wear_widget.WidgetPreview
 
 /**
  * A dark screen shows a light gray circular icon with an Android head, then white text "Wear
@@ -78,8 +77,7 @@ fun CardSample1() {
         ) {
             RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically) {
                 RemoteIcon(
-                    imageVector =
-                        ImageVector.vectorResource(id = R.drawable.android_24px),
+                    imageVector = ImageVector.vectorResource(id = R.drawable.android_24px),
                     contentDescription = "Card Icon".rs,
                     modifier = RemoteModifier.size(40.rdp),
                     tint = Color.Cyan.rc,
@@ -94,11 +92,8 @@ fun CardSample1() {
     }
 }
 
-
 @PreviewWearLarge
 @Composable
 fun CardSample1Preview() {
-    WidgetPreview {
-        CardSample1()
-    }
+    WidgetPreview { CardSample1() }
 }

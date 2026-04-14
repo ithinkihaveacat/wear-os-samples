@@ -30,7 +30,6 @@ import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rememberMutableRemoteInt
 import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.compose.state.rs
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.remote.material3.RemoteButton
@@ -44,11 +43,8 @@ import com.google.example.wear_widget.WidgetPreview
 @PreviewWearLarge
 @Composable
 fun AustralianThemeSamplePreview() {
-    WidgetPreview {
-        AustralianThemeSample()
-    }
+    WidgetPreview { AustralianThemeSample() }
 }
-
 
 /**
  * Android icon and "Wear Widget" text above a dark gray rounded card. The card displays "Aussie

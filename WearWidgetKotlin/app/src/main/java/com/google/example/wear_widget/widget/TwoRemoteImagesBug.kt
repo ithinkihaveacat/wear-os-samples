@@ -16,9 +16,6 @@
 @file:android.annotation.SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
-import com.google.example.wear_widget.PreviewWearLarge
-import com.google.example.wear_widget.WidgetPreview
-
 
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
@@ -36,7 +33,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.imageResource
+import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.R
+import com.google.example.wear_widget.WidgetPreview
 
 /**
  * The original buggy sample using RemoteImage. Displays two different images side-by-side.
@@ -73,11 +72,8 @@ fun TwoRemoteImagesBug() {
     }
 }
 
-
 @PreviewWearLarge
 @Composable
 fun TwoRemoteImagesBugPreview() {
-    WidgetPreview {
-        TwoRemoteImagesBug()
-    }
+    WidgetPreview { TwoRemoteImagesBug() }
 }

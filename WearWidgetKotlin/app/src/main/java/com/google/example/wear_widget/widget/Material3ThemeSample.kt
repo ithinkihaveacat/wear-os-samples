@@ -16,9 +16,6 @@
 @file:android.annotation.SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
-import com.google.example.wear_widget.PreviewWearLarge
-import com.google.example.wear_widget.WidgetPreview
-
 
 import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
@@ -34,6 +31,8 @@ import androidx.compose.remote.creation.compose.modifier.fillMaxWidth
 import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.runtime.Composable
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
+import com.google.example.wear_widget.PreviewWearLarge
+import com.google.example.wear_widget.WidgetPreview
 
 /**
  * Android robot logo above 'Wear Widget' text. Below is a rounded rectangular widget with a 5x4
@@ -102,11 +101,8 @@ private fun RemoteRowScope.RemoteColorBox(color: RemoteColor) {
     RemoteBox(modifier = RemoteModifier.fillMaxHeight().weight(1f).background(color))
 }
 
-
 @PreviewWearLarge
 @Composable
 fun Material3ThemeSamplePreview() {
-    WidgetPreview {
-        Material3ThemeSample()
-    }
+    WidgetPreview { Material3ThemeSample() }
 }

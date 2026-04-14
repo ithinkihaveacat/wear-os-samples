@@ -16,9 +16,6 @@
 @file:android.annotation.SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
-import com.google.example.wear_widget.PreviewWearLarge
-import com.google.example.wear_widget.WidgetPreview
-
 
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
@@ -31,6 +28,8 @@ import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.google.example.wear_widget.PreviewWearLarge
+import com.google.example.wear_widget.WidgetPreview
 
 /**
  * Android logo above "Wear Widget" text. Below, a rounded rectangular container displays centered,
@@ -68,11 +67,8 @@ fun CollapsibleColumnSample1() {
     }
 }
 
-
 @PreviewWearLarge
 @Composable
 fun CollapsibleColumnSample1Preview() {
-    WidgetPreview {
-        CollapsibleColumnSample1()
-    }
+    WidgetPreview { CollapsibleColumnSample1() }
 }

@@ -22,21 +22,13 @@ import androidx.compose.remote.tooling.preview.RemotePreview
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 
-/**
- * Common wrapper that handles tooling configuration and suppresses internal lints.
- */
+/** Common wrapper that handles tooling configuration and suppresses internal lints. */
 @SuppressLint("RestrictedApi")
 @Composable
 fun WidgetPreview(content: @RemoteComposable @Composable () -> Unit) {
     RemotePreview(profile = WEAR_WIDGETS, content = content)
 }
 
-/**
- * Custom preview annotation for Wear OS Large Round display.
- */
-@Preview(
-    name = "Wear Large Round",
-    device = "id:wearos_large_round",
-    showSystemUi = true
-)
+/** Custom preview annotation for Wear OS Large Round display. */
+@Preview(name = "Wear Large Round", device = "id:wearos_large_round", showSystemUi = true)
 annotation class PreviewWearLarge

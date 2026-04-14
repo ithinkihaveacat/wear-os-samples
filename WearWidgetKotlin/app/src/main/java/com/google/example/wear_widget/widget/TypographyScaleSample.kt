@@ -16,9 +16,6 @@
 @file:android.annotation.SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
-import com.google.example.wear_widget.PreviewWearLarge
-import com.google.example.wear_widget.WidgetPreview
-
 
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteBox
@@ -39,6 +36,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
+import com.google.example.wear_widget.PreviewWearLarge
+import com.google.example.wear_widget.WidgetPreview
 
 /**
  * A Wear OS widget display with an Android robot icon and "Wear Widget" text at the top. Below, a
@@ -83,11 +82,8 @@ fun TypographyScaleSample() {
     }
 }
 
-
 @PreviewWearLarge
 @Composable
 fun TypographyScaleSamplePreview() {
-    WidgetPreview {
-        TypographyScaleSample()
-    }
+    WidgetPreview { TypographyScaleSample() }
 }

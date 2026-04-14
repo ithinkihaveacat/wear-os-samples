@@ -16,9 +16,6 @@
 @file:android.annotation.SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
-import com.google.example.wear_widget.PreviewWearLarge
-import com.google.example.wear_widget.WidgetPreview
-
 
 import androidx.compose.remote.creation.compose.action.ValueChange
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
@@ -39,6 +36,8 @@ import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteColorScheme
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
+import com.google.example.wear_widget.PreviewWearLarge
+import com.google.example.wear_widget.WidgetPreview
 
 /**
  * A sample demonstrating how to override the system theme with a custom color scheme using
@@ -81,11 +80,8 @@ fun CustomThemeSample() {
     }
 }
 
-
 @PreviewWearLarge
 @Composable
 fun CustomThemeSamplePreview() {
-    WidgetPreview {
-        CustomThemeSample()
-    }
+    WidgetPreview { CustomThemeSample() }
 }

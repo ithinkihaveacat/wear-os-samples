@@ -16,9 +16,6 @@
 @file:android.annotation.SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget.widget
-import com.google.example.wear_widget.PreviewWearLarge
-import com.google.example.wear_widget.WidgetPreview
-
 
 import android.app.PendingIntent
 import android.content.Intent
@@ -38,6 +35,8 @@ import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 import androidx.wear.compose.remote.material3.buttonSizeModifier
 import com.google.example.wear_widget.MainActivity
+import com.google.example.wear_widget.PreviewWearLarge
+import com.google.example.wear_widget.WidgetPreview
 
 /**
  * A Wear OS widget design features an Android robot logo above "Wear Widget" text. Below, a dark
@@ -75,11 +74,8 @@ fun PendingIntentSample() {
     }
 }
 
-
 @PreviewWearLarge
 @Composable
 fun PendingIntentSamplePreview() {
-    WidgetPreview {
-        PendingIntentSample()
-    }
+    WidgetPreview { PendingIntentSample() }
 }
