@@ -42,6 +42,11 @@ import com.google.example.wear_widget.WidgetPreview
 /**
  * A black screen displays a light pink circular icon at the top center. Inside the circle is a
  * darker pink Android robot head logo, presented with a subtle shadow effect.
+ *
+ * **KNOWN ISSUE (b/502649242):** This widget currently crashes at runtime.
+ * `RemoteModifier.onTouchDown` and `onTouchUp` emit unsupported operations (219/220) that cause a
+ * `RuntimeException` when rendered on a device or in headless previews. Do not use these modifiers
+ * for Wear OS Widgets until this issue is resolved.
  */
 @RemoteComposable
 @Composable

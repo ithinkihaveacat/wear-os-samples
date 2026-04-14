@@ -39,6 +39,11 @@ import com.google.example.wear_widget.WidgetPreview
  * A UI displaying an Android logo and 'Widget Catalog' title. Below, a dark grey rounded widget
  * shows a vertical list of white text: 'Header', 'Item 0', 'Item 1', 'Item 2', 'Item 3', with 'Item
  * 4' partially visible, indicating scrollable content.
+ *
+ * **KNOWN ISSUE (b/502649242):** This widget currently crashes at runtime.
+ * `RemoteModifier.verticalScroll` emits an unsupported operation (226) that causes a
+ * `RuntimeException` when rendered on a device or in headless previews. Do not use this modifier
+ * for Wear OS Widgets until this issue is resolved.
  */
 @RemoteComposable
 @Composable

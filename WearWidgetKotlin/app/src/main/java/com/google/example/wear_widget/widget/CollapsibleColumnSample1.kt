@@ -35,6 +35,11 @@ import com.google.example.wear_widget.WidgetPreview
  * Android logo above "Wear Widget" text. Below, a rounded rectangular container displays centered,
  * vertically stacked text: "Top (High)" in red, "Middle (Low)" in green, and "Bottom (High)" in
  * blue.
+ *
+ * **KNOWN ISSUE (b/502649242):** This widget currently crashes at runtime.
+ * `RemoteCollapsibleColumn` emits an unsupported operation (233) that causes a `RuntimeException`
+ * when rendered on a device or in headless previews. Do not use this layout primitive for Wear OS
+ * Widgets until this issue is resolved.
  */
 @RemoteComposable
 @Composable

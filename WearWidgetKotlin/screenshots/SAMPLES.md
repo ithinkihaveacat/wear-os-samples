@@ -1347,7 +1347,7 @@ fun CardSample1() {
 
 ## CollapsibleColumnSample1
 
-Android logo above "Wear Widget" text. Below, a rounded rectangular container displays centered, vertically stacked text: "Top (High)" in red, "Middle (Low)" in green, and "Bottom (High)" in blue.
+Android logo above "Wear Widget" text. Below, a rounded rectangular container displays centered, vertically stacked text: "Top (High)" in red, "Middle (Low)" in green, and "Bottom (High)" in blue. **KNOWN ISSUE (b/502649242):** This widget currently crashes at runtime. `RemoteCollapsibleColumn` emits an unsupported operation (233) that causes a `RuntimeException` when rendered on a device or in headless previews. Do not use this layout primitive for Wear OS Widgets until this issue is resolved.
 
 ![CollapsibleColumnSample1](CollapsibleColumnSample1.png)
 
@@ -1356,6 +1356,11 @@ Android logo above "Wear Widget" text. Below, a rounded rectangular container di
  * Android logo above "Wear Widget" text. Below, a rounded rectangular container displays centered,
  * vertically stacked text: "Top (High)" in red, "Middle (Low)" in green, and "Bottom (High)" in
  * blue.
+ *
+ * **KNOWN ISSUE (b/502649242):** This widget currently crashes at runtime.
+ * `RemoteCollapsibleColumn` emits an unsupported operation (233) that causes a `RuntimeException`
+ * when rendered on a device or in headless previews. Do not use this layout primitive for Wear OS
+ * Widgets until this issue is resolved.
  */
 @RemoteComposable
 @Composable
@@ -1651,7 +1656,7 @@ fun FullBleedImageButtonSample() {
 
 ## TouchGestureSample1
 
-A black screen displays a light pink circular icon at the top center. Inside the circle is a darker pink Android robot head logo, presented with a subtle shadow effect.
+A black screen displays a light pink circular icon at the top center. Inside the circle is a darker pink Android robot head logo, presented with a subtle shadow effect. **KNOWN ISSUE (b/502649242):** This widget currently crashes at runtime. `RemoteModifier.onTouchDown` and `onTouchUp` emit unsupported operations (219/220) that cause a `RuntimeException` when rendered on a device or in headless previews. Do not use these modifiers for Wear OS Widgets until this issue is resolved.
 
 ![TouchGestureSample1](TouchGestureSample1.png)
 
@@ -1659,6 +1664,11 @@ A black screen displays a light pink circular icon at the top center. Inside the
 /**
  * A black screen displays a light pink circular icon at the top center. Inside the circle is a
  * darker pink Android robot head logo, presented with a subtle shadow effect.
+ *
+ * **KNOWN ISSUE (b/502649242):** This widget currently crashes at runtime.
+ * `RemoteModifier.onTouchDown` and `onTouchUp` emit unsupported operations (219/220) that cause a
+ * `RuntimeException` when rendered on a device or in headless previews. Do not use these modifiers
+ * for Wear OS Widgets until this issue is resolved.
  */
 @RemoteComposable
 @Composable
@@ -2602,7 +2612,7 @@ fun TypographyScaleSample() {
 
 ## VerticalScrollSample
 
-A UI displaying an Android logo and 'Widget Catalog' title. Below, a dark grey rounded widget shows a vertical list of white text: 'Header', 'Item 0', 'Item 1', 'Item 2', 'Item 3', with 'Item 4' partially visible, indicating scrollable content.
+A UI displaying an Android logo and 'Widget Catalog' title. Below, a dark grey rounded widget shows a vertical list of white text: 'Header', 'Item 0', 'Item 1', 'Item 2', 'Item 3', with 'Item 4' partially visible, indicating scrollable content. **KNOWN ISSUE (b/502649242):** This widget currently crashes at runtime. `RemoteModifier.verticalScroll` emits an unsupported operation (226) that causes a `RuntimeException` when rendered on a device or in headless previews. Do not use this modifier for Wear OS Widgets until this issue is resolved.
 
 ![VerticalScrollSample](VerticalScrollSample.png)
 
@@ -2611,6 +2621,11 @@ A UI displaying an Android logo and 'Widget Catalog' title. Below, a dark grey r
  * A UI displaying an Android logo and 'Widget Catalog' title. Below, a dark grey rounded widget
  * shows a vertical list of white text: 'Header', 'Item 0', 'Item 1', 'Item 2', 'Item 3', with 'Item
  * 4' partially visible, indicating scrollable content.
+ *
+ * **KNOWN ISSUE (b/502649242):** This widget currently crashes at runtime.
+ * `RemoteModifier.verticalScroll` emits an unsupported operation (226) that causes a
+ * `RuntimeException` when rendered on a device or in headless previews. Do not use this modifier
+ * for Wear OS Widgets until this issue is resolved.
  */
 @RemoteComposable
 @Composable
