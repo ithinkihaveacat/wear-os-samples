@@ -115,6 +115,8 @@ dependencies {
     debugImplementation(libs.compose.ui.test.manifest)
 }
 
+// Task for Precognition Preview generation.
+// Scans project dependencies and metadata parameters to output required runtime context.
 tasks.register("collectPreviewInfo") {
     doLast {
         val buildDir = layout.buildDirectory.get().asFile
