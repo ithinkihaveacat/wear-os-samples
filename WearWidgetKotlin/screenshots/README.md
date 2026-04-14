@@ -1,6 +1,6 @@
 # Remote Widget Sample & Screenshot Requirements
 
-## 1. Motivation and Scope
+## Motivation and Scope
 
 The primary goal of this initiative is to establish a clear, visual mapping
 between `RemoteComposable` source code and its rendered output on Wear OS. This
@@ -14,32 +14,23 @@ The scope is limited to UI elements that can be embedded within a
 `GlanceWearWidget`'s `WearWidgetDocument`. Specifically, this concerns functions
 annotated with `@RemoteComposable`.
 
-## 2. Code Organization
+## Code Organization
 
 ### Location
 
-All sample code must be added to the following file:
-`app/src/main/java/com/google/example/wear_widget/WidgetCatalog.kt`
+All sample code is located in individual files within the following directory:
+`app/src/main/java/com/google/example/wear_widget/widget/`
 
 ### Structure
 
-- **Container:** The entry point for the widget is the `WidgetCatalog` class.
-- **Integration:** To view a specific sample, update the `provideWidgetData`
-  method to call the desired sample function.
-  ```kotlin
-  override suspend fun provideWidgetData(
-      context: Context,
-      params: WearWidgetParams,
-  ): WearWidgetData =
-      WearWidgetDocument(backgroundPainter = painterRemoteColor(Color.Black)) {
-           // Swap this function call to view different samples
-          BoxSample1()
-      }
-  ```
+- **Container:** The entry point for the widget is the `WidgetCatalog` class in
+  `app/src/main/java/com/google/example/wear_widget/WidgetCatalog.kt`.
+- **Integration:** The `provideWidgetData` method uses a `when` block to
+  dynamically switch between different sample functions based on a stored state.
 - **Sample Functions:** New samples should be added as top-level functions
-  within the same file.
+  within a relevant file in the `widget/` directory.
 
-## 3. Naming Conventions
+## Naming Conventions
 
 - **Function Names:**
   - Must be descriptive and numbered.
@@ -49,33 +40,37 @@ All sample code must be added to the following file:
   - **Immutability:** Existing function names should generally not be changed to
     preserve the link with existing screenshots.
 - **Annotations:** All sample functions must be annotated with:
+
   ```kotlin
   @RemoteComposable
   @Composable
   ```
 
-## 4. Screenshot Capture Process
+## Screenshot Capture Process
 
 To generate a screenshot for a sample:
 
-1.  **Configure:** Update `provideWidgetData` in `WidgetCatalog.kt` to call the
-    target sample function.
-2.  **Deploy:** Build and install the application to the target device/emulator.
-3.  **Activate:** Add and display the tile (e.g., using `adb-tile-add` and
-    `adb-tile-show`).
-4.  **Capture:** Take a screenshot of the device.
-5.  **Verify:**
-    - Ensure the screenshot filename matches the function name exactly (e.g.,
-      `BoxSample1` -> `screenshots/BoxSample1.png`).
-    - **Visual Check:** **CRITICAL:** Open and visually inspect the generated
-      image file. Verify it displays the _correct_ widget content (check for
-      expected text, colors, and layout). Ensure it is not showing a loading
-      spinner, black screen, or the default watch face. **Do not assume the
-      capture was successful without looking at the image.**
-    - **Retry:** If the capture is invalid (e.g., device was asleep), wake the
-      device and retry the deploy/show/capture cycle 1-2 times.
+1. **Deploy:** Build and install the application to the target device/emulator.
+2. **Activate & Capture:** Use the included `./widget-switch` script to display
+   and capture the screenshot. This script automates the process of updating the
+   widget state, waiting for the UI to refresh, and saving the image.
 
-## 5. Description Generation Process
+   ```bash
+   ./widget-switch BoxSample1
+   ```
+
+3. **Verify:**
+   - Ensure the screenshot filename matches the function name exactly (e.g.,
+     `BoxSample1` -> `screenshots/BoxSample1.png`).
+   - **Visual Check:** **CRITICAL:** Open and visually inspect the generated
+     image file. Verify it displays the _correct_ widget content (check for
+     expected text, colors, and layout). Ensure it is not showing a loading
+     spinner, black screen, or the default watch face. **Do not assume the
+     capture was successful without looking at the image.**
+   - **Retry:** If the capture is invalid (e.g., device was asleep), wake the
+     device and retry the `./widget-switch` command.
+
+## Description Generation Process
 
 After capturing and verifying the screenshot, a descriptive text must be added
 to the source code. This description serves as "alt" text for the image,
@@ -94,35 +89,37 @@ viewing or downloading the image.
   update it based on the code change. It should only be re-added later after a
   new screenshot is captured and analyzed.
 
-1.  **Extract Description:** Use the `screenshot-describe` command-line tool to
-    generate a description from the verified screenshot.
-    ```bash
-    $ screenshot-describe BoxSample1.png
-    "Wear Widget" title in white at the top on a black background. A dark gray rectangle occupies the center, containing the white text "Box Sample 1".
-    ```
-2.  **Verify Consistency:** Ensure the generated description accurately reflects
-    the image and matches the intent of the code. If the screenshot differs
-    significantly from the code (e.g., wrong color), flag it as an error and
-    resolve the discrepancy before proceeding.
-3.  **Refine Description (Optional):** It is acceptable to make minor "tweaks"
-    to the generated description to ensure consistency across similar samples
-    (e.g., ensuring consistent color naming if the tool produces slightly
-    different results for two nearly identical images).
-4.  **Update Code:** Add this description as a KDoc comment (`/** ... */`)
-    immediately above the corresponding function in `WidgetCatalog.kt`.
+1. **Extract Description:** Use the `screenshot-describe` command-line tool to
+   generated a description from the verified screenshot.
 
-## 6. Artifacts
+   ```bash
+   $ screenshot-describe BoxSample1.png
+   "Wear Widget" title in white at the top on a black background. A dark gray rectangle occupies the center, containing the white text "Box Sample 1".
+   ```
+
+2. **Verify Consistency:** Ensure the generated description accurately reflects
+   the image and matches the intent of the code. If the screenshot differs
+   significantly from the code (e.g., wrong color), flag it as an error and
+   resolve the discrepancy before proceeding.
+3. **Refine Description (Optional):** It is acceptable to make minor "tweaks" to
+   the generated description to ensure consistency across similar samples (e.g.,
+   ensuring consistent color naming if the tool produces slightly different
+   results for two nearly identical images).
+4. **Update Code:** Add this description as a KDoc comment (`/** ... */`)
+   immediately above the corresponding function in `WidgetCatalog.kt`.
+
+## Artifacts
 
 - **Directory:** All screenshots must be stored in the `screenshots/` directory.
 - **Filename:** `[FunctionName].png` (Case-sensitive match to the code).
 
-## 7. Future Compatibility
+## Future Compatibility
 
 This structure is designed to support the future generation of an automated
 Markdown catalog. Adherence to the naming conventions (matching code function to
 image filename) is critical for this automation.
 
-## 8. Standardization Guidelines
+## Standardization Guidelines
 
 - **Background:** Use `Color.Black` as the default background in
   `provideWidgetData` unless the sample specifically demonstrates background
@@ -131,7 +128,7 @@ image filename) is critical for this automation.
   configuration (e.g., standard round layout, consistent density) for all
   captures to ensure images are comparable.
 
-## 9. Implementation Guidelines
+## Implementation Guidelines
 
 - **API Visibility:** It is acceptable to more or less ignore visibility
   warnings and annotations for now. Use methods that seem like they should be
