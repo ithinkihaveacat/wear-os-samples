@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Precognition cache
+app/project.info
+app/build/preview/
