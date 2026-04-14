@@ -1098,14 +1098,18 @@ changes, but a manual force-stop may be necessary if it remains blank.
 
 ### [FIXED] Android Studio Preview Limitations {#android-studio-preview-limitations}
 
-> [!NOTE] Fixed in Compose Remote `1.0.0-alpha08`. Multiple previews are
-> supported properly natively.
+> [!NOTE] Fixed in Compose Remote `1.0.0-alpha08`. Multiple preview instances in
+> the same file now render correctly.
 
 b/431932822
 
 **Symptom:** When using `@Preview` or `@WearPreviewDevices` with
 `RemotePreview`, Android Studio may not display all defined previews correctly,
 especially when multiple previews are in the same file.
+
+### `drawArc` `useCenter` Requires Static Boolean {#drawarc-usecenter-static-boolean}
+
+b/477026287
 
 **Symptom:** You encounter a compilation error when trying to pass a
 `RemoteBoolean` to the `useCenter` parameter of `drawArc` in `RemoteCanvas` or
@@ -1452,7 +1456,7 @@ RemoteBox(modifier = RemoteModifier.size(32.rdp)) {
   Resolved by `RemoteShape` support.
 - **\[FIXED\]**
   [Android Studio Preview Limitations](#android-studio-preview-limitations):
-  Multi-preview instances parse securely.
+  Multiple preview instances in the same file now render correctly.
 
 #### Migration Instructions {#migration-instructions-13}
 
