@@ -100,8 +100,9 @@ fun BoxReferenceSample3() {
 }
 
 /**
- * A full screen layout demonstrating client-side view branch switching dynamically using
- * RemoteStateLayout.
+ * A "Widget Catalog" screen with an Android icon above the title. Below, a large blue rectangle
+ * within a dark gray rounded border displays white text: "State 0" and "(Click to" (text appears
+ * cut off). The overall background is black.
  */
 @RemoteComposable
 @Composable

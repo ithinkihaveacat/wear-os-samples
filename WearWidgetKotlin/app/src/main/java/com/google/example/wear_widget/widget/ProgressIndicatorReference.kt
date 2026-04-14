@@ -34,7 +34,12 @@ import androidx.wear.compose.remote.material3.RemoteCircularProgressIndicator
 import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
-/** Displays a fixed determinate CircularProgressIndicator loaded with 75% complete values. */
+/**
+ * Android logo in a pink circle, above white "Widget Catalog" text. Below is a dark grey rounded
+ * rectangle containing a segmented circular progress bar. It features a dark reddish-pink segment
+ * in the upper left and a lighter pink segment spanning the right and lower left, separated by a
+ * gap.
+ */
 @RemoteComposable
 @Composable
 fun CircularProgressIndicatorSample1() {
@@ -58,7 +63,11 @@ fun CircularProgressIndicatorSample2() {
     }
 }
 
-/** Displays an animated progress cycle reacting dynamically upon click events. */
+/**
+ * Pink Android icon above "Widget Catalog" text. Below is a dark grey rounded rectangle with a
+ * segmented circle inside. The circle's top-right section is light pink, while the majority is a
+ * darker reddish-brown, suggesting a progress or multi-part design.
+ */
 @RemoteComposable
 @Composable
 fun CircularProgressIndicatorSample3() {
@@ -82,6 +91,14 @@ fun CircularProgressIndicatorSample3() {
 fun CircularProgressIndicatorSample1Preview() {
     WidgetPreview { CircularProgressIndicatorSample1() }
 }
+
+@PreviewWearLarge
+@Composable
+fun CircularProgressIndicatorSample2Preview() {
+    WidgetPreview { CircularProgressIndicatorSample2() }
+}
+
+le1Preview() { WidgetPreview { CircularProgressIndicatorSample1() } }
 
 @PreviewWearLarge
 @Composable

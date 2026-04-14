@@ -143,8 +143,8 @@ A pink Android head icon and "Widget Catalog" title are above a dark gray rounde
 
 ```kotlin
 /**
- * A pink Android head icon and "Widget Catalog" title are above a dark gray rounded container with 6
- * sections. Top row: red-orange vertical gradient "Vertical", cyan-blue radial gradient "Radial".
+ * A pink Android head icon and "Widget Catalog" title are above a dark gray rounded container with
+ * 6 sections. Top row: red-orange vertical gradient "Vertical", cyan-blue radial gradient "Radial".
  * Middle row: magenta-green sweep gradient "Sweep", image labeled "Bitmap". Bottom row: "Custom"
  * with orange circle, white-gray horizontal gradient "Horizontal".
  */
@@ -259,8 +259,8 @@ Android logo in a pink circle, above "Widget Catalog" text. Below is a dark gray
 ```kotlin
 /**
  * Android logo in a pink circle, above "Widget Catalog" text. Below is a dark gray-framed,
- * rounded-corner image of white daisies in a golden sunlit field. The overall screen background
- * is black.
+ * rounded-corner image of white daisies in a golden sunlit field. The overall screen background is
+ * black.
  */
 @RemoteComposable
 @Composable
@@ -311,9 +311,9 @@ Widget Catalog screen on black background. Top: pink Android icon, white "Widget
 
 ```kotlin
 /**
- * Widget Catalog screen on black background. Top: pink Android icon, white "Widget Catalog"
- * text. Below: large dark gray rounded rectangle. Inside, a red rectangular border frames white
- * text: "Box Sample 2" and "(Border & Padding)".
+ * Widget Catalog screen on black background. Top: pink Android icon, white "Widget Catalog" text.
+ * Below: large dark gray rounded rectangle. Inside, a red rectangular border frames white text:
+ * "Box Sample 2" and "(Border & Padding)".
  */
 @RemoteComposable
 @Composable
@@ -345,8 +345,8 @@ A black screen displays a pink circular Android icon and the title "Widget Catal
 ```kotlin
 /**
  * A black screen displays a pink circular Android icon and the title "Widget Catalog" in white.
- * Below, a large, rounded rectangular container with a dark gray border is filled with solid
- * blue. Partial yellow text "Bo" and "(B" is visible at the bottom right corner of the blue area.
+ * Below, a large, rounded rectangular container with a dark gray border is filled with solid blue.
+ * Partial yellow text "Bo" and "(B" is visible at the bottom right corner of the blue area.
  */
 @RemoteComposable
 @Composable
@@ -365,6 +365,65 @@ fun BoxReferenceSample3() {
 }
 ```
 
+## BoxReferenceSample4
+
+A "Widget Catalog" screen with an Android icon above the title. Below, a large blue rectangle within a dark gray rounded border displays white text: "State 0" and "(Click to" (text appears cut off). The overall background is black.
+
+![BoxReferenceSample4](BoxSample4.png)
+
+```kotlin
+/**
+ * A "Widget Catalog" screen with an Android icon above the title. Below, a large blue rectangle
+ * within a dark gray rounded border displays white text: "State 0" and "(Click to" (text appears
+ * cut off). The overall background is black.
+ */
+@RemoteComposable
+@Composable
+fun BoxReferenceSample4() {
+    val state = rememberMutableRemoteInt(0)
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        contentAlignment = RemoteAlignment.Center,
+    ) {
+        RemoteStateLayout(
+            modifier = RemoteModifier.fillMaxSize(),
+            state = state,
+            states = intArrayOf(0, 1),
+        ) { current ->
+            if (current == 0) {
+                RemoteBox(
+                    modifier =
+                        RemoteModifier.fillMaxSize()
+                            .background(Color.Blue.rc)
+                            .clickable(ValueChange(state, 1.ri)),
+                    contentAlignment = RemoteAlignment.Center,
+                ) {
+                    RemoteText(
+                        text = "State 0: Blue\n(Click to toggle)",
+                        color = Color.White.rc,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            } else {
+                RemoteBox(
+                    modifier =
+                        RemoteModifier.fillMaxSize()
+                            .background(Color.DarkGray.rc)
+                            .clickable(ValueChange(state, 0.ri)),
+                    contentAlignment = RemoteAlignment.Center,
+                ) {
+                    RemoteText(
+                        text = "State 1: Gray\n(Click to toggle)",
+                        color = Color.Green.rc,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+        }
+    }
+}
+```
+
 ## ButtonReferenceSample1
 
 A mobile UI on a black background shows a pink Android logo icon and "Widget Catalog" in white text. Below is a dark grey rounded rectangle, containing a centered light pink rounded button labeled "Simple Button" in dark red text.
@@ -373,7 +432,9 @@ A mobile UI on a black background shows a pink Android logo icon and "Widget Cat
 
 ```kotlin
 /**
- * A mobile UI on a black background shows a pink Android logo icon and "Widget Catalog" in white text. Below is a dark grey rounded rectangle, containing a centered light pink rounded button labeled "Simple Button" in dark red text.
+ * A mobile UI on a black background shows a pink Android logo icon and "Widget Catalog" in white
+ * text. Below is a dark grey rounded rectangle, containing a centered light pink rounded button
+ * labeled "Simple Button" in dark red text.
  */
 @RemoteComposable
 @Composable
@@ -401,7 +462,9 @@ A black screen with a small pink circular Android logo, centered above white tex
 
 ```kotlin
 /**
- * A black screen with a small pink circular Android logo, centered above white text "Widget Catalog". Below is a dark gray rounded rectangle. Inside, a light pink rounded button shows a dark reddish-brown Android logo and stacked dark reddish-brown text "Button with Icon".
+ * A black screen with a small pink circular Android logo, centered above white text "Widget
+ * Catalog". Below is a dark gray rounded rectangle. Inside, a light pink rounded button shows a
+ * dark reddish-brown Android logo and stacked dark reddish-brown text "Button with Icon".
  */
 @RemoteComposable
 @Composable
@@ -435,7 +498,10 @@ A "Widget Catalog" screen. Top center, a pink circular icon with an Android logo
 
 ```kotlin
 /**
- * A "Widget Catalog" screen. Top center, a pink circular icon with an Android logo. Below it, white "Widget Catalog" text. A large dark gray rounded rectangle contains a smaller, nested pink rounded rectangle. Inside the pink, prominent dark red "Primary Label" is above dark gray "Secondary Label".
+ * A "Widget Catalog" screen. Top center, a pink circular icon with an Android logo. Below it, white
+ * "Widget Catalog" text. A large dark gray rounded rectangle contains a smaller, nested pink
+ * rounded rectangle. Inside the pink, prominent dark red "Primary Label" is above dark gray
+ * "Secondary Label".
  */
 @RemoteComposable
 @Composable
@@ -463,7 +529,9 @@ A screen features a pink Android logo above "Widget Catalog" in white. Centered 
 
 ```kotlin
 /**
- * A screen features a pink Android logo above "Widget Catalog" in white. Centered below is a dark grey rounded rectangle enclosing a smaller red rounded rectangle displaying "Custom Colors" in yellow.
+ * A screen features a pink Android logo above "Widget Catalog" in white. Centered below is a dark
+ * grey rounded rectangle enclosing a smaller red rounded rectangle displaying "Custom Colors" in
+ * yellow.
  */
 @RemoteComposable
 @Composable
@@ -502,7 +570,8 @@ A screen titled "Widget Catalog" with a pink Android icon above it. Below, a lar
 
 ```kotlin
 /**
- * A screen titled "Widget Catalog" with a pink Android icon above it. Below, a large dark grey rounded rectangle contains a lighter grey rounded button labeled "Disabled Button".
+ * A screen titled "Widget Catalog" with a pink Android icon above it. Below, a large dark grey
+ * rounded rectangle contains a lighter grey rounded button labeled "Disabled Button".
  */
 @RemoteComposable
 @Composable
@@ -531,7 +600,9 @@ A dark screen displays a pink circle with an Android logo, above white text "Wid
 
 ```kotlin
 /**
- * A dark screen displays a pink circle with an Android logo, above white text "Widget Catalog." Below, a dark gray rounded rectangle frames two horizontal, pill-shaped pink buttons: "Yes" (left) and "No" (right), both with dark red text.
+ * A dark screen displays a pink circle with an Android logo, above white text "Widget Catalog."
+ * Below, a dark gray rounded rectangle frames two horizontal, pill-shaped pink buttons: "Yes"
+ * (left) and "No" (right), both with dark red text.
  */
 @RemoteComposable
 @Composable
@@ -572,7 +643,10 @@ A dark screen displays a pink Android logo and "Widget Catalog" title. Below, a 
 
 ```kotlin
 /**
- * A dark screen displays a pink Android logo and "Widget Catalog" title. Below, a large dark grey rounded container features two side-by-side light pink rounded buttons. The left button reads "Yes" and "Confir\nm" (Confirm is truncated). The right button reads "No" and "Cancel". All button text is dark red.
+ * A dark screen displays a pink Android logo and "Widget Catalog" title. Below, a large dark grey
+ * rounded container features two side-by-side light pink rounded buttons. The left button reads
+ * "Yes" and "Confir\nm" (Confirm is truncated). The right button reads "No" and "Cancel". All
+ * button text is dark red.
  */
 @RemoteComposable
 @Composable
@@ -609,7 +683,9 @@ Screen displaying "Widget Catalog" with an Android icon. A dark grey rounded rec
 
 ```kotlin
 /**
- * Screen displaying "Widget Catalog" with an Android icon. A dark grey rounded rectangle contains a 2x2 grid of elements: a blue "Toggl" button (yellow text), a magenta "Shap" button (white text), white text "Click" directly on the grey background, and a green "Fixed" button (white text).
+ * Screen displaying "Widget Catalog" with an Android icon. A dark grey rounded rectangle contains a
+ * 2x2 grid of elements: a blue "Toggl" button (yellow text), a magenta "Shap" button (white text),
+ * white text "Click" directly on the grey background, and a green "Fixed" button (white text).
  */
 @RemoteComposable
 @Composable
@@ -1058,8 +1134,8 @@ Android "Widget Catalog" screen with a pink Android logo icon. A dark gray round
 
 ```kotlin
 /**
- * Android "Widget Catalog" screen with a pink Android logo icon. A dark gray rounded card displays a
- * red circular progress indicator showing 75% completion, with white text "75%" above gray
+ * Android "Widget Catalog" screen with a pink Android logo icon. A dark gray rounded card displays
+ * a red circular progress indicator showing 75% completion, with white text "75%" above gray
  * "Progress" text. The background is black.
  */
 @RemoteComposable
@@ -1135,8 +1211,8 @@ A screen with a pink Android logo icon at the top, followed by "Widget Catalog" 
 ```kotlin
 /**
  * A screen with a pink Android logo icon at the top, followed by "Widget Catalog" in white text.
- * Below is a dark gray rounded rectangle card containing a red circular outline. Inside the
- * circle, white text "3/5" is above gray text "Segments".
+ * Below is a dark gray rounded rectangle card containing a red circular outline. Inside the circle,
+ * white text "3/5" is above gray text "Segments".
  */
 @RemoteComposable
 @Composable
@@ -1414,8 +1490,8 @@ Dark theme UI with a pink Android icon and "Widget Catalog" text. Below, a dark 
 
 ```kotlin
 /**
- * Dark theme UI with a pink Android icon and "Widget Catalog" text. Below, a dark gray rounded
- * card displays "Custom Theme" in white text. Inside the card, there's a pink rounded button with
+ * Dark theme UI with a pink Android icon and "Widget Catalog" text. Below, a dark gray rounded card
+ * displays "Custom Theme" in white text. Inside the card, there's a pink rounded button with
  * "Primary Button" in darker pink text.
  */
 @RemoteComposable
@@ -1464,9 +1540,9 @@ An app screen with a black background. At the top, a pink circular Android icon 
 
 ```kotlin
 /**
- * An app screen with a black background. At the top, a pink circular Android icon is centered
- * above "Widget Catalog" text. Below, a large, dark gray rounded rectangle widget houses a
- * central red square with "Click Me" text in white.
+ * An app screen with a black background. At the top, a pink circular Android icon is centered above
+ * "Widget Catalog" text. Below, a large, dark gray rounded rectangle widget houses a central red
+ * square with "Click Me" text in white.
  */
 @RemoteComposable
 @Composable
@@ -1518,8 +1594,8 @@ Android logo in pink circle above white 'Widget Catalog' text. Below, a rounded 
 ```kotlin
 /**
  * Android logo in pink circle above white 'Widget Catalog' text. Below, a rounded gray-bordered
- * rectangle shows a blurry field of daisies. Centered on the field is a circular cutout of a
- * person with dreadlocks, wearing blue, against a light background.
+ * rectangle shows a blurry field of daisies. Centered on the field is a circular cutout of a person
+ * with dreadlocks, wearing blue, against a light background.
  */
 @RemoteComposable
 @Composable
@@ -1573,6 +1649,49 @@ fun FullBleedImageButtonSample() {
 }
 ```
 
+## TouchGestureSample1
+
+A black screen displays a light pink circular icon at the top center. Inside the circle is a darker pink Android robot head logo, presented with a subtle shadow effect.
+
+![TouchGestureSample1](TouchGestureSample1.png)
+
+```kotlin
+/**
+ * A black screen displays a light pink circular icon at the top center. Inside the circle is a
+ * darker pink Android robot head logo, presented with a subtle shadow effect.
+ */
+@RemoteComposable
+@Composable
+fun TouchGestureSample1() {
+    val downCounter = rememberMutableRemoteInt(0)
+    val upCounter = rememberMutableRemoteInt(0)
+
+    val onDownAction = ValueChange(downCounter, downCounter + 1)
+    val onUpAction = ValueChange(upCounter, upCounter + 1)
+
+    RemoteColumn(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement =
+            androidx.compose.remote.creation.compose.layout.RemoteArrangement.Center
+    ) {
+        RemoteText("Downs: ".rs + downCounter.toRemoteString(), color = Color.White.rc)
+        RemoteText("Ups: ".rs + upCounter.toRemoteString(), color = Color.White.rc)
+
+        RemoteBox(
+            modifier =
+                RemoteModifier.size(width = 120.rdp, height = 60.rdp)
+                    .background(RemoteColor(Color.DarkGray))
+                    .onTouchDown(onDownAction)
+                    .onTouchUp(onUpAction),
+            contentAlignment = RemoteAlignment.Center,
+        ) {
+            RemoteText("Hold & Release")
+        }
+    }
+}
+```
+
 ## GradientBackgroundSample
 
 A screen shows a pink Android icon above "Widget Catalog" text. Below, a rounded rectangle with a dark grey border features a red-to-purple-to-blue gradient background. White text "Gradient Background" is centered within it.
@@ -1582,8 +1701,8 @@ A screen shows a pink Android icon above "Widget Catalog" text. Below, a rounded
 ```kotlin
 /**
  * A screen shows a pink Android icon above "Widget Catalog" text. Below, a rounded rectangle with a
- * dark grey border features a red-to-purple-to-blue gradient background. White text
- * "Gradient Background" is centered within it.
+ * dark grey border features a red-to-purple-to-blue gradient background. White text "Gradient
+ * Background" is centered within it.
  */
 @RemoteComposable
 @Composable
@@ -1611,9 +1730,9 @@ A screen titled 'Widget Catalog' below a pink Android icon. A dark gray rounded 
 
 ```kotlin
 /**
- * A screen titled 'Widget Catalog' below a pink Android icon. A dark gray rounded rectangle displays
- * a 2x2 grid of smaller colored rectangles: red (1), blue (2), green (3), and yellow (4), numbered
- * top-left to bottom-right.
+ * A screen titled 'Widget Catalog' below a pink Android icon. A dark gray rounded rectangle
+ * displays a 2x2 grid of smaller colored rectangles: red (1), blue (2), green (3), and yellow (4),
+ * numbered top-left to bottom-right.
  */
 @RemoteComposable
 @Composable
@@ -1854,6 +1973,82 @@ fun PendingIntentSample() {
 }
 ```
 
+## CircularProgressIndicatorSample1
+
+Android logo in a pink circle, above white "Widget Catalog" text. Below is a dark grey rounded rectangle containing a segmented circular progress bar. It features a dark reddish-pink segment in the upper left and a lighter pink segment spanning the right and lower left, separated by a gap.
+
+![CircularProgressIndicatorSample1](CircularProgressIndicatorSample1.png)
+
+```kotlin
+/**
+ * Android logo in a pink circle, above white "Widget Catalog" text. Below is a dark grey rounded
+ * rectangle containing a segmented circular progress bar. It features a dark reddish-pink segment
+ * in the upper left and a lighter pink segment spanning the right and lower left, separated by a
+ * gap.
+ */
+@RemoteComposable
+@Composable
+fun CircularProgressIndicatorSample1() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        contentAlignment = RemoteAlignment.Center,
+    ) {
+        RemoteCircularProgressIndicator(progress = 0.75f.rf)
+    }
+}
+```
+
+## CircularProgressIndicatorSample2
+
+Displays an Indeterminate progress indicator sequence loop continuously.
+
+![CircularProgressIndicatorSample2](CircularProgressIndicatorSample2.png)
+
+```kotlin
+/** Displays an Indeterminate progress indicator sequence loop continuously. */
+@RemoteComposable
+@Composable
+fun CircularProgressIndicatorSample2() {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        contentAlignment = RemoteAlignment.Center,
+    ) {
+        RemoteCircularProgressIndicator(progress = 0.5f.rf)
+    }
+}
+```
+
+## CircularProgressIndicatorSample3
+
+Pink Android icon above "Widget Catalog" text. Below is a dark grey rounded rectangle with a segmented circle inside. The circle's top-right section is light pink, while the majority is a darker reddish-brown, suggesting a progress or multi-part design.
+
+![CircularProgressIndicatorSample3](CircularProgressIndicatorSample3.png)
+
+```kotlin
+/**
+ * Pink Android icon above "Widget Catalog" text. Below is a dark grey rounded rectangle with a
+ * segmented circle inside. The circle's top-right section is light pink, while the majority is a
+ * darker reddish-brown, suggesting a progress or multi-part design.
+ */
+@RemoteComposable
+@Composable
+fun CircularProgressIndicatorSample3() {
+    val progress = rememberMutableRemoteFloat { 0.25f.rf }
+    val animatedProgress = animateRemoteFloat(0.25f) { progress }
+    val toggleAction = ValueChange(progress, (progress + 0.25f.rf).createReference())
+
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        contentAlignment = RemoteAlignment.Center,
+    ) {
+        RemoteCircularProgressIndicator(
+            progress = animatedProgress,
+            modifier = RemoteModifier.size(150.rdp).clickable(toggleAction)
+        )
+    }
+}
+```
+
 ## RotatedTextSample
 
 A black screen displays a pink Android robot logo and "Widget Catalog" title. Below, a large dark gray rounded rectangle contains a white strip with red "Hello world!" text, rotated counter-clockwise.
@@ -1862,8 +2057,8 @@ A black screen displays a pink Android robot logo and "Widget Catalog" title. Be
 
 ```kotlin
 /**
- * A black screen displays a pink Android robot logo and "Widget Catalog" title. Below, a large
- * dark gray rounded rectangle contains a white strip with red "Hello world!" text, rotated
+ * A black screen displays a pink Android robot logo and "Widget Catalog" title. Below, a large dark
+ * gray rounded rectangle contains a white strip with red "Hello world!" text, rotated
  * counter-clockwise.
  */
 @RemoteComposable
@@ -1989,8 +2184,8 @@ A black screen displays a pink Android icon above "Widget Catalog" text. Below i
 ```kotlin
 /**
  * A black screen displays a pink Android icon above "Widget Catalog" text. Below is a dark gray
- * rounded rectangle card. Inside the card, "Semantic Styles Demo" is at the top left, and "12:34" is
- * prominently displayed in a larger font at the bottom.
+ * rounded rectangle card. Inside the card, "Semantic Styles Demo" is at the top left, and "12:34"
+ * is prominently displayed in a larger font at the bottom.
  */
 @RemoteComposable
 @Composable
@@ -2035,8 +2230,8 @@ Android Widget Catalog screen on a dark background. A pink Android icon and "Wid
 
 ```kotlin
 /**
- * Android Widget Catalog screen on a dark background. A pink Android icon and "Widget Catalog" title
- * are at the top. A dark gray rounded rectangle below contains "System Theme" in white text,
+ * Android Widget Catalog screen on a dark background. A pink Android icon and "Widget Catalog"
+ * title are at the top. A dark gray rounded rectangle below contains "System Theme" in white text,
  * followed by two light pink rounded buttons with dark red text: "Primary Button" and "Secondary
  * Button".
  */
@@ -2260,8 +2455,8 @@ A screen displays a pink Android icon and "Widget Catalog" title. Below, a dark 
 ```kotlin
 /**
  * A screen displays a pink Android icon and "Widget Catalog" title. Below, a dark green rounded
- * rectangle shows centered white text: "TextSample1" (large), "This is a long text that should
- * wrap to multiple l..." (smaller, truncated), and "Version 1.0" (small, teal).
+ * rectangle shows centered white text: "TextSample1" (large), "This is a long text that should wrap
+ * to multiple l..." (smaller, truncated), and "Version 1.0" (small, teal).
  */
 @RemoteComposable
 @Composable

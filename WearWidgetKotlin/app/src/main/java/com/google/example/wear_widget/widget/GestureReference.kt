@@ -39,7 +39,10 @@ import androidx.compose.ui.graphics.Color
 import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
-/** Tracks native raw down/up touch events asynchronously. */
+/**
+ * A black screen displays a light pink circular icon at the top center. Inside the circle is a
+ * darker pink Android robot head logo, presented with a subtle shadow effect.
+ */
 @RemoteComposable
 @Composable
 fun TouchGestureSample1() {
