@@ -47,9 +47,9 @@ import com.google.example.wear_widget.R
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * An Android Wear logo and "Wear Widget" text are centered above a rounded rectangular widget. The
- * widget displays a background of a field with white daisies, overlaid by a circular profile
- * picture of a woman with curly brown hair and sunglasses, set against a yellow circle.
+ * Android logo in pink circle above white 'Widget Catalog' text. Below, a rounded gray-bordered
+ * rectangle shows a blurry field of daisies. Centered on the field is a circular cutout of a
+ * person with dreadlocks, wearing blue, against a light background.
  */
 @RemoteComposable
 @Composable

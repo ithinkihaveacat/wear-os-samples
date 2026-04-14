@@ -39,9 +39,9 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * Android logo above "Wear Widget" title. A dark-grey bordered, rounded green widget displays:
- * white bold "TextSample1", white ellipsized "This is a long text that should wrap to multiple
- * lin...", and green "Version 1.0".
+ * A screen displays a pink Android icon and "Widget Catalog" title. Below, a dark green rounded
+ * rectangle shows centered white text: "TextSample1" (large), "This is a long text that should
+ * wrap to multiple l..." (smaller, truncated), and "Version 1.0" (small, teal).
  */
 @RemoteComposable
 @Composable

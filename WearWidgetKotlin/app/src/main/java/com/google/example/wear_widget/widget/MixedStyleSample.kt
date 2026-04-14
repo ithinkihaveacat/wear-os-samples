@@ -37,9 +37,9 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A screen features an Android icon and "Wear Widget" text at the top. Below, a white rectangular
- * card with rounded corners displays "Mixed Styles". The word "Mixed" is red and bold, while
- * "Styles" is blue and italic.
+ * An app screen displays a pink circle with an Android icon and the title 'Widget Catalog.' Below,
+ * a white rounded rectangle shows the text 'Mixed Styles,' with 'Mixed' in red and 'Styles' in
+ * blue.
  */
 @RemoteComposable
 @Composable

@@ -35,10 +35,9 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A screen features an Android robot head logo and "Wear Widget" text at the top. Below, a dark
- * gray bordered rectangle serves as a widget frame. Inside, three horizontal buttons are displayed:
- * a red button with "Red" text, a green button with "Green" text, and a blue button with "Blue"
- * text. All button text is white.
+ * A screen displays "Widget Catalog" with a pink Android icon above. Below, a gray rounded
+ * rectangle contains three horizontally arranged, equally spaced buttons: a red button labeled
+ * "Red", a green button labeled "Green", and a blue button labeled "Blue".
  */
 @RemoteComposable
 @Composable

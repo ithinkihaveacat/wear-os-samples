@@ -43,10 +43,8 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A black screen shows an Android icon and "Wear Widget" text at the top. Below, a dark gray
- * rounded rectangle contains a horizontal row of UI elements: a light gray oval button with a minus
- * sign, a red rectangular box displaying "0" in white text, and a light gray oval button with a
- * plus sign.
+ * Pink Android icon above "Widget Catalog" title. Below, a dark gray rounded rectangle widget shows
+ * a horizontal row: a light pink minus button, a red "0" display, and a light pink plus button.
  */
 @RemoteComposable
 @Composable

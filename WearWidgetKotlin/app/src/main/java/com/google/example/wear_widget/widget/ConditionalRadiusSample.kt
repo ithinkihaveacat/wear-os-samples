@@ -33,6 +33,11 @@ import androidx.compose.ui.graphics.Color
 import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
+/**
+ * A dark screen displays a pink circular icon with a dark Android logo at the top. Below it, white
+ * text reads 'Widget Catalog'. A large, centered, rounded rectangular container with a dark gray
+ * border and solid blue fill occupies the lower part of the screen.
+ */
 @RemoteComposable
 @Composable
 fun ConditionalRadiusSample() {

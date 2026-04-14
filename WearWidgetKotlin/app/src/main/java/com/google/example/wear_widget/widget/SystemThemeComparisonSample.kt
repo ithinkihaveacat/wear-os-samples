@@ -40,10 +40,10 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A UI showing an Android Wear Widget. It features a dark gray rounded rectangle container with the
- * title "System Theme" in white. Inside are two horizontal rounded buttons: "Primary Button" with
- * dark text on light blue-gray, and "Secondary Button" with dark text on light gray. An Android
- * logo is at the top.
+ * Android Widget Catalog screen on a dark background. A pink Android icon and "Widget Catalog" title
+ * are at the top. A dark gray rounded rectangle below contains "System Theme" in white text,
+ * followed by two light pink rounded buttons with dark red text: "Primary Button" and "Secondary
+ * Button".
  */
 @RemoteComposable
 @Composable

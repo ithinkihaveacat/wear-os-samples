@@ -35,9 +35,9 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * Android robot logo above 'Wear Widget' text. Below is a rounded rectangular widget with a 5x4
- * grid of color swatches: shades of red, blue-grey, purple, and a bottom row of dark grey, medium
- * grey, light grey, black, and white.
+ * A pink circular Android robot icon sits above white text "Widget Catalog." Below, a rounded
+ * rectangle displays a 5x4 grid of color swatches in various shades of pink, peach, brown, and
+ * purple, with some black and white squares in the bottom right.
  */
 @RemoteComposable
 @Composable

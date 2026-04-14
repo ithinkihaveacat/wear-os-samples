@@ -42,6 +42,11 @@ import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
+/**
+ * An app screen with a black background. At the top, a pink circular Android icon is centered
+ * above "Widget Catalog" text. Below, a large, dark gray rounded rectangle widget houses a
+ * central red square with "Click Me" text in white.
+ */
 @RemoteComposable
 @Composable
 fun DebugClickSample() {

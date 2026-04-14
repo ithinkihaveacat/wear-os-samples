@@ -34,9 +34,9 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * Android icon and "Wear Widget" text at the top. Below, a dark-grey-bordered rectangle with
- * rounded corners contains a red (top-left) to blue (bottom-right) gradient background. White text
- * "Gradient Background" is centered within the rectangle.
+ * A screen shows a pink Android icon above "Widget Catalog" text. Below, a rounded rectangle with a
+ * dark grey border features a red-to-purple-to-blue gradient background. White text
+ * "Gradient Background" is centered within it.
  */
 @RemoteComposable
 @Composable

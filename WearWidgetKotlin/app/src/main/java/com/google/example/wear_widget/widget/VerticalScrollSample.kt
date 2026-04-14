@@ -36,9 +36,9 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A UI displays an Android logo and "Wear Widget" title. Below, a dark grey rounded widget shows a
- * vertical list of white text: "Header", "Item 0", "Item 1", "Item 2", "Item 3", with "Item 4"
- * partially visible, indicating scrollable content.
+ * A UI displaying an Android logo and 'Widget Catalog' title. Below, a dark grey rounded widget
+ * shows a vertical list of white text: 'Header', 'Item 0', 'Item 1', 'Item 2', 'Item 3', with 'Item
+ * 4' partially visible, indicating scrollable content.
  */
 @RemoteComposable
 @Composable

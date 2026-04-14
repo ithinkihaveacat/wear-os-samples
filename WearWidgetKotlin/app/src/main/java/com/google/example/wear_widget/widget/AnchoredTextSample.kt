@@ -34,9 +34,9 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A screen with a white Android logo on a light gray circle, followed by "Wear Widget" text. Below,
- * a white rounded rectangle shows "Top Left" in red, "Center" in black, and "Bottom Right" in blue,
- * demonstrating UI placement. Black background.
+ * UI screen with an Android robot icon in a pink circle, above the white text 'Widget Catalog'. A
+ * large white rounded rectangular card, outlined in dark gray, shows 'Left' (red, top-left),
+ * 'Center' (black), and 'Bottom' (blue, bottom-right).
  */
 @RemoteComposable
 @Composable

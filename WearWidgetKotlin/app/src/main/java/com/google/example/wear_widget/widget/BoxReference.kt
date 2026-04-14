@@ -35,8 +35,8 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A black screen shows a circular Android icon, then "Wear Widget" in white text. Below it, a
- * large, dark grey rounded rectangle displays "Box Sample 1" centered in white text.
+ * A screen titled "Widget Catalog" with a pink circular Android logo at the top. Below the title is
+ * a large, dark gray rounded rectangular box containing the centered text "Box Sample 1".
  */
 @RemoteComposable
 @Composable
@@ -50,10 +50,9 @@ fun BoxReferenceSample1() {
 }
 
 /**
- * Android logo and "Wear Widget" text. A dark grey rounded rectangle widget displays white text
- * "Box Sample 2 (Border & Padding)", centered and surrounded by a distinct red rectangular border.
- * The text is visibly padded from the red border, which itself is padded from the grey widget's
- * edges.
+ * Widget Catalog screen on black background. Top: pink Android icon, white "Widget Catalog"
+ * text. Below: large dark gray rounded rectangle. Inside, a red rectangular border frames white
+ * text: "Box Sample 2" and "(Border & Padding)".
  */
 @RemoteComposable
 @Composable
@@ -76,8 +75,9 @@ fun BoxReferenceSample2() {
 }
 
 /**
- * Android logo above "Wear Widget" text. Below, a large blue rectangle with a gray border. Inside
- * the blue box, at the bottom right, is yellow text: "Box Sample 3 (Bottom End)".
+ * A black screen displays a pink circular Android icon and the title "Widget Catalog" in white.
+ * Below, a large, rounded rectangular container with a dark gray border is filled with solid
+ * blue. Partial yellow text "Bo" and "(B" is visible at the bottom right corner of the blue area.
  */
 @RemoteComposable
 @Composable

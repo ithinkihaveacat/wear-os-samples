@@ -39,9 +39,9 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A Wear OS widget design features an Android robot logo above "Wear Widget" text. Below, a dark
- * gray rounded rectangle container, representing the widget, frames a central light purple-blue
- * rounded button with "Open App" in dark text, all on a black background.
+ * A black background displays an Android icon in a pink circle, with white text "Widget Catalog"
+ * below it. A large gray rounded rectangle contains a centered pink rounded button with dark red
+ * text "Open App."
  */
 @RemoteComposable
 @Composable

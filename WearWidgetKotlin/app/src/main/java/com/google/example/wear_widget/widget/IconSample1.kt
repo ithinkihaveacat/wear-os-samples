@@ -38,9 +38,9 @@ import com.google.example.wear_widget.R
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * Screenshot shows an Android Wear Widget. Top center: Android logo icon. Below, white text 'Wear
- * Widget'. Inside a rounded rectangle frame on black, three tilted Android robot heads: small red,
- * medium green, and large blue, increasing in size left to right.
+ * UI screen with an Android robot icon in a pink circle, above the white text 'Widget Catalog'. A
+ * dark gray rounded rectangle displays three Android robot heads: a small red one, a medium green
+ * one, and a large blue one, arranged horizontally, increasing in size.
  */
 @RemoteComposable
 @Composable

@@ -46,10 +46,10 @@ import com.google.example.wear_widget.R
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A dark screen shows a light gray circular icon with an Android head, then white text "Wear
- * Widget". Below, a dark gray rounded rectangle card features a tilted cyan Android icon on the
- * left and stacked white text "Card Title", "Subtitle", "goes here" on the right. Small black
- * triangles highlight each of the card's four corners.
+ * A black screen displays a pink circular icon with a dark red Android logo, above white text
+ * 'Widget Catalog'. Below this is a large, dark gray rounded card. Inside the card, a cyan Android
+ * logo is on the left, and white text 'Card Title', 'Subtitle', 'goes', 'here' is stacked on the
+ * right.
  */
 @RemoteComposable
 @Composable

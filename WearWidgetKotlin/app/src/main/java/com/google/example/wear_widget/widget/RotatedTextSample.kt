@@ -35,8 +35,9 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * Screenshot shows an Android logo above the title "Wear Widget". Below, a dark gray outlined
- * rectangle displays a white box rotated counter-clockwise, containing the red text "Hello world!".
+ * A black screen displays a pink Android robot logo and "Widget Catalog" title. Below, a large
+ * dark gray rounded rectangle contains a white strip with red "Hello world!" text, rotated
+ * counter-clockwise.
  */
 @RemoteComposable
 @Composable

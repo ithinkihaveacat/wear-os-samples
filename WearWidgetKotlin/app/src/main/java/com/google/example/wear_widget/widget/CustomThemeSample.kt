@@ -40,8 +40,9 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A sample demonstrating how to override the system theme with a custom color scheme using
- * RemoteColorScheme. The theme sets the primary color to White.
+ * Dark theme UI with a pink Android icon and "Widget Catalog" text. Below, a dark gray rounded
+ * card displays "Custom Theme" in white text. Inside the card, there's a pink rounded button with
+ * "Primary Button" in darker pink text.
  */
 @RemoteComposable
 @Composable

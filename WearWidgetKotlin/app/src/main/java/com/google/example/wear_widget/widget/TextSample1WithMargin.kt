@@ -39,9 +39,9 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * UI screenshot with a black background. At the top, an Android icon above "Wear Widget" text.
- * Below, a dark green rounded rectangular widget with a gray border. Inside, three lines of white
- * text: "TextSample", "1", and "This is a long text".
+ * A screen titled "Widget Catalog," featuring an Android icon. Below the title, a dark green
+ * rounded rectangle displays "TextSample1" in large white text, followed by "This is a long..." in
+ * smaller white text that is partially cut off at the bottom.
  */
 @RemoteComposable
 @Composable

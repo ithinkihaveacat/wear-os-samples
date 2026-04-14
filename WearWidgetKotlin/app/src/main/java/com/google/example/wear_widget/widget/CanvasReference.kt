@@ -42,8 +42,9 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * Android icon and text "Wear Widget" above a dark gray framed rectangle. Inside the frame, a red
- * circle is centered at the top and a blue rectangle is centered at the bottom.
+ * A dark background shows a pink circular Android icon, then white text "Widget Catalog". Below, a
+ * large, dark grey rounded rectangle is centered, containing a red circle centered above a blue
+ * horizontal rectangle.
  */
 @RemoteComposable
 @Composable
@@ -76,9 +77,9 @@ fun CanvasReferenceSample1() {
 }
 
 /**
- * A dark screen shows a white circle with a grey Android robot icon at the top center. Below it,
- * white text reads "Wear Widget." Centered below the text is a large, dark grey rounded rectangle
- * containing a bright yellow equilateral triangle.
+ * A dark UI with a pink circular Android icon above white text "Widget Catalog". Below is a large,
+ * centered, dark gray rounded rectangle with a small yellow triangular shape in its top-left
+ * corner, resembling a folded page or tag.
  */
 @RemoteComposable
 @Composable
@@ -112,9 +113,9 @@ fun CanvasReferenceSample2() {
 }
 
 /**
- * Screen shows an Android icon and "Wear Widget" text at the top on a black background. Below, a
- * dark gray rounded rectangular frame encloses a black area. Centered within, a bright green
- * diamond shape has white, horizontal text "Rotated" overlaid.
+ * UI with a pink Android icon and "Widget Catalog" title. A large, dark grey rounded rectangle
+ * dominates the screen. In its bottom-left corner, a bright green rotated rectangle shows partial
+ * white text: "rotate...".
  */
 @RemoteComposable
 @Composable
@@ -156,9 +157,9 @@ fun CanvasReferenceSample3() {
 }
 
 /**
- * Black background UI with an Android icon and "Component Catalog" title. A large circular progress
- * indicator shows 75% completion in red, with the remaining 25% in dark gray. White text inside the
- * circle reads "75%" and "Progress".
+ * Android "Widget Catalog" screen with a pink Android logo icon. A dark gray rounded card displays a
+ * red circular progress indicator showing 75% completion, with white text "75%" above gray
+ * "Progress" text. The background is black.
  */
 @RemoteComposable
 @Composable
@@ -224,9 +225,9 @@ fun CanvasReferenceSample4() {
 }
 
 /**
- * A dark mode screen with an Android logo and "Component Catalog" title. Below, a circular
- * segmented progress bar shows 3 of 5 segments in red, and 2 in dark gray. Centered within the
- * circle is white text: "3/5" (bold) and "Segments" (regular).
+ * A screen with a pink Android logo icon at the top, followed by "Widget Catalog" in white text.
+ * Below is a dark gray rounded rectangle card containing a red circular outline. Inside the
+ * circle, white text "3/5" is above gray text "Segments".
  */
 @RemoteComposable
 @Composable

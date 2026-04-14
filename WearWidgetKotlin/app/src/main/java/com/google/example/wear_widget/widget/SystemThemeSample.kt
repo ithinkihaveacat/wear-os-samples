@@ -36,8 +36,9 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A dark screen displays a light gray Android icon above "Wear Widget". Below, a dark gray rounded
- * rectangle contains "System Theme" text, and a light purple button labeled "Primary Button".
+ * A dark screen displays a pink circle with an Android logo, centered above white text "Widget
+ * Catalog". Below is a dark grey rounded card with white text "System Theme" and a light pink
+ * "Primary Button" with dark red text.
  */
 @RemoteComposable
 @Composable

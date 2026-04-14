@@ -62,9 +62,7 @@ import com.google.example.wear_widget.R
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A dark screen shows an Android logo above "Wear Widget" text. Below, a large dark gray rounded
- * rectangular card contains a smaller, centered light purple rounded button labeled "Simple
- * Button".
+ * A mobile UI on a black background shows a pink Android logo icon and "Widget Catalog" in white text. Below is a dark grey rounded rectangle, containing a centered light pink rounded button labeled "Simple Button" in dark red text.
  */
 @RemoteComposable
 @Composable
@@ -84,9 +82,7 @@ fun ButtonReferenceSample1() {
 }
 
 /**
- * UI screenshot on a black background. Top center features a light grey circular Android robot
- * icon. Below it, white text "Wear Widget". A dark grey rounded rectangular container holds a light
- * purple rounded button with a dark grey Android chip-like icon and the text "Button with Icon".
+ * A black screen with a small pink circular Android logo, centered above white text "Widget Catalog". Below is a dark gray rounded rectangle. Inside, a light pink rounded button shows a dark reddish-brown Android logo and stacked dark reddish-brown text "Button with Icon".
  */
 @RemoteComposable
 @Composable
@@ -112,9 +108,7 @@ fun ButtonReferenceSample2() {
 }
 
 /**
- * A Wear OS widget example on a black background. Centered text "Wear Widget" appears above a large
- * dark grey rounded rectangle. Inside, a smaller, light purple-grey rounded rectangle is centered,
- * displaying "Primary Label" (dark grey, bold) stacked above "Secondary Label" (light grey).
+ * A "Widget Catalog" screen. Top center, a pink circular icon with an Android logo. Below it, white "Widget Catalog" text. A large dark gray rounded rectangle contains a smaller, nested pink rounded rectangle. Inside the pink, prominent dark red "Primary Label" is above dark gray "Secondary Label".
  */
 @RemoteComposable
 @Composable
@@ -134,9 +128,7 @@ fun ButtonReferenceSample3() {
 }
 
 /**
- * Black background. Top: Android icon above "Wear Widget" text. Below, a large gray rounded
- * rectangle contains a smaller, centered red rounded rectangle button with yellow text "Custom
- * Colors".
+ * A screen features a pink Android logo above "Widget Catalog" in white. Centered below is a dark grey rounded rectangle enclosing a smaller red rounded rectangle displaying "Custom Colors" in yellow.
  */
 @RemoteComposable
 @Composable
@@ -167,9 +159,7 @@ fun ButtonReferenceSample4() {
 }
 
 /**
- * A screen with a black background shows an Android robot icon in a white circle at the top, above
- * the white text "Wear Widget". Below this is a large dark grey rounded rectangle containing a
- * smaller, lighter grey rounded button with the grey text "Disabled Button".
+ * A screen titled "Widget Catalog" with a pink Android icon above it. Below, a large dark grey rounded rectangle contains a lighter grey rounded button labeled "Disabled Button".
  */
 @RemoteComposable
 @Composable
@@ -190,9 +180,7 @@ fun ButtonReferenceSample6() {
 }
 
 /**
- * A dark UI displays an Android logo, text "Wear Widget," and a rounded dark gray card. Inside the
- * card are two horizontal, light gray, pill-shaped buttons: "Yes" on the left and "No" on the
- * right.
+ * A dark screen displays a pink circle with an Android logo, above white text "Widget Catalog." Below, a dark gray rounded rectangle frames two horizontal, pill-shaped pink buttons: "Yes" (left) and "No" (right), both with dark red text.
  */
 @RemoteComposable
 @Composable
@@ -225,9 +213,7 @@ fun ButtonReferenceSample7() {
 }
 
 /**
- * Android logo above "Wear Widget" title. Below, a dark gray rounded dialog box contains two light
- * purple, rounded buttons side-by-side. The left button says "Yes Confirm", and the right says "No
- * Cancel".
+ * A dark screen displays a pink Android logo and "Widget Catalog" title. Below, a large dark grey rounded container features two side-by-side light pink rounded buttons. The left button reads "Yes" and "Confir\nm" (Confirm is truncated). The right button reads "No" and "Cancel". All button text is dark red.
  */
 @RemoteComposable
 @Composable
@@ -256,9 +242,7 @@ fun ButtonReferenceSample8() {
 }
 
 /**
- * UI with Android logo, 'Wear Widget' title, and a 2x2 grid of rounded buttons on a black
- * background. Buttons: top-left blue 'Toggle' (yellow text), top-right magenta 'Shape' (white
- * text), bottom-left dark gray 'Click Me' (white text), bottom-right green 'Fixed' (white text).
+ * Screen displaying "Widget Catalog" with an Android icon. A dark grey rounded rectangle contains a 2x2 grid of elements: a blue "Toggl" button (yellow text), a magenta "Shap" button (white text), white text "Click" directly on the grey background, and a green "Fixed" button (white text).
  */
 @RemoteComposable
 @Composable
@@ -463,9 +447,10 @@ fun ButtonReferenceSample11() {
 }
 
 /**
- * A dark screen displays a grey Android logo at the top, followed by white text "Component
- * Catalog". Below, a rounded grey button features stacked text "Icon Data" (grey) and "Content"
- * (white), alongside a white message icon with horizontal lines.
+ * A dark mode screenshot displays a 'Widget Catalog'. At the top, a pink circle with a white
+ * Android logo is centered above white text "Widget Catalog." Below, a large dark gray rounded
+ * rectangular widget shows "Icon Data" (light gray text) above "Content" (white text), with a
+ * message icon to its right.
  */
 @RemoteComposable
 @Composable

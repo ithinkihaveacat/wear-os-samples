@@ -33,9 +33,9 @@ import com.google.example.wear_widget.R
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A central Android robot icon appears above the white text "Wear Widget". Below this, a rounded
- * rectangular image displays a soft-focus field of daisies and dry grass under warm light. The
- * entire composition is set against a black background.
+ * Android logo in a pink circle, above "Widget Catalog" text. Below is a dark gray-framed,
+ * rounded-corner image of white daisies in a golden sunlit field. The overall screen background
+ * is black.
  */
 @RemoteComposable
 @Composable

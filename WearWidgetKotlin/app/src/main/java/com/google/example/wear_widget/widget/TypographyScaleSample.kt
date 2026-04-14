@@ -40,9 +40,10 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A Wear OS widget display with an Android robot icon and "Wear Widget" text at the top. Below, a
- * rounded black rectangle contains three lines of text: "Title Style" in large cyan, "Default Body
- * Style" in white, and "Caption Style" in white italics.
+ * A dark mode UI on a black background. At the top, a centered pink Android logo above 'Widget
+ * Catalog' in white. Below, a large, dark gray rounded rectangle widget displays three vertically
+ * stacked, center-aligned text lines: 'Title Style' in large cyan, 'Default Body Style' in medium
+ * white, and 'Caption Style' in small, italic dark gray.
  */
 @RemoteComposable
 @Composable

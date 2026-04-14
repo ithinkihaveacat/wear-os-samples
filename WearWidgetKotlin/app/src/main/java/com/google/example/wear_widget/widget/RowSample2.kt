@@ -34,9 +34,9 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A screen displaying "Wear Widget" text, topped by an Android icon. Below, a dark gray rounded
- * rectangular widget displays "Item 1" (light gray), "Item 2" (yellow, centered), and "Item 3"
- * (light gray). Item 2 is visually prominent, indicating selection.
+ * A screen titled "Widget Catalog" in white text, below a pink circular Android icon. A large dark
+ * gray rounded rectangle contains "Item 1" in white, "Item 2" highlighted in yellow, and "Item 3"
+ * in light gray, arranged horizontally.
  */
 @RemoteComposable
 @Composable

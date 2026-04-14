@@ -45,10 +45,10 @@ import com.google.example.wear_widget.R
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A Wear OS widget displaying a 2x3 grid of different background treatments: 1. Vertical (Red to
- * Yellow), 2. Radial (Blue center to Cyan edges), 3. Sweep (Green to Magenta), 4. Bitmap (Landscape
- * photo), 5. Custom (Orange circle drawn via Canvas), 6. Horizontal (White to Gray). Each cell
- * contains a centered white text label.
+ * A pink Android head icon and "Widget Catalog" title are above a dark gray rounded container with 6
+ * sections. Top row: red-orange vertical gradient "Vertical", cyan-blue radial gradient "Radial".
+ * Middle row: magenta-green sweep gradient "Sweep", image labeled "Bitmap". Bottom row: "Custom"
+ * with orange circle, white-gray horizontal gradient "Horizontal".
  */
 @RemoteComposable
 @Composable

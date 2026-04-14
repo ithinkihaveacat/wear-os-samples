@@ -47,9 +47,9 @@ fun AustralianThemeSamplePreview() {
 }
 
 /**
- * Android icon and "Wear Widget" text above a dark gray rounded card. The card displays "Aussie
- * Theme" heading, a blue rounded button labeled "Primary (Blue)", and a red rounded button labeled
- * "Secondary (Red)".
+ * Android logo above a screen titled "Widget Catalog". Below, a dark gray rounded rectangle box
+ * contains the title "Aussie Theme", followed by two rounded buttons: a blue one labeled "Primary
+ * (Blue)" and a red one labeled "Secondary (Red)".
  */
 @RemoteComposable
 @Composable

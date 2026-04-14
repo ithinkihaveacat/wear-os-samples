@@ -36,9 +36,9 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * Screenshot showing a "Wear Widget" title and Android Wear OS icon above a gray-bordered frame.
- * Inside the frame is a 2x2 grid of colored blocks: top-left red with "1", top-right blue with "2",
- * bottom-left green with "3", and bottom-right yellow with "4".
+ * A screen titled 'Widget Catalog' below a pink Android icon. A dark gray rounded rectangle displays
+ * a 2x2 grid of smaller colored rectangles: red (1), blue (2), green (3), and yellow (4), numbered
+ * top-left to bottom-right.
  */
 @RemoteComposable
 @Composable

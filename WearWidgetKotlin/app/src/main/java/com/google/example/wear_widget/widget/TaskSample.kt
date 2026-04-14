@@ -49,6 +49,12 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.R
 import com.google.example.wear_widget.WidgetPreview
 
+/**
+ * Screenshot of a "Widget Catalog" screen. A pink circular Android logo is at the top. Below it,
+ * white text reads "Widget Catalog". A dark gray rounded rectangular widget displays progress: a
+ * pink checkmark in a circular progress bar (approx. 20% complete), next to a large pink number "1"
+ * and text "of 5 tasks".
+ */
 @RemoteComposable
 @Composable
 fun TaskSample() {
