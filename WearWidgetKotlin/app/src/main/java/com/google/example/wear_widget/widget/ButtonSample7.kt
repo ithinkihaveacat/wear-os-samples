@@ -36,7 +36,7 @@ val dummy = rememberMutableRemoteInt(0)
         contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteRow(
-            modifier = RemoteModifier.padding(horizontal = 11.dp),
+            modifier = RemoteModifier.padding(horizontal = 11.rdp),
             horizontalArrangement = RemoteArrangement.Center,
             verticalAlignment = RemoteAlignment.CenterVertically,
         ) {

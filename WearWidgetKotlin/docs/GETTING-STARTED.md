@@ -89,45 +89,38 @@ adb shell am force-stop com.google.android.wearable.sysui
 
 ### Gradle Configuration {#gradle-configuration}
 
-While these libraries are in active development, many have recently transitioned
-to **ALPHA** releases available on Google Maven. Some components still require
-the **AndroidX Snapshot repository**.
+Wear Widget libraries are available on **Google Maven**.
 
-**1\. Configure Repositories**
+**1. Configure SDK Version**
 
-Ensure `google()` is in your repository list. Add the specific snapshot
-repository to your `settings.gradle.kts` (or `build.gradle`) file:
+Ensure your `compileSdk` and `targetSdk` are set to **37** or higher. Recent Jetpack alpha libraries enforce this requirement.
 
 ```kotlin
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-        maven {
-            // This build id needed to align with non-SNAPSHOT coordinates
-            url = uri("https://androidx.dev/snapshots/builds/14765146/artifacts/repository")
-        }
+android {
+    compileSdk = 37
+    // ...
+    defaultConfig {
+        targetSdk = 37
+        // ...
     }
 }
 ```
 
-**2\. Add Dependencies**
+**2. Add Dependencies**
 
 Include the following dependencies in your app's `build.gradle.kts` file:
 
 ```kotlin
 dependencies {
     // Core Wear Widget / Remote Compose libraries (ALPHA)
-    implementation("androidx.compose.remote:remote-creation-compose:1.0.0-alpha03")
-    implementation("androidx.compose.remote:remote-core:1.0.0-alpha03")
-    implementation("androidx.glance.wear:wear:1.0.0-alpha02")
-    implementation("androidx.glance.wear:wear-core:1.0.0-alpha02")
-
-    // Libraries still on SNAPSHOT
-    implementation("androidx.wear.compose.remote:remote-material3:1.0.0-SNAPSHOT")
+    implementation("androidx.compose.remote:remote-creation-compose:1.0.0-alpha08")
+    implementation("androidx.compose.remote:remote-core:1.0.0-alpha08")
+    implementation("androidx.glance.wear:wear:1.0.0-alpha07")
+    implementation("androidx.glance.wear:wear-core:1.0.0-alpha07")
+    implementation("androidx.wear.compose.remote:remote-material3:1.0.0-alpha02")
 
     // Tooling for previews (optional, but recommended)
-    implementation("androidx.compose.remote:remote-tooling-preview:1.0.0-alpha03")
+    implementation("androidx.compose.remote:remote-tooling-preview:1.0.0-alpha08")
     implementation("androidx.wear.compose:compose-ui-tooling:1.5.6")
     implementation("androidx.wear.tiles:tiles-tooling-preview:1.5.0")
     debugImplementation("androidx.wear.tiles:tiles-renderer:1.5.0")
@@ -1397,44 +1390,26 @@ RemoteBox(modifier = RemoteModifier.size(32.rdp)) {
 
 ## Updates {#updates}
 
-### Wear Widgets EAP 1.3 (Placeholder) {#wear-widgets-eap-13}
+### Wear Widgets EAP 1.4 — 14 Apr 2026 {#wear-widgets-eap-14}
 
-#### Features {#features-13}
+#### Features {#features-14}
 
-- **Dependencies Updated:** Updated `androidx.compose.remote` to `1.0.0-alpha07`.
-- **Removed SNAPSHOT Dependencies:** `androidx.wear.compose.remote:remote-material3` has been updated to `1.0.0-alpha01`, removing the need for `1.0.0-SNAPSHOT`.
+- **SDK 37 Baseline:** The build environment has been upgraded to **SDK 37**. Recent Jetpack alpha libraries now require `compileSdk 37`.
+- **Dependencies Updated:** Updated `androidx.compose.remote` to `1.0.0-alpha08` and `androidx.glance.wear` to `1.0.0-alpha07`.
 
-#### Known Issues {#known-issues-13}
+#### Known Issues {#known-issues-14}
 
-- **\[FIXED\]** `RemoteBox` API Aligned with Compose `Box`. Usages migrated to `contentAlignment`.
-- **\[FIXED\]** `RemoteArrangement.Center` Can Only Be Used in Vertical Contexts.
-- **\[FIXED\]** `RemoteModifier.padding` Lacks `RemoteDp` Support.
+- **[FIXED]** `RemoteComposeCreationComposeFlags.isRemoteApplierEnabled` has been removed as the remote applier is now fully integrated.
 
-#### Migration Instructions {#migration-instructions-13}
+#### Migration Instructions {#migration-instructions-14}
 
-- **RemoteBox Migration:** `RemoteBox` now uses `contentAlignment` instead of `horizontalAlignment` and `verticalArrangement`. This is a breaking change.
-  Replace:
-  ```kotlin
-  RemoteBox(
-      horizontalAlignment = RemoteAlignment.CenterHorizontally,
-      verticalArrangement = RemoteArrangement.Center,
-  )
-  ```
-  With:
-  ```kotlin
-  RemoteBox(
-      contentAlignment = RemoteAlignment.Center,
-  )
-  ```
-- **`rememberRemoteIntValue` Migration:** Deprecated in `androidx.compose.remote:remote-creation-compose:1.0.0-alpha07`. Replace with `rememberMutableRemoteInt(initialValue)`. Note that `rememberMutableRemoteInt` takes a literal value rather than a lambda.
-  Replace:
-  ```kotlin
-  val count = rememberRemoteIntValue { 0 }
-  ```
-  With:
-  ```kotlin
-  val count = rememberMutableRemoteInt(0)
-  ```
+- **Upgrade to SDK 37:** Ensure your `compileSdk` and `targetSdk` are set to `37`.
+- **Padding API Updates:** `RemoteModifier.padding` now strictly requires `RemoteDp`.
+  Replace: `.padding(10.dp)` with `.padding(10.rdp)`.
+- **Clip API Updates:** `RemoteModifier.clip` now expects `RemoteShape` (e.g., `RemoteCircleShape`) and no longer accepts explicit dimensions.
+  Replace: `.clip(CircleShape, DpSize(60.dp, 60.dp))` with `.clip(RemoteCircleShape)`.
+- **Theme Color Scheme Updates:** `RemoteColorScheme` is now final. Use the `copy()` method to override roles.
+  Replace: `object : RemoteColorScheme() { ... }` with `RemoteColorScheme().copy(...)`.
 
 ### Wear Widgets EAP 1.2 — 24 Mar 2026 {#wear-widgets-eap-12-24-mar-2026}
 

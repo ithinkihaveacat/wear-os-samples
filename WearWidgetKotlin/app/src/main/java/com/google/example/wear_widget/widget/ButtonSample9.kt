@@ -57,7 +57,7 @@ val button3Text = isToggled.select("Clicked!".rs, "Click Me".rs)
         contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteColumn(
-            modifier = RemoteModifier.fillMaxSize().padding(10.dp),
+            modifier = RemoteModifier.fillMaxSize().padding(10.rdp),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Center,
         ) {

@@ -7,13 +7,13 @@ plugins {
 android {
     namespace = "com.google.example.wear_widget"
     compileSdk {
-        version = release(36)
+        version = release(37)
     }
 
     defaultConfig {
         applicationId = "com.google.example.wear_widget"
         minSdk = 33
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 

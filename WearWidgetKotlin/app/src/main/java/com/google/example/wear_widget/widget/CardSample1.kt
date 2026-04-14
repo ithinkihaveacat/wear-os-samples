@@ -47,7 +47,7 @@ val dummy = rememberMutableRemoteInt(0)
     ) {
         RemoteButton(
             onClick = ValueChange(dummy, 0.ri),
-            modifier = RemoteModifier.fillMaxSize().padding(10.dp),
+            modifier = RemoteModifier.fillMaxSize().padding(10.rdp),
             enabled = false.rb, // act as container
             colors =
                 RemoteButtonColors(

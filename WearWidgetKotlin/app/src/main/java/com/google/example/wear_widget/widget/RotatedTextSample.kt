@@ -22,13 +22,13 @@ import androidx.compose.remote.creation.compose.modifier.padding
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.RemotePaint
+import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteButtonColors
 import androidx.wear.compose.remote.material3.RemoteColorScheme
@@ -58,7 +58,7 @@ fun RotatedTextSample(modifier: RemoteModifier = RemoteModifier) {
                             rotate(66f.rf) { translate(-centerX, -centerY) { drawContent() } }
                         }
                     }
-                    .padding(10.dp),
+                    .padding(10.rdp),
             contentAlignment = RemoteAlignment.Center,
         ) {
             RemoteText(text = "Hello world!", color = Color.Red.rc)

@@ -15,12 +15,12 @@ import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.padding
+import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 
@@ -33,7 +33,7 @@ import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 @Composable
 fun TextSample1WithMargin() {
     RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color(0xFF006400)).padding(30.dp),
+        modifier = RemoteModifier.fillMaxSize().background(Color(0xFF006400)).padding(30.rdp),
         contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteColumn(

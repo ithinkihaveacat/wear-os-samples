@@ -11,10 +11,10 @@ import androidx.compose.remote.creation.compose.layout.RemoteText
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.padding
+import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 
 /**
@@ -34,7 +34,7 @@ fun RowSample2() {
         contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteRow(
-            modifier = RemoteModifier.fillMaxSize().padding(5.dp),
+            modifier = RemoteModifier.fillMaxSize().padding(5.rdp),
             horizontalArrangement = RemoteArrangement.SpaceBetween,
             verticalAlignment = RemoteAlignment.CenterVertically,
         ) {

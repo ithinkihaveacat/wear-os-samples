@@ -11,11 +11,11 @@ import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.padding
+import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 
 /**
@@ -31,7 +31,7 @@ fun BoxSample3() {
         contentAlignment = RemoteAlignment.BottomEnd,
     ) {
         RemoteText(
-            modifier = RemoteModifier.padding(10.dp),
+            modifier = RemoteModifier.padding(10.rdp),
             text = "Box Sample 3\n(Bottom End)",
             color = Color.Yellow.rc,
             textAlign = TextAlign.End,

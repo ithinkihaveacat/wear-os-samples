@@ -19,9 +19,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url = uri("https://androidx.dev/snapshots/builds/14978996/artifacts/repository")
-        }
+        // Commented out as tagged releases are now available on Google Maven.
+        // maven {
+        //     url = uri("https://androidx.dev/snapshots/builds/14978996/artifacts/repository")
+        // }
     }
 }
 

@@ -12,10 +12,10 @@ import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.padding
+import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 
 /**
@@ -36,25 +36,25 @@ fun RowSample1() {
             horizontalArrangement = RemoteArrangement.Center,
             verticalAlignment = RemoteAlignment.CenterVertically,
         ) {
-            RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Red)) {
+            RemoteBox(modifier = RemoteModifier.padding(5.rdp).background(Color.Red)) {
                 RemoteText(
                     "Red",
                     color = Color.White.rc,
-                    modifier = RemoteModifier.padding(5.dp),
+                    modifier = RemoteModifier.padding(5.rdp),
                 )
             }
-            RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Green)) {
+            RemoteBox(modifier = RemoteModifier.padding(5.rdp).background(Color.Green)) {
                 RemoteText(
                     "Green",
                     color = Color.Black.rc,
-                    modifier = RemoteModifier.padding(5.dp),
+                    modifier = RemoteModifier.padding(5.rdp),
                 )
             }
-            RemoteBox(modifier = RemoteModifier.padding(5.dp).background(Color.Blue)) {
+            RemoteBox(modifier = RemoteModifier.padding(5.rdp).background(Color.Blue)) {
                 RemoteText(
                     "Blue",
                     color = Color.White.rc,
-                    modifier = RemoteModifier.padding(5.dp),
+                    modifier = RemoteModifier.padding(5.rdp),
                 )
             }
         }

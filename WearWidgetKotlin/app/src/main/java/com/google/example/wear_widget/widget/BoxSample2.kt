@@ -36,7 +36,7 @@ fun BoxSample2() {
         RemoteBox(
             modifier =
                 RemoteModifier.fillMaxSize()
-                    .padding(20.dp)
+                    .padding(20.rdp)
                     .border(width = 2.rdp, color = Color.Red.rc),
             contentAlignment = RemoteAlignment.Center,
         ) {

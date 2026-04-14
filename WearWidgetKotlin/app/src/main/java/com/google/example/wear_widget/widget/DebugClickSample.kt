@@ -4,8 +4,8 @@ package com.google.example.wear_widget.widget
 
 import android.app.PendingIntent
 import android.content.Intent
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.remote.creation.compose.action.pendingIntentAction
+import androidx.compose.remote.creation.compose.shapes.RemoteCircleShape
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
@@ -52,7 +52,7 @@ val pendingIntent = remember(context) {
             modifier = RemoteModifier
                 .size(100.rdp)
                 .background(Color.Red.rc)
-                .clip(CircleShape, DpSize(100.dp, 100.dp))
+                .clip(RemoteCircleShape)
                 .let {
                     if (isInspectionMode) {
                         it

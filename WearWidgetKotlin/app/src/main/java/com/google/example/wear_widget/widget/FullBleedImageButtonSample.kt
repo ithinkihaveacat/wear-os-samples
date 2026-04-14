@@ -2,8 +2,8 @@
 package com.google.example.wear_widget.widget
 
 
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.remote.creation.compose.action.ValueChange
+import androidx.compose.remote.creation.compose.shapes.RemoteCircleShape
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
@@ -70,7 +70,7 @@ val overlayColor = isToggled.select(Color(0xAA000000).rc, Color.Transparent.rc)
             RemoteBox(
                 modifier =
                     RemoteModifier.size(60.rdp)
-                        .clip(CircleShape, DpSize(60.dp, 60.dp)) // Explicit size required (b/477860914)
+                        .clip(RemoteCircleShape)
                         .clickable(
                             ValueChange(state, state xor 1.ri)
                         ),

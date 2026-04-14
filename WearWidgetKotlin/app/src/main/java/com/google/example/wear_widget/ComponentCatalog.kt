@@ -4,9 +4,8 @@ package com.google.example.wear_widget
 import android.content.Context
 import android.graphics.Paint
 import android.util.Log
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.remote.creation.compose.action.ValueChange
+import androidx.compose.remote.creation.compose.shapes.RemoteCircleShape
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
@@ -188,7 +187,7 @@ fun ComponentCatalogAvatarButtonSample() {
                     contentScale = ContentScale.Crop,
                     modifier =
                         RemoteModifier.size(RemoteButtonDefaults.LargeIconSize)
-                            .clip(RoundedCornerShape(percent = 50)),
+                            .clip(RemoteCircleShape),
                 )
                 // Spacer
                 RemoteBox(modifier = RemoteModifier.size(8.dp.asRdp()))
@@ -221,7 +220,7 @@ fun ComponentCatalogImageButtonSample() {
                 bitmap = ImageBitmap.imageResource(id = R.drawable.photo_14),
                 contentDescription = "Background".rs,
                 contentScale = ContentScale.Crop,
-                modifier = RemoteModifier.size(60.rdp).clip(CircleShape, DpSize(60.dp, 60.dp)),
+                modifier = RemoteModifier.size(60.rdp).clip(RemoteCircleShape),
             )
         }
     }
@@ -293,7 +292,7 @@ fun ComponentCatalogAppCardSample() {
                         contentDescription = "Avatar".rs,
                         contentScale = ContentScale.Crop,
                         modifier =
-                            RemoteModifier.size(24.rdp).clip(RoundedCornerShape(percent = 50)),
+                            RemoteModifier.size(24.rdp).clip(RemoteCircleShape),
                     )
                     RemoteBox(modifier = RemoteModifier.size(8.rdp))
                     MaterialRemoteText("Ali".rs)

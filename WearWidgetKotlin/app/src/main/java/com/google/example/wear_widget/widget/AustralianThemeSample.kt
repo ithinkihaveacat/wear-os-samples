@@ -35,28 +35,14 @@ import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 fun AustralianThemeSample() {
     val dummy = rememberMutableRemoteInt(0)
     val australianColorScheme =
-        object : RemoteColorScheme() {
-            // Australian Flag Blue
-            override val primary: RemoteColor
-                @RemoteComposable @Composable get() = Color(0xFF00008B).rc
-
-            override val onPrimary: RemoteColor
-                @RemoteComposable @Composable get() = Color.White.rc
-
-            // Australian Flag Red
-            override val secondary: RemoteColor
-                @RemoteComposable @Composable get() = Color(0xFFFF0000).rc
-
-            override val onSecondary: RemoteColor
-                @RemoteComposable @Composable get() = Color.White.rc
-
-            // White stars
-            override val tertiary: RemoteColor
-                @RemoteComposable @Composable get() = Color.White.rc
-
-            override val onTertiary: RemoteColor
-                @RemoteComposable @Composable get() = Color.Black.rc
-        }
+        RemoteColorScheme().copy(
+            primary = Color(0xFF00008B).rc,
+            onPrimary = Color.White.rc,
+            secondary = Color(0xFFFF0000).rc,
+            onSecondary = Color.White.rc,
+            tertiary = Color.White.rc,
+            onTertiary = Color.Black.rc,
+        )
 
     RemoteMaterialTheme(colorScheme = australianColorScheme) {
         RemoteBox(

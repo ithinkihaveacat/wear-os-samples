@@ -47,7 +47,7 @@ class RoboScreenshotToolTest {
                         modifier = RemoteModifier
                             .size(170.rdp)
                             .background(Color.DarkGray)
-                            .padding(10.dp),
+                            .padding(10.rdp),
                         contentAlignment = RemoteAlignment.Center
                     ) {
                         when (target) {
