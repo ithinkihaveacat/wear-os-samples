@@ -720,8 +720,6 @@ fun HelloWidgetPreview() {
 
 ```
 
-
-
 ## Troubleshooting {#troubleshooting}
 
 ### Build Failure: minSdk version conflict {#build-failure-minsdk-version-conflict}
@@ -880,6 +878,33 @@ disappearing from the carousel upon update.
 
 This section tracks technical hurdles and API limitations in the current
 ALPHA/SNAPSHOT versions.
+
+### Unsupported Remote Compose Primitives Cause Runtime Crashes {#unsupported-remote-compose-primitives-cause-runtime-crashes}
+
+b/502649242
+
+**Symptom:** The application crashes at runtime with a
+`java.lang.RuntimeException: Operation <X> is not supported for this version`
+when attempting to render widgets containing certain advanced `RemoteComposable`
+primitives. This includes:
+
+- `RemoteCollapsibleColumn` (Operation 233)
+- `RemoteModifier.scroll()` (Operation 226)
+- `RemoteModifier.onTouchDown()` and `RemoteModifier.onTouchUp()` (Operations
+  219 and 220)
+
+**Workaround:** Do not use these layout primitives and modifiers when building
+Wear OS Widgets. You must use alternative supported layouts (like `RemoteColumn`
+or `RemoteBox`) and supported click modifiers (like
+`RemoteModifier.clickable()`).
+
+**Context:** The `androidx.compose.remote` library is a cross-platform UI
+protocol that exposes a "superset" of features. Wear OS Widgets use the highly
+restricted `WEAR_WIDGETS` profile, which enforces a strict allowlist of
+supported operations to preserve battery and maintain performance. The advanced
+primitives listed above are explicitly excluded from this allowlist. Because
+these operations are not flagged at compile-time, the underlying serialization
+buffer rejects them and crashes the process when you attempt to use them.
 
 ### [FIXED] Multiple APIs Are Restricted {#multiple-apis-are-restricted}
 
@@ -1071,19 +1096,16 @@ adb shell am broadcast \
 The system typically restarts the service automatically after configuration
 changes, but a manual force-stop may be necessary if it remains blank.
 
-
-
 ### [FIXED] Android Studio Preview Limitations {#android-studio-preview-limitations}
 
-> [!NOTE] Fixed in Compose Remote `1.0.0-alpha08`. Multiple previews are supported properly natively.
+> [!NOTE] Fixed in Compose Remote `1.0.0-alpha08`. Multiple previews are
+> supported properly natively.
 
 b/431932822
 
 **Symptom:** When using `@Preview` or `@WearPreviewDevices` with
 `RemotePreview`, Android Studio may not display all defined previews correctly,
 especially when multiple previews are in the same file.
-
-
 
 **Symptom:** You encounter a compilation error when trying to pass a
 `RemoteBoolean` to the `useCenter` parameter of `drawArc` in `RemoteCanvas` or
@@ -1418,6 +1440,11 @@ RemoteBox(modifier = RemoteModifier.size(32.rdp)) {
 
 #### Known Issues {#known-issues-13}
 
+- **\[ADDED\]**
+  [Unsupported Remote Compose Primitives Cause Runtime Crashes](#unsupported-remote-compose-primitives-cause-runtime-crashes):
+  Using advanced primitives like `RemoteCollapsibleColumn` or
+  `RemoteModifier.scroll()` causes the application to crash at runtime due to
+  unsupported operations in the `WEAR_WIDGETS` profile.
 - **\[FIXED\]** `RemoteComposeCreationComposeFlags.isRemoteApplierEnabled`:
   Removed as the remote applier is now fully integrated.
 - **\[FIXED\]**
@@ -1426,7 +1453,6 @@ RemoteBox(modifier = RemoteModifier.size(32.rdp)) {
 - **\[FIXED\]**
   [Android Studio Preview Limitations](#android-studio-preview-limitations):
   Multi-preview instances parse securely.
-
 
 #### Migration Instructions {#migration-instructions-13}
 
