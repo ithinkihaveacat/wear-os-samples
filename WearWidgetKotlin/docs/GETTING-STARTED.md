@@ -903,7 +903,11 @@ the file.
 **Context:** The `RemotePreview` API is currently annotated with
 `@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)`.
 
-### `RemoteModifier.clip()` Requires Explicit Size for Relative Shapes {#remotemodifierclip-requires-explicit-size-for-relative-shapes}
+### [FIXED] `RemoteModifier.clip()` Requires Explicit Size for Relative Shapes {#remotemodifierclip-requires-explicit-size-for-relative-shapes}
+
+> [!NOTE] Fixed in `1.0.0-alpha08`. `RemoteModifier.clip` now expects
+> `RemoteShape` (e.g., `RemoteCircleShape`) and no longer accepts explicit
+> dimensions.
 
 b/477860914
 
@@ -1415,8 +1419,11 @@ RemoteBox(modifier = RemoteModifier.size(32.rdp)) {
 
 #### Known Issues {#known-issues-13}
 
-- **[FIXED]** `RemoteComposeCreationComposeFlags.isRemoteApplierEnabled` has
-  been removed as the remote applier is now fully integrated.
+- **\[FIXED\]** `RemoteComposeCreationComposeFlags.isRemoteApplierEnabled`:
+  Removed as the remote applier is now fully integrated.
+- **\[FIXED\]**
+  [RemoteModifier.clip() Requires Explicit Size for Relative Shapes](#remotemodifierclip-requires-explicit-size-for-relative-shapes):
+  Resolved by `RemoteShape` support.
 
 #### Migration Instructions {#migration-instructions-13}
 
