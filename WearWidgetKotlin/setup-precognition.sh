@@ -15,7 +15,14 @@ fi
 echo "Switching to $PRECOGNITION_DIR and preparing distribution..."
 (
   cd "$PRECOGNITION_DIR"
-  git checkout feature/precognition-screenshot-fixes
+  if ! git checkout feature/precognition-screenshot-fixes 2>/dev/null; then
+    echo "Error: Failed to checkout 'feature/precognition-screenshot-fixes' in $PRECOGNITION_DIR" >&2
+    echo "The repository may be tracking a different upstream remote." >&2
+    echo "Resolution: Manually update your git remotes, or reset via:" >&2
+    echo "  rm -rf $PRECOGNITION_DIR" >&2
+    echo "  ./setup-precognition.sh" >&2
+    exit 1
+  fi
   ./gradlew :preview-cli:installDist
 )
 
