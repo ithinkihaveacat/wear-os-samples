@@ -114,3 +114,59 @@ dependencies {
     testImplementation(libs.compose.ui.test.junit4)
     debugImplementation(libs.compose.ui.test.manifest)
 }
+
+tasks.register("collectPreviewInfo") {
+    doLast {
+        val buildDir = layout.buildDirectory.get().asFile
+        val classDirsList = mutableListOf<String>()
+        if (buildDir.exists()) {
+            buildDir.walkTopDown()
+                .maxDepth(12)
+                .filter { it.isDirectory && it.name == "classes" }
+                .forEach { classesDir ->
+                    val path = classesDir.path.lowercase().replace('\\', '/')
+                    val isDebugVariant = path.contains("/debug/") || path.contains("/debugunittest/") || path.contains("/main/")
+                    val isAndroidTest = path.contains("/androidtest/")
+                    val isRelease = path.contains("/release/")
+                    val isKotlinOrJava = path.contains("kotlin") || path.contains("javac")
+                    if (isDebugVariant && !isAndroidTest && !isRelease && isKotlinOrJava) {
+                        classDirsList.add(classesDir.path)
+                    }
+                }
+            buildDir.walkTopDown()
+                .maxDepth(12)
+                .filter { it.isDirectory && it.name == "out" && it.parentFile.name.contains("Config") }
+                .forEach { configDir ->
+                    val testConfig = File(configDir, "com/android/tools/test_config.properties")
+                    if (testConfig.exists()) {
+                        classDirsList.add(configDir.path)
+                    }
+                }
+        }
+        
+        val attr = Attribute.of("artifactType", String::class.java)
+        val configuration = configurations.findByName("debugUnitTestRuntimeClasspath")
+            ?: configurations.findByName("debugRuntimeClasspath")
+            ?: configurations.findByName("runtimeClasspath")
+        
+        val deps = configuration?.incoming?.artifactView { attributes.attribute(attr, "jar") }?.files?.map { it.path } ?: emptyList()
+        val moduleRoot = projectDir.path
+        val mergedManifest = File(buildDir, "intermediates/merged_manifests/debug/processDebugManifest/AndroidManifest.xml")
+            .takeIf { it.exists() }?.path ?: ""
+        val resourceApk = File(buildDir, "intermediates/linked_resources_binary_format/debug/processDebugResources/linked-resources-binary-format-debug.ap_")
+            .takeIf { it.exists() }?.path ?: ""
+        val rClassJar = File(buildDir, "intermediates/compile_and_runtime_r_class_jar/debug/processDebugResources/R.jar")
+            .takeIf { it.exists() }?.path ?: ""
+
+        val outputFile = file("build/preview/project-info.txt")
+        outputFile.parentFile.mkdirs()
+        outputFile.writeText(
+            classDirsList.joinToString(File.pathSeparator) + "\n" +
+            deps.joinToString(File.pathSeparator) + "\n" +
+            moduleRoot + "\n" +
+            mergedManifest + "\n" +
+            resourceApk + "\n" +
+            rClassJar
+        )
+    }
+}

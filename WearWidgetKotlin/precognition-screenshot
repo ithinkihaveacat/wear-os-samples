@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PRECOGNITION_DIR="${PRECOGNITION_DIR:-../../precognition}"
+CLI_BIN="$PRECOGNITION_DIR/preview-cli/build/install/preview-cli/bin/preview-cli"
+
+if [ ! -f "$CLI_BIN" ]; then
+  echo "Error: precognition executable not found at $CLI_BIN" >&2
+  echo "Run ./setup-precognition.sh first to compile distributions." >&2
+  exit 1
+fi
+
+if [ $# -lt 1 ]; then
+  echo "Usage: $(basename "$0") PREVIEW_NAME [OUTPUT_PNG]" >&2
+  exit 1
+fi
+
+PREVIEW_NAME="$1"
+OUTPUT_PATH="${2:-app/screenshots/${PREVIEW_NAME}.png}"
+
+VERBOSE_FLAG=""
+if [ "${PRECOGNITION_VERBOSE:-false}" = "true" ]; then
+  VERBOSE_FLAG="--verbose"
+fi
+
+"$CLI_BIN" $VERBOSE_FLAG render --project . --preview "$PREVIEW_NAME" --output "$OUTPUT_PATH"
+
+

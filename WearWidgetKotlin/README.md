@@ -108,8 +108,8 @@ This sample includes two catalogs: `WidgetCatalog` (full widgets) and
 
 ### Component Catalog (Recommended)
 
-Use the included `component-switch` script to quickly browse different components
-without code changes.
+Use the included `component-switch` script to quickly browse different
+components without code changes.
 
 ```bash
 # Switch layouts
@@ -135,12 +135,11 @@ samples.
 This repository includes `./jvm-screenshot`, a script designed for rapid,
 headless visual validation of UI components.
 
-**Why it's useful (for humans and AI agents):**
-It provides an instantaneous feedback loop (~10s) when modifying code or
-comparing a design to a reference image (like Figma). It bypasses the slow,
-error-prone process of building an APK, pushing it via ADB, and manipulating an
-emulator. Instead, it natively renders the `RemoteComposable` on the JVM using
-Robolectric and Roborazzi.
+**Why it's useful (for humans and AI agents):** It provides an instantaneous
+feedback loop (~10s) when modifying code or comparing a design to a reference
+image (like Figma). It bypasses the slow, error-prone process of building an
+APK, pushing it via ADB, and manipulating an emulator. Instead, it natively
+renders the `RemoteComposable` on the JVM using Robolectric and Roborazzi.
 
 **Usage:**
 
@@ -151,6 +150,7 @@ Robolectric and Roborazzi.
 ```
 
 **Requirements & Context:**
+
 - The target component **must** be registered within the `when` block of the
   pre-compiled test dispatcher:
   `app/src/test/java/com/google/example/wear_widget/RoboScreenshotToolTest.kt`
@@ -161,6 +161,56 @@ Robolectric and Roborazzi.
   (`RoboScreenshotToolTest`) will be compiled on the first run, introducing
   slight initial latency. Subsequent runs for registered components will be much
   faster.
+
+### Precognition Rendering Integration (Optional Tooling)
+
+**Why it's useful:** Accelerates localized testing cycles efficiently using
+daemon reflection engines.
+
+**Requirements:** Requires `precognition` sibling repository configuration.
+
+**Workflow:**
+
+1. Execute `./setup-precognition.sh`
+2. Define standard `@Composable` wrapper functions for your `@RemoteComposable`
+   widgets:
+
+   ```kotlin
+   import androidx.compose.ui.tooling.preview.Preview
+   import androidx.compose.remote.creation.profile.RcPlatformProfiles.WEAR_WIDGETS
+   import androidx.compose.remote.tooling.preview.RemotePreview
+
+   @Preview(device = "id:wearos_large_round")
+   @Composable
+   fun YourSamplePreview() {
+       RemotePreview(WEAR_WIDGETS) {
+           YourSample()
+       }
+   }
+   ```
+
+3. Update metadata indexes: `./gradlew :app:collectPreviewInfo`
+4. Generate graphics natively: `./precognition-screenshot YourSamplePreview`
+
+**Architecture Overview & Troubleshooting Details:**
+
+- **Daemon Mechanism**: Precognition leverages a continuous background daemon
+  process to keep the Robolectric sandbox and graphics pipeline loaded in
+  memory.
+- **Index Management (`collectPreviewInfo`)**: The metadata scanner output
+  (`project-info.txt`) tracks the application's runtime classpath definitions.
+  You only need to run `./gradlew :app:collectPreviewInfo` when modifying
+  `build.gradle.kts` (such as adding dependencies). Routine widget edits do NOT
+  require updating the metadata.
+- **Problem Diagnostics**: Run verbose configurations by passing
+  `PRECOGNITION_VERBOSE=true ./precognition-screenshot ...` to observe
+  lower-level daemon execution logs directly.
+
+**Reversion / Cleanup:** Clear local outputs using:
+
+```bash
+rm -rf app/build/preview/
+```
 
 ## Troubleshooting
 

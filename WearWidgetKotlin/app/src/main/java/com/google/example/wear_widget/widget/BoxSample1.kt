@@ -22,8 +22,20 @@ import androidx.compose.remote.creation.compose.layout.RemoteText
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.state.rc
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.remote.creation.profile.RcPlatformProfiles.WEAR_WIDGETS
+import androidx.compose.remote.tooling.preview.RemotePreview
+
+
+@Preview(device = "id:wearos_large_round")
+@Composable
+fun BoxSample1Preview() {
+    RemotePreview(WEAR_WIDGETS) {
+        BoxSample1()
+    }
+}
 
 /**
  * A black screen shows a circular Android icon, then "Wear Widget" in white text. Below it, a
