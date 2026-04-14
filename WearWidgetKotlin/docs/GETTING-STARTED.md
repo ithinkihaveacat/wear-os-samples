@@ -996,10 +996,24 @@ Remote Compose, `RemoteArrangement.Center` is typed as
 `SpaceEvenly`, and `SpaceAround`, which implement the `HorizontalOrVertical`
 interface.
 
-### [FIXED] `RemoteBox` Differs from Compose `Box` {#remotebox-differs-from-compose-box}
+### [FIXED] `RemoteBox` Vertical Axis Requires `Arrangement` {#remotebox-differs-from-compose-box}
 
 > [!NOTE] Fixed in `1.0.0-alpha07`. `RemoteBox` now uses
 > `contentAlignment: RemoteAlignment` just like standard Compose `Box`.
+
+b/471212869
+
+**Symptom:** You cannot use `RemoteAlignment` constants for vertical positioning
+when configuring a `RemoteBox`.
+
+**Workaround:** Specify both parameters when using `RemoteBox`. For vertical
+positioning, use `RemoteArrangement` constants (`Top`, `Center`, `Bottom`)
+rather than `RemoteAlignment` constants.
+
+**Context:** The `RemoteBox` API previously differed from standard Compose `Box`
+by requiring separate `horizontalAlignment` and `verticalArrangement`
+parameters. This was inconsistent with `RemoteRow`, which uses
+`RemoteAlignment.Vertical` for vertical positioning.
 
 > [!WARNING] This is a breaking change. Existing usages of `RemoteBox` with
 > `horizontalAlignment` and `verticalArrangement` must be updated to use
@@ -1024,17 +1038,6 @@ RemoteBox(
 
 For other alignments, use `RemoteAlignment` constants (e.g.,
 `RemoteAlignment.BottomEnd`).
-
-b/471212869
-
-The `RemoteBox` API previously differed from standard Compose `Box` in two ways:
-
-1. **Parameter count:** `Box` uses a single `contentAlignment` parameter;
-   `RemoteBox` used separate `horizontalAlignment` and `verticalArrangement`
-   parameters.
-2. **Vertical axis type:** `RemoteBox` used `RemoteArrangement.Vertical` for
-   vertical positioning. This was inconsistent with `RemoteRow`, which uses
-   `RemoteAlignment.Vertical` for vertical positioning.
 
 ### `RemoteModifier.graphicsLayer` Rendering Failures {#remotemodifiergraphicslayer-rendering-failures}
 
@@ -1454,6 +1457,16 @@ RemoteBox(modifier = RemoteModifier.size(32.rdp)) {
 - **\[FIXED\]**
   [RemoteModifier.clip() Requires Explicit Size for Relative Shapes](#remotemodifierclip-requires-explicit-size-for-relative-shapes):
   Resolved by `RemoteShape` support.
+- **\[FIXED\]**
+  [RemoteModifier.padding() Lacks RemoteDp Support](#remotemodifierpadding-lacks-remotedp-support):
+  `RemoteModifier.padding()` now natively supports `RemoteDp` values.
+- **\[FIXED\]**
+  [RemoteArrangement.Center Can Only Be Used in Vertical Contexts](#remotearrangementcenter-can-only-be-used-in-vertical-contexts):
+  `RemoteArrangement.Center` now implements `HorizontalOrVertical` and can be
+  used in both rows and columns.
+- **\[FIXED\]**
+  [RemoteBox Differs from Compose Box](#remotebox-differs-from-compose-box):
+  `RemoteBox` now uses the unified `contentAlignment` parameter.
 - **\[FIXED\]**
   [Android Studio Preview Limitations](#android-studio-preview-limitations):
   Multiple preview instances in the same file now render correctly.
