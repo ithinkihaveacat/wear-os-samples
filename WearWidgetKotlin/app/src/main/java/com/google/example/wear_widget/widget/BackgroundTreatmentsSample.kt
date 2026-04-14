@@ -45,8 +45,8 @@ import com.google.example.wear_widget.R
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A pink Android head icon and "Widget Catalog" title are above a dark gray rounded container with 6
- * sections. Top row: red-orange vertical gradient "Vertical", cyan-blue radial gradient "Radial".
+ * A pink Android head icon and "Widget Catalog" title are above a dark gray rounded container with
+ * 6 sections. Top row: red-orange vertical gradient "Vertical", cyan-blue radial gradient "Radial".
  * Middle row: magenta-green sweep gradient "Sweep", image labeled "Bitmap". Bottom row: "Custom"
  * with orange circle, white-gray horizontal gradient "Horizontal".
  */

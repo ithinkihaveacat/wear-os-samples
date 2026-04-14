@@ -36,9 +36,9 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A screen titled 'Widget Catalog' below a pink Android icon. A dark gray rounded rectangle displays
- * a 2x2 grid of smaller colored rectangles: red (1), blue (2), green (3), and yellow (4), numbered
- * top-left to bottom-right.
+ * A screen titled 'Widget Catalog' below a pink Android icon. A dark gray rounded rectangle
+ * displays a 2x2 grid of smaller colored rectangles: red (1), blue (2), green (3), and yellow (4),
+ * numbered top-left to bottom-right.
  */
 @RemoteComposable
 @Composable

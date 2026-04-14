@@ -35,8 +35,8 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A black screen displays a pink Android robot logo and "Widget Catalog" title. Below, a large
- * dark gray rounded rectangle contains a white strip with red "Hello world!" text, rotated
+ * A black screen displays a pink Android robot logo and "Widget Catalog" title. Below, a large dark
+ * gray rounded rectangle contains a white strip with red "Hello world!" text, rotated
  * counter-clockwise.
  */
 @RemoteComposable

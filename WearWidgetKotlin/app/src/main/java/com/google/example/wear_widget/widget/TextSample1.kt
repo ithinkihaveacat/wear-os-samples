@@ -40,8 +40,8 @@ import com.google.example.wear_widget.WidgetPreview
 
 /**
  * A screen displays a pink Android icon and "Widget Catalog" title. Below, a dark green rounded
- * rectangle shows centered white text: "TextSample1" (large), "This is a long text that should
- * wrap to multiple l..." (smaller, truncated), and "Version 1.0" (small, teal).
+ * rectangle shows centered white text: "TextSample1" (large), "This is a long text that should wrap
+ * to multiple l..." (smaller, truncated), and "Version 1.0" (small, teal).
  */
 @RemoteComposable
 @Composable

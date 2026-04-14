@@ -157,8 +157,8 @@ fun CanvasReferenceSample3() {
 }
 
 /**
- * Android "Widget Catalog" screen with a pink Android logo icon. A dark gray rounded card displays a
- * red circular progress indicator showing 75% completion, with white text "75%" above gray
+ * Android "Widget Catalog" screen with a pink Android logo icon. A dark gray rounded card displays
+ * a red circular progress indicator showing 75% completion, with white text "75%" above gray
  * "Progress" text. The background is black.
  */
 @RemoteComposable
@@ -226,8 +226,8 @@ fun CanvasReferenceSample4() {
 
 /**
  * A screen with a pink Android logo icon at the top, followed by "Widget Catalog" in white text.
- * Below is a dark gray rounded rectangle card containing a red circular outline. Inside the
- * circle, white text "3/5" is above gray text "Segments".
+ * Below is a dark gray rounded rectangle card containing a red circular outline. Inside the circle,
+ * white text "3/5" is above gray text "Segments".
  */
 @RemoteComposable
 @Composable

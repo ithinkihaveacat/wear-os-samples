@@ -48,8 +48,8 @@ import com.google.example.wear_widget.WidgetPreview
 
 /**
  * Android logo in pink circle above white 'Widget Catalog' text. Below, a rounded gray-bordered
- * rectangle shows a blurry field of daisies. Centered on the field is a circular cutout of a
- * person with dreadlocks, wearing blue, against a light background.
+ * rectangle shows a blurry field of daisies. Centered on the field is a circular cutout of a person
+ * with dreadlocks, wearing blue, against a light background.
  */
 @RemoteComposable
 @Composable

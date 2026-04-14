@@ -40,8 +40,8 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * Android Widget Catalog screen on a dark background. A pink Android icon and "Widget Catalog" title
- * are at the top. A dark gray rounded rectangle below contains "System Theme" in white text,
+ * Android Widget Catalog screen on a dark background. A pink Android icon and "Widget Catalog"
+ * title are at the top. A dark gray rounded rectangle below contains "System Theme" in white text,
  * followed by two light pink rounded buttons with dark red text: "Primary Button" and "Secondary
  * Button".
  */

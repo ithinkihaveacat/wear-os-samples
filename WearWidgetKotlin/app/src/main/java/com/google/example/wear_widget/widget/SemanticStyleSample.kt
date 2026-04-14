@@ -36,8 +36,8 @@ import com.google.example.wear_widget.WidgetPreview
 
 /**
  * A black screen displays a pink Android icon above "Widget Catalog" text. Below is a dark gray
- * rounded rectangle card. Inside the card, "Semantic Styles Demo" is at the top left, and "12:34" is
- * prominently displayed in a larger font at the bottom.
+ * rounded rectangle card. Inside the card, "Semantic Styles Demo" is at the top left, and "12:34"
+ * is prominently displayed in a larger font at the bottom.
  */
 @RemoteComposable
 @Composable

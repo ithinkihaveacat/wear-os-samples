@@ -34,8 +34,8 @@ import com.google.example.wear_widget.WidgetPreview
 
 /**
  * Android logo in a pink circle, above "Widget Catalog" text. Below is a dark gray-framed,
- * rounded-corner image of white daisies in a golden sunlit field. The overall screen background
- * is black.
+ * rounded-corner image of white daisies in a golden sunlit field. The overall screen background is
+ * black.
  */
 @RemoteComposable
 @Composable

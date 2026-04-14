@@ -50,9 +50,9 @@ fun BoxReferenceSample1() {
 }
 
 /**
- * Widget Catalog screen on black background. Top: pink Android icon, white "Widget Catalog"
- * text. Below: large dark gray rounded rectangle. Inside, a red rectangular border frames white
- * text: "Box Sample 2" and "(Border & Padding)".
+ * Widget Catalog screen on black background. Top: pink Android icon, white "Widget Catalog" text.
+ * Below: large dark gray rounded rectangle. Inside, a red rectangular border frames white text:
+ * "Box Sample 2" and "(Border & Padding)".
  */
 @RemoteComposable
 @Composable
@@ -76,8 +76,8 @@ fun BoxReferenceSample2() {
 
 /**
  * A black screen displays a pink circular Android icon and the title "Widget Catalog" in white.
- * Below, a large, rounded rectangular container with a dark gray border is filled with solid
- * blue. Partial yellow text "Bo" and "(B" is visible at the bottom right corner of the blue area.
+ * Below, a large, rounded rectangular container with a dark gray border is filled with solid blue.
+ * Partial yellow text "Bo" and "(B" is visible at the bottom right corner of the blue area.
  */
 @RemoteComposable
 @Composable

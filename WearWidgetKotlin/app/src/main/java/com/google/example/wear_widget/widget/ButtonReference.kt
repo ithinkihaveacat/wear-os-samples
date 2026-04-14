@@ -62,7 +62,9 @@ import com.google.example.wear_widget.R
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * A mobile UI on a black background shows a pink Android logo icon and "Widget Catalog" in white text. Below is a dark grey rounded rectangle, containing a centered light pink rounded button labeled "Simple Button" in dark red text.
+ * A mobile UI on a black background shows a pink Android logo icon and "Widget Catalog" in white
+ * text. Below is a dark grey rounded rectangle, containing a centered light pink rounded button
+ * labeled "Simple Button" in dark red text.
  */
 @RemoteComposable
 @Composable
@@ -82,7 +84,9 @@ fun ButtonReferenceSample1() {
 }
 
 /**
- * A black screen with a small pink circular Android logo, centered above white text "Widget Catalog". Below is a dark gray rounded rectangle. Inside, a light pink rounded button shows a dark reddish-brown Android logo and stacked dark reddish-brown text "Button with Icon".
+ * A black screen with a small pink circular Android logo, centered above white text "Widget
+ * Catalog". Below is a dark gray rounded rectangle. Inside, a light pink rounded button shows a
+ * dark reddish-brown Android logo and stacked dark reddish-brown text "Button with Icon".
  */
 @RemoteComposable
 @Composable
@@ -108,7 +112,10 @@ fun ButtonReferenceSample2() {
 }
 
 /**
- * A "Widget Catalog" screen. Top center, a pink circular icon with an Android logo. Below it, white "Widget Catalog" text. A large dark gray rounded rectangle contains a smaller, nested pink rounded rectangle. Inside the pink, prominent dark red "Primary Label" is above dark gray "Secondary Label".
+ * A "Widget Catalog" screen. Top center, a pink circular icon with an Android logo. Below it, white
+ * "Widget Catalog" text. A large dark gray rounded rectangle contains a smaller, nested pink
+ * rounded rectangle. Inside the pink, prominent dark red "Primary Label" is above dark gray
+ * "Secondary Label".
  */
 @RemoteComposable
 @Composable
@@ -128,7 +135,9 @@ fun ButtonReferenceSample3() {
 }
 
 /**
- * A screen features a pink Android logo above "Widget Catalog" in white. Centered below is a dark grey rounded rectangle enclosing a smaller red rounded rectangle displaying "Custom Colors" in yellow.
+ * A screen features a pink Android logo above "Widget Catalog" in white. Centered below is a dark
+ * grey rounded rectangle enclosing a smaller red rounded rectangle displaying "Custom Colors" in
+ * yellow.
  */
 @RemoteComposable
 @Composable
@@ -159,7 +168,8 @@ fun ButtonReferenceSample4() {
 }
 
 /**
- * A screen titled "Widget Catalog" with a pink Android icon above it. Below, a large dark grey rounded rectangle contains a lighter grey rounded button labeled "Disabled Button".
+ * A screen titled "Widget Catalog" with a pink Android icon above it. Below, a large dark grey
+ * rounded rectangle contains a lighter grey rounded button labeled "Disabled Button".
  */
 @RemoteComposable
 @Composable
@@ -180,7 +190,9 @@ fun ButtonReferenceSample6() {
 }
 
 /**
- * A dark screen displays a pink circle with an Android logo, above white text "Widget Catalog." Below, a dark gray rounded rectangle frames two horizontal, pill-shaped pink buttons: "Yes" (left) and "No" (right), both with dark red text.
+ * A dark screen displays a pink circle with an Android logo, above white text "Widget Catalog."
+ * Below, a dark gray rounded rectangle frames two horizontal, pill-shaped pink buttons: "Yes"
+ * (left) and "No" (right), both with dark red text.
  */
 @RemoteComposable
 @Composable
@@ -213,7 +225,10 @@ fun ButtonReferenceSample7() {
 }
 
 /**
- * A dark screen displays a pink Android logo and "Widget Catalog" title. Below, a large dark grey rounded container features two side-by-side light pink rounded buttons. The left button reads "Yes" and "Confir\nm" (Confirm is truncated). The right button reads "No" and "Cancel". All button text is dark red.
+ * A dark screen displays a pink Android logo and "Widget Catalog" title. Below, a large dark grey
+ * rounded container features two side-by-side light pink rounded buttons. The left button reads
+ * "Yes" and "Confir\nm" (Confirm is truncated). The right button reads "No" and "Cancel". All
+ * button text is dark red.
  */
 @RemoteComposable
 @Composable
@@ -242,7 +257,9 @@ fun ButtonReferenceSample8() {
 }
 
 /**
- * Screen displaying "Widget Catalog" with an Android icon. A dark grey rounded rectangle contains a 2x2 grid of elements: a blue "Toggl" button (yellow text), a magenta "Shap" button (white text), white text "Click" directly on the grey background, and a green "Fixed" button (white text).
+ * Screen displaying "Widget Catalog" with an Android icon. A dark grey rounded rectangle contains a
+ * 2x2 grid of elements: a blue "Toggl" button (yellow text), a magenta "Shap" button (white text),
+ * white text "Click" directly on the grey background, and a green "Fixed" button (white text).
  */
 @RemoteComposable
 @Composable

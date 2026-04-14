@@ -40,8 +40,8 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
- * Dark theme UI with a pink Android icon and "Widget Catalog" text. Below, a dark gray rounded
- * card displays "Custom Theme" in white text. Inside the card, there's a pink rounded button with
+ * Dark theme UI with a pink Android icon and "Widget Catalog" text. Below, a dark gray rounded card
+ * displays "Custom Theme" in white text. Inside the card, there's a pink rounded button with
  * "Primary Button" in darker pink text.
  */
 @RemoteComposable
