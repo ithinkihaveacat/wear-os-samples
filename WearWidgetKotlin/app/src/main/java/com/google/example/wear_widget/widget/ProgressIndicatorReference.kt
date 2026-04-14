@@ -98,10 +98,8 @@ fun CircularProgressIndicatorSample2Preview() {
     WidgetPreview { CircularProgressIndicatorSample2() }
 }
 
-le1Preview() { WidgetPreview { CircularProgressIndicatorSample1() } }
-
 @PreviewWearLarge
 @Composable
-fun CircularProgressIndicatorSample2Preview() {
-    WidgetPreview { CircularProgressIndicatorSample2() }
+fun CircularProgressIndicatorSample3Preview() {
+    WidgetPreview { CircularProgressIndicatorSample3() }
 }
