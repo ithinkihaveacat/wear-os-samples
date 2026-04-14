@@ -49,10 +49,7 @@ import com.google.example.wear_widget.WidgetPreview
 @Composable
 fun SystemThemeComparisonSample() {
     val dummy = rememberMutableRemoteInt(0)
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
             MaterialRemoteText("System Theme".rs)
             RemoteBox(RemoteModifier.size(10.rdp))

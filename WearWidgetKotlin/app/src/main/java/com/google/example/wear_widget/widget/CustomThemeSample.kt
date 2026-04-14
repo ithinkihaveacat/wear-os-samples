@@ -57,7 +57,7 @@ fun CustomThemeSample() {
                     primary = Color.White,
                     onPrimary = Color.Black,
                     primaryContainer = Color.White,
-                    onPrimaryContainer = Color.Black
+                    onPrimaryContainer = Color.Black,
                 )
         )
 

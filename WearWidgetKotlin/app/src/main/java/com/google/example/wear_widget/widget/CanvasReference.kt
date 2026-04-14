@@ -49,10 +49,7 @@ import com.google.example.wear_widget.WidgetPreview
 @RemoteComposable
 @Composable
 fun CanvasReferenceSample1() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
             val width = remote.component.width
             val height = remote.component.height
@@ -84,10 +81,7 @@ fun CanvasReferenceSample1() {
 @RemoteComposable
 @Composable
 fun CanvasReferenceSample2() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
             val width = remote.component.width
             val height = remote.component.height
@@ -103,10 +97,7 @@ fun CanvasReferenceSample2() {
                 }
 
             translate(centerX, centerY) {
-                drawPath(
-                    path = path,
-                    paint = RemotePaint().apply { color = Color.Yellow.rc },
-                )
+                drawPath(path = path, paint = RemotePaint().apply { color = Color.Yellow.rc })
             }
         }
     }
@@ -120,10 +111,7 @@ fun CanvasReferenceSample2() {
 @RemoteComposable
 @Composable
 fun CanvasReferenceSample3() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
             val width = remote.component.width
             val height = remote.component.height
@@ -164,10 +152,7 @@ fun CanvasReferenceSample3() {
 @RemoteComposable
 @Composable
 fun CanvasReferenceSample4() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteBox(modifier = RemoteModifier.size(100.rdp)) {
             RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
                 val width = remote.component.width
@@ -232,10 +217,7 @@ fun CanvasReferenceSample4() {
 @RemoteComposable
 @Composable
 fun CanvasReferenceSample5() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteBox(modifier = RemoteModifier.size(100.rdp)) {
             RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
                 val width = remote.component.width

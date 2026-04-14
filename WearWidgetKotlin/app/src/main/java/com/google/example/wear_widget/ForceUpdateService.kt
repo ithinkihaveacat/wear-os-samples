@@ -55,10 +55,7 @@ class ForceUpdateWidget : GlanceWearWidget() {
 @RemoteComposable
 @Composable
 fun ForceUpdateWidgetContent(count: Int) {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
             RemoteText(text = "Favorite Number".rs, color = Color.Gray.rc, fontSize = 12.rsp)
             RemoteText(text = count.toString().rs, color = Color.White.rc, fontSize = 40.rsp)

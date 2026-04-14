@@ -44,20 +44,13 @@ import com.google.example.wear_widget.WidgetPreview
 @RemoteComposable
 @Composable
 fun CollapsibleColumnSample1() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteCollapsibleColumn(
             modifier = RemoteModifier.fillMaxSize(),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.SpaceEvenly,
         ) {
-            RemoteText(
-                "Top (High)",
-                color = Color.Red.rc,
-                modifier = RemoteModifier.priority(1.0f),
-            )
+            RemoteText("Top (High)", color = Color.Red.rc, modifier = RemoteModifier.priority(1.0f))
             RemoteText(
                 "Middle (Low)",
                 color = Color.Green.rc,

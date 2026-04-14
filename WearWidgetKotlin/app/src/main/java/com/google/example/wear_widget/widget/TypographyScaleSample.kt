@@ -54,10 +54,7 @@ fun TypographyScaleSample() {
     val myCaptionStyle =
         TextStyle(fontSize = 12.sp, fontStyle = FontStyle.Italic, color = Color.LightGray)
 
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
             // 1. Title style applied manually
             MaterialRemoteText(
@@ -77,7 +74,7 @@ fun TypographyScaleSample() {
             // 3. Caption style applied via 'style' parameter
             MaterialRemoteText(
                 text = "Caption Style".rs,
-                style = RemoteTextStyle.fromTextStyle(myCaptionStyle)
+                style = RemoteTextStyle.fromTextStyle(myCaptionStyle),
             )
         }
     }

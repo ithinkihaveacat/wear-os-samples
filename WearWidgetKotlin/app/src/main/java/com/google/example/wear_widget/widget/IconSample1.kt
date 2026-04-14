@@ -45,10 +45,7 @@ import com.google.example.wear_widget.WidgetPreview
 @RemoteComposable
 @Composable
 fun IconSample1() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteRow(
             verticalAlignment = RemoteAlignment.CenterVertically,
             horizontalArrangement = RemoteArrangement.Center,

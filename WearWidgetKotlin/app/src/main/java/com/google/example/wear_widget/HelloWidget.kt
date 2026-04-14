@@ -78,7 +78,7 @@ fun ImageTestWidgetContent(context: Context) {
                 bitmap = imageBitmap,
                 contentDescription = "Test Image".rs,
                 contentScale = ContentScale.Fit,
-                modifier = RemoteModifier.size(100.rdp)
+                modifier = RemoteModifier.size(100.rdp),
             )
         }
     }

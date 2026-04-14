@@ -20,7 +20,7 @@ robolectric = "4.16.1"
 roborazzi = "1.58.0"
 junit = "4.13.2"
 ext-junit = "1.2.1"
-spotless = "6.25.0"
+spotless = "8.4.0"
 
 [libraries]
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "uiTooling" }

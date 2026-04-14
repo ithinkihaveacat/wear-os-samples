@@ -42,10 +42,7 @@ import com.google.example.wear_widget.WidgetPreview
 @RemoteComposable
 @Composable
 fun SemanticStyleSample() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteColumn(
             modifier = RemoteModifier.fillMaxWidth(),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
@@ -60,7 +57,7 @@ fun SemanticStyleSample() {
 
             MaterialRemoteText(
                 text = "12:34".rs,
-                style = RemoteMaterialTheme.typography.numeralLarge
+                style = RemoteMaterialTheme.typography.numeralLarge,
             )
 
             RemoteBox(RemoteModifier.size(12.rdp))

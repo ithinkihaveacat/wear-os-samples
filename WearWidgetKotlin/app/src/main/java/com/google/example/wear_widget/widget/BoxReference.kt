@@ -45,10 +45,7 @@ import com.google.example.wear_widget.WidgetPreview
 @RemoteComposable
 @Composable
 fun BoxReferenceSample1() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteText(text = "Box Sample 1", color = Color.White.rc)
     }
 }
@@ -108,10 +105,7 @@ fun BoxReferenceSample3() {
 @Composable
 fun BoxReferenceSample4() {
     val state = rememberMutableRemoteInt(0)
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteStateLayout(
             modifier = RemoteModifier.fillMaxSize(),
             state = state,
@@ -128,7 +122,7 @@ fun BoxReferenceSample4() {
                     RemoteText(
                         text = "State 0: Blue\n(Click to toggle)",
                         color = Color.White.rc,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
                     )
                 }
             } else {
@@ -142,7 +136,7 @@ fun BoxReferenceSample4() {
                     RemoteText(
                         text = "State 1: Gray\n(Click to toggle)",
                         color = Color.Green.rc,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
                     )
                 }
             }

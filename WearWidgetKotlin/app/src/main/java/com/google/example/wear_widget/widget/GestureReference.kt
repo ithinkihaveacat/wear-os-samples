@@ -61,7 +61,7 @@ fun TouchGestureSample1() {
         modifier = RemoteModifier.fillMaxSize(),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
         verticalArrangement =
-            androidx.compose.remote.creation.compose.layout.RemoteArrangement.Center
+            androidx.compose.remote.creation.compose.layout.RemoteArrangement.Center,
     ) {
         RemoteText("Downs: ".rs + downCounter.toRemoteString(), color = Color.White.rc)
         RemoteText("Ups: ".rs + upCounter.toRemoteString(), color = Color.White.rc)

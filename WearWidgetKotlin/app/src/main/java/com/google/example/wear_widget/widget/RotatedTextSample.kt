@@ -42,10 +42,7 @@ import com.google.example.wear_widget.WidgetPreview
 @RemoteComposable
 @Composable
 fun RotatedTextSample(modifier: RemoteModifier = RemoteModifier) {
-    RemoteBox(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = modifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteBox(
             modifier =
                 RemoteModifier.background(Color.White)

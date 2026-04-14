@@ -70,10 +70,7 @@ import com.google.example.wear_widget.WidgetPreview
 @Composable
 fun ButtonReferenceSample1() {
     val dummy = rememberMutableRemoteInt(0)
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteButton(
             onClick = ValueChange(dummy, 0.ri),
             modifier = RemoteModifier.buttonSizeModifier(),
@@ -92,10 +89,7 @@ fun ButtonReferenceSample1() {
 @Composable
 fun ButtonReferenceSample2() {
     val dummy = rememberMutableRemoteInt(0)
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteButton(
             onClick = ValueChange(dummy, 0.ri),
             modifier = RemoteModifier.buttonSizeModifier(),
@@ -121,10 +115,7 @@ fun ButtonReferenceSample2() {
 @Composable
 fun ButtonReferenceSample3() {
     val dummy = rememberMutableRemoteInt(0)
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteButton(
             onClick = ValueChange(dummy, 0.ri),
             modifier = RemoteModifier.buttonSizeModifier(),
@@ -143,10 +134,7 @@ fun ButtonReferenceSample3() {
 @Composable
 fun ButtonReferenceSample4() {
     val dummy = rememberMutableRemoteInt(0)
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteButton(
             onClick = ValueChange(dummy, 0.ri),
             modifier = RemoteModifier.buttonSizeModifier(),
@@ -175,10 +163,7 @@ fun ButtonReferenceSample4() {
 @Composable
 fun ButtonReferenceSample6() {
     val dummy = rememberMutableRemoteInt(0)
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteButton(
             onClick = ValueChange(dummy, 0.ri),
             modifier = RemoteModifier.buttonSizeModifier(),
@@ -198,26 +183,17 @@ fun ButtonReferenceSample6() {
 @Composable
 fun ButtonReferenceSample7() {
     val dummy = rememberMutableRemoteInt(0)
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteRow(
             modifier = RemoteModifier.padding(horizontal = 11.rdp),
             horizontalArrangement = RemoteArrangement.Center,
             verticalAlignment = RemoteAlignment.CenterVertically,
         ) {
-            RemoteButton(
-                onClick = ValueChange(dummy, 0.ri),
-                modifier = RemoteModifier.weight(1f),
-            ) {
+            RemoteButton(onClick = ValueChange(dummy, 0.ri), modifier = RemoteModifier.weight(1f)) {
                 MaterialRemoteText("Yes".rs)
             }
             RemoteBox(RemoteModifier.size(4.rdp))
-            RemoteButton(
-                onClick = ValueChange(dummy, 0.ri),
-                modifier = RemoteModifier.weight(1f),
-            ) {
+            RemoteButton(onClick = ValueChange(dummy, 0.ri), modifier = RemoteModifier.weight(1f)) {
                 MaterialRemoteText("No".rs)
             }
         }
@@ -234,10 +210,7 @@ fun ButtonReferenceSample7() {
 @Composable
 fun ButtonReferenceSample8() {
     val dummy = rememberMutableRemoteInt(0)
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteButtonGroup {
             RemoteButton(
                 onClick = ValueChange(dummy, 0.ri),
@@ -273,10 +246,7 @@ fun ButtonReferenceSample9() {
     val dynamicShape = RemoteRoundedCornerShape(radiusDp)
     val button3Text = isToggled.select("Clicked!".rs, "Click Me".rs)
 
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteColumn(
             modifier = RemoteModifier.fillMaxSize().padding(10.rdp),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
@@ -404,10 +374,7 @@ fun ButtonReferenceSample4Preview() {
 @Composable
 fun ButtonReferenceSample10() {
     val dummy = rememberMutableRemoteInt(0)
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteButton(onClick = ValueChange(dummy, 0.ri)) {
             RemoteColumn {
                 RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically) {
@@ -437,10 +404,7 @@ fun ButtonReferenceSample10() {
 @Composable
 fun ButtonReferenceSample11() {
     val dummy = rememberMutableRemoteInt(0)
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteButton(
             onClick = ValueChange(dummy, 0.ri),
             colors =
@@ -473,10 +437,7 @@ fun ButtonReferenceSample11() {
 @Composable
 fun ButtonReferenceSample12() {
     val dummy = rememberMutableRemoteInt(0)
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteButton(
             onClick = ValueChange(dummy, 0.ri),
             colors =
@@ -517,10 +478,7 @@ fun ButtonReferenceSample12() {
 @Composable
 fun ButtonReferenceSample13() {
     val dummy = rememberMutableRemoteInt(0)
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteButton(
             onClick = ValueChange(dummy, 0.ri),
             colors =

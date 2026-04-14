@@ -43,10 +43,7 @@ import com.google.example.wear_widget.WidgetPreview
 @RemoteComposable
 @Composable
 fun CircularProgressIndicatorSample1() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteCircularProgressIndicator(progress = 0.75f.rf)
     }
 }
@@ -55,10 +52,7 @@ fun CircularProgressIndicatorSample1() {
 @RemoteComposable
 @Composable
 fun CircularProgressIndicatorSample2() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteCircularProgressIndicator(progress = 0.5f.rf)
     }
 }
@@ -75,13 +69,10 @@ fun CircularProgressIndicatorSample3() {
     val animatedProgress = animateRemoteFloat(0.25f) { progress }
     val toggleAction = ValueChange(progress, (progress + 0.25f.rf).createReference())
 
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteCircularProgressIndicator(
             progress = animatedProgress,
-            modifier = RemoteModifier.size(150.rdp).clickable(toggleAction)
+            modifier = RemoteModifier.size(150.rdp).clickable(toggleAction),
         )
     }
 }

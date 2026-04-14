@@ -149,7 +149,7 @@ fun TaskSample() {
                                         isAntiAlias = true
                                     },
                                 center = RemoteOffset(w / 2f.rf, h / 2f.rf),
-                                radius = w / 2f.rf
+                                radius = w / 2f.rf,
                             )
                         }
 
@@ -157,7 +157,7 @@ fun TaskSample() {
                             imageVector = ImageVector.vectorResource(id = R.drawable.ic_check_24),
                             contentDescription = "Checkmark".rs,
                             modifier = RemoteModifier.size(24.rdp),
-                            tint = iconTintColor // Dark green cutout equivalent
+                            tint = iconTintColor, // Dark green cutout equivalent
                         )
                     }
                 }
@@ -171,13 +171,13 @@ fun TaskSample() {
                         text = "1".rs,
                         color = RemoteMaterialTheme.colorScheme.onPrimaryContainer,
                         fontSize = 42.rsp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
                     )
                     MaterialRemoteText(
                         text = "of 5 tasks".rs,
                         color = RemoteMaterialTheme.colorScheme.onPrimaryContainer,
                         fontSize = 14.rsp,
-                        fontWeight = FontWeight.Medium
+                        fontWeight = FontWeight.Medium,
                     )
                 }
             }

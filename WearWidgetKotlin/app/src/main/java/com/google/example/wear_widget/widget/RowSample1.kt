@@ -42,21 +42,14 @@ import com.google.example.wear_widget.WidgetPreview
 @RemoteComposable
 @Composable
 fun RowSample1() {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteRow(
             modifier = RemoteModifier.fillMaxSize(),
             horizontalArrangement = RemoteArrangement.Center,
             verticalAlignment = RemoteAlignment.CenterVertically,
         ) {
             RemoteBox(modifier = RemoteModifier.padding(5.rdp).background(Color.Red)) {
-                RemoteText(
-                    "Red",
-                    color = Color.White.rc,
-                    modifier = RemoteModifier.padding(5.rdp),
-                )
+                RemoteText("Red", color = Color.White.rc, modifier = RemoteModifier.padding(5.rdp))
             }
             RemoteBox(modifier = RemoteModifier.padding(5.rdp).background(Color.Green)) {
                 RemoteText(
@@ -66,11 +59,7 @@ fun RowSample1() {
                 )
             }
             RemoteBox(modifier = RemoteModifier.padding(5.rdp).background(Color.Blue)) {
-                RemoteText(
-                    "Blue",
-                    color = Color.White.rc,
-                    modifier = RemoteModifier.padding(5.rdp),
-                )
+                RemoteText("Blue", color = Color.White.rc, modifier = RemoteModifier.padding(5.rdp))
             }
         }
     }

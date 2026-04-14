@@ -47,11 +47,11 @@ class AustralianThemeSampleTest {
             RemotePreview(WEAR_WIDGETS) {
                 RemoteBox(
                     modifier = RemoteModifier.fillMaxSize().background(Color.Black),
-                    contentAlignment = RemoteAlignment.Center
+                    contentAlignment = RemoteAlignment.Center,
                 ) {
                     RemoteBox(
                         modifier = RemoteModifier.size(170.rdp).background(Color.DarkGray),
-                        contentAlignment = RemoteAlignment.Center
+                        contentAlignment = RemoteAlignment.Center,
                     ) {
                         AustralianThemeSample()
                     }

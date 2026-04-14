@@ -49,7 +49,7 @@ class WidgetCatalog : GlanceWearWidget() {
         val dynamicBg =
             RemoteColor.createNamedRemoteColor(
                 "WearM3.primaryContainer",
-                localColorScheme.primaryContainer
+                localColorScheme.primaryContainer,
             )
         // Note: Not using dynamicBg because of the `RemoteModifier.background(RemoteColor)` Ignores
         // Clipping known issue

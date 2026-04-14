@@ -50,10 +50,7 @@ import com.google.example.wear_widget.WidgetPreview
 @Composable
 fun CounterSample1() {
     val count = rememberMutableRemoteInt(0)
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteRow(
             verticalAlignment = RemoteAlignment.CenterVertically,
             horizontalArrangement = RemoteArrangement.Center,

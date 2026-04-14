@@ -45,10 +45,7 @@ fun RowSample2() {
     // Orientation"
     // error when rendering the RemoteCollapsibleRow. It seems the RemoteCollapsibleRow's
     // orientation parameter was not being correctly handled by the renderer.
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteRow(
             modifier = RemoteModifier.fillMaxSize().padding(5.rdp),
             horizontalArrangement = RemoteArrangement.SpaceBetween,
