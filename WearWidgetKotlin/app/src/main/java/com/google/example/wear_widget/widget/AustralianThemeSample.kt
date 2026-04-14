@@ -36,17 +36,17 @@ import androidx.wear.compose.remote.material3.RemoteButtonColors
 import androidx.wear.compose.remote.material3.RemoteColorScheme
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
-import androidx.compose.remote.creation.profile.RcPlatformProfiles.WEAR_WIDGETS
-import androidx.compose.remote.tooling.preview.RemotePreview
+import com.google.example.wear_widget.PreviewWearLarge
+import com.google.example.wear_widget.WidgetPreview
 
-
-@Preview(device = "id:wearos_large_round")
+@PreviewWearLarge
 @Composable
 fun AustralianThemeSamplePreview() {
-    RemotePreview(WEAR_WIDGETS) {
+    WidgetPreview {
         AustralianThemeSample()
     }
 }
+
 
 /**
  * Android icon and "Wear Widget" text above a dark gray rounded card. The card displays "Aussie
