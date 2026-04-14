@@ -47,7 +47,10 @@ if [ "${PRECOGNITION_VERBOSE:-false}" = "true" ]; then
   VERBOSE_FLAG="--verbose"
 fi
 
-"$CLI_BIN" $VERBOSE_FLAG render --project . --preview "$PREVIEW_NAME" --output "$OUTPUT_PATH"
+if ! "$CLI_BIN" $VERBOSE_FLAG render --project . --preview "$PREVIEW_NAME" --output "$OUTPUT_PATH"; then
+    echo "Hint: If behaviors seem unexpected, consider re-running ./setup-precognition.sh to synchronize local distributions." >&2
+    exit 1
+fi
 
 
 
