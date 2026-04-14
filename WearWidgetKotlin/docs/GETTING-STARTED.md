@@ -906,27 +906,27 @@ primitives listed above are explicitly excluded from this allowlist. Because
 these operations are not flagged at compile-time, the underlying serialization
 buffer rejects them and crashes the process when you attempt to use them.
 
-### [FIXED] Multiple APIs Are Restricted {#multiple-apis-are-restricted}
-
-b/474354218
-
-In earlier versions, many core APIs (e.g., `.rs`, `.rf`) were marked as
-`@RestrictTo(LIBRARY_GROUP)`. This has been resolved for the core API surface.
-
-### `RemotePreview` Triggers `RestrictedApi` Lint Error {#remotepreview-restricted}
+### Multiple APIs Trigger `RestrictedApi` Lint Errors {#multiple-apis-are-restricted}
 
 b/502522668
 
-**Symptom:** Using `RemotePreview` in Compose Previews triggers a lint error in
-Android Studio:
-`RemotePreviewKt.RemotePreview can only be called from within the same library group`.
+**Symptom:** When using certain Remote Compose APIs, such as `RemotePreview`,
+Android Studio triggers a lint error:
+`[ApiName] can only be called from within the same library group`.
 
 **Workaround:** Suppress the lint error using `@SuppressLint("RestrictedApi")`
-on the preview function or `@file:SuppressLint("RestrictedApi")` at the top of
+on the specific function or `@file:SuppressLint("RestrictedApi")` at the top of
 the file.
 
-**Context:** The `RemotePreview` API is currently annotated with
-`@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)`.
+**Context:** The `RemotePreview` API (and historically many others) is annotated
+with `@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)`. While this is intended
+behavior during the alpha phase to limit external usage, it creates noise for
+developers building widgets.
+
+_Note: In earlier versions, many core APIs (e.g., `.rs`, `.rf`) were also marked
+as restricted (b/474354218). This specific issue has been resolved for the core
+API surface, but the workaround remains necessary for tooling APIs like
+`RemotePreview`._
 
 ### [FIXED] `RemoteModifier.clip()` Requires Explicit Size for Relative Shapes {#remotemodifierclip-requires-explicit-size-for-relative-shapes}
 
