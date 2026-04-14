@@ -100,9 +100,14 @@ dependencies {
     implementation(libs.wear.compose.foundation)
     implementation(libs.datastore.preferences)
 
+    testImplementation(enforcedPlatform(libs.compose.bom))
+    debugImplementation("androidx.compose.ui:ui-graphics-android:1.7.8")
+    debugImplementation("androidx.compose.ui:ui-android:1.7.8")
     testImplementation(libs.junit)
     testImplementation(libs.ext.junit)
-    testImplementation(libs.robolectric)
+    testImplementation(libs.robolectric) {
+        exclude(group = "org.conscrypt", module = "conscrypt-openjdk-uber")
+    }
     testImplementation(libs.roborazzi)
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.roborazzi.rule)

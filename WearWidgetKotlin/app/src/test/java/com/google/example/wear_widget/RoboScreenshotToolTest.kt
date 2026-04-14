@@ -27,6 +27,9 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.google.example.wear_widget.widget.*
 import java.io.File
+import java.io.FileOutputStream
+import android.graphics.Bitmap
+import androidx.compose.ui.graphics.asAndroidBitmap
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -156,10 +159,6 @@ class RoboScreenshotToolTest {
         composeTestRule.waitForIdle()
 
         val rootNode = composeTestRule.onAllNodes(isRoot())[0]
-
-        val dummyFile = File.createTempFile("dummy", ".png")
-        rootNode.captureRoboImage(dummyFile.absolutePath)
-        dummyFile.delete()
 
         rootNode.captureRoboImage("screenshots/${target}.png")
     }
