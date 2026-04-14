@@ -1390,18 +1390,18 @@ RemoteBox(modifier = RemoteModifier.size(32.rdp)) {
 
 ## Updates {#updates}
 
-### Wear Widgets EAP 1.4 — 14 Apr 2026 {#wear-widgets-eap-14}
+### Wear Widgets EAP 1.3 [PENDING] — 14 Apr 2026 {#wear-widgets-eap-13}
 
-#### Features {#features-14}
+#### Features {#features-13}
 
 - **SDK 37 Baseline:** The build environment has been upgraded to **SDK 37**. Recent Jetpack alpha libraries now require `compileSdk 37`.
 - **Dependencies Updated:** Updated `androidx.compose.remote` to `1.0.0-alpha08` and `androidx.glance.wear` to `1.0.0-alpha07`.
 
-#### Known Issues {#known-issues-14}
+#### Known Issues {#known-issues-13}
 
 - **[FIXED]** `RemoteComposeCreationComposeFlags.isRemoteApplierEnabled` has been removed as the remote applier is now fully integrated.
 
-#### Migration Instructions {#migration-instructions-14}
+#### Migration Instructions {#migration-instructions-13}
 
 - **Upgrade to SDK 37:** Ensure your `compileSdk` and `targetSdk` are set to `37`.
 - **Padding API Updates:** `RemoteModifier.padding` now strictly requires `RemoteDp`.
