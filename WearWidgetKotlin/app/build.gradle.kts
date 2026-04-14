@@ -40,7 +40,6 @@ android {
         unitTests {
             isIncludeAndroidResources = true
             all { test ->
-                test.systemProperty("roborazzi.test.record", "true")
                 if (System.getProperty("robo.screenshot.target") != null) {
                     test.systemProperty("robo.screenshot.target", System.getProperty("robo.screenshot.target"))
                 }
