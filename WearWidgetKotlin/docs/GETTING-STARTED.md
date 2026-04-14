@@ -709,18 +709,18 @@ To enable Compose Previews, use `RemotePreview` combined with
 code resides in the `main` source set.
 
 ```kotlin
-@WearPreviewDevices
+@Preview(name = "Wear Large Round", device = "id:wearos_large_round", showSystemUi = true)
 @Composable
 fun HelloWidgetPreview() {
-    val content: @Composable @RemoteComposable () -> Unit = { HelloWidgetContent() }
-    RemotePreview(RcPlatformProfiles.WEAR_WIDGETS, content)
+    RemotePreview(profile = RcPlatformProfiles.WEAR_WIDGETS) {
+        HelloWidgetContent()
+    }
 }
+
+
 ```
 
-**Note:** Android Studio currently has known issues when rendering multiple
-previews in a single file. While you may use these previews where functional, we
-recommend verifying your widget's appearance and behavior on an emulator or
-physical device for the most reliable experience and highest fidelity.
+
 
 ## Troubleshooting {#troubleshooting}
 
@@ -1071,20 +1071,19 @@ adb shell am broadcast \
 The system typically restarts the service automatically after configuration
 changes, but a manual force-stop may be necessary if it remains blank.
 
-### Android Studio Preview Limitations {#android-studio-preview-limitations}
+
+
+### [FIXED] Android Studio Preview Limitations {#android-studio-preview-limitations}
+
+> [!NOTE] Fixed in Compose Remote `1.0.0-alpha08`. Multiple previews are supported properly natively.
 
 b/431932822
 
 **Symptom:** When using `@Preview` or `@WearPreviewDevices` with
 `RemotePreview`, Android Studio may not display all defined previews correctly,
-especially when multiple previews are in the same file. You might encounter
-issues such as only the first preview rendering, or previews not updating as
-expected.
+especially when multiple previews are in the same file.
 
-**Workaround:** Deploying the widget to an emulator or physical device provides
-the most reliable method to confirm the appearance and behavior.
 
-### `drawArc` `useCenter` Parameter Requires Static Boolean {#drawarc-usecenter-parameter-requires-static-boolean}
 
 **Symptom:** You encounter a compilation error when trying to pass a
 `RemoteBoolean` to the `useCenter` parameter of `drawArc` in `RemoteCanvas` or
@@ -1424,6 +1423,10 @@ RemoteBox(modifier = RemoteModifier.size(32.rdp)) {
 - **\[FIXED\]**
   [RemoteModifier.clip() Requires Explicit Size for Relative Shapes](#remotemodifierclip-requires-explicit-size-for-relative-shapes):
   Resolved by `RemoteShape` support.
+- **\[FIXED\]**
+  [Android Studio Preview Limitations](#android-studio-preview-limitations):
+  Multi-preview instances parse securely.
+
 
 #### Migration Instructions {#migration-instructions-13}
 
@@ -1529,9 +1532,8 @@ RemoteBox(modifier = RemoteModifier.size(32.rdp)) {
   system-driven dynamic theming and custom brand overrides.
 - **Improved Developer Tools:** The `widget-switch` script has been rewritten to
   be faster and more reliable. It now waits for a "State saved" log confirmation
-  instead of force-stopping the app, preserving the process state. A
-  `component-switch` script has also been added to switch between the components
-  of `ComponentCatalog`.
+  instead of force-stopping the app, preserving the process state.
+
 - **Semantic Typography Helper:** Added `MyWidgetTypography` to provide access
   to standard Wear OS text styles (e.g., `titleLarge`, `bodyMedium`) while they
   remain internal in the library.
