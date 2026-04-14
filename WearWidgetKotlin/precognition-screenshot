@@ -29,9 +29,10 @@ if [ ! -f "$CLI_BIN" ]; then
 fi
 
 if [[ "${1:-}" == "--list" ]]; then
-    "$CLI_BIN" list --project .
+    "$CLI_BIN" list --project . | grep -v "^ " | awk -F. '{print $NF}'
     exit 0
 fi
+
 
 if [ $# -lt 1 ]; then
     echo "Usage: $(basename "$0") PREVIEW_NAME [OUTPUT_PNG]" >&2
