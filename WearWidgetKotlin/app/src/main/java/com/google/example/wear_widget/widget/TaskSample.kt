@@ -1,7 +1,20 @@
-
+/*
+ * Copyright 2026 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.google.example.wear_widget.widget
 
-import android.graphics.Paint
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
@@ -11,44 +24,33 @@ import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.layout.RemoteOffset
 import androidx.compose.remote.creation.compose.layout.RemoteRow
 import androidx.compose.remote.creation.compose.layout.RemoteSize
-import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.padding
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.state.RemotePaint
-import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rf
-import androidx.compose.remote.creation.compose.state.rsp
 import androidx.compose.remote.creation.compose.state.rs
+import androidx.compose.remote.creation.compose.state.rsp
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.wear.compose.remote.material3.ProvideRemoteTextStyle
-import androidx.wear.compose.remote.material3.RemoteMaterialTheme
-import androidx.compose.remote.creation.compose.text.RemoteTextStyle
 import androidx.wear.compose.remote.material3.RemoteIcon
-import androidx.compose.ui.unit.dp
+import androidx.wear.compose.remote.material3.RemoteMaterialTheme
+import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 import com.google.example.wear_widget.R
-
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.remote.creation.compose.modifier.background
-import androidx.compose.remote.creation.compose.modifier.clip
-import androidx.compose.ui.unit.DpSize
 
 @RemoteComposable
 @Composable
 fun TaskSample() {
-    
-        ProvideRemoteTextStyle(value = RemoteMaterialTheme.typography.bodyMedium) {
-            RemoteBox(
+
+    ProvideRemoteTextStyle(value = RemoteMaterialTheme.typography.bodyMedium) {
+        RemoteBox(
             modifier = RemoteModifier.fillMaxSize(),
             contentAlignment = RemoteAlignment.Center,
         ) {
@@ -64,7 +66,7 @@ fun TaskSample() {
                     // Custom Circular Progress Indicator using Canvas
                     val trackColor = RemoteMaterialTheme.colorScheme.surfaceContainerHigh
                     val progressColor = RemoteMaterialTheme.colorScheme.primary
-                    
+
                     RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
                         val width = remote.component.width
                         val height = remote.component.height
@@ -76,7 +78,8 @@ fun TaskSample() {
                         val startAngle = 135f
                         val progressSweep = 72f
                         val gapAngle = 25f // Increased space between progress and track
-                        val totalTrackSweep = 270f // Horseshoe style with a 90-degree gap at the bottom
+                        val totalTrackSweep =
+                            270f // Horseshoe style with a 90-degree gap at the bottom
 
                         // Track (Dark Green) - Incomplete section
                         val remainingSweep = totalTrackSweep - progressSweep - gapAngle
@@ -93,7 +96,8 @@ fun TaskSample() {
                                 startAngle = (startAngle + progressSweep + gapAngle).rf,
                                 sweepAngle = remainingSweep.rf,
                                 useCenter = false,
-                                topLeft = RemoteOffset((strokeWidth / 2f).rf, (strokeWidth / 2f).rf),
+                                topLeft =
+                                    RemoteOffset((strokeWidth / 2f).rf, (strokeWidth / 2f).rf),
                                 size = RemoteSize(width - strokeWidth.rf, height - strokeWidth.rf),
                             )
                         }
@@ -115,7 +119,7 @@ fun TaskSample() {
                             size = RemoteSize(width - strokeWidth.rf, height - strokeWidth.rf),
                         )
                     }
-                    
+
                     // Center Icon wrapped in a solid circle
                     RemoteBox(
                         modifier = RemoteModifier.size(32.rdp),
@@ -128,11 +132,12 @@ fun TaskSample() {
                             val w = remote.component.width
                             val h = remote.component.height
                             drawCircle(
-                                paint = RemotePaint().apply {
-                                    color = iconBgColor
-                                    style = PaintingStyle.Fill
-                                    isAntiAlias = true
-                                },
+                                paint =
+                                    RemotePaint().apply {
+                                        color = iconBgColor
+                                        style = PaintingStyle.Fill
+                                        isAntiAlias = true
+                                    },
                                 center = RemoteOffset(w / 2f.rf, h / 2f.rf),
                                 radius = w / 2f.rf
                             )
