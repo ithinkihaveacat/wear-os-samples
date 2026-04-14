@@ -23,12 +23,15 @@ import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
+import androidx.compose.remote.creation.compose.layout.RemoteImage
 import androidx.compose.remote.creation.compose.layout.RemoteRow
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.animationSpec
+import androidx.compose.remote.creation.compose.modifier.clip
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.padding
 import androidx.compose.remote.creation.compose.modifier.size
+import androidx.compose.remote.creation.compose.shapes.RemoteCircleShape
 import androidx.compose.remote.creation.compose.shapes.RemoteRoundedCornerShape
 import androidx.compose.remote.creation.compose.state.asRemoteDp
 import androidx.compose.remote.creation.compose.state.rb
@@ -40,8 +43,12 @@ import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteButtonColors
 import androidx.wear.compose.remote.material3.RemoteButtonDefaults
@@ -385,6 +392,186 @@ fun ButtonReferenceSample3Preview() {
 @Composable
 fun ButtonReferenceSample4Preview() {
     WidgetPreview { ButtonReferenceSample4() }
+}
+
+/**
+ * Screenshot shows an Android robot icon above "Component Catalog" on a black background. Below, a
+ * light purple chat bubble features a circular profile picture of a woman. Inside, text reads "Ali"
+ * and "2:03 PM", followed by "Dinner in SF" and "Let's try that new restaurant."
+ */
+@RemoteComposable
+@Composable
+fun ButtonReferenceSample10() {
+    val dummy = rememberMutableRemoteInt(0)
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        contentAlignment = RemoteAlignment.Center,
+    ) {
+        RemoteButton(onClick = ValueChange(dummy, 0.ri)) {
+            RemoteColumn {
+                RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically) {
+                    RemoteImage(
+                        bitmap = ImageBitmap.imageResource(id = R.drawable.ali),
+                        contentDescription = "Avatar".rs,
+                        contentScale = ContentScale.Crop,
+                        modifier = RemoteModifier.size(24.rdp).clip(RemoteCircleShape),
+                    )
+                    RemoteBox(modifier = RemoteModifier.size(8.rdp))
+                    MaterialRemoteText("Ali".rs)
+                    RemoteBox(modifier = RemoteModifier.size(20.rdp))
+                    MaterialRemoteText("2:03 PM".rs)
+                }
+                MaterialRemoteText(text = "Dinner in SF".rs, fontWeight = FontWeight.Bold)
+                MaterialRemoteText(text = "Let's try that new restaurant.".rs)
+            }
+        }
+    }
+}
+
+/**
+ * Dark UI with an Android robot icon above "Component Catalog" text. A dark gray rounded button
+ * below displays "Text Data" in light gray, stacked over "Content" in white.
+ */
+@RemoteComposable
+@Composable
+fun ButtonReferenceSample11() {
+    val dummy = rememberMutableRemoteInt(0)
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        contentAlignment = RemoteAlignment.Center,
+    ) {
+        RemoteButton(
+            onClick = ValueChange(dummy, 0.ri),
+            colors =
+                RemoteButtonColors(
+                    containerColor = Color.DarkGray.rc,
+                    contentColor = Color.LightGray.rc,
+                    secondaryContentColor = Color.White.rc,
+                    iconColor = Color.White.rc,
+                    disabledContainerColor = Color.DarkGray.rc,
+                    disabledContentColor = Color.LightGray.rc,
+                    disabledSecondaryContentColor = Color.White.rc,
+                    disabledIconColor = Color.White.rc,
+                ),
+        ) {
+            RemoteColumn {
+                MaterialRemoteText("Text Data".rs)
+                MaterialRemoteText(text = "Content".rs, color = Color.White.rc)
+            }
+        }
+    }
+}
+
+/**
+ * A dark screen displays a grey Android logo at the top, followed by white text "Component
+ * Catalog". Below, a rounded grey button features stacked text "Icon Data" (grey) and "Content"
+ * (white), alongside a white message icon with horizontal lines.
+ */
+@RemoteComposable
+@Composable
+fun ButtonReferenceSample12() {
+    val dummy = rememberMutableRemoteInt(0)
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        contentAlignment = RemoteAlignment.Center,
+    ) {
+        RemoteButton(
+            onClick = ValueChange(dummy, 0.ri),
+            colors =
+                RemoteButtonColors(
+                    containerColor = Color.DarkGray.rc,
+                    contentColor = Color.LightGray.rc,
+                    secondaryContentColor = Color.White.rc,
+                    iconColor = Color.White.rc,
+                    disabledContainerColor = Color.DarkGray.rc,
+                    disabledContentColor = Color.LightGray.rc,
+                    disabledSecondaryContentColor = Color.White.rc,
+                    disabledIconColor = Color.White.rc,
+                ),
+        ) {
+            RemoteColumn {
+                MaterialRemoteText("Icon Data".rs)
+                MaterialRemoteText(text = "Content".rs, color = Color.White.rc)
+            }
+            RemoteBox(modifier = RemoteModifier.size(8.rdp))
+            RemoteIcon(
+                imageVector =
+                    androidx.compose.ui.graphics.vector.ImageVector.vectorResource(
+                        id = R.drawable.ic_message_24
+                    ),
+                contentDescription = "Message".rs,
+                modifier = RemoteModifier.size(RemoteButtonDefaults.SmallIconSize),
+            )
+        }
+    }
+}
+
+/**
+ * A dark screen with an Android robot icon at the top, followed by the white text "Component
+ * Catalog". Below, a dark gray rounded button features a white running person icon on the left and
+ * stacked white text "Graphic Data Content" on the right.
+ */
+@RemoteComposable
+@Composable
+fun ButtonReferenceSample13() {
+    val dummy = rememberMutableRemoteInt(0)
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        contentAlignment = RemoteAlignment.Center,
+    ) {
+        RemoteButton(
+            onClick = ValueChange(dummy, 0.ri),
+            colors =
+                RemoteButtonColors(
+                    containerColor = Color.DarkGray.rc,
+                    contentColor = Color.LightGray.rc,
+                    secondaryContentColor = Color.White.rc,
+                    iconColor = Color.White.rc,
+                    disabledContainerColor = Color.DarkGray.rc,
+                    disabledContentColor = Color.LightGray.rc,
+                    disabledSecondaryContentColor = Color.White.rc,
+                    disabledIconColor = Color.White.rc,
+                ),
+        ) {
+            RemoteIcon(
+                imageVector =
+                    androidx.compose.ui.graphics.vector.ImageVector.vectorResource(
+                        id = R.drawable.ic_run_24
+                    ),
+                contentDescription = "Run".rs,
+                modifier = RemoteModifier.size(RemoteButtonDefaults.LargeIconSize),
+            )
+            RemoteBox(modifier = RemoteModifier.size(8.rdp))
+            RemoteColumn {
+                MaterialRemoteText("Graphic Data".rs)
+                MaterialRemoteText(text = "Content".rs, color = Color.White.rc)
+            }
+        }
+    }
+}
+
+@PreviewWearLarge
+@Composable
+fun ButtonReferenceSample10Preview() {
+    WidgetPreview { ButtonReferenceSample10() }
+}
+
+@PreviewWearLarge
+@Composable
+fun ButtonReferenceSample11Preview() {
+    WidgetPreview { ButtonReferenceSample11() }
+}
+
+@PreviewWearLarge
+@Composable
+fun ButtonReferenceSample12Preview() {
+    WidgetPreview { ButtonReferenceSample12() }
+}
+
+@PreviewWearLarge
+@Composable
+fun ButtonReferenceSample13Preview() {
+    WidgetPreview { ButtonReferenceSample13() }
 }
 
 @PreviewWearLarge

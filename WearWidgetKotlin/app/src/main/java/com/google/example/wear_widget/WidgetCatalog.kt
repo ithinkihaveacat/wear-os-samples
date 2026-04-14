@@ -100,6 +100,12 @@ class WidgetCatalog : GlanceWearWidget() {
                     "BitmapCanvasSample" -> BitmapCanvasSample()
                     "DebugClickSample" -> DebugClickSample()
                     "BackgroundTreatmentsSample" -> BackgroundTreatmentsSample()
+                    "ButtonSample10" -> ButtonReferenceSample10()
+                    "ButtonSample11" -> ButtonReferenceSample11()
+                    "ButtonSample12" -> ButtonReferenceSample12()
+                    "ButtonSample13" -> ButtonReferenceSample13()
+                    "CanvasSample4" -> CanvasReferenceSample4()
+                    "CanvasSample5" -> CanvasReferenceSample5()
                     else -> SemanticStyleSample()
                 }
             }

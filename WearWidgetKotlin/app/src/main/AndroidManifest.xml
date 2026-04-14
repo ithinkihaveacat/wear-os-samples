@@ -123,34 +123,7 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".ComponentCatalogService"
-            android:exported="true"
-            android:icon="@drawable/ic_launcher"
-            android:label="@string/component_catalog_label"
-            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
 
-            <intent-filter>
-                <action android:name="androidx.glance.wear.action.BIND_WIDGET_PROVIDER" />
-                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
-            </intent-filter>
-
-            <meta-data
-                android:name="androidx.glance.wear.widget.provider"
-                android:resource="@xml/component_catalog_info" />
-
-            <meta-data
-                android:name="androidx.wear.tiles.PREVIEW"
-                android:resource="@drawable/component_catalog_fullscreen" />
-        </service>
-
-        <receiver
-            android:name=".ComponentCatalogReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.example.wear_widget.SET_COMPONENT" />
-            </intent-filter>
-        </receiver>
 
         <receiver
             android:name=".WidgetCatalogReceiver"
