@@ -95,8 +95,6 @@ class WidgetCatalog : GlanceWearWidget() {
                     "AnchoredTextSample" -> AnchoredTextSample()
                     "RotatedTextSample" -> RotatedTextSample()
                     "FullBleedImageButtonSample" -> FullBleedImageButtonSample()
-                    "TwoRemoteImagesWorkaround" -> TwoRemoteImagesWorkaround()
-                    "TwoRemoteImagesBug" -> TwoRemoteImagesBug()
                     "BitmapCanvasSample" -> BitmapCanvasSample()
                     "DebugClickSample" -> DebugClickSample()
                     "BackgroundTreatmentsSample" -> BackgroundTreatmentsSample()
