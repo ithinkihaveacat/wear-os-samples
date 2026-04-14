@@ -93,7 +93,8 @@ Wear Widget libraries are available on **Google Maven**.
 
 **1. Configure SDK Version**
 
-Ensure your `compileSdk` and `targetSdk` are set to **37** or higher. Recent Jetpack alpha libraries enforce this requirement.
+Ensure your `compileSdk` and `targetSdk` are set to **37** or higher. Recent
+Jetpack alpha libraries enforce this requirement.
 
 ```kotlin
 android {
@@ -884,13 +885,23 @@ ALPHA/SNAPSHOT versions.
 
 b/474354218
 
-Many APIs (e.g., `.rs`, `.rf`, `RemotePainter`) are currently marked as
-`@RestrictTo(LIBRARY_GROUP)`.
+In earlier versions, many core APIs (e.g., `.rs`, `.rf`) were marked as
+`@RestrictTo(LIBRARY_GROUP)`. This has been resolved for the core API surface.
 
-**Workaround:** Suppress the lint error by adding
-`@file:SuppressLint("RestrictedApi")` at the top of each file (or
-`@SuppressLint("RestrictedApi")` immediately above a function). This enables
-access to the full API surface.
+### `RemotePreview` Triggers `RestrictedApi` Lint Error {#remotepreview-restricted}
+
+b/502522668
+
+**Symptom:** Using `RemotePreview` in Compose Previews triggers a lint error in
+Android Studio:
+`RemotePreviewKt.RemotePreview can only be called from within the same library group`.
+
+**Workaround:** Suppress the lint error using `@SuppressLint("RestrictedApi")`
+on the preview function or `@file:SuppressLint("RestrictedApi")` at the top of
+the file.
+
+**Context:** The `RemotePreview` API is currently annotated with
+`@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)`.
 
 ### `RemoteModifier.clip()` Requires Explicit Size for Relative Shapes {#remotemodifierclip-requires-explicit-size-for-relative-shapes}
 
@@ -915,8 +926,8 @@ RemoteModifier
 
 ### [FIXED] `RemoteModifier.padding` Lacks `RemoteDp` Support {#remotemodifierpadding-lacks-remotedp-support}
 
-> [!NOTE]
-> Fixed in `1.0.0-alpha07`. `RemoteModifier.padding` now supports `RemoteDp` (e.g., `10.rdp`).
+> [!NOTE] Fixed in `1.0.0-alpha07`. `RemoteModifier.padding` now supports
+> `RemoteDp` (e.g., `10.rdp`).
 
 b/470964182
 
@@ -930,11 +941,10 @@ RemoteModifier.padding(10.rdp)
 
 ### [FIXED] `RemoteArrangement.Center` Can Only Be Used in Vertical Contexts {#remotearrangementcenter-can-only-be-used-in-vertical-contexts}
 
-> [!NOTE]
-> Fixed in `1.0.0-alpha07`. `RemoteArrangement.Center` now implements `HorizontalOrVertical` and can be used in both `RemoteRow` and `RemoteColumn`.
+> [!NOTE] Fixed in `1.0.0-alpha07`. `RemoteArrangement.Center` now implements
+> `HorizontalOrVertical` and can be used in both `RemoteRow` and `RemoteColumn`.
 
 b/471153933
-
 
 **Symptom:** A type mismatch error occurs when using `RemoteArrangement.Center`
 in a `RemoteRow`.
@@ -959,28 +969,32 @@ interface.
 
 ### [FIXED] `RemoteBox` Differs from Compose `Box` {#remotebox-differs-from-compose-box}
 
-> [!NOTE]
-> Fixed in `1.0.0-alpha07`. `RemoteBox` now uses `contentAlignment: RemoteAlignment` just like standard Compose `Box`.
+> [!NOTE] Fixed in `1.0.0-alpha07`. `RemoteBox` now uses
+> `contentAlignment: RemoteAlignment` just like standard Compose `Box`.
 
-> [!WARNING]
-> This is a breaking change. Existing usages of `RemoteBox` with `horizontalAlignment` and `verticalArrangement` must be updated to use `contentAlignment`.
+> [!WARNING] This is a breaking change. Existing usages of `RemoteBox` with
+> `horizontalAlignment` and `verticalArrangement` must be updated to use
+> `contentAlignment`.
 
-**Migration:**
-Replace:
+**Migration:** Replace:
+
 ```kotlin
 RemoteBox(
     horizontalAlignment = RemoteAlignment.CenterHorizontally,
     verticalArrangement = RemoteArrangement.Center,
 )
 ```
+
 With:
+
 ```kotlin
 RemoteBox(
     contentAlignment = RemoteAlignment.Center,
 )
 ```
 
-For other alignments, use `RemoteAlignment` constants (e.g., `RemoteAlignment.BottomEnd`).
+For other alignments, use `RemoteAlignment` constants (e.g.,
+`RemoteAlignment.BottomEnd`).
 
 b/471212869
 
@@ -1394,22 +1408,28 @@ RemoteBox(modifier = RemoteModifier.size(32.rdp)) {
 
 #### Features {#features-13}
 
-- **SDK 37 Baseline:** The build environment has been upgraded to **SDK 37**. Recent Jetpack alpha libraries now require `compileSdk 37`.
-- **Dependencies Updated:** Updated `androidx.compose.remote` to `1.0.0-alpha08` and `androidx.glance.wear` to `1.0.0-alpha07`.
+- **SDK 37 Baseline:** The build environment has been upgraded to **SDK 37**.
+  Recent Jetpack alpha libraries now require `compileSdk 37`.
+- **Dependencies Updated:** Updated `androidx.compose.remote` to `1.0.0-alpha08`
+  and `androidx.glance.wear` to `1.0.0-alpha07`.
 
 #### Known Issues {#known-issues-13}
 
-- **[FIXED]** `RemoteComposeCreationComposeFlags.isRemoteApplierEnabled` has been removed as the remote applier is now fully integrated.
+- **[FIXED]** `RemoteComposeCreationComposeFlags.isRemoteApplierEnabled` has
+  been removed as the remote applier is now fully integrated.
 
 #### Migration Instructions {#migration-instructions-13}
 
-- **Upgrade to SDK 37:** Ensure your `compileSdk` and `targetSdk` are set to `37`.
-- **Padding API Updates:** `RemoteModifier.padding` now strictly requires `RemoteDp`.
-  Replace: `.padding(10.dp)` with `.padding(10.rdp)`.
-- **Clip API Updates:** `RemoteModifier.clip` now expects `RemoteShape` (e.g., `RemoteCircleShape`) and no longer accepts explicit dimensions.
-  Replace: `.clip(CircleShape, DpSize(60.dp, 60.dp))` with `.clip(RemoteCircleShape)`.
-- **Theme Color Scheme Updates:** `RemoteColorScheme` is now final. Use the `copy()` method to override roles.
-  Replace: `object : RemoteColorScheme() { ... }` with `RemoteColorScheme().copy(...)`.
+- **Upgrade to SDK 37:** Ensure your `compileSdk` and `targetSdk` are set to
+  `37`.
+- **Padding API Updates:** `RemoteModifier.padding` now strictly requires
+  `RemoteDp`. Replace: `.padding(10.dp)` with `.padding(10.rdp)`.
+- **Clip API Updates:** `RemoteModifier.clip` now expects `RemoteShape` (e.g.,
+  `RemoteCircleShape`) and no longer accepts explicit dimensions. Replace:
+  `.clip(CircleShape, DpSize(60.dp, 60.dp))` with `.clip(RemoteCircleShape)`.
+- **Theme Color Scheme Updates:** `RemoteColorScheme` is now final. Use the
+  `copy()` method to override roles. Replace:
+  `object : RemoteColorScheme() { ... }` with `RemoteColorScheme().copy(...)`.
 
 ### Wear Widgets EAP 1.2 — 24 Mar 2026 {#wear-widgets-eap-12-24-mar-2026}
 
