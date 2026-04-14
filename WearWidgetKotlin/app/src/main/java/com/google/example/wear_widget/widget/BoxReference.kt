@@ -17,13 +17,17 @@
 
 package com.google.example.wear_widget.widget
 
+import androidx.compose.remote.creation.compose.action.ValueChange
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
+import androidx.compose.remote.creation.compose.layout.RemoteStateLayout
 import androidx.compose.remote.creation.compose.layout.RemoteText
 import androidx.compose.remote.creation.compose.modifier.*
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rdp
+import androidx.compose.remote.creation.compose.state.rememberMutableRemoteInt
+import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -92,6 +96,56 @@ fun BoxReferenceSample3() {
             color = Color.Yellow.rc,
             textAlign = TextAlign.End,
         )
+    }
+}
+
+/**
+ * A full screen layout demonstrating client-side view branch switching dynamically using
+ * RemoteStateLayout.
+ */
+@RemoteComposable
+@Composable
+fun BoxReferenceSample4() {
+    val state = rememberMutableRemoteInt(0)
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        contentAlignment = RemoteAlignment.Center,
+    ) {
+        RemoteStateLayout(
+            modifier = RemoteModifier.fillMaxSize(),
+            state = state,
+            states = intArrayOf(0, 1),
+        ) { current ->
+            if (current == 0) {
+                RemoteBox(
+                    modifier =
+                        RemoteModifier.fillMaxSize()
+                            .background(Color.Blue.rc)
+                            .clickable(ValueChange(state, 1.ri)),
+                    contentAlignment = RemoteAlignment.Center,
+                ) {
+                    RemoteText(
+                        text = "State 0: Blue\n(Click to toggle)",
+                        color = Color.White.rc,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            } else {
+                RemoteBox(
+                    modifier =
+                        RemoteModifier.fillMaxSize()
+                            .background(Color.DarkGray.rc)
+                            .clickable(ValueChange(state, 0.ri)),
+                    contentAlignment = RemoteAlignment.Center,
+                ) {
+                    RemoteText(
+                        text = "State 1: Gray\n(Click to toggle)",
+                        color = Color.Green.rc,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+        }
     }
 }
 
