@@ -70,7 +70,7 @@ fun WidgetButtonSamplePreview() = RemotePreview { Container { WidgetButtonSample
 fun WidgetIconSample(modifier: RemoteModifier = RemoteModifier) {
     RemoteIcon(
         modifier = modifier.size(24.rdp),
-        imageVector = ImageVector.vectorResource(R.drawable.ic_launcher_foreground),
+        imageVector = ImageVector.vectorResource(R.drawable.android_24px),
         contentDescription = "Launcher Icon".rs,
         tint = RemoteColor(Color.White),
     )

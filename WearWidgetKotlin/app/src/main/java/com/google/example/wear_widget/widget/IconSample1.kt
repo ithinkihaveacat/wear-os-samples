@@ -55,21 +55,21 @@ fun IconSample1() {
             horizontalArrangement = RemoteArrangement.Center,
         ) {
             RemoteIcon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
+                imageVector = ImageVector.vectorResource(id = R.drawable.android_24px),
                 contentDescription = "Small Red".rs,
                 modifier = RemoteModifier.size(24.rdp),
                 tint = Color.Red.rc,
             )
             RemoteBox(RemoteModifier.size(10.rdp))
             RemoteIcon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
+                imageVector = ImageVector.vectorResource(id = R.drawable.android_24px),
                 contentDescription = "Medium Green".rs,
                 modifier = RemoteModifier.size(48.rdp),
                 tint = Color.Green.rc,
             )
             RemoteBox(RemoteModifier.size(10.rdp))
             RemoteIcon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
+                imageVector = ImageVector.vectorResource(id = R.drawable.android_24px),
                 contentDescription = "Large Blue".rs,
                 modifier = RemoteModifier.size(72.rdp),
                 tint = Color.Blue.rc,

@@ -79,7 +79,7 @@ fun CardSample1() {
             RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically) {
                 RemoteIcon(
                     imageVector =
-                        ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
+                        ImageVector.vectorResource(id = R.drawable.android_24px),
                     contentDescription = "Card Icon".rs,
                     modifier = RemoteModifier.size(40.rdp),
                     tint = Color.Cyan.rc,

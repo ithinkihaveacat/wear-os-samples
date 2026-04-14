@@ -59,7 +59,7 @@ fun ButtonSample2() {
             icon = {
                 RemoteIcon(
                     imageVector =
-                        ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
+                        ImageVector.vectorResource(id = R.drawable.android_24px),
                     contentDescription = "Icon".rs,
                     modifier = RemoteModifier.size(RemoteButtonDefaults.IconSize),
                 )
