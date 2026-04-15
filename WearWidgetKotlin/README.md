@@ -130,18 +130,13 @@ samples.
 
 ## Development Tools
 
-### Precognition Rendering Integration (Optional Tooling)
+### Compose AI Tools Rendering Integration
 
-**Why it's useful:** Accelerates localized testing cycles efficiently using
-daemon reflection engines.
-
-**Requirements:** Requires `precognition` sibling repository configuration.
+**Why it's useful:** Accelerates localized testing cycles efficiently using Compose AI Tools Roborazzi infrastructure.
 
 **Workflow:**
 
-1. Execute `./setup-precognition.sh`
-2. Define standard `@Composable` wrapper functions for your `@RemoteComposable`
-   widgets:
+1. Define standard `@Composable` wrapper functions for your `@RemoteComposable` widgets:
 
    ```kotlin
    import androidx.compose.ui.tooling.preview.Preview
@@ -157,27 +152,17 @@ daemon reflection engines.
    }
    ```
 
-3. Update metadata indexes: `./gradlew :app:collectPreviewInfo`
-4. Generate graphics natively: `./precognition-screenshot YourSamplePreview`
+2. Generate graphics: `./precognition-screenshot YourSamplePreview`
 
 **Architecture Overview & Troubleshooting Details:**
 
-- **Daemon Mechanism**: Precognition leverages a continuous background daemon
-  process to keep the Robolectric sandbox and graphics pipeline loaded in
-  memory.
-- **Index Management (`collectPreviewInfo`)**: The metadata scanner output
-  (`project-info.txt`) tracks the application's runtime classpath definitions.
-  You only need to run `./gradlew :app:collectPreviewInfo` when modifying
-  `build.gradle.kts` (such as adding dependencies). Routine widget edits do NOT
-  require updating the metadata.
-- **Problem Diagnostics**: Run verbose configurations by passing
-  `PRECOGNITION_VERBOSE=true ./precognition-screenshot ...` to observe
-  lower-level daemon execution logs directly.
+- **Backend Platform**: Leverages Gradle tasks paired with internal Roborazzi unit rules.
+- **Problem Diagnostics**: Run verbose configurations by passing `PRECOGNITION_VERBOSE=true ./precognition-screenshot ...` to observe detailed engine traces.
 
 **Reversion / Cleanup:** Clear local outputs using:
 
 ```bash
-rm -rf app/build/preview/
+rm -rf app/build/compose-previews/
 ```
 
 ## Troubleshooting
