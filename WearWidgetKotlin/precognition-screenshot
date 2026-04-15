@@ -4,6 +4,14 @@ set -euo pipefail
 COMPOSE_AI_DIR="${COMPOSE_AI_DIR:-../../compose-ai-tools}"
 CLI_BIN="$COMPOSE_AI_DIR/cli/build/install/compose-preview/bin/compose-preview"
 
+if [ ! -f "$CLI_BIN" ]; then
+    echo "Compose AI Tools CLI not found. Compiling distribution..."
+    (
+        cd "$COMPOSE_AI_DIR"
+        ./gradlew :cli:installDist > /dev/null
+    )
+fi
+
 usage() {
     cat <<EOF
 Usage: $(basename "$0") PREVIEW_NAME [OUTPUT_PNG]

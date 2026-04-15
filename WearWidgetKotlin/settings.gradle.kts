@@ -12,6 +12,14 @@ pluginManagement {
 //            url = uri("https://androidx.dev/snapshots/builds/14666938/artifacts/repository")
 //        }
         gradlePluginPortal()
+        mavenLocal()
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "ee.schimke.composeai.preview") {
+                useModule("ee.schimke.composeai:gradle-plugin:${requested.version}")
+            }
+        }
     }
 }
 dependencyResolutionManagement {
@@ -19,10 +27,6 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        // Commented out as tagged releases are now available on Google Maven.
-        // maven {
-        //     url = uri("https://androidx.dev/snapshots/builds/14978996/artifacts/repository")
-        // }
     }
 }
 
