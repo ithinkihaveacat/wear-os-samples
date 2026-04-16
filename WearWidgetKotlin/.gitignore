@@ -14,6 +14,6 @@
 .cxx
 local.properties
 
-# Precognition cache
+# Preview cache
 app/project.info
 app/build/preview/

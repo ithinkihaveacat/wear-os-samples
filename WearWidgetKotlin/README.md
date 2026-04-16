@@ -152,12 +152,12 @@ samples.
    }
    ```
 
-2. Generate graphics: `./precognition-screenshot YourSamplePreview`
+2. Generate graphics: `./widget-screenshot YourSamplePreview`
 
 **Architecture Overview & Troubleshooting Details:**
 
 - **Backend Platform**: Leverages Gradle tasks paired with internal Roborazzi unit rules.
-- **Problem Diagnostics**: Run verbose configurations by passing `PRECOGNITION_VERBOSE=true ./precognition-screenshot ...` to observe detailed engine traces.
+- **Problem Diagnostics**: Run verbose configurations by passing `WIDGET_VERBOSE=true ./widget-screenshot ...` to observe detailed engine traces.
 
 **Reversion / Cleanup:** Clear local outputs using:
 
