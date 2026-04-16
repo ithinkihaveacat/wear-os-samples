@@ -30,8 +30,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     useLibrary("wear-sdk")
     buildFeatures {
@@ -112,5 +112,12 @@ dependencies {
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.roborazzi.rule)
     testImplementation(libs.compose.ui.test.junit4)
+    testImplementation("ee.schimke.composeai:renderer-android:0.1.0-SNAPSHOT") {
+        exclude(group = "org.conscrypt", module = "conscrypt-openjdk-uber")
+    }
     debugImplementation(libs.compose.ui.test.manifest)
+}
+
+configurations.all {
+    exclude(group = "org.conscrypt", module = "conscrypt-openjdk-uber")
 }
