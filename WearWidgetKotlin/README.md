@@ -140,7 +140,9 @@ Compose AI Tools Roborazzi infrastructure.
 - The `compose-ai-tools` repository must be checked out locally. By default, the
   script expects it at `../../compose-ai-tools`. You can override this by
   setting the `COMPOSE_AI_DIR` environment variable.
-- Ensure you have checked out the correct commit in `compose-ai-tools` (specifically `a092386d94d4bc01e9436ab542e5097ff6eb7a2a` or a branch containing it like `feature/option-2-support`).
+- Ensure you have checked out the correct commit in `compose-ai-tools`
+  (specifically `a092386d94d4bc01e9436ab542e5097ff6eb7a2a` or a branch
+  containing it like `feature/option-2-support`).
 - You must publish the library to mavenLocal by running
   `./gradlew publishToMavenLocal` in the `compose-ai-tools` directory before
   running previews here.
@@ -166,13 +168,17 @@ Compose AI Tools Roborazzi infrastructure.
 
 2. Generate graphics: `./widget-screenshot YourSamplePreview`
 
-**Architecture Overview & Troubleshooting Details:**
+**How it works & Troubleshooting:**
 
-- **Backend Platform**: Leverages Gradle tasks paired with internal Roborazzi
-  unit rules.
-- **Problem Diagnostics**: Run verbose configurations by passing
-  `WIDGET_VERBOSE=true ./widget-screenshot ...` to observe detailed engine
-  traces.
+- **Under the hood**: The rendering process uses a custom Gradle task
+  (`renderPreviews`) that runs Robolectric unit tests. It uses Roborazzi to
+  capture the screenshots of the composed previews.
+- **Problem Diagnostics**: If a preview fails or acts unexpectedly, you can run
+  it with verbose output to see detailed engine traces:
+
+  ```bash
+  WIDGET_VERBOSE=true ./widget-screenshot YourSamplePreview
+  ```
 
 **Reversion / Cleanup:** Clear local outputs using:
 
