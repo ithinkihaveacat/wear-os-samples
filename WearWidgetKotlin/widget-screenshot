@@ -11,7 +11,7 @@ if [ ! -d "$COMPOSE_AI_DIR" ]; then
     exit 1
 fi
 
-EXPECTED_HASH="861bb8849070fb7f1b9544c33fbf6e2ecf0bfbcb"
+EXPECTED_HASH="a092386d94d4bc01e9436ab542e5097ff6eb7a2a"
 CURRENT_HASH=$(cd "$COMPOSE_AI_DIR" && git rev-parse HEAD 2>/dev/null || echo "")
 
 if [ "$CURRENT_HASH" != "$EXPECTED_HASH" ]; then
