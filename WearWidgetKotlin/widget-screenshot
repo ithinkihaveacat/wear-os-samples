@@ -85,13 +85,12 @@ PREVIEW_NAME="$1"
 OUTPUT_PATH="${2:-app/screenshots/${PREVIEW_NAME}.png}"
 
 RENDER_DIR="app/build/compose-previews/renders"
-rm -f "$RENDER_DIR"/*"${PREVIEW_NAME}"*.png
 
 VERBOSE_FLAG=""
 if [ "${WIDGET_VERBOSE:-false}" = "true" ]; then
-  "$CLI_BIN" --verbose render --module app --filter "$PREVIEW_NAME" --output "$OUTPUT_PATH" || true
+  "$CLI_BIN" --verbose render --module app --filter "$PREVIEW_NAME" || true
 else
-  "$CLI_BIN" render --module app --filter "$PREVIEW_NAME" --output "$OUTPUT_PATH" >/dev/null 2>&1 || true
+  "$CLI_BIN" render --module app --filter "$PREVIEW_NAME" >/dev/null 2>&1 || true
 fi
 
 MATCHING_FILE=$(find "$RENDER_DIR" -name "*${PREVIEW_NAME}*.png" | head -n 1)
