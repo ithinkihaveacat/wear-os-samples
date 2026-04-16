@@ -143,9 +143,17 @@ Compose AI Tools Roborazzi infrastructure.
 - Ensure you have checked out the correct commit in `compose-ai-tools`
   (specifically `a092386d94d4bc01e9436ab542e5097ff6eb7a2a` or a branch
   containing it like `feature/option-2-support`).
-- You must publish the library to mavenLocal by running
-  `./gradlew publishToMavenLocal` in the `compose-ai-tools` directory before
-  running previews here.
+- You must publish both the library and the plugin to mavenLocal. Run
+  `./gradlew publishToMavenLocal` in the `compose-ai-tools` directory to publish
+  the library. Since `gradle-plugin` is an included build, you must publish it
+  specifically by running:
+
+  ```bash
+  ./gradlew -p gradle-plugin publishToMavenLocal
+  ```
+
+  from the `compose-ai-tools` root directory (or
+  `../gradlew publishToMavenLocal` from the `gradle-plugin` subdirectory).
 
 **Workflow:**
 
