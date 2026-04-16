@@ -140,9 +140,7 @@ Compose AI Tools Roborazzi infrastructure.
 - The `compose-ai-tools` repository must be checked out locally. By default, the
   script expects it at `../../compose-ai-tools`. You can override this by
   setting the `COMPOSE_AI_DIR` environment variable.
-- Ensure you have checked out the correct branch in `compose-ai-tools` (e.g.,
-  `feature/option-2-support` which contains the necessary changes for external
-  consumption).
+- Ensure you have checked out the correct commit in `compose-ai-tools` (specifically `861bb8849070fb7f1b9544c33fbf6e2ecf0bfbcb` or a branch containing it like `feature/option-2-support`).
 - You must publish the library to mavenLocal by running
   `./gradlew publishToMavenLocal` in the `compose-ai-tools` directory before
   running previews here.
