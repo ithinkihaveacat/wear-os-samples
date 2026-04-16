@@ -17,3 +17,4 @@ local.properties
 # Preview cache
 app/project.info
 app/build/preview/
+.kotlin/errors/
