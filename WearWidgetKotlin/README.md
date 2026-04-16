@@ -134,6 +134,11 @@ samples.
 
 **Why it's useful:** Accelerates localized testing cycles efficiently using Compose AI Tools Roborazzi infrastructure.
 
+**Prerequisites:**
+- The `compose-ai-tools` repository must be checked out locally. By default, the script expects it at `../../compose-ai-tools`. You can override this by setting the `COMPOSE_AI_DIR` environment variable.
+- Ensure you have checked out the correct branch in `compose-ai-tools` (e.g., `feature/option-2-support` which contains the necessary changes for external consumption).
+- You must publish the library to mavenLocal by running `./gradlew publishToMavenLocal` in the `compose-ai-tools` directory before running previews here.
+
 **Workflow:**
 
 1. Define standard `@Composable` wrapper functions for your `@RemoteComposable` widgets:

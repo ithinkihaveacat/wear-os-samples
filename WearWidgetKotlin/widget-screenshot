@@ -4,11 +4,42 @@ set -euo pipefail
 COMPOSE_AI_DIR="${COMPOSE_AI_DIR:-../../compose-ai-tools}"
 CLI_BIN="$COMPOSE_AI_DIR/cli/build/install/compose-preview/bin/compose-preview"
 
+if [ ! -d "$COMPOSE_AI_DIR" ]; then
+    echo "Error: Compose AI Tools directory not found at '$COMPOSE_AI_DIR'" >&2
+    echo "Please ensure you have checked out compose-ai-tools repository." >&2
+    echo "You can set COMPOSE_AI_DIR environment variable if it is in a different location." >&2
+    exit 1
+fi
+
 if [ ! -f "$CLI_BIN" ]; then
-    echo "Compose AI Tools CLI not found. Compiling distribution..."
+    echo "Compose AI Tools CLI not found. Attempting to compile distribution..."
     (
         cd "$COMPOSE_AI_DIR"
-        ./gradlew :cli:installDist > /dev/null
+        if ./gradlew :cli:installDist > /dev/null; then
+            echo "Successfully compiled Compose AI Tools CLI."
+        else
+            echo "Error: Failed to compile Compose AI Tools CLI." >&2
+            echo "Please check that you have the correct branch checked out in compose-ai-tools." >&2
+            exit 1
+        fi
+    )
+fi
+
+# Check if library is published to mavenLocal
+MAVEN_LOCAL_PATH="$HOME/.m2/repository/ee/schimke/composeai/renderer-android/0.1.0-SNAPSHOT"
+if [ ! -d "$MAVEN_LOCAL_PATH" ]; then
+    echo "Warning: renderer-android artifact not found in mavenLocal." >&2
+    echo "Did you forget to run './gradlew publishToMavenLocal' in compose-ai-tools?" >&2
+    echo "Attempting to run it for you..."
+    (
+        cd "$COMPOSE_AI_DIR"
+        if ./gradlew :renderer-android:publishToMavenLocal > /dev/null; then
+            echo "Successfully published renderer-android to mavenLocal."
+        else
+            echo "Error: Failed to publish renderer-android to mavenLocal." >&2
+            echo "Please run it manually in compose-ai-tools directory." >&2
+            exit 1
+        fi
     )
 fi
 
