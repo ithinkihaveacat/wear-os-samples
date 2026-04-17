@@ -49,6 +49,12 @@ android {
     }
 }
 
+tasks.withType<Test>().configureEach {
+    if (name == "renderPreviews") {
+        exclude("ee/schimke/composeai/renderer/RobolectricRenderTest.class")
+    }
+}
+
 dependencies {
     implementation(libs.play.services.wearable)
     implementation(platform(libs.compose.bom))
