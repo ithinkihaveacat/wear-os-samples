@@ -64,12 +64,13 @@ fi
 
 usage() {
     cat <<EOF
-Usage: $(basename "$0") PREVIEW_NAME [OUTPUT_PNG]
+Usage: $(basename "$0") [--preview] PREVIEW_NAME [OUTPUT_PNG]
        $(basename "$0") --list
 
 Execute Compose remote previews on localized hardware architectures.
 
 Options:
+  --preview      Display the generated screenshot in the terminal using chafa
   --list         Inspect supported render endpoints
   --help         Display instructional assistance
 EOF
@@ -85,8 +86,14 @@ if [[ "${1:-}" == "--list" ]]; then
     exit 0
 fi
 
+PREVIEW=false
+if [[ "${1:-}" == "--preview" ]]; then
+    PREVIEW=true
+    shift
+fi
+
 if [ $# -lt 1 ]; then
-    echo "Usage: $(basename "$0") PREVIEW_NAME [OUTPUT_PNG]" >&2
+    echo "Usage: $(basename "$0") [--preview] PREVIEW_NAME [OUTPUT_PNG]" >&2
     echo "Try '$(basename "$0") --help' for usage, or use --list." >&2
     exit 1
 fi
@@ -109,6 +116,15 @@ if [ -n "$MATCHING_FILE" ]; then
     mkdir -p "$(dirname "$OUTPUT_PATH")"
     cp "$MATCHING_FILE" "$OUTPUT_PATH"
     echo "Rendered ${PREVIEW_NAME} to $OUTPUT_PATH"
+    
+    if [ "$PREVIEW" = true ]; then
+        if command -v chafa >/dev/null 2>&1; then
+            chafa "$OUTPUT_PATH"
+        else
+            echo "Error: --preview requested but 'chafa' command not found." >&2
+            exit 1
+        fi
+    fi
 else
     echo "Warning: Could not find generated PNG for ${PREVIEW_NAME} in $RENDER_DIR" >&2
 fi
