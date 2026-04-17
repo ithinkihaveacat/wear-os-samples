@@ -148,8 +148,11 @@ Compose AI Tools Roborazzi infrastructure.
   directory:
 
   ```bash
-  ./gradlew publishToMavenLocal && ./gradlew -p gradle-plugin publishToMavenLocal
+  PLUGIN_VERSION=0.3.3-SNAPSHOT ./gradlew publishToMavenLocal && PLUGIN_VERSION=0.3.3-SNAPSHOT ./gradlew -p gradle-plugin publishToMavenLocal
   ```
+
+  > [!NOTE]
+  > The `PLUGIN_VERSION` environment variable ensures that the published artifacts use the version expected by this project (configured in `app/build.gradle.kts`). If you bump the version there, update it here as well.
 
 **Workflow:**
 

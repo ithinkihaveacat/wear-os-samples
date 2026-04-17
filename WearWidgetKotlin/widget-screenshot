@@ -34,19 +34,29 @@ if [ ! -f "$CLI_BIN" ]; then
     )
 fi
 
-# Check if library is published to mavenLocal
-MAVEN_LOCAL_PATH="$HOME/.m2/repository/ee/schimke/composeai/renderer-android/0.3.3-SNAPSHOT"
-if [ ! -d "$MAVEN_LOCAL_PATH" ]; then
-    echo "Warning: renderer-android artifact not found in mavenLocal." >&2
+# Extract version from app/build.gradle.kts
+VERSION=$(grep 'id("ee.schimke.composeai.preview")' app/build.gradle.kts | sed -E 's/.*version "(.*)"/\1/')
+
+if [ -z "$VERSION" ]; then
+    echo "Warning: Could not extract plugin version from app/build.gradle.kts. Defaulting to 0.3.3-SNAPSHOT." >&2
+    VERSION="0.3.3-SNAPSHOT"
+fi
+
+MAVEN_LOCAL_RENDERER="$HOME/.m2/repository/ee/schimke/composeai/renderer-android/$VERSION"
+MAVEN_LOCAL_PLUGIN="$HOME/.m2/repository/ee/schimke/composeai/compose-preview-plugin/$VERSION"
+
+if [ ! -d "$MAVEN_LOCAL_RENDERER" ] || [ ! -d "$MAVEN_LOCAL_PLUGIN" ]; then
+    echo "Warning: compose-ai-tools artifacts not found in mavenLocal for version $VERSION." >&2
     echo "Did you forget to run './gradlew publishToMavenLocal' in compose-ai-tools?" >&2
     echo "Attempting to run it for you..."
     (
         cd "$COMPOSE_AI_DIR"
-        if PLUGIN_VERSION=0.3.3-SNAPSHOT ./gradlew :renderer-android:publishToMavenLocal > /dev/null; then
-            echo "Successfully published renderer-android to mavenLocal."
+        if PLUGIN_VERSION="$VERSION" ./gradlew publishToMavenLocal > /dev/null && \
+           PLUGIN_VERSION="$VERSION" ./gradlew -p gradle-plugin publishToMavenLocal > /dev/null; then
+            echo "Successfully published compose-ai-tools artifacts to mavenLocal."
         else
-            echo "Error: Failed to publish renderer-android to mavenLocal." >&2
-            echo "Please run it manually in compose-ai-tools directory." >&2
+            echo "Error: Failed to publish artifacts to mavenLocal." >&2
+            echo "Please run the publish commands manually in compose-ai-tools directory." >&2
             exit 1
         fi
     )
