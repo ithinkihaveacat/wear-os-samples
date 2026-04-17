@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-    id("ee.schimke.composeai.preview") version "0.1.0-SNAPSHOT"
+    id("ee.schimke.composeai.preview") version "0.3.3-SNAPSHOT"
     // alias(libs.plugins.dependency.analysis)
 }
 
@@ -105,19 +105,11 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-android:1.7.8")
     testImplementation(libs.junit)
     testImplementation(libs.ext.junit)
-    testImplementation(libs.robolectric) {
-        exclude(group = "org.conscrypt", module = "conscrypt-openjdk-uber")
-    }
+    testImplementation(libs.robolectric)
     testImplementation(libs.roborazzi)
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.roborazzi.rule)
     testImplementation(libs.compose.ui.test.junit4)
-    testImplementation("ee.schimke.composeai:renderer-android:0.1.0-SNAPSHOT") {
-        exclude(group = "org.conscrypt", module = "conscrypt-openjdk-uber")
-    }
+    testImplementation("ee.schimke.composeai:renderer-android:0.3.3-SNAPSHOT")
     debugImplementation(libs.compose.ui.test.manifest)
-}
-
-configurations.all {
-    exclude(group = "org.conscrypt", module = "conscrypt-openjdk-uber")
 }

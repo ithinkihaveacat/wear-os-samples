@@ -17,7 +17,7 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             if (requested.id.id == "ee.schimke.composeai.preview") {
-                useModule("ee.schimke.composeai:gradle-plugin:${requested.version}")
+                useModule("ee.schimke.composeai:compose-preview-plugin:${requested.version}")
             }
         }
     }

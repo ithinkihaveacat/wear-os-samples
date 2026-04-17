@@ -11,7 +11,7 @@ if [ ! -d "$COMPOSE_AI_DIR" ]; then
     exit 1
 fi
 
-EXPECTED_HASH="a092386d94d4bc01e9436ab542e5097ff6eb7a2a"
+EXPECTED_HASH="dd2b2d2acade62317993d445e3415270d20478ad"
 CURRENT_HASH=$(cd "$COMPOSE_AI_DIR" && git rev-parse HEAD 2>/dev/null || echo "")
 
 if [ "$CURRENT_HASH" != "$EXPECTED_HASH" ]; then
@@ -35,7 +35,7 @@ if [ ! -f "$CLI_BIN" ]; then
 fi
 
 # Check if library is published to mavenLocal
-MAVEN_LOCAL_PATH="$HOME/.m2/repository/ee/schimke/composeai/renderer-android/0.1.0-SNAPSHOT"
+MAVEN_LOCAL_PATH="$HOME/.m2/repository/ee/schimke/composeai/renderer-android/0.3.3-SNAPSHOT"
 if [ ! -d "$MAVEN_LOCAL_PATH" ]; then
     echo "Warning: renderer-android artifact not found in mavenLocal." >&2
     echo "Did you forget to run './gradlew publishToMavenLocal' in compose-ai-tools?" >&2
