@@ -42,7 +42,7 @@ if [ ! -d "$MAVEN_LOCAL_PATH" ]; then
     echo "Attempting to run it for you..."
     (
         cd "$COMPOSE_AI_DIR"
-        if ./gradlew :renderer-android:publishToMavenLocal > /dev/null; then
+        if PLUGIN_VERSION=0.3.3-SNAPSHOT ./gradlew :renderer-android:publishToMavenLocal > /dev/null; then
             echo "Successfully published renderer-android to mavenLocal."
         else
             echo "Error: Failed to publish renderer-android to mavenLocal." >&2
