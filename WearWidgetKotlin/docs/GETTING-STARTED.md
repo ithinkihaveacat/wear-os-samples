@@ -714,8 +714,6 @@ fun HelloWidgetPreview() {
         HelloWidgetContent()
     }
 }
-
-
 ```
 
 ## Troubleshooting {#troubleshooting}
@@ -1410,8 +1408,8 @@ b/495827025
 preceding `clip()` modifiers are ignored. The component will render as an
 unclipped rectangle or square.
 
-**Workaround:** To draw a shaped background with a dynamic theme color, use a
-`RemoteCanvas` and explicitly draw the shape (e.g., `drawCircle` or
+**Workaround:** To draw a shaped background with a dynamic theme color, use the
+`drawWithContent` modifier and explicitly draw the shape (e.g., `drawCircle` or
 `drawRoundRect`) with a `RemotePaint` object instead of using the `background`
 modifier.
 
@@ -1420,29 +1418,32 @@ val iconBgColor = RemoteMaterialTheme.colorScheme.primary
 
 // Fails (ignores CircleShape clip, renders as square)
 RemoteBox(
-    modifier = RemoteModifier
-        .size(32.rdp)
-        .clip(CircleShape, DpSize(32.dp, 32.dp))
-        .background(iconBgColor),
+    modifier =
+        RemoteModifier.size(32.rdp)
+            .clip(CircleShape, DpSize(32.dp, 32.dp))
+            .background(iconBgColor),
 ) {
     // ...
 }
 
 // Works: Explicit Canvas drawing
-RemoteBox(modifier = RemoteModifier.size(32.rdp)) {
-    RemoteCanvas(modifier = RemoteModifier.fillMaxSize()) {
-        val w = remote.component.width
-        val h = remote.component.height
-        drawCircle(
-            paint = RemotePaint().apply {
-                color = iconBgColor
-                style = PaintingStyle.Fill
-            },
-            center = RemoteOffset(w / 2f.rf, h / 2f.rf),
-            radius = w / 2f.rf
-        )
-    }
-}
+RemoteBox(
+    modifier =
+        RemoteModifier.size(32.rdp).drawWithContent {
+            val w = size.width
+            val h = size.height
+            drawCircle(
+                paint =
+                    RemotePaint().apply {
+                        color = iconBgColor
+                        style = PaintingStyle.Fill
+                    },
+                center = RemoteOffset(w / 2f.rf, h / 2f.rf),
+                radius = w / 2f.rf
+            )
+            drawContent()
+        }
+)
 ```
 
 ## Updates {#updates}
