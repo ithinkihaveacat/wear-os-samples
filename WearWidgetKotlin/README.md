@@ -7,7 +7,6 @@ libraries (specifically `androidx.compose.remote` and related packages).
 
 - [Getting Started](docs/GETTING-STARTED.md): Detailed guide on building Wear
   Widgets.
-- [Components](docs/COMPONENTS.md): Catalog of available components.
 
 ## Available Skills
 
