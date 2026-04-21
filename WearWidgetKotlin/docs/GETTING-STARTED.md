@@ -511,11 +511,9 @@ If a specific brand identity is required, you can provide a custom
 `RemoteColorScheme`.
 
 ```kotlin
-val myCustomScheme = object : RemoteColorScheme() {
-    override val primary: RemoteColor
-        @RemoteComposable @Composable get() = Color(0xFF00008B).rc // Custom Blue
-    // ... override other roles as needed
-}
+val myCustomScheme = RemoteColorScheme().copy(
+    primary = Color(0xFF00008B).rc // Custom Blue
+)
 
 @RemoteComposable
 @Composable
@@ -833,7 +831,7 @@ significantly.
 | **State & Interactivity** | Server-side driven. Interactions (`LoadAction`) trigger a full service callback to refresh the UI.                                                                                                                        | Client-side driven. Declarative state (`rememberRemoteIntValue`) and actions (`ValueChange`) allow instant UI updates without app round-trips.                                                                |
 | **Dynamic Data**          | **Streaming Support.** Can bind directly to platform data (e.g., Heart Rate) via `DynamicBuilders` for real-time updates.                                                                                                 | **State Driven.** Updates are driven by state changes or app pushes. No direct platform sensor binding yet.                                                                                                   |
 | **Update Scheduling**     | **Timeline Support.** Can pre-schedule future layouts (e.g., calendar events) to update automatically without waking the app.                                                                                             | **Real-time.** Updates are immediate and must be initiated by app code. No native mechanism to pre-cache future layouts.                                                                                      |
-| **Curved Layouts**        | **Native Support.** dedicated `Arc` containers and components (`ArcText`) for circular screens.                                                                                                                           | **Not Required.** Widgets use standard linear layouts (`RemoteRow`) and do not aim to hug the screen curvature.                                                                                               |
+| **Curved Layouts** | **Native Support.** dedicated `Arc` containers and components (`ArcText`) for circular screens. | **Container Not Required.** Widgets use standard linear layouts (`RemoteRow`) and do not aim to hug the screen curvature. However, component-level arcs (like progress indicators) are supported. |
 | **Transitions**           | **Granular Control.** Explicit APIs for `EnterTransition` and `ExitTransition`.                                                                                                                                           | **Animation Specs.** Uses generic `animationSpec` on modifiers. Granular transition control is less relevant in this model.                                                                                   |
 | **Advanced Animations**   | **Lottie Supported.** Natively supports Lottie via `AndroidLottieResourceByResId`.                                                                                                                                        | **Support Planned.**                                                                                                                                                                                          |
 | **Tween Animations**      | **Developer or Renderer Controlled.** Developers can provide an `AnimationSpec` but can also arrange for interpolation to be handled automatically by the renderer when dynamic values change.                            | **Developer Controlled.** Explicit `animationSpec` allows precise control over duration, delay, and easing curves (e.g. `tween`, `spring`).                                                                   |
