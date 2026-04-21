@@ -17,7 +17,6 @@ package com.google.example.wear_widget
 
 import android.content.Context
 import android.util.Log
-import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.ui.graphics.Color
 import androidx.glance.wear.GlanceWearWidget
@@ -46,14 +45,15 @@ class WidgetCatalog : GlanceWearWidget() {
 
         val localColorScheme = ColorScheme()
         val remoteColorScheme = RemoteColorScheme(localColorScheme)
-        val dynamicBg =
-            RemoteColor.createNamedRemoteColor(
-                "WearM3.primaryContainer",
-                localColorScheme.primaryContainer,
-            )
-        // Note: Not using dynamicBg because of the `RemoteModifier.background(RemoteColor)` Ignores
-        // Clipping known issue
-        return WearWidgetDocument(background = WearWidgetBrush.color(Color.DarkGray.rc)) {
+
+        val backgroundBrush =
+            if (state.layoutName == "SystemThemeSample") {
+                WearWidgetBrush.color(remoteColorScheme.primaryContainer)
+            } else {
+                WearWidgetBrush.color(Color.DarkGray.rc)
+            }
+
+        return WearWidgetDocument(background = backgroundBrush) {
             RemoteMaterialTheme(colorScheme = remoteColorScheme) {
                 when (state.layoutName) {
                     "TaskSample" -> TaskSample()

@@ -831,7 +831,7 @@ significantly.
 | **State & Interactivity** | Server-side driven. Interactions (`LoadAction`) trigger a full service callback to refresh the UI.                                                                                                                        | Client-side driven. Declarative state (`rememberRemoteIntValue`) and actions (`ValueChange`) allow instant UI updates without app round-trips.                                                                |
 | **Dynamic Data**          | **Streaming Support.** Can bind directly to platform data (e.g., Heart Rate) via `DynamicBuilders` for real-time updates.                                                                                                 | **State Driven.** Updates are driven by state changes or app pushes. No direct platform sensor binding yet.                                                                                                   |
 | **Update Scheduling**     | **Timeline Support.** Can pre-schedule future layouts (e.g., calendar events) to update automatically without waking the app.                                                                                             | **Real-time.** Updates are immediate and must be initiated by app code. No native mechanism to pre-cache future layouts.                                                                                      |
-| **Curved Layouts** | **Native Support.** dedicated `Arc` containers and components (`ArcText`) for circular screens. | **Container Not Required.** Widgets use standard linear layouts (`RemoteRow`) and do not aim to hug the screen curvature. However, component-level arcs (like progress indicators) are supported. |
+| **Curved Layouts**        | **Native Support.** dedicated `Arc` containers and components (`ArcText`) for circular screens.                                                                                                                           | **Container Not Required.** Widgets use standard linear layouts (`RemoteRow`) and do not aim to hug the screen curvature. However, component-level arcs (like progress indicators) are supported.             |
 | **Transitions**           | **Granular Control.** Explicit APIs for `EnterTransition` and `ExitTransition`.                                                                                                                                           | **Animation Specs.** Uses generic `animationSpec` on modifiers. Granular transition control is less relevant in this model.                                                                                   |
 | **Advanced Animations**   | **Lottie Supported.** Natively supports Lottie via `AndroidLottieResourceByResId`.                                                                                                                                        | **Support Planned.**                                                                                                                                                                                          |
 | **Tween Animations**      | **Developer or Renderer Controlled.** Developers can provide an `AnimationSpec` but can also arrange for interpolation to be handled automatically by the renderer when dynamic values change.                            | **Developer Controlled.** Explicit `animationSpec` allows precise control over duration, delay, and easing curves (e.g. `tween`, `spring`).                                                                   |
@@ -928,11 +928,10 @@ API surface, but the workaround remains necessary for tooling APIs like
 
 ### [FIXED] `RemoteModifier.clip()` Requires Explicit Size for Relative Shapes {#remotemodifierclip-requires-explicit-size-for-relative-shapes}
 
-> [!NOTE] Fixed in `1.0.0-alpha08`. `RemoteModifier.clip` now expects
-> `RemoteShape` (e.g., `RemoteCircleShape`) and no longer accepts explicit
-> dimensions.
-
 b/477860914
+
+_Fixed in `1.0.0-alpha08`. `RemoteModifier.clip` now expects `RemoteShape`
+(e.g., `RemoteCircleShape`) and no longer accepts explicit dimensions._
 
 **Symptom:** Shapes that rely on the component's layout size, such as
 `RoundedCornerShape(percent = 50)` or `CircleShape`, may compile but fail to
@@ -953,10 +952,10 @@ RemoteModifier
 
 ### [FIXED] `RemoteModifier.padding` Lacks `RemoteDp` Support {#remotemodifierpadding-lacks-remotedp-support}
 
-> [!NOTE] Fixed in `1.0.0-alpha07`. `RemoteModifier.padding` now supports
-> `RemoteDp` (e.g., `10.rdp`).
-
 b/470964182
+
+_Fixed in `1.0.0-alpha07`. `RemoteModifier.padding` now supports `RemoteDp`
+(e.g., `10.rdp`)._
 
 The `RemoteModifier.padding` extension functions previously did not accept
 `RemoteDp` values. They only supported `RemoteFloat` or standard Compose `Dp`.
@@ -968,10 +967,10 @@ RemoteModifier.padding(10.rdp)
 
 ### [FIXED] `RemoteArrangement.Center` Can Only Be Used in Vertical Contexts {#remotearrangementcenter-can-only-be-used-in-vertical-contexts}
 
-> [!NOTE] Fixed in `1.0.0-alpha07`. `RemoteArrangement.Center` now implements
-> `HorizontalOrVertical` and can be used in both `RemoteRow` and `RemoteColumn`.
-
 b/471153933
+
+_Fixed in `1.0.0-alpha07`. `RemoteArrangement.Center` now implements
+`HorizontalOrVertical` and can be used in both `RemoteRow` and `RemoteColumn`._
 
 **Symptom:** A type mismatch error occurs when using `RemoteArrangement.Center`
 in a `RemoteRow`.
@@ -996,10 +995,10 @@ interface.
 
 ### [FIXED] `RemoteBox` Vertical Axis Requires `Arrangement` {#remotebox-differs-from-compose-box}
 
-> [!NOTE] Fixed in `1.0.0-alpha07`. `RemoteBox` now uses
-> `contentAlignment: RemoteAlignment` just like standard Compose `Box`.
-
 b/471212869
+
+_Fixed in `1.0.0-alpha07`. `RemoteBox` now uses
+`contentAlignment: RemoteAlignment` just like standard Compose `Box`._
 
 **Symptom:** You cannot use `RemoteAlignment` constants for vertical positioning
 when configuring a `RemoteBox`.
@@ -1061,6 +1060,9 @@ render and attach the tile" error.
 
 b/474292165
 
+_Fixed. The `IllegalStateException: There are multiple DataStores active` crash
+has been fixed in the library._
+
 **Symptom:** The widget is blank, and the app process crashes with
 `IllegalStateException: There are multiple DataStores active`. Various
 conditions and states can cause this, including:
@@ -1099,10 +1101,10 @@ changes, but a manual force-stop may be necessary if it remains blank.
 
 ### [FIXED] Android Studio Preview Limitations {#android-studio-preview-limitations}
 
-> [!NOTE] Fixed in Compose Remote `1.0.0-alpha08`. Multiple preview instances in
-> the same file now render correctly.
-
 b/431932822
+
+_Fixed in Compose Remote `1.0.0-alpha08`. Multiple preview instances in the same
+file now render correctly._
 
 **Symptom:** When using `@Preview` or `@WearPreviewDevices` with
 `RemotePreview`, Android Studio may not display all defined previews correctly,
@@ -1131,6 +1133,9 @@ drawConditionally(isToggled.not()) {
 ### [FIXED] `RemoteMaterialTheme.typography` Does Not Expose Semantic Styles {#typography-does-not-expose-semantic-styles}
 
 b/478828032
+
+_Fixed. Semantic text styles (e.g., `titleLarge`) are now natively available
+through `RemoteMaterialTheme.typography`._
 
 **Symptom:** `RemoteMaterialTheme.colorScheme` exposes the system's dynamic
 colors (e.g., `RemoteMaterialTheme.colorScheme.primary`), however the
@@ -1267,6 +1272,10 @@ CanvasRemoteImage(
 
 b/479893918
 
+_Fixed. The crash when using `drawScaledBitmap` with resource-backed bitmaps has
+been fixed. You can now use it without explicitly providing the `srcSize`
+argument._
+
 **Symptom:** The application crashes with
 `java.lang.IllegalStateException: Bitmap width is not available in the remote document`
 when calling `drawScaledBitmap` with a resource-backed `RemoteBitmap`.
@@ -1343,7 +1352,11 @@ solid colors via `WearWidgetDocument(backgroundColor = ...)`.
 with images or gradients at this time. To maintain visual consistency, ensure
 your content or inner backgrounds complement the document's `backgroundColor`.
 
-### Dynamic Theme Colors for Document Backgrounds Require Manual Binding {#dynamic-theme-colors-for-document-backgrounds-require-manual-binding}
+### [FIXED] Dynamic Theme Colors for Document Backgrounds Require Manual Binding {#dynamic-theme-colors-for-document-backgrounds-require-manual-binding}
+
+_Fixed in `1.0.0-alpha02`. You can now set the background of a
+`WearWidgetDocument` to a dynamic theme color using `RemoteColorScheme`
+properties directly._
 
 **Symptom:** You cannot set the `background` of a `WearWidgetDocument` to a
 dynamic theme color using `RemoteColorScheme` properties (e.g.,
