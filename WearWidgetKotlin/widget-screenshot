@@ -65,12 +65,14 @@ fi
 usage() {
 	cat <<EOF
 Usage: $(basename "$0") [--preview] PREVIEW_NAME [OUTPUT_PNG]
+       $(basename "$0") --all
        $(basename "$0") --list
 
 Execute Compose remote previews on localized hardware architectures.
 
 Options:
   --preview      Display the generated screenshot in the terminal using chafa
+  --all          Generate all previews at once
   --list         Inspect supported render endpoints
   --help         Display instructional assistance
 EOF
@@ -92,16 +94,33 @@ if [[ "${1:-}" == "--preview" ]]; then
 	shift
 fi
 
-if [ $# -lt 1 ]; then
+ALL=false
+if [[ "${1:-}" == "--all" ]]; then
+	ALL=true
+	shift
+fi
+
+if [ "$ALL" = false ] && [ $# -lt 1 ]; then
 	echo "Usage: $(basename "$0") [--preview] PREVIEW_NAME [OUTPUT_PNG]" >&2
+	echo "       $(basename "$0") --all" >&2
 	echo "Try '$(basename "$0") --help' for usage, or use --list." >&2
 	exit 1
 fi
 
+RENDER_DIR="app/build/compose-previews/renders"
+
+if [ "$ALL" = true ]; then
+	if [ "${WIDGET_VERBOSE:-false}" = "true" ]; then
+		./gradlew testDebugUnitTest -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders
+	else
+		./gradlew testDebugUnitTest -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders >/dev/null 2>&1
+	fi
+	echo "Rendered all previews to $RENDER_DIR"
+	exit 0
+fi
+
 PREVIEW_NAME="$1"
 OUTPUT_PATH="${2:-app/screenshots/${PREVIEW_NAME}.png}"
-
-RENDER_DIR="app/build/compose-previews/renders"
 
 if [ "${WIDGET_VERBOSE:-false}" = "true" ]; then
 	./gradlew testDebugUnitTest --tests "ee.schimke.composeai.renderer.RobolectricRenderTest.renderPreview[*${PREVIEW_NAME}*]" -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders
