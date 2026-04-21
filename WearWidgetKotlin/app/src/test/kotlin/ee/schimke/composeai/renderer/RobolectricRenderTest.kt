@@ -19,12 +19,17 @@ import org.junit.runner.RunWith
 import org.robolectric.ParameterizedRobolectricTestRunner
 
 @RunWith(ParameterizedRobolectricTestRunner::class)
-class RobolectricRenderTest(preview: RenderPreviewEntry) : RobolectricRenderTestBase(preview) {
+class RobolectricRenderTest(
+    preview: RenderPreviewEntry,
+    @Suppress("UNCHECKED_CAST") previewArgs: List<Any?>,
+) : RobolectricRenderTestBase(preview, previewArgs) {
     companion object {
         @JvmStatic
         @ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
-        fun previews(): List<Array<Any>> =
-            PreviewManifestLoader.loadShard(0, 1).filter { array ->
+        fun previews(): List<Array<Any>> {
+            val all = PreviewManifestLoader.loadShard(0, 1)
+            println("RobolectricRenderTest: loaded ${all.size} previews")
+            val filtered = all.filter { array ->
                 val preview = array[0] as RenderPreviewEntry
                 val keep =
                     !preview.id.contains("CollapsibleColumnSample1Preview") &&
@@ -32,5 +37,8 @@ class RobolectricRenderTest(preview: RenderPreviewEntry) : RobolectricRenderTest
                         !preview.id.contains("VerticalScrollSamplePreview")
                 keep
             }
+            println("RobolectricRenderTest: kept ${filtered.size} previews")
+            return filtered
+        }
     }
 }

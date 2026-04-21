@@ -1,5 +1,6 @@
 pluginManagement {
     repositories {
+        mavenLocal()
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
@@ -12,7 +13,6 @@ pluginManagement {
 //            url = uri("https://androidx.dev/snapshots/builds/14666938/artifacts/repository")
 //        }
         gradlePluginPortal()
-        mavenLocal()
     }
     resolutionStrategy {
         eachPlugin {
@@ -25,9 +25,9 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        mavenLocal()
         google()
         mavenCentral()
-        mavenLocal()
     }
 }
 

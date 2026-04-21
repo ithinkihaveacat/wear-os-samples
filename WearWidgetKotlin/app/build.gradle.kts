@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-    id("ee.schimke.composeai.preview") version "0.3.3-SNAPSHOT"
+    id("ee.schimke.composeai.preview") version "0.7.5-SNAPSHOT"
     // alias(libs.plugins.dependency.analysis)
 }
 
@@ -49,9 +49,15 @@ android {
     }
 }
 
-tasks.withType<Test>().configureEach {
-    if (name == "renderPreviews") {
-        exclude("ee/schimke/composeai/renderer/RobolectricRenderTest.class")
+afterEvaluate {
+    tasks.named<Test>("testDebugUnitTest").configure {
+        val testClasses = layout.buildDirectory.dir("intermediates/built_in_kotlinc/debugUnitTest/compileDebugUnitTestKotlin/classes")
+        testClassesDirs = files(testClassesDirs, testClasses)
+        classpath += files(testClasses)
+    }
+    tasks.named<Test>("renderPreviews").configure {
+        val testClasses = layout.buildDirectory.dir("intermediates/built_in_kotlinc/debugUnitTest/compileDebugUnitTestKotlin/classes")
+        classpath = files(classpath, testClasses)
     }
 }
 
@@ -116,6 +122,20 @@ dependencies {
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.roborazzi.rule)
     testImplementation(libs.compose.ui.test.junit4)
-    testImplementation("ee.schimke.composeai:renderer-android:0.3.3-SNAPSHOT")
+    testImplementation("ee.schimke.composeai:renderer-android:0.7.5-SNAPSHOT")
     debugImplementation(libs.compose.ui.test.manifest)
+}
+
+tasks.withType<Test>().configureEach {
+    if (name == "testDebugUnitTest") {
+        systemProperty("composeai.render.manifest", System.getProperty("composeai.render.manifest") ?: "build/compose-previews/previews.json")
+        systemProperty("composeai.render.outputDir", System.getProperty("composeai.render.outputDir") ?: "build/compose-previews/renders")
+        systemProperty("robolectric.conscryptMode", "OFF")
+        systemProperty("roborazzi.test.record", "true")
+    }
+    if (name == "renderPreviews") {
+        doFirst {
+            println("renderPreviews execution classpath: ${classpath.files}")
+        }
+    }
 }
