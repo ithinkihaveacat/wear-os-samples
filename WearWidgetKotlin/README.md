@@ -151,8 +151,10 @@ Compose AI Tools Roborazzi infrastructure.
   PLUGIN_VERSION=0.3.3-SNAPSHOT ./gradlew publishToMavenLocal && PLUGIN_VERSION=0.3.3-SNAPSHOT ./gradlew -p gradle-plugin publishToMavenLocal
   ```
 
-  > [!NOTE]
-  > The `PLUGIN_VERSION` environment variable ensures that the published artifacts use the version expected by this project (configured in `app/build.gradle.kts`). If you bump the version there, update it here as well.
+  > [!NOTE] The `PLUGIN_VERSION` environment variable ensures that the published
+  > artifacts use the version expected by this project (configured in
+  > `app/build.gradle.kts`). If you bump the version there, update it here as
+  > well.
 
 **Workflow:**
 
@@ -205,11 +207,17 @@ Compose AI Tools Roborazzi infrastructure.
   WIDGET_VERBOSE=true ./widget-screenshot YourSamplePreview
   ```
 
-**Workaround for Classpath Issues**: If `renderPreviews` fails with `ClassNotFoundException` (e.g., for `android.app.Application`), it is because it runs as a plain Gradle `Test` task. You can use the standard Android unit test task instead, which handles the classpath correctly:
+**Workaround for Classpath Issues**: If `renderPreviews` fails with
+`ClassNotFoundException` (e.g., for `android.app.Application`), it is because it
+runs as a plain Gradle `Test` task. You can use the standard Android unit test
+task instead, which handles the classpath correctly:
+
 ```bash
 ./gradlew testDebugUnitTest -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders
 ```
-This will run the rendering tests and output PNGs to `app/build/compose-previews/renders`.
+
+This will run the rendering tests and output PNGs to
+`app/build/compose-previews/renders`.
 
 **Reversion / Cleanup:** Clear local outputs using:
 

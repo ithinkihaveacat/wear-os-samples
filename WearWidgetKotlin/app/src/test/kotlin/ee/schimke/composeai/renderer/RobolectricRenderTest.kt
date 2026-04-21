@@ -29,14 +29,15 @@ class RobolectricRenderTest(
         fun previews(): List<Array<Any>> {
             val all = PreviewManifestLoader.loadShard(0, 1)
             println("RobolectricRenderTest: loaded ${all.size} previews")
-            val filtered = all.filter { array ->
-                val preview = array[0] as RenderPreviewEntry
-                val keep =
-                    !preview.id.contains("CollapsibleColumnSample1Preview") &&
-                        !preview.id.contains("TouchGestureSample1Preview") &&
-                        !preview.id.contains("VerticalScrollSamplePreview")
-                keep
-            }
+            val filtered =
+                all.filter { array ->
+                    val preview = array[0] as RenderPreviewEntry
+                    val keep =
+                        !preview.id.contains("CollapsibleColumnSample1Preview") &&
+                            !preview.id.contains("TouchGestureSample1Preview") &&
+                            !preview.id.contains("VerticalScrollSamplePreview")
+                    keep
+                }
             println("RobolectricRenderTest: kept ${filtered.size} previews")
             return filtered
         }
