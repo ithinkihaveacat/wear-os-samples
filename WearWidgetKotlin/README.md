@@ -140,15 +140,12 @@ Compose AI Tools Roborazzi infrastructure.
 - The `compose-ai-tools` repository must be checked out locally. By default, the
   script expects it at `../../compose-ai-tools`. You can override this by
   setting the `COMPOSE_AI_DIR` environment variable.
-- Ensure you have checked out the correct commit in `compose-ai-tools`
-  (specifically `b3cfc77a6edc7f6367bb1ed3501c7f9ff55f0c47` or a branch
-  containing it like `feature/option-2-support`).
 - You must publish both the library and the plugin to `mavenLocal`. To do this
   in one go, run the following command from the `compose-ai-tools` root
   directory:
 
   ```bash
-  PLUGIN_VERSION=0.3.3-SNAPSHOT ./gradlew publishToMavenLocal && PLUGIN_VERSION=0.3.3-SNAPSHOT ./gradlew -p gradle-plugin publishToMavenLocal
+  PLUGIN_VERSION=0.7.5-SNAPSHOT ./gradlew publishToMavenLocal && PLUGIN_VERSION=0.7.5-SNAPSHOT ./gradlew -p gradle-plugin publishToMavenLocal
   ```
 
   > [!NOTE] The `PLUGIN_VERSION` environment variable ensures that the published
