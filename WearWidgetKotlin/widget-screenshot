@@ -5,65 +5,65 @@ COMPOSE_AI_DIR="${COMPOSE_AI_DIR:-../../compose-ai-tools}"
 CLI_BIN="$COMPOSE_AI_DIR/cli/build/install/compose-preview/bin/compose-preview"
 
 if [ ! -d "$COMPOSE_AI_DIR" ]; then
-    echo "Error: Compose AI Tools directory not found at '$COMPOSE_AI_DIR'" >&2
-    echo "Please ensure you have checked out compose-ai-tools repository." >&2
-    echo "You can set COMPOSE_AI_DIR environment variable if it is in a different location." >&2
-    exit 1
+	echo "Error: Compose AI Tools directory not found at '$COMPOSE_AI_DIR'" >&2
+	echo "Please ensure you have checked out compose-ai-tools repository." >&2
+	echo "You can set COMPOSE_AI_DIR environment variable if it is in a different location." >&2
+	exit 1
 fi
 
 EXPECTED_HASH="09732a3"
 CURRENT_HASH=$(cd "$COMPOSE_AI_DIR" && git rev-parse HEAD 2>/dev/null || echo "")
 
 if [[ "$CURRENT_HASH" != "$EXPECTED_HASH"* ]]; then
-    echo "Warning: compose-ai-tools is at commit $CURRENT_HASH" >&2
-    echo "Expected: $EXPECTED_HASH" >&2
-    echo "Previews may fail or behave unexpectedly if you are missing required changes." >&2
+	echo "Warning: compose-ai-tools is at commit $CURRENT_HASH" >&2
+	echo "Expected: $EXPECTED_HASH" >&2
+	echo "Previews may fail or behave unexpectedly if you are missing required changes." >&2
 fi
 
 if [ ! -f "$CLI_BIN" ]; then
-    echo "Compose AI Tools CLI not found. Attempting to compile distribution..."
-    (
-        cd "$COMPOSE_AI_DIR"
-        if ./gradlew :cli:installDist > /dev/null; then
-            echo "Successfully compiled Compose AI Tools CLI."
-        else
-            echo "Error: Failed to compile Compose AI Tools CLI." >&2
-            echo "Please check that you have the correct branch checked out in compose-ai-tools." >&2
-            exit 1
-        fi
-    )
+	echo "Compose AI Tools CLI not found. Attempting to compile distribution..."
+	(
+		cd "$COMPOSE_AI_DIR"
+		if ./gradlew :cli:installDist >/dev/null; then
+			echo "Successfully compiled Compose AI Tools CLI."
+		else
+			echo "Error: Failed to compile Compose AI Tools CLI." >&2
+			echo "Please check that you have the correct branch checked out in compose-ai-tools." >&2
+			exit 1
+		fi
+	)
 fi
 
 # Extract version from app/build.gradle.kts
 VERSION=$(grep 'id("ee.schimke.composeai.preview")' app/build.gradle.kts | sed -E 's/.*version "(.*)"/\1/')
 
 if [ -z "$VERSION" ]; then
-    echo "Warning: Could not extract plugin version from app/build.gradle.kts. Defaulting to 0.3.3-SNAPSHOT." >&2
-    VERSION="0.3.3-SNAPSHOT"
+	echo "Warning: Could not extract plugin version from app/build.gradle.kts. Defaulting to 0.3.3-SNAPSHOT." >&2
+	VERSION="0.3.3-SNAPSHOT"
 fi
 
 MAVEN_LOCAL_RENDERER="$HOME/.m2/repository/ee/schimke/composeai/renderer-android/$VERSION"
 MAVEN_LOCAL_PLUGIN="$HOME/.m2/repository/ee/schimke/composeai/compose-preview-plugin/$VERSION"
 
-if [[ "$VERSION" == *"-SNAPSHOT"* ]] && ([ ! -d "$MAVEN_LOCAL_RENDERER" ] || [ ! -d "$MAVEN_LOCAL_PLUGIN" ]); then
-    echo "Warning: compose-ai-tools artifacts not found in mavenLocal for snapshot version $VERSION." >&2
-    echo "Did you forget to run './gradlew publishToMavenLocal' in compose-ai-tools?" >&2
-    echo "Attempting to run it for you..."
-    (
-        cd "$COMPOSE_AI_DIR"
-        if PLUGIN_VERSION="$VERSION" ./gradlew publishToMavenLocal > /dev/null && \
-           PLUGIN_VERSION="$VERSION" ./gradlew -p gradle-plugin publishToMavenLocal > /dev/null; then
-            echo "Successfully published compose-ai-tools artifacts to mavenLocal."
-        else
-            echo "Error: Failed to publish artifacts to mavenLocal." >&2
-            echo "Please run the publish commands manually in compose-ai-tools directory." >&2
-            exit 1
-        fi
-    )
+if [[ "$VERSION" == *"-SNAPSHOT"* ]] && { [ ! -d "$MAVEN_LOCAL_RENDERER" ] || [ ! -d "$MAVEN_LOCAL_PLUGIN" ]; }; then
+	echo "Warning: compose-ai-tools artifacts not found in mavenLocal for snapshot version $VERSION." >&2
+	echo "Did you forget to run './gradlew publishToMavenLocal' in compose-ai-tools?" >&2
+	echo "Attempting to run it for you..."
+	(
+		cd "$COMPOSE_AI_DIR"
+		if PLUGIN_VERSION="$VERSION" ./gradlew publishToMavenLocal >/dev/null &&
+			PLUGIN_VERSION="$VERSION" ./gradlew -p gradle-plugin publishToMavenLocal >/dev/null; then
+			echo "Successfully published compose-ai-tools artifacts to mavenLocal."
+		else
+			echo "Error: Failed to publish artifacts to mavenLocal." >&2
+			echo "Please run the publish commands manually in compose-ai-tools directory." >&2
+			exit 1
+		fi
+	)
 fi
 
 usage() {
-    cat <<EOF
+	cat <<EOF
 Usage: $(basename "$0") [--preview] PREVIEW_NAME [OUTPUT_PNG]
        $(basename "$0") --list
 
@@ -74,28 +74,28 @@ Options:
   --list         Inspect supported render endpoints
   --help         Display instructional assistance
 EOF
-    exit 0
+	exit 0
 }
 
 if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
-    usage
+	usage
 fi
 
 if [[ "${1:-}" == "--list" ]]; then
-    "$CLI_BIN" list --module app --json 2>/dev/null | grep '"functionName":' | cut -d'"' -f4 | sort -u
-    exit 0
+	"$CLI_BIN" list --module app --json 2>/dev/null | grep '"functionName":' | cut -d'"' -f4 | sort -u
+	exit 0
 fi
 
 PREVIEW=false
 if [[ "${1:-}" == "--preview" ]]; then
-    PREVIEW=true
-    shift
+	PREVIEW=true
+	shift
 fi
 
 if [ $# -lt 1 ]; then
-    echo "Usage: $(basename "$0") [--preview] PREVIEW_NAME [OUTPUT_PNG]" >&2
-    echo "Try '$(basename "$0") --help' for usage, or use --list." >&2
-    exit 1
+	echo "Usage: $(basename "$0") [--preview] PREVIEW_NAME [OUTPUT_PNG]" >&2
+	echo "Try '$(basename "$0") --help' for usage, or use --list." >&2
+	exit 1
 fi
 
 PREVIEW_NAME="$1"
@@ -103,28 +103,27 @@ OUTPUT_PATH="${2:-app/screenshots/${PREVIEW_NAME}.png}"
 
 RENDER_DIR="app/build/compose-previews/renders"
 
-VERBOSE_FLAG=""
 if [ "${WIDGET_VERBOSE:-false}" = "true" ]; then
-  "$CLI_BIN" --verbose render --module app --filter "$PREVIEW_NAME" || true
+	./gradlew testDebugUnitTest --tests "ee.schimke.composeai.renderer.RobolectricRenderTest.renderPreview[*${PREVIEW_NAME}*]" -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders
 else
-  "$CLI_BIN" render --module app --filter "$PREVIEW_NAME" >/dev/null 2>&1 || true
+	./gradlew testDebugUnitTest --tests "ee.schimke.composeai.renderer.RobolectricRenderTest.renderPreview[*${PREVIEW_NAME}*]" -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders >/dev/null 2>&1
 fi
 
 MATCHING_FILE=$(find "$RENDER_DIR" -name "*${PREVIEW_NAME}*.png" | head -n 1)
 
 if [ -n "$MATCHING_FILE" ]; then
-    mkdir -p "$(dirname "$OUTPUT_PATH")"
-    cp "$MATCHING_FILE" "$OUTPUT_PATH"
-    echo "Rendered ${PREVIEW_NAME} to $OUTPUT_PATH"
-    
-    if [ "$PREVIEW" = true ]; then
-        if command -v chafa >/dev/null 2>&1; then
-            chafa "$OUTPUT_PATH"
-        else
-            echo "Error: --preview requested but 'chafa' command not found." >&2
-            exit 1
-        fi
-    fi
+	mkdir -p "$(dirname "$OUTPUT_PATH")"
+	cp "$MATCHING_FILE" "$OUTPUT_PATH"
+	echo "Rendered ${PREVIEW_NAME} to $OUTPUT_PATH"
+
+	if [ "$PREVIEW" = true ]; then
+		if command -v chafa >/dev/null 2>&1; then
+			chafa "$OUTPUT_PATH"
+		else
+			echo "Error: --preview requested but 'chafa' command not found." >&2
+			exit 1
+		fi
+	fi
 else
-    echo "Warning: Could not find generated PNG for ${PREVIEW_NAME} in $RENDER_DIR" >&2
+	echo "Warning: Could not find generated PNG for ${PREVIEW_NAME} in $RENDER_DIR" >&2
 fi
