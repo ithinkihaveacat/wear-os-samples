@@ -174,23 +174,16 @@ Compose AI Tools Roborazzi infrastructure.
 
 2. Generate graphics: `./widget-screenshot YourSamplePreview`
 
-3. Generate all previews: You can render all previews at once using the Gradle
-   tasks provided by the plugin:
+3. Generate all previews: You can render all previews at once using the
+   `widget-screenshot` script with the `--all` flag:
 
    ```bash
-   ./gradlew renderAllPreviews
+   ./widget-screenshot --all
    ```
 
-   or
-
-   ```bash
-   ./gradlew renderPreviews
-   ```
-
-   > [!NOTE] `renderAllPreviews` is the user-facing entry point that also
-   > handles archiving screenshots if history is enabled. `renderPreviews` is
-   > the core task that runs the tests. If history is disabled, they do the same
-   > thing.
+   > [!NOTE] The custom Gradle tasks provided by the plugin (`renderAllPreviews`
+   > and `renderPreviews`) are currently failing due to classpath issues in this
+   > environment. Use `./widget-screenshot --all` instead.
 
 **How it works & Troubleshooting:**
 
