@@ -360,8 +360,9 @@ next steps:
 - **Select Your Implementation Strategy**: Learn about the trade-offs between
   [Dual-Service and Unified Service](#implementation-strategies) architectures
   to ensure your app provides the best experience on every device generation.
-- **Explore the Code Samples**: Familiarize yourself with the building
-  blocks of Wear Widgets by exploring the samples in the `app/src/main/java/` directory, including layout samples for `RemoteBox`, `RemoteButton`, and `RemoteCanvas`.
+- **Explore the Code Samples**: Familiarize yourself with the building blocks of
+  Wear Widgets by exploring the samples in the `app/src/main/java/` directory,
+  including layout samples for `RemoteBox`, `RemoteButton`, and `RemoteCanvas`.
 - **Master the Core Concepts**: Deep dive into the
   [Technical Guide](#technical-guide) to understand the
   [Remote UI Programming Model](#remote-ui-programming-model) and how to handle
@@ -436,7 +437,8 @@ integrates with the Wear OS system.
 
 Wear widgets leverage Remote Compose, which features a declarative DSL that
 aligns with Modern Android Development. To see these building blocks in
-action—including code for components like `RemoteBox`, `RemoteButton`, and `RemoteCanvas`—please see the samples in the `app/src/main/java/` directory.
+action—including code for components like `RemoteBox`, `RemoteButton`, and
+`RemoteCanvas`—please see the samples in the `app/src/main/java/` directory.
 
 #### Event Handling: Actions vs. Lambdas {#event-handling-actions-vs-lambdas}
 
@@ -819,7 +821,7 @@ significantly.
 | Feature                   | Wear OS Tiles (ProtoLayout)                                                                                                                                                                                               | Wear Widgets (Remote Compose)                                                                                                                                                                                 |
 | :------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Development Model**     | Imperative Builder Pattern (`LayoutElementBuilders`)                                                                                                                                                                      | Declarative, Compose-like DSL (`RemoteText`, `RemoteColumn`)                                                                                                                                                  |
-| **State & Interactivity** | Server-side driven. Interactions (`LoadAction`) trigger a full service callback to refresh the UI.                                                                                                                        | Client-side driven. Declarative state (`rememberMutableRemoteInt`) and actions (`ValueChange`) allow instant UI updates without app round-trips.                                                                |
+| **State & Interactivity** | Server-side driven. Interactions (`LoadAction`) trigger a full service callback to refresh the UI.                                                                                                                        | Client-side driven. Declarative state (`rememberMutableRemoteInt`) and actions (`ValueChange`) allow instant UI updates without app round-trips.                                                              |
 | **Dynamic Data**          | **Streaming Support.** Can bind directly to platform data (e.g., Heart Rate) via `DynamicBuilders` for real-time updates.                                                                                                 | **State Driven.** Updates are driven by state changes or app pushes. No direct platform sensor binding yet.                                                                                                   |
 | **Update Scheduling**     | **Timeline Support.** Can pre-schedule future layouts (e.g., calendar events) to update automatically without waking the app.                                                                                             | **Real-time.** Updates are immediate and must be initiated by app code. No native mechanism to pre-cache future layouts.                                                                                      |
 | **Curved Layouts**        | **Native Support.** dedicated `Arc` containers and components (`ArcText`) for circular screens.                                                                                                                           | **Container Not Required.** Widgets use standard linear layouts (`RemoteRow`) and do not aim to hug the screen curvature. However, component-level arcs (like progress indicators) are supported.             |
@@ -948,7 +950,8 @@ b/470964182
 _Fixed in `1.0.0-alpha07`. `RemoteModifier.padding` now supports `RemoteDp`
 (e.g., `10.rdp`)._
 
-The `RemoteModifier.padding` extension functions strictly require `RemoteDp` or `RemoteFloat` values. Standard Compose `Dp` is no longer supported.
+The `RemoteModifier.padding` extension functions strictly require `RemoteDp` or
+`RemoteFloat` values. Standard Compose `Dp` is no longer supported.
 
 ```kotlin
 RemoteModifier.padding(10.rdp)
