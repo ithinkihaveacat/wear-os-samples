@@ -1448,14 +1448,15 @@ RemoteBox(
 
 ## Updates {#updates}
 
-### Wear Widgets EAP 1.3 [PENDING] — 14 Apr 2026 {#wear-widgets-eap-13}
+### Wear Widgets EAP 1.3 - PENDING {#wear-widgets-eap-13}
 
 #### Features {#features-13}
 
 - **SDK 37 Baseline:** The build environment has been upgraded to **SDK 37**.
   Recent Jetpack alpha libraries now require `compileSdk 37`.
-- **Dependencies Updated:** Updated `androidx.compose.remote` to `1.0.0-alpha08`
-  and `androidx.glance.wear` to `1.0.0-alpha07`.
+- **Dependencies Updated:** Updated `androidx.compose.remote` to
+  `1.0.0-alpha08`, `androidx.glance.wear` to `1.0.0-alpha07`, and
+  `androidx.wear.compose.remote:remote-material3` to `1.0.0-alpha02`.
 
 #### Known Issues {#known-issues-13}
 
@@ -1482,6 +1483,10 @@ RemoteBox(
 - **\[FIXED\]**
   [Android Studio Preview Limitations](#android-studio-preview-limitations):
   Multiple preview instances in the same file now render correctly.
+- **\[FIXED\]**
+  [Dynamic Theme Colors for Document Backgrounds Require Manual Binding](#dynamic-theme-colors-for-document-backgrounds-require-manual-binding):
+  You can now set the background of a `WearWidgetDocument` to a dynamic theme
+  color using `RemoteColorScheme` properties directly.
 
 #### Migration Instructions {#migration-instructions-13}
 
@@ -1495,6 +1500,12 @@ RemoteBox(
 - **Theme Color Scheme Updates:** `RemoteColorScheme` is now final. Use the
   `copy()` method to override roles. Replace:
   `object : RemoteColorScheme() { ... }` with `RemoteColorScheme().copy(...)`.
+- **RemoteBox Migration:** `RemoteBox` now uses `contentAlignment` instead of
+  `horizontalAlignment` and `verticalArrangement`. This is a breaking change.
+- **rememberRemoteIntValue Migration:** Deprecated in
+  `androidx.compose.remote:remote-creation-compose:1.0.0-alpha07`. Replace with
+  `rememberMutableRemoteInt(initialValue)`. Note that `rememberMutableRemoteInt`
+  takes a literal value rather than a lambda.
 
 ### Wear Widgets EAP 1.2 — 24 Mar 2026 {#wear-widgets-eap-12-24-mar-2026}
 
