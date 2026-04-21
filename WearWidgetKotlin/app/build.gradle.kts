@@ -5,6 +5,10 @@ plugins {
     // alias(libs.plugins.dependency.analysis)
 }
 
+kotlin {
+    jvmToolchain(21)
+}
+
 android {
     namespace = "com.google.example.wear_widget"
     compileSdk {
@@ -49,17 +53,7 @@ android {
     }
 }
 
-afterEvaluate {
-    tasks.named<Test>("testDebugUnitTest").configure {
-        val testClasses = layout.buildDirectory.dir("intermediates/built_in_kotlinc/debugUnitTest/compileDebugUnitTestKotlin/classes")
-        testClassesDirs = files(testClassesDirs, testClasses)
-        classpath += files(testClasses)
-    }
-    tasks.named<Test>("renderPreviews").configure {
-        val testClasses = layout.buildDirectory.dir("intermediates/built_in_kotlinc/debugUnitTest/compileDebugUnitTestKotlin/classes")
-        classpath = files(classpath, testClasses)
-    }
-}
+
 
 dependencies {
     implementation(libs.play.services.wearable)
