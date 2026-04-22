@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-    id("ee.schimke.composeai.preview") version "0.7.5-SNAPSHOT"
+    id("ee.schimke.composeai.preview") version "0.7.6-SNAPSHOT"
     // alias(libs.plugins.dependency.analysis)
 }
 
@@ -116,20 +116,6 @@ dependencies {
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.roborazzi.rule)
     testImplementation(libs.compose.ui.test.junit4)
-    testImplementation("ee.schimke.composeai:renderer-android:0.7.5-SNAPSHOT")
+    testImplementation("ee.schimke.composeai:renderer-android:0.7.6-SNAPSHOT")
     debugImplementation(libs.compose.ui.test.manifest)
-}
-
-tasks.withType<Test>().configureEach {
-    if (name == "testDebugUnitTest") {
-        systemProperty("composeai.render.manifest", System.getProperty("composeai.render.manifest") ?: "build/compose-previews/previews.json")
-        systemProperty("composeai.render.outputDir", System.getProperty("composeai.render.outputDir") ?: "build/compose-previews/renders")
-        systemProperty("robolectric.conscryptMode", "OFF")
-        systemProperty("roborazzi.test.record", "true")
-    }
-    if (name == "renderPreviews") {
-        doFirst {
-            println("renderPreviews execution classpath: ${classpath.files}")
-        }
-    }
 }

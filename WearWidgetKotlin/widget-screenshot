@@ -110,24 +110,23 @@ fi
 RENDER_DIR="app/build/compose-previews/renders"
 
 if [ "$ALL" = true ]; then
-	if [ "${WIDGET_VERBOSE:-false}" = "true" ]; then
-		./gradlew testDebugUnitTest -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders
-	else
-		./gradlew testDebugUnitTest -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders >/dev/null 2>&1
-	fi
-	echo "Rendered all previews to $RENDER_DIR"
-	exit 0
+        if [ "${WIDGET_VERBOSE:-false}" = "true" ]; then
+                ./gradlew :app:renderPreviews
+        else
+                ./gradlew :app:renderPreviews >/dev/null 2>&1
+        fi
+        echo "Rendered all previews to $RENDER_DIR"
+        exit 0
 fi
 
 PREVIEW_NAME="$1"
 OUTPUT_PATH="${2:-app/screenshots/${PREVIEW_NAME}.png}"
 
 if [ "${WIDGET_VERBOSE:-false}" = "true" ]; then
-	./gradlew testDebugUnitTest --tests "ee.schimke.composeai.renderer.RobolectricRenderTest.renderPreview[*${PREVIEW_NAME}*]" -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders
+        ./gradlew :app:renderPreviews --tests "*${PREVIEW_NAME}*"
 else
-	./gradlew testDebugUnitTest --tests "ee.schimke.composeai.renderer.RobolectricRenderTest.renderPreview[*${PREVIEW_NAME}*]" -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders >/dev/null 2>&1
+        ./gradlew :app:renderPreviews --tests "*${PREVIEW_NAME}*" >/dev/null 2>&1
 fi
-
 MATCHING_FILE=$(find "$RENDER_DIR" -name "*${PREVIEW_NAME}*.png" | head -n 1)
 
 if [ -n "$MATCHING_FILE" ]; then
