@@ -116,11 +116,20 @@ fi
 
 RENDER_DIR="app/build/compose-previews/renders"
 
+echo "Discovering previews..."
+if ! ./gradlew :app:discoverPreviews; then
+	echo "Error: Failed to discover previews." >&2
+	exit 1
+fi
+
 if [ "$ALL" = true ]; then
+	rm -f app/build/compose-previews/test-filter.txt
+	rm -rf app/build/test-results/testDebugUnitTest/
+	
 	if [ "${WIDGET_VERBOSE:-false}" = "true" ]; then
-		./gradlew testDebugUnitTest -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders
+		./gradlew testDebugUnitTest -Drobolectric.conscryptMode=OFF -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders
 	else
-		./gradlew testDebugUnitTest -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders >/dev/null 2>&1
+		./gradlew testDebugUnitTest -Drobolectric.conscryptMode=OFF -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders >/dev/null 2>&1
 	fi
 	echo "Rendered all previews to $RENDER_DIR"
 	exit 0
@@ -129,10 +138,13 @@ fi
 PREVIEW_NAME="$1"
 OUTPUT_PATH="${2:-app/screenshots/${PREVIEW_NAME}.png}"
 
+echo "${PREVIEW_NAME}" > app/build/compose-previews/test-filter.txt
+rm -rf app/build/test-results/testDebugUnitTest/
+
 if [ "${WIDGET_VERBOSE:-false}" = "true" ]; then
-	./gradlew testDebugUnitTest --tests "ee.schimke.composeai.renderer.RobolectricRenderTest.renderPreview[*${PREVIEW_NAME}*]" -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders
+	./gradlew testDebugUnitTest -Drobolectric.conscryptMode=OFF -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders
 else
-	./gradlew testDebugUnitTest --tests "ee.schimke.composeai.renderer.RobolectricRenderTest.renderPreview[*${PREVIEW_NAME}*]" -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders >/dev/null 2>&1
+	./gradlew testDebugUnitTest -Drobolectric.conscryptMode=OFF -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders >/dev/null 2>&1
 fi
 
 MATCHING_FILE=$(find "$RENDER_DIR" -name "*${PREVIEW_NAME}*.png" | head -n 1)
