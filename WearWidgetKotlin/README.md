@@ -134,79 +134,59 @@ samples.
 **Why it's useful:** Accelerates localized testing cycles efficiently using
 Compose AI Tools Roborazzi infrastructure.
 
-**Prerequisites:**
+**Standard Tooling (`compose-preview` CLI):** The recommended way to generate
+previews is to use the `compose-preview` CLI tool provided by
+`compose-ai-tools`.
 
-- The `compose-ai-tools` repository must be checked out locally. By default, the
-  script expects it at `../../compose-ai-tools`. You can override this by
-  setting the `COMPOSE_AI_DIR` environment variable.
-- You must publish both the library and the plugin to `mavenLocal`. To do this
-  in one go, run the following command from the `compose-ai-tools` root
-  directory:
+1. Install the CLI (see `compose-ai-tools/skills/compose-preview/SKILL.md` for
+   instructions).
+2. Run `compose-preview render --filter YourPreviewName --output your_file.png`
+   to render a specific preview.
+3. Run `compose-preview render` to render all previews.
 
-  ```bash
-  PLUGIN_VERSION=0.7.5-SNAPSHOT ./gradlew publishToMavenLocal && PLUGIN_VERSION=0.7.5-SNAPSHOT ./gradlew -p gradle-plugin publishToMavenLocal
-  ```
-
-  > [!NOTE] The `PLUGIN_VERSION` environment variable ensures that the published
-  > artifacts use the version expected by this project (configured in
-  > `app/build.gradle.kts`). If you bump the version there, update it here as
-  > well.
-
-**Workflow:**
-
-1. Define standard `@Composable` wrapper functions for your `@RemoteComposable`
-   widgets:
-
-   ```kotlin
-   import androidx.compose.ui.tooling.preview.Preview
-   import androidx.compose.remote.creation.profile.RcPlatformProfiles.WEAR_WIDGETS
-   import androidx.compose.remote.tooling.preview.RemotePreview
-
-   @Preview(device = "id:wearos_large_round")
-   @Composable
-   fun YourSamplePreview() {
-       RemotePreview(WEAR_WIDGETS) {
-           YourSample()
-       }
-   }
-   ```
-
-2. Generate graphics: `./widget-screenshot YourSamplePreview`
-
-3. Generate all previews: You can render all previews at once using the
-   `widget-screenshot` script with the `--all` flag:
-
-   ```bash
-   ./widget-screenshot --all
-   ```
-
-   > [!NOTE] The custom Gradle tasks provided by the plugin (`renderAllPreviews`
-   > and `renderPreviews`) are currently failing due to classpath issues in this
-   > environment. Use `./widget-screenshot --all` instead.
-
-**How it works & Troubleshooting:**
-
-- **Under the hood**: The rendering process uses a custom Gradle task
-  (`renderPreviews`) that runs Robolectric unit tests. It uses Roborazzi to
-  capture the screenshots of the composed previews.
-- **Problem Diagnostics**: If a preview fails or acts unexpectedly, you can run
-  it with verbose output to see detailed engine traces:
-
-  ```bash
-  WIDGET_VERBOSE=true ./widget-screenshot YourSamplePreview
-  ```
-
-**Workaround for Classpath Issues**: If `renderPreviews` fails with
-`ClassNotFoundException` (e.g., for `android.app.Application`), it is because it
-runs as a plain Gradle `Test` task. You can use the standard Android unit test
-task instead, which handles the classpath correctly:
+**Workaround for Classpath Issues in this Repo:** If the standard
+`renderPreviews` task or `compose-preview` CLI fails with a `NO-SOURCE` error
+(indicating it cannot find the test class or classes.jar), it is a known
+classpath issue in this module. Use the included `./widget-screenshot` script
+instead, which uses the standard Android unit test task (`testDebugUnitTest`)
+that handles the classpath correctly.
 
 ```bash
-./gradlew testDebugUnitTest -Dcomposeai.render.manifest=build/compose-previews/previews.json -Dcomposeai.render.outputDir=build/compose-previews/renders
+# Render a specific preview
+./widget-screenshot YourSamplePreview
+
+# Render all previews
+./widget-screenshot --all
 ```
 
-This will run the rendering tests and output PNGs to
-`app/build/compose-previews/renders`.
+**Offline Environment Setup (Robolectric SDKs):** If you are running in an
+offline environment, Robolectric may fail to download the required Android SDK
+jar (e.g., for API 35). To identify which file is missing:
+
+1. Run `./widget-screenshot YourSamplePreview` with `WIDGET_VERBOSE=true`.
+2. Check the error output for a message like:
+   `java.lang.IllegalArgumentException: Path is not a file: .../android-all-instrumented-15-robolectric-13954326-i7.jar`.
+3. The path indicates the EXACT filename needed.
+
+To resolve it:
+
+1. Manually download the requested `android-all` (or `android-all-instrumented`)
+   JAR file from Maven Central (Group: `org.robolectric`, Artifact:
+   `android-all`).
+2. Place it in the project root or a directory of your choice.
+3. Set the system property `robolectric.dependency.dir` in
+   `app/src/test/kotlin/ee/schimke/composeai/renderer/RobolectricRenderTest.kt`
+   to point to that directory.
+
+If you have internet access, simply running `./gradlew testDebugUnitTest` once
+will automatically download and cache these dependencies, preventing silent
+failures later when offline.
+
+**Conscrypt Conflict:** If you get a `SecurityException` about
+`signer information does not match` for `org.conscrypt`, it means there is a
+signed package conflict. Resolve this by disabling Conscrypt in your tests. In
+our `./widget-screenshot` script, we pass `-Drobolectric.conscryptMode=OFF` to
+Gradle.
 
 **Reversion / Cleanup:** Clear local outputs using:
 
