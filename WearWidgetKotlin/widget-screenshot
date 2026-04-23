@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if [ -n "${ANDROID_JAR:-}" ] && [ "$(uname)" = "Linux" ]; then
+	echo "Warning: ANDROID_JAR environment variable is set to '$ANDROID_JAR'." >&2
+	echo "This may cause Gradle to pass -Xbootclasspath to the test worker, failing on Java 21+." >&2
+	echo "If you experience failures like '-Xbootclasspath is no longer a supported option', try unsetting it: unset ANDROID_JAR" >&2
+fi
+
+
 COMPOSE_AI_DIR="${COMPOSE_AI_DIR:-../../compose-ai-tools}"
 CLI_BIN="$COMPOSE_AI_DIR/cli/build/install/compose-preview/bin/compose-preview"
 
