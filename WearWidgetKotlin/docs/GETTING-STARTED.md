@@ -114,15 +114,15 @@ Include the following dependencies in your app's `build.gradle.kts` file:
 ```kotlin
 dependencies {
     // Core Wear Widget / Remote Compose libraries (ALPHA)
-    implementation("androidx.compose.remote:remote-creation-compose:1.0.0-alpha08")
-    implementation("androidx.compose.remote:remote-core:1.0.0-alpha08")
-    implementation("androidx.glance.wear:wear:1.0.0-alpha07")
-    implementation("androidx.glance.wear:wear-core:1.0.0-alpha07")
+    implementation("androidx.compose.remote:remote-creation-compose:1.0.0-alpha09")
+    implementation("androidx.compose.remote:remote-core:1.0.0-alpha09")
+    implementation("androidx.glance.wear:wear:1.0.0-alpha08")
+    implementation("androidx.glance.wear:wear-core:1.0.0-alpha08")
     implementation("androidx.wear.compose.remote:remote-material3:1.0.0-alpha02")
 
     // Tooling for previews (optional, but recommended)
-    implementation("androidx.compose.remote:remote-tooling-preview:1.0.0-alpha08")
-    implementation("androidx.wear.compose:compose-ui-tooling:1.5.6")
+    implementation("androidx.compose.remote:remote-tooling-preview:1.0.0-alpha09")
+    implementation("androidx.wear.compose:compose-ui-tooling:1.6.1")
     implementation("androidx.wear.tiles:tiles-tooling-preview:1.5.0")
     debugImplementation("androidx.wear.tiles:tiles-renderer:1.5.0")
 }
@@ -1449,8 +1449,7 @@ RemoteBox(
 - **SDK 37 Baseline:** The build environment has been upgraded to **SDK 37**.
   Recent Jetpack alpha libraries now require `compileSdk 37`.
 - **Dependencies Updated:** Updated `androidx.compose.remote` to
-  `1.0.0-alpha08`, `androidx.glance.wear` to `1.0.0-alpha07`, and
-  `androidx.wear.compose.remote:remote-material3` to `1.0.0-alpha02`.
+  `1.0.0-alpha09`, `androidx.glance.wear` to `1.0.0-alpha08`, `androidx.compose.runtime` to `1.10.6`, and `kotlin` to `2.3.21`.
 
 #### Known Issues {#known-issues-13}
 
@@ -1488,6 +1487,7 @@ RemoteBox(
   `37`.
 - **Padding API Updates:** `RemoteModifier.padding` now strictly requires
   `RemoteDp`. Replace: `.padding(10.dp)` with `.padding(10.rdp)`.
+- **Padding Parameter Changes:** `RemoteModifier.padding` no longer accepts the `right` parameter. Use `end` instead for RTL support.
 - **Clip API Updates:** `RemoteModifier.clip` now expects `RemoteShape` (e.g.,
   `RemoteCircleShape`) and no longer accepts explicit dimensions. Replace:
   `.clip(CircleShape, DpSize(60.dp, 60.dp))` with `.clip(RemoteCircleShape)`.
@@ -1500,6 +1500,8 @@ RemoteBox(
   `androidx.compose.remote:remote-creation-compose:1.0.0-alpha07`. Replace with
   `rememberMutableRemoteInt(initialValue)`. Note that `rememberMutableRemoteInt`
   takes a literal value rather than a lambda.
+
+
 
 ### Wear Widgets EAP 1.2 — 24 Mar 2026 {#wear-widgets-eap-12-24-mar-2026}
 
