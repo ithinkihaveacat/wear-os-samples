@@ -48,7 +48,7 @@ Before you begin, ensure your environment meets the following requirements.
 ### Runtime Requirements {#runtime-requirements}
 
 This project requires `com.google.android.wearable.protolayout.renderer` version
-**1.6.1.51.884843156.exp or later** on the target device.
+**1.6.1.87.903743252.exp or later** on the target device.
 
 To check what version you have installed, use the following command:
 

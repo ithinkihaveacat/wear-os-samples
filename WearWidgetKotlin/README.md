@@ -29,7 +29,7 @@ must have a compatible version of the `protolayout` renderer installed.
 1. **Check Installed Version:**
 
    This project requires `com.google.android.wearable.protolayout.renderer`
-   version **1.6.1.4.862675839.exp** or later.
+   version **1.6.1.87.903743252.exp** or later.
 
    ```bash
    adb shell dumpsys package com.google.android.wearable.protolayout.renderer | \
