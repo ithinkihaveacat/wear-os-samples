@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-    id("ee.schimke.composeai.preview") version "0.7.7-SNAPSHOT"
+    id("ee.schimke.composeai.preview") version "0.8.10"
     // alias(libs.plugins.dependency.analysis)
 }
 
@@ -52,8 +52,6 @@ android {
         }
     }
 }
-
-
 
 dependencies {
     implementation(libs.play.services.wearable)
@@ -116,6 +114,6 @@ dependencies {
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.roborazzi.rule)
     testImplementation(libs.compose.ui.test.junit4)
-    testImplementation("ee.schimke.composeai:renderer-android:0.7.7-SNAPSHOT")
+    testImplementation("ee.schimke.composeai:renderer-android:0.8.10")
     debugImplementation(libs.compose.ui.test.manifest)
 }

@@ -117,7 +117,7 @@ fun RemoteButtonEnabled() {
 
 @WearPreviewDevices
 @Composable
-private fun RemoteButtonEnabledPreview(
+internal fun RemoteButtonEnabledPreview(
     @PreviewParameter(ProfilePreviewParameterProvider::class) profile: Profile
 ) {
     val content: @Composable @RemoteComposable () -> Unit = { Container { RemoteButtonEnabled() } }
