@@ -114,14 +114,16 @@ Include the following dependencies in your app's `build.gradle.kts` file:
 ```kotlin
 dependencies {
     // Core Wear Widget / Remote Compose libraries (ALPHA)
-    implementation("androidx.compose.remote:remote-creation-compose:1.0.0-alpha09")
-    implementation("androidx.compose.remote:remote-core:1.0.0-alpha09")
+    // Note: Core libraries are pinned to alpha08 to maintain compatibility with
+    // remote-material3:1.0.0-alpha02. See README.md for details.
+    implementation("androidx.compose.remote:remote-creation-compose:1.0.0-alpha08")
+    implementation("androidx.compose.remote:remote-core:1.0.0-alpha08")
     implementation("androidx.glance.wear:wear:1.0.0-alpha08")
     implementation("androidx.glance.wear:wear-core:1.0.0-alpha08")
     implementation("androidx.wear.compose.remote:remote-material3:1.0.0-alpha02")
 
     // Tooling for previews (optional, but recommended)
-    implementation("androidx.compose.remote:remote-tooling-preview:1.0.0-alpha09")
+    implementation("androidx.compose.remote:remote-tooling-preview:1.0.0-alpha08")
     implementation("androidx.wear.compose:compose-ui-tooling:1.6.1")
     implementation("androidx.wear.tiles:tiles-tooling-preview:1.5.0")
     debugImplementation("androidx.wear.tiles:tiles-renderer:1.5.0")
@@ -870,6 +872,24 @@ disappearing from the carousel upon update.
 This section tracks technical hurdles and API limitations in the current
 ALPHA/SNAPSHOT versions.
 
+### Library ABI Incompatibility (Remote Material 3) {#library-abi-incompatibility}
+
+**Symptom:** The application crashes at runtime with a
+`java.lang.NoClassDefFoundError` or `java.lang.NoSuchMethodError` when
+attempting to use components from the `remote-material3` library (such as
+`RemoteButton`).
+
+**Workaround:** Project dependencies must be constrained to use core remote
+compose libraries version `1.0.0-alpha08`. In `build.gradle.kts`, use a
+`constraints` block to strictly enforce this version for all core artifacts.
+
+**Context:** The latest release of
+`androidx.wear.compose.remote:remote-material3` (`1.0.0-alpha02`) was compiled
+against core libraries version `alpha08`. Core library versions `>= alpha09`
+introduced breaking ABI changes (including relocated classes and changed method
+signatures for the `clickable` modifier) that are incompatible with the
+pre-compiled Material library.
+
 ### Unsupported Remote Compose Primitives Cause Runtime Crashes {#unsupported-remote-compose-primitives-cause-runtime-crashes}
 
 b/502649242
@@ -1448,12 +1468,20 @@ RemoteBox(
 
 - **SDK 37 Baseline:** The build environment has been upgraded to **SDK 37**.
   Recent Jetpack alpha libraries now require `compileSdk 37`.
-- **Dependencies Updated:** Updated `androidx.compose.remote` to
-  `1.0.0-alpha09`, `androidx.glance.wear` to `1.0.0-alpha08`, `androidx.compose.runtime` to `1.10.6`, and `kotlin` to `2.3.21`.
+- **Dependencies Updated:** Updated `androidx.compose.remote` core libraries to
+  `1.0.0-alpha09` (Note: Pinned back to `alpha08` in this sample for
+  compatibility, see below), `androidx.glance.wear` to `1.0.0-alpha08`,
+  `androidx.compose.runtime` to `1.10.6`, and `kotlin` to `2.3.21`.
 
 #### Known Issues {#known-issues-13}
 
-- **\[ADDED\]**
+- **[ADDED] Library ABI Incompatibility (Remote Material 3):** The latest
+  `remote-material3` (`1.0.0-alpha02`) is currently incompatible with
+  `remote-creation-compose` `>= alpha09` due to internal API refactoring
+  (relocated classes and method signature changes). **Workaround:** Core
+  libraries in this project are strictly constrained to `1.0.0-alpha08` using
+  Gradle `constraints`.
+- **[ADDED]**
   [Unsupported Remote Compose Primitives Cause Runtime Crashes](#unsupported-remote-compose-primitives-cause-runtime-crashes):
   Using advanced primitives like `RemoteCollapsibleColumn` or
   `RemoteModifier.scroll()` causes the application to crash at runtime due to
@@ -1487,7 +1515,8 @@ RemoteBox(
   `37`.
 - **Padding API Updates:** `RemoteModifier.padding` now strictly requires
   `RemoteDp`. Replace: `.padding(10.dp)` with `.padding(10.rdp)`.
-- **Padding Parameter Changes:** `RemoteModifier.padding` no longer accepts the `right` parameter. Use `end` instead for RTL support.
+- **Padding Parameter Changes:** `RemoteModifier.padding` no longer accepts the
+  `right` parameter. Use `end` instead for RTL support.
 - **Clip API Updates:** `RemoteModifier.clip` now expects `RemoteShape` (e.g.,
   `RemoteCircleShape`) and no longer accepts explicit dimensions. Replace:
   `.clip(CircleShape, DpSize(60.dp, 60.dp))` with `.clip(RemoteCircleShape)`.
@@ -1500,8 +1529,6 @@ RemoteBox(
   `androidx.compose.remote:remote-creation-compose:1.0.0-alpha07`. Replace with
   `rememberMutableRemoteInt(initialValue)`. Note that `rememberMutableRemoteInt`
   takes a literal value rather than a lambda.
-
-
 
 ### Wear Widgets EAP 1.2 — 24 Mar 2026 {#wear-widgets-eap-12-24-mar-2026}
 

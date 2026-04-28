@@ -1,6 +1,7 @@
 # Wear Widget UI Components Catalog
 
-This catalog provides a visual reference and code samples for various UI components supported by Wear Widgets (Remote Compose).
+This catalog provides a visual reference and code samples for various UI
+components supported by Wear Widgets (Remote Compose).
 
 ## textButton
 
@@ -50,7 +51,7 @@ RemoteButton(
             modifier = RemoteModifier.size(RemoteButtonDefaults.LargeIconSize).clip(RoundedCornerShape(percent = 50))
         )
         // Spacer
-        RemoteBox(modifier = RemoteModifier.size(8.dp.asRdp())) 
+        RemoteBox(modifier = RemoteModifier.size(8.dp.asRdp()))
         // Texts
         MaterialRemoteText("Avatar Button".rs)
     }
@@ -147,7 +148,7 @@ RemoteButton(
             )
             RemoteBox(modifier = RemoteModifier.size(8.rdp))
             MaterialRemoteText("Ali".rs)
-            RemoteBox(modifier = RemoteModifier.size(20.rdp)) 
+            RemoteBox(modifier = RemoteModifier.size(20.rdp))
             MaterialRemoteText("2:03 PM".rs)
         }
         MaterialRemoteText(

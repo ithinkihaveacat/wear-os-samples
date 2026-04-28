@@ -2,7 +2,10 @@
 
 ## AnchoredTextSample
 
-UI screen with an Android robot icon in a pink circle, above the white text 'Widget Catalog'. A large white rounded rectangular card, outlined in dark gray, shows 'Left' (red, top-left), 'Center' (black), and 'Bottom' (blue, bottom-right).
+UI screen with an Android robot icon in a pink circle, above the white text
+'Widget Catalog'. A large white rounded rectangular card, outlined in dark gray,
+shows 'Left' (red, top-left), 'Center' (black), and 'Bottom' (blue,
+bottom-right).
 
 ![AnchoredTextSample](AnchoredTextSample.png)
 
@@ -76,7 +79,10 @@ fun AnchoredTextSample() {
 
 ## AustralianThemeSample
 
-Android logo above a screen titled "Widget Catalog". Below, a dark gray rounded rectangle box contains the title "Aussie Theme", followed by two rounded buttons: a blue one labeled "Primary (Blue)" and a red one labeled "Secondary (Red)".
+Android logo above a screen titled "Widget Catalog". Below, a dark gray rounded
+rectangle box contains the title "Aussie Theme", followed by two rounded
+buttons: a blue one labeled "Primary (Blue)" and a red one labeled "Secondary
+(Red)".
 
 ![AustralianThemeSample](AustralianThemeSample.png)
 
@@ -137,7 +143,11 @@ fun AustralianThemeSample() {
 
 ## BackgroundTreatmentsSample
 
-A pink Android head icon and "Widget Catalog" title are above a dark gray rounded container with 6 sections. Top row: red-orange vertical gradient "Vertical", cyan-blue radial gradient "Radial". Middle row: magenta-green sweep gradient "Sweep", image labeled "Bitmap". Bottom row: "Custom" with orange circle, white-gray horizontal gradient "Horizontal".
+A pink Android head icon and "Widget Catalog" title are above a dark gray
+rounded container with 6 sections. Top row: red-orange vertical gradient
+"Vertical", cyan-blue radial gradient "Radial". Middle row: magenta-green sweep
+gradient "Sweep", image labeled "Bitmap". Bottom row: "Custom" with orange
+circle, white-gray horizontal gradient "Horizontal".
 
 ![BackgroundTreatmentsSample](BackgroundTreatmentsSample.png)
 
@@ -252,7 +262,9 @@ fun BackgroundTreatmentsSample() {
 
 ## BitmapCanvasSample
 
-Android logo in a pink circle, above "Widget Catalog" text. Below is a dark gray-framed, rounded-corner image of white daisies in a golden sunlit field. The overall screen background is black.
+Android logo in a pink circle, above "Widget Catalog" text. Below is a dark
+gray-framed, rounded-corner image of white daisies in a golden sunlit field. The
+overall screen background is black.
 
 ![BitmapCanvasSample](BitmapCanvasSample.png)
 
@@ -282,7 +294,9 @@ fun BitmapCanvasSample() {
 
 ## BoxReferenceSample1
 
-A screen titled "Widget Catalog" with a pink circular Android logo at the top. Below the title is a large, dark gray rounded rectangular box containing the centered text "Box Sample 1".
+A screen titled "Widget Catalog" with a pink circular Android logo at the top.
+Below the title is a large, dark gray rounded rectangular box containing the
+centered text "Box Sample 1".
 
 ![BoxReferenceSample1](BoxSample1.png)
 
@@ -305,7 +319,9 @@ fun BoxReferenceSample1() {
 
 ## BoxReferenceSample2
 
-Widget Catalog screen on black background. Top: pink Android icon, white "Widget Catalog" text. Below: large dark gray rounded rectangle. Inside, a red rectangular border frames white text: "Box Sample 2" and "(Border & Padding)".
+Widget Catalog screen on black background. Top: pink Android icon, white "Widget
+Catalog" text. Below: large dark gray rounded rectangle. Inside, a red
+rectangular border frames white text: "Box Sample 2" and "(Border & Padding)".
 
 ![BoxReferenceSample2](BoxSample2.png)
 
@@ -338,7 +354,10 @@ fun BoxReferenceSample2() {
 
 ## BoxReferenceSample3
 
-A black screen displays a pink circular Android icon and the title "Widget Catalog" in white. Below, a large, rounded rectangular container with a dark gray border is filled with solid blue. Partial yellow text "Bo" and "(B" is visible at the bottom right corner of the blue area.
+A black screen displays a pink circular Android icon and the title "Widget
+Catalog" in white. Below, a large, rounded rectangular container with a dark
+gray border is filled with solid blue. Partial yellow text "Bo" and "(B" is
+visible at the bottom right corner of the blue area.
 
 ![BoxReferenceSample3](BoxSample3.png)
 
@@ -367,7 +386,9 @@ fun BoxReferenceSample3() {
 
 ## BoxReferenceSample4
 
-A "Widget Catalog" screen with an Android icon above the title. Below, a large blue rectangle within a dark gray rounded border displays white text: "State 0" and "(Click to" (text appears cut off). The overall background is black.
+A "Widget Catalog" screen with an Android icon above the title. Below, a large
+blue rectangle within a dark gray rounded border displays white text: "State 0"
+and "(Click to" (text appears cut off). The overall background is black.
 
 ![BoxReferenceSample4](BoxSample4.png)
 
@@ -426,7 +447,9 @@ fun BoxReferenceSample4() {
 
 ## ButtonReferenceSample1
 
-A mobile UI on a black background shows a pink Android logo icon and "Widget Catalog" in white text. Below is a dark grey rounded rectangle, containing a centered light pink rounded button labeled "Simple Button" in dark red text.
+A mobile UI on a black background shows a pink Android logo icon and "Widget
+Catalog" in white text. Below is a dark grey rounded rectangle, containing a
+centered light pink rounded button labeled "Simple Button" in dark red text.
 
 ![ButtonReferenceSample1](ButtonSample1.png)
 
@@ -456,7 +479,10 @@ fun ButtonReferenceSample1() {
 
 ## ButtonReferenceSample2
 
-A black screen with a small pink circular Android logo, centered above white text "Widget Catalog". Below is a dark gray rounded rectangle. Inside, a light pink rounded button shows a dark reddish-brown Android logo and stacked dark reddish-brown text "Button with Icon".
+A black screen with a small pink circular Android logo, centered above white
+text "Widget Catalog". Below is a dark gray rounded rectangle. Inside, a light
+pink rounded button shows a dark reddish-brown Android logo and stacked dark
+reddish-brown text "Button with Icon".
 
 ![ButtonReferenceSample2](ButtonSample2.png)
 
@@ -492,7 +518,10 @@ fun ButtonReferenceSample2() {
 
 ## ButtonReferenceSample3
 
-A "Widget Catalog" screen. Top center, a pink circular icon with an Android logo. Below it, white "Widget Catalog" text. A large dark gray rounded rectangle contains a smaller, nested pink rounded rectangle. Inside the pink, prominent dark red "Primary Label" is above dark gray "Secondary Label".
+A "Widget Catalog" screen. Top center, a pink circular icon with an Android
+logo. Below it, white "Widget Catalog" text. A large dark gray rounded rectangle
+contains a smaller, nested pink rounded rectangle. Inside the pink, prominent
+dark red "Primary Label" is above dark gray "Secondary Label".
 
 ![ButtonReferenceSample3](ButtonSample3.png)
 
@@ -523,7 +552,9 @@ fun ButtonReferenceSample3() {
 
 ## ButtonReferenceSample4
 
-A screen features a pink Android logo above "Widget Catalog" in white. Centered below is a dark grey rounded rectangle enclosing a smaller red rounded rectangle displaying "Custom Colors" in yellow.
+A screen features a pink Android logo above "Widget Catalog" in white. Centered
+below is a dark grey rounded rectangle enclosing a smaller red rounded rectangle
+displaying "Custom Colors" in yellow.
 
 ![ButtonReferenceSample4](ButtonSample4.png)
 
@@ -564,7 +595,9 @@ fun ButtonReferenceSample4() {
 
 ## ButtonReferenceSample6
 
-A screen titled "Widget Catalog" with a pink Android icon above it. Below, a large dark grey rounded rectangle contains a lighter grey rounded button labeled "Disabled Button".
+A screen titled "Widget Catalog" with a pink Android icon above it. Below, a
+large dark grey rounded rectangle contains a lighter grey rounded button labeled
+"Disabled Button".
 
 ![ButtonReferenceSample6](ButtonSample6.png)
 
@@ -594,7 +627,10 @@ fun ButtonReferenceSample6() {
 
 ## ButtonReferenceSample7
 
-A dark screen displays a pink circle with an Android logo, above white text "Widget Catalog." Below, a dark gray rounded rectangle frames two horizontal, pill-shaped pink buttons: "Yes" (left) and "No" (right), both with dark red text.
+A dark screen displays a pink circle with an Android logo, above white text
+"Widget Catalog." Below, a dark gray rounded rectangle frames two horizontal,
+pill-shaped pink buttons: "Yes" (left) and "No" (right), both with dark red
+text.
 
 ![ButtonReferenceSample7](ButtonSample7.png)
 
@@ -637,7 +673,10 @@ fun ButtonReferenceSample7() {
 
 ## ButtonReferenceSample8
 
-A dark screen displays a pink Android logo and "Widget Catalog" title. Below, a large dark grey rounded container features two side-by-side light pink rounded buttons. The left button reads "Yes" and "Confir\nm" (Confirm is truncated). The right button reads "No" and "Cancel". All button text is dark red.
+A dark screen displays a pink Android logo and "Widget Catalog" title. Below, a
+large dark grey rounded container features two side-by-side light pink rounded
+buttons. The left button reads "Yes" and "Confir\nm" (Confirm is truncated). The
+right button reads "No" and "Cancel". All button text is dark red.
 
 ![ButtonReferenceSample8](ButtonSample8.png)
 
@@ -677,7 +716,10 @@ fun ButtonReferenceSample8() {
 
 ## ButtonReferenceSample9
 
-Screen displaying "Widget Catalog" with an Android icon. A dark grey rounded rectangle contains a 2x2 grid of elements: a blue "Toggl" button (yellow text), a magenta "Shap" button (white text), white text "Click" directly on the grey background, and a green "Fixed" button (white text).
+Screen displaying "Widget Catalog" with an Android icon. A dark grey rounded
+rectangle contains a 2x2 grid of elements: a blue "Toggl" button (yellow text),
+a magenta "Shap" button (white text), white text "Click" directly on the grey
+background, and a green "Fixed" button (white text).
 
 ![ButtonReferenceSample9](ButtonSample9.png)
 
@@ -800,7 +842,10 @@ fun ButtonReferenceSample9() {
 
 ## ButtonReferenceSample10
 
-Screenshot shows an Android robot icon above "Component Catalog" on a black background. Below, a light purple chat bubble features a circular profile picture of a woman. Inside, text reads "Ali" and "2:03 PM", followed by "Dinner in SF" and "Let's try that new restaurant."
+Screenshot shows an Android robot icon above "Component Catalog" on a black
+background. Below, a light purple chat bubble features a circular profile
+picture of a woman. Inside, text reads "Ali" and "2:03 PM", followed by "Dinner
+in SF" and "Let's try that new restaurant."
 
 ![ButtonReferenceSample10](ButtonSample10.png)
 
@@ -842,7 +887,9 @@ fun ButtonReferenceSample10() {
 
 ## ButtonReferenceSample11
 
-Dark UI with an Android robot icon above "Component Catalog" text. A dark gray rounded button below displays "Text Data" in light gray, stacked over "Content" in white.
+Dark UI with an Android robot icon above "Component Catalog" text. A dark gray
+rounded button below displays "Text Data" in light gray, stacked over "Content"
+in white.
 
 ![ButtonReferenceSample11](ButtonSample11.png)
 
@@ -884,7 +931,10 @@ fun ButtonReferenceSample11() {
 
 ## ButtonReferenceSample12
 
-A dark mode screenshot displays a 'Widget Catalog'. At the top, a pink circle with a white Android logo is centered above white text "Widget Catalog." Below, a large dark gray rounded rectangular widget shows "Icon Data" (light gray text) above "Content" (white text), with a message icon to its right.
+A dark mode screenshot displays a 'Widget Catalog'. At the top, a pink circle
+with a white Android logo is centered above white text "Widget Catalog." Below,
+a large dark gray rounded rectangular widget shows "Icon Data" (light gray text)
+above "Content" (white text), with a message icon to its right.
 
 ![ButtonReferenceSample12](ButtonSample12.png)
 
@@ -937,7 +987,10 @@ fun ButtonReferenceSample12() {
 
 ## ButtonReferenceSample13
 
-A dark screen with an Android robot icon at the top, followed by the white text "Component Catalog". Below, a dark gray rounded button features a white running person icon on the left and stacked white text "Graphic Data Content" on the right.
+A dark screen with an Android robot icon at the top, followed by the white text
+"Component Catalog". Below, a dark gray rounded button features a white running
+person icon on the left and stacked white text "Graphic Data Content" on the
+right.
 
 ![ButtonReferenceSample13](ButtonSample13.png)
 
@@ -989,7 +1042,9 @@ fun ButtonReferenceSample13() {
 
 ## CanvasReferenceSample1
 
-A dark background shows a pink circular Android icon, then white text "Widget Catalog". Below, a large, dark grey rounded rectangle is centered, containing a red circle centered above a blue horizontal rectangle.
+A dark background shows a pink circular Android icon, then white text "Widget
+Catalog". Below, a large, dark grey rounded rectangle is centered, containing a
+red circle centered above a blue horizontal rectangle.
 
 ![CanvasReferenceSample1](CanvasSample1.png)
 
@@ -1032,7 +1087,9 @@ fun CanvasReferenceSample1() {
 
 ## CanvasReferenceSample2
 
-A dark UI with a pink circular Android icon above white text "Widget Catalog". Below is a large, centered, dark gray rounded rectangle with a small yellow triangular shape in its top-left corner, resembling a folded page or tag.
+A dark UI with a pink circular Android icon above white text "Widget Catalog".
+Below is a large, centered, dark gray rounded rectangle with a small yellow
+triangular shape in its top-left corner, resembling a folded page or tag.
 
 ![CanvasReferenceSample2](CanvasSample2.png)
 
@@ -1076,7 +1133,9 @@ fun CanvasReferenceSample2() {
 
 ## CanvasReferenceSample3
 
-UI with a pink Android icon and "Widget Catalog" title. A large, dark grey rounded rectangle dominates the screen. In its bottom-left corner, a bright green rotated rectangle shows partial white text: "rotate...".
+UI with a pink Android icon and "Widget Catalog" title. A large, dark grey
+rounded rectangle dominates the screen. In its bottom-left corner, a bright
+green rotated rectangle shows partial white text: "rotate...".
 
 ![CanvasReferenceSample3](CanvasSample3.png)
 
@@ -1128,7 +1187,9 @@ fun CanvasReferenceSample3() {
 
 ## CanvasReferenceSample4
 
-Android "Widget Catalog" screen with a pink Android logo icon. A dark gray rounded card displays a red circular progress indicator showing 75% completion, with white text "75%" above gray "Progress" text. The background is black.
+Android "Widget Catalog" screen with a pink Android logo icon. A dark gray
+rounded card displays a red circular progress indicator showing 75% completion,
+with white text "75%" above gray "Progress" text. The background is black.
 
 ![CanvasReferenceSample4](CanvasSample4.png)
 
@@ -1204,7 +1265,10 @@ fun CanvasReferenceSample4() {
 
 ## CanvasReferenceSample5
 
-A screen with a pink Android logo icon at the top, followed by "Widget Catalog" in white text. Below is a dark gray rounded rectangle card containing a red circular outline. Inside the circle, white text "3/5" is above gray text "Segments".
+A screen with a pink Android logo icon at the top, followed by "Widget Catalog"
+in white text. Below is a dark gray rounded rectangle card containing a red
+circular outline. Inside the circle, white text "3/5" is above gray text
+"Segments".
 
 ![CanvasReferenceSample5](CanvasSample5.png)
 
@@ -1292,7 +1356,10 @@ fun CanvasReferenceSample5() {
 
 ## CardSample1
 
-A black screen displays a pink circular icon with a dark red Android logo, above white text 'Widget Catalog'. Below this is a large, dark gray rounded card. Inside the card, a cyan Android logo is on the left, and white text 'Card Title', 'Subtitle', 'goes', 'here' is stacked on the right.
+A black screen displays a pink circular icon with a dark red Android logo, above
+white text 'Widget Catalog'. Below this is a large, dark gray rounded card.
+Inside the card, a cyan Android logo is on the left, and white text 'Card
+Title', 'Subtitle', 'goes', 'here' is stacked on the right.
 
 ![CardSample1](CardSample1.png)
 
@@ -1347,7 +1414,13 @@ fun CardSample1() {
 
 ## CollapsibleColumnSample1
 
-Android logo above "Wear Widget" text. Below, a rounded rectangular container displays centered, vertically stacked text: "Top (High)" in red, "Middle (Low)" in green, and "Bottom (High)" in blue. **KNOWN ISSUE (b/502649242):** This widget currently crashes at runtime. `RemoteCollapsibleColumn` emits an unsupported operation (233) that causes a `RuntimeException` when rendered on a device or in headless previews. Do not use this layout primitive for Wear OS Widgets until this issue is resolved.
+Android logo above "Wear Widget" text. Below, a rounded rectangular container
+displays centered, vertically stacked text: "Top (High)" in red, "Middle (Low)"
+in green, and "Bottom (High)" in blue. **KNOWN ISSUE (b/502649242):** This
+widget currently crashes at runtime. `RemoteCollapsibleColumn` emits an
+unsupported operation (233) that causes a `RuntimeException` when rendered on a
+device or in headless previews. Do not use this layout primitive for Wear OS
+Widgets until this issue is resolved.
 
 ![CollapsibleColumnSample1](CollapsibleColumnSample1.png)
 
@@ -1396,7 +1469,10 @@ fun CollapsibleColumnSample1() {
 
 ## ConditionalRadiusSample
 
-A dark screen displays a pink circular icon with a dark Android logo at the top. Below it, white text reads 'Widget Catalog'. A large, centered, rounded rectangular container with a dark gray border and solid blue fill occupies the lower part of the screen.
+A dark screen displays a pink circular icon with a dark Android logo at the top.
+Below it, white text reads 'Widget Catalog'. A large, centered, rounded
+rectangular container with a dark gray border and solid blue fill occupies the
+lower part of the screen.
 
 ![ConditionalRadiusSample](ConditionalRadiusSample.png)
 
@@ -1437,7 +1513,9 @@ fun ConditionalRadiusSample() {
 
 ## CounterSample1
 
-Pink Android icon above "Widget Catalog" title. Below, a dark gray rounded rectangle widget shows a horizontal row: a light pink minus button, a red "0" display, and a light pink plus button.
+Pink Android icon above "Widget Catalog" title. Below, a dark gray rounded
+rectangle widget shows a horizontal row: a light pink minus button, a red "0"
+display, and a light pink plus button.
 
 ![CounterSample1](CounterSample1.png)
 
@@ -1489,7 +1567,9 @@ fun CounterSample1() {
 
 ## CustomThemeSample
 
-Dark theme UI with a pink Android icon and "Widget Catalog" text. Below, a dark gray rounded card displays "Custom Theme" in white text. Inside the card, there's a pink rounded button with "Primary Button" in darker pink text.
+Dark theme UI with a pink Android icon and "Widget Catalog" text. Below, a dark
+gray rounded card displays "Custom Theme" in white text. Inside the card,
+there's a pink rounded button with "Primary Button" in darker pink text.
 
 ![CustomThemeSample](CustomThemeSample.png)
 
@@ -1539,7 +1619,9 @@ fun CustomThemeSample() {
 
 ## DebugClickSample
 
-An app screen with a black background. At the top, a pink circular Android icon is centered above "Widget Catalog" text. Below, a large, dark gray rounded rectangle widget houses a central red square with "Click Me" text in white.
+An app screen with a black background. At the top, a pink circular Android icon
+is centered above "Widget Catalog" text. Below, a large, dark gray rounded
+rectangle widget houses a central red square with "Click Me" text in white.
 
 ![DebugClickSample](DebugClickSample.png)
 
@@ -1592,7 +1674,10 @@ fun DebugClickSample() {
 
 ## FullBleedImageButtonSample
 
-Android logo in pink circle above white 'Widget Catalog' text. Below, a rounded gray-bordered rectangle shows a blurry field of daisies. Centered on the field is a circular cutout of a person with dreadlocks, wearing blue, against a light background.
+Android logo in pink circle above white 'Widget Catalog' text. Below, a rounded
+gray-bordered rectangle shows a blurry field of daisies. Centered on the field
+is a circular cutout of a person with dreadlocks, wearing blue, against a light
+background.
 
 ![FullBleedImageButtonSample](FullBleedImageButtonSample.png)
 
@@ -1656,7 +1741,13 @@ fun FullBleedImageButtonSample() {
 
 ## TouchGestureSample1
 
-A black screen displays a light pink circular icon at the top center. Inside the circle is a darker pink Android robot head logo, presented with a subtle shadow effect. **KNOWN ISSUE (b/502649242):** This widget currently crashes at runtime. `RemoteModifier.onTouchDown` and `onTouchUp` emit unsupported operations (219/220) that cause a `RuntimeException` when rendered on a device or in headless previews. Do not use these modifiers for Wear OS Widgets until this issue is resolved.
+A black screen displays a light pink circular icon at the top center. Inside the
+circle is a darker pink Android robot head logo, presented with a subtle shadow
+effect. **KNOWN ISSUE (b/502649242):** This widget currently crashes at runtime.
+`RemoteModifier.onTouchDown` and `onTouchUp` emit unsupported operations
+(219/220) that cause a `RuntimeException` when rendered on a device or in
+headless previews. Do not use these modifiers for Wear OS Widgets until this
+issue is resolved.
 
 ![TouchGestureSample1](TouchGestureSample1.png)
 
@@ -1704,7 +1795,9 @@ fun TouchGestureSample1() {
 
 ## GradientBackgroundSample
 
-A screen shows a pink Android icon above "Widget Catalog" text. Below, a rounded rectangle with a dark grey border features a red-to-purple-to-blue gradient background. White text "Gradient Background" is centered within it.
+A screen shows a pink Android icon above "Widget Catalog" text. Below, a rounded
+rectangle with a dark grey border features a red-to-purple-to-blue gradient
+background. White text "Gradient Background" is centered within it.
 
 ![GradientBackgroundSample](GradientBackgroundSample.png)
 
@@ -1734,7 +1827,9 @@ fun GradientBackgroundSample() {
 
 ## GridSample1
 
-A screen titled 'Widget Catalog' below a pink Android icon. A dark gray rounded rectangle displays a 2x2 grid of smaller colored rectangles: red (1), blue (2), green (3), and yellow (4), numbered top-left to bottom-right.
+A screen titled 'Widget Catalog' below a pink Android icon. A dark gray rounded
+rectangle displays a 2x2 grid of smaller colored rectangles: red (1), blue (2),
+green (3), and yellow (4), numbered top-left to bottom-right.
 
 ![GridSample1](GridSample1.png)
 
@@ -1790,7 +1885,10 @@ fun GridSample1() {
 
 ## IconSample1
 
-UI screen with an Android robot icon in a pink circle, above the white text 'Widget Catalog'. A dark gray rounded rectangle displays three Android robot heads: a small red one, a medium green one, and a large blue one, arranged horizontally, increasing in size.
+UI screen with an Android robot icon in a pink circle, above the white text
+'Widget Catalog'. A dark gray rounded rectangle displays three Android robot
+heads: a small red one, a medium green one, and a large blue one, arranged
+horizontally, increasing in size.
 
 ![IconSample1](IconSample1.png)
 
@@ -1838,7 +1936,10 @@ fun IconSample1() {
 
 ## Material3ThemeSample
 
-A pink circular Android robot icon sits above white text "Widget Catalog." Below, a rounded rectangle displays a 5x4 grid of color swatches in various shades of pink, peach, brown, and purple, with some black and white squares in the bottom right.
+A pink circular Android robot icon sits above white text "Widget Catalog."
+Below, a rounded rectangle displays a 5x4 grid of color swatches in various
+shades of pink, peach, brown, and purple, with some black and white squares in
+the bottom right.
 
 ![Material3ThemeSample](Material3ThemeSample.png)
 
@@ -1899,7 +2000,9 @@ fun Material3ThemeSample() {
 
 ## MixedStyleSample
 
-An app screen displays a pink circle with an Android icon and the title 'Widget Catalog.' Below, a white rounded rectangle shows the text 'Mixed Styles,' with 'Mixed' in red and 'Styles' in blue.
+An app screen displays a pink circle with an Android icon and the title 'Widget
+Catalog.' Below, a white rounded rectangle shows the text 'Mixed Styles,' with
+'Mixed' in red and 'Styles' in blue.
 
 ![MixedStyleSample](MixedStyleSample.png)
 
@@ -1941,7 +2044,9 @@ fun MixedStyleSample() {
 
 ## PendingIntentSample
 
-A black background displays an Android icon in a pink circle, with white text "Widget Catalog" below it. A large gray rounded rectangle contains a centered pink rounded button with dark red text "Open App."
+A black background displays an Android icon in a pink circle, with white text
+"Widget Catalog" below it. A large gray rounded rectangle contains a centered
+pink rounded button with dark red text "Open App."
 
 ![PendingIntentSample](PendingIntentSample.png)
 
@@ -1985,7 +2090,10 @@ fun PendingIntentSample() {
 
 ## CircularProgressIndicatorSample1
 
-Android logo in a pink circle, above white "Widget Catalog" text. Below is a dark grey rounded rectangle containing a segmented circular progress bar. It features a dark reddish-pink segment in the upper left and a lighter pink segment spanning the right and lower left, separated by a gap.
+Android logo in a pink circle, above white "Widget Catalog" text. Below is a
+dark grey rounded rectangle containing a segmented circular progress bar. It
+features a dark reddish-pink segment in the upper left and a lighter pink
+segment spanning the right and lower left, separated by a gap.
 
 ![CircularProgressIndicatorSample1](CircularProgressIndicatorSample1.png)
 
@@ -2030,7 +2138,10 @@ fun CircularProgressIndicatorSample2() {
 
 ## CircularProgressIndicatorSample3
 
-Pink Android icon above "Widget Catalog" text. Below is a dark grey rounded rectangle with a segmented circle inside. The circle's top-right section is light pink, while the majority is a darker reddish-brown, suggesting a progress or multi-part design.
+Pink Android icon above "Widget Catalog" text. Below is a dark grey rounded
+rectangle with a segmented circle inside. The circle's top-right section is
+light pink, while the majority is a darker reddish-brown, suggesting a progress
+or multi-part design.
 
 ![CircularProgressIndicatorSample3](CircularProgressIndicatorSample3.png)
 
@@ -2061,7 +2172,9 @@ fun CircularProgressIndicatorSample3() {
 
 ## RotatedTextSample
 
-A black screen displays a pink Android robot logo and "Widget Catalog" title. Below, a large dark gray rounded rectangle contains a white strip with red "Hello world!" text, rotated counter-clockwise.
+A black screen displays a pink Android robot logo and "Widget Catalog" title.
+Below, a large dark gray rounded rectangle contains a white strip with red
+"Hello world!" text, rotated counter-clockwise.
 
 ![RotatedTextSample](RotatedTextSample.png)
 
@@ -2101,7 +2214,10 @@ fun RotatedTextSample(modifier: RemoteModifier = RemoteModifier) {
 
 ## RowSample1
 
-A screen displays "Widget Catalog" with a pink Android icon above. Below, a gray rounded rectangle contains three horizontally arranged, equally spaced buttons: a red button labeled "Red", a green button labeled "Green", and a blue button labeled "Blue".
+A screen displays "Widget Catalog" with a pink Android icon above. Below, a gray
+rounded rectangle contains three horizontally arranged, equally spaced buttons:
+a red button labeled "Red", a green button labeled "Green", and a blue button
+labeled "Blue".
 
 ![RowSample1](RowSample1.png)
 
@@ -2151,7 +2267,9 @@ fun RowSample1() {
 
 ## RowSample2
 
-A screen titled "Widget Catalog" in white text, below a pink circular Android icon. A large dark gray rounded rectangle contains "Item 1" in white, "Item 2" highlighted in yellow, and "Item 3" in light gray, arranged horizontally.
+A screen titled "Widget Catalog" in white text, below a pink circular Android
+icon. A large dark gray rounded rectangle contains "Item 1" in white, "Item 2"
+highlighted in yellow, and "Item 3" in light gray, arranged horizontally.
 
 ![RowSample2](RowSample2.png)
 
@@ -2187,7 +2305,10 @@ fun RowSample2() {
 
 ## SemanticStyleSample
 
-A black screen displays a pink Android icon above "Widget Catalog" text. Below is a dark gray rounded rectangle card. Inside the card, "Semantic Styles Demo" is at the top left, and "12:34" is prominently displayed in a larger font at the bottom.
+A black screen displays a pink Android icon above "Widget Catalog" text. Below
+is a dark gray rounded rectangle card. Inside the card, "Semantic Styles Demo"
+is at the top left, and "12:34" is prominently displayed in a larger font at the
+bottom.
 
 ![SemanticStyleSample](SemanticStyleSample.png)
 
@@ -2234,7 +2355,10 @@ fun SemanticStyleSample() {
 
 ## SystemThemeComparisonSample
 
-Android Widget Catalog screen on a dark background. A pink Android icon and "Widget Catalog" title are at the top. A dark gray rounded rectangle below contains "System Theme" in white text, followed by two light pink rounded buttons with dark red text: "Primary Button" and "Secondary Button".
+Android Widget Catalog screen on a dark background. A pink Android icon and
+"Widget Catalog" title are at the top. A dark gray rounded rectangle below
+contains "System Theme" in white text, followed by two light pink rounded
+buttons with dark red text: "Primary Button" and "Secondary Button".
 
 ![SystemThemeComparisonSample](SystemThemeComparisonSample.png)
 
@@ -2283,7 +2407,9 @@ fun SystemThemeComparisonSample() {
 
 ## SystemThemeSample
 
-A dark screen displays a pink circle with an Android logo, centered above white text "Widget Catalog". Below is a dark grey rounded card with white text "System Theme" and a light pink "Primary Button" with dark red text.
+A dark screen displays a pink circle with an Android logo, centered above white
+text "Widget Catalog". Below is a dark grey rounded card with white text "System
+Theme" and a light pink "Primary Button" with dark red text.
 
 ![SystemThemeSample](SystemThemeSample.png)
 
@@ -2314,7 +2440,11 @@ fun SystemThemeSample() {
 
 ## TaskSample
 
-Screenshot of a "Widget Catalog" screen. A pink circular Android logo is at the top. Below it, white text reads "Widget Catalog". A dark gray rounded rectangular widget displays progress: a pink checkmark in a circular progress bar (approx. 20% complete), next to a large pink number "1" and text "of 5 tasks".
+Screenshot of a "Widget Catalog" screen. A pink circular Android logo is at the
+top. Below it, white text reads "Widget Catalog". A dark gray rounded
+rectangular widget displays progress: a pink checkmark in a circular progress
+bar (approx. 20% complete), next to a large pink number "1" and text "of 5
+tasks".
 
 ![TaskSample](TaskSample.png)
 
@@ -2458,7 +2588,10 @@ fun TaskSample() {
 
 ## TextSample1
 
-A screen displays a pink Android icon and "Widget Catalog" title. Below, a dark green rounded rectangle shows centered white text: "TextSample1" (large), "This is a long text that should wrap to multiple l..." (smaller, truncated), and "Version 1.0" (small, teal).
+A screen displays a pink Android icon and "Widget Catalog" title. Below, a dark
+green rounded rectangle shows centered white text: "TextSample1" (large), "This
+is a long text that should wrap to multiple l..." (smaller, truncated), and
+"Version 1.0" (small, teal).
 
 ![TextSample1](TextSample1.png)
 
@@ -2510,7 +2643,10 @@ fun TextSample1() {
 
 ## TextSample1WithMargin
 
-A screen titled "Widget Catalog," featuring an Android icon. Below the title, a dark green rounded rectangle displays "TextSample1" in large white text, followed by "This is a long..." in smaller white text that is partially cut off at the bottom.
+A screen titled "Widget Catalog," featuring an Android icon. Below the title, a
+dark green rounded rectangle displays "TextSample1" in large white text,
+followed by "This is a long..." in smaller white text that is partially cut off
+at the bottom.
 
 ![TextSample1WithMargin](TextSample1WithMargin.png)
 
@@ -2560,7 +2696,11 @@ fun TextSample1WithMargin() {
 
 ## TypographyScaleSample
 
-A dark mode UI on a black background. At the top, a centered pink Android logo above 'Widget Catalog' in white. Below, a large, dark gray rounded rectangle widget displays three vertically stacked, center-aligned text lines: 'Title Style' in large cyan, 'Default Body Style' in medium white, and 'Caption Style' in small, italic dark gray.
+A dark mode UI on a black background. At the top, a centered pink Android logo
+above 'Widget Catalog' in white. Below, a large, dark gray rounded rectangle
+widget displays three vertically stacked, center-aligned text lines: 'Title
+Style' in large cyan, 'Default Body Style' in medium white, and 'Caption Style'
+in small, italic dark gray.
 
 ![TypographyScaleSample](TypographyScaleSample.png)
 
@@ -2612,7 +2752,14 @@ fun TypographyScaleSample() {
 
 ## VerticalScrollSample
 
-A UI displaying an Android logo and 'Widget Catalog' title. Below, a dark grey rounded widget shows a vertical list of white text: 'Header', 'Item 0', 'Item 1', 'Item 2', 'Item 3', with 'Item 4' partially visible, indicating scrollable content. **KNOWN ISSUE (b/502649242):** This widget currently crashes at runtime. `RemoteModifier.verticalScroll` emits an unsupported operation (226) that causes a `RuntimeException` when rendered on a device or in headless previews. Do not use this modifier for Wear OS Widgets until this issue is resolved.
+A UI displaying an Android logo and 'Widget Catalog' title. Below, a dark grey
+rounded widget shows a vertical list of white text: 'Header', 'Item 0', 'Item
+1', 'Item 2', 'Item 3', with 'Item 4' partially visible, indicating scrollable
+content. **KNOWN ISSUE (b/502649242):** This widget currently crashes at
+runtime. `RemoteModifier.verticalScroll` emits an unsupported operation (226)
+that causes a `RuntimeException` when rendered on a device or in headless
+previews. Do not use this modifier for Wear OS Widgets until this issue is
+resolved.
 
 ![VerticalScrollSample](VerticalScrollSample.png)
 
@@ -2651,4 +2798,3 @@ fun VerticalScrollSample() {
     }
 }
 ```
-

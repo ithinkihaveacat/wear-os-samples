@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-    id("ee.schimke.composeai.preview") version "0.7.7-SNAPSHOT"
+    id("ee.schimke.composeai.preview") version "0.8.10"
     // alias(libs.plugins.dependency.analysis)
 }
 
@@ -53,9 +53,30 @@ android {
     }
 }
 
-
-
 dependencies {
+    // WORKAROUND: Pin core remote compose libraries to alpha08.
+    // The latest available version of remote-material3 (1.0.0-alpha02) is currently
+    // incompatible with core library versions >= 1.0.0-alpha09 due to an ABI break
+    // (relocated classes and changed method signatures in the clickable modifier).
+    // This block should be removed once remote-material3 is updated to support alpha09+.
+    constraints {
+        val coreVersion = "1.0.0-alpha08"
+        implementation("androidx.compose.remote:remote-creation-compose") {
+            version { strictly(coreVersion) }
+        }
+        implementation("androidx.compose.remote:remote-creation") {
+            version { strictly(coreVersion) }
+        }
+        implementation("androidx.compose.remote:remote-creation-core") {
+            version { strictly(coreVersion) }
+        }
+        implementation("androidx.compose.remote:remote-core") {
+            version { strictly(coreVersion) }
+        }
+        implementation("androidx.compose.remote:remote-tooling-preview") {
+            version { strictly(coreVersion) }
+        }
+    }
     implementation(libs.play.services.wearable)
     implementation(platform(libs.compose.bom))
     implementation(libs.ui)
@@ -107,8 +128,6 @@ dependencies {
     implementation(libs.datastore.preferences)
 
     testImplementation(enforcedPlatform(libs.compose.bom))
-    debugImplementation("androidx.compose.ui:ui-graphics-android:1.7.8")
-    debugImplementation("androidx.compose.ui:ui-android:1.7.8")
     testImplementation(libs.junit)
     testImplementation(libs.ext.junit)
     testImplementation(libs.robolectric)
@@ -116,6 +135,6 @@ dependencies {
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.roborazzi.rule)
     testImplementation(libs.compose.ui.test.junit4)
-    testImplementation("ee.schimke.composeai:renderer-android:0.7.7-SNAPSHOT")
+    testImplementation("ee.schimke.composeai:renderer-android:0.8.10")
     debugImplementation(libs.compose.ui.test.manifest)
 }

@@ -69,7 +69,7 @@ fun VerticalScrollSample() {
     }
 }
 
-@PreviewWearLarge
+// @PreviewWearLarge // Disabled: crashes at runtime (see line 43)
 @Composable
 fun VerticalScrollSamplePreview() {
     WidgetPreview { VerticalScrollSample() }

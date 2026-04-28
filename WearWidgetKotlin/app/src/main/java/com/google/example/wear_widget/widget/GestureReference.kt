@@ -79,7 +79,7 @@ fun TouchGestureSample1() {
     }
 }
 
-@PreviewWearLarge
+// @PreviewWearLarge // Disabled: crashes at runtime (see line 46)
 @Composable
 fun TouchGestureSample1Preview() {
     WidgetPreview { TouchGestureSample1() }
