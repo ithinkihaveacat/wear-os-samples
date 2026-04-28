@@ -127,19 +127,36 @@ samples.
 ./widget-switch SystemThemeSample
 ```
 
+## Known Issues & Workarounds
+
+### Library ABI Incompatibility (Remote Material 3)
+
+The project currently uses a **pinned version of core remote compose libraries
+(`1.0.0-alpha08`)**. This is a workaround for a binary incompatibility (ABI
+break) in newer versions of the core libraries (`>= alpha09`) that causes
+runtime crashes when using components from `remote-material3:1.0.0-alpha02`.
+
+If you encounter `NoClassDefFoundError` or `NoSuchMethodError` related to
+`ClickableModifier` or `RemoteButton`, ensure that the core library versions are
+constrained to `alpha08` in your `build.gradle.kts` until an updated version of
+`remote-material3` is released.
+
 ## Development Tools
 
 ### Compose AI Tools Rendering Integration
 
-Accelerates localized testing cycles efficiently using the `compose-preview` CLI.
+Accelerates localized testing cycles efficiently using the `compose-preview`
+CLI.
 
 **Standard Tooling (`compose-preview` CLI):** The recommended way to generate
 previews is to use the `compose-preview` CLI tool.
 
 1. Install the CLI:
+
    ```bash
    curl -fsSL https://raw.githubusercontent.com/yschimke/compose-ai-tools/main/scripts/install.sh | bash
    ```
+
 2. Run `compose-preview render --filter YourPreviewName --output your_file.png`
    to render a specific preview.
 3. Run `compose-preview show` to render and inspect all previews.
@@ -162,11 +179,13 @@ To resolve it:
    JAR file from Maven Central (Group: `org.robolectric`, Artifact:
    `android-all`).
 2. Place it in the project root or a directory of your choice.
-3. Set the system property `robolectric.dependency.dir` (e.g. in `gradle.properties` or via CLI `-Drobolectric.dependency.dir=...`) to point to that directory.
+3. Set the system property `robolectric.dependency.dir` (e.g. in
+   `gradle.properties` or via CLI `-Drobolectric.dependency.dir=...`) to point
+   to that directory.
 
-If you have internet access, simply running `compose-preview show` once
-will automatically download and cache these dependencies, preventing silent
-failures later when offline.
+If you have internet access, simply running `compose-preview show` once will
+automatically download and cache these dependencies, preventing silent failures
+later when offline.
 
 **Reversion / Cleanup:** Clear local outputs using:
 
