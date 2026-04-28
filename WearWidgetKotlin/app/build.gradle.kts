@@ -105,8 +105,6 @@ dependencies {
     implementation(libs.datastore.preferences)
 
     testImplementation(enforcedPlatform(libs.compose.bom))
-    debugImplementation("androidx.compose.ui:ui-graphics-android:1.7.8")
-    debugImplementation("androidx.compose.ui:ui-android:1.7.8")
     testImplementation(libs.junit)
     testImplementation(libs.ext.junit)
     testImplementation(libs.robolectric)
