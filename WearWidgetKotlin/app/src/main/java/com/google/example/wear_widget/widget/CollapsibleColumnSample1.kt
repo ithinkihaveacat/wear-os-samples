@@ -65,7 +65,7 @@ fun CollapsibleColumnSample1() {
     }
 }
 
-@PreviewWearLarge
+// @PreviewWearLarge // Disabled: crashes at runtime (see line 39)
 @Composable
 fun CollapsibleColumnSample1Preview() {
     WidgetPreview { CollapsibleColumnSample1() }
