@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,6 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+@file:android.annotation.SuppressLint("RestrictedApi")
+
 package com.google.example.wear_widget
 
 import android.content.Context
@@ -22,8 +25,11 @@ import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.layout.RemoteText
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
+import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
+import androidx.compose.remote.creation.compose.modifier.padding
 import androidx.compose.remote.creation.compose.state.rc
+import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.remote.creation.compose.state.rsp
 import androidx.compose.runtime.Composable
@@ -36,29 +42,58 @@ import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.color
 import androidx.glance.wear.core.WearWidgetParams
 
-class ForceUpdateService : GlanceWearWidgetService() {
-    override val widget: GlanceWearWidget = ForceUpdateWidget()
+class WeatherWidgetService : GlanceWearWidgetService() {
+    override val widget: GlanceWearWidget = WeatherWidget()
 }
 
-class ForceUpdateWidget : GlanceWearWidget() {
+class WeatherWidget : GlanceWearWidget() {
     override suspend fun provideWidgetData(
         context: Context,
-        params: WearWidgetParams,
+        params: WearWidgetParams
     ): WearWidgetData {
-        val count = context.getCounterState().count
-        return WearWidgetDocument(background = WearWidgetBrush.color(Color.Black.rc)) {
-            ForceUpdateWidgetContent(count)
+        val state = context.getWeatherState()
+
+        val bgColor = when (state.condition) {
+            "☀️" -> Color(0xFF2196F3) // Blue
+            "☁️" -> Color(0xFF9E9E9E) // Gray
+            "🌧️" -> Color(0xFF673AB7) // Purple/Dark Blue
+            "❄️" -> Color(0xFFE3F2FD) // Very Light Blue
+            else -> Color.Black
+        }
+
+        val textColor = if (state.condition == "❄️") Color.Black else Color.White
+
+        return WearWidgetDocument(background = WearWidgetBrush.color(bgColor.rc)) {
+            WeatherContent(state, textColor)
         }
     }
 }
 
 @RemoteComposable
 @Composable
-fun ForceUpdateWidgetContent(count: Int) {
-    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
+fun WeatherContent(state: WeatherState, textColor: Color) {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize(),
+        contentAlignment = RemoteAlignment.Center
+    ) {
         RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
-            RemoteText(text = "Favorite Number".rs, color = Color.Gray.rc, fontSize = 12.rsp)
-            RemoteText(text = count.toString().rs, color = Color.White.rc, fontSize = 40.rsp)
+            RemoteText(
+                text = state.city.rs,
+                color = textColor.rc,
+                fontSize = 14.rsp,
+                modifier = RemoteModifier.padding(bottom = 4.rdp)
+            )
+            RemoteText(
+                text = "${state.temp}° ${state.condition}".rs,
+                color = textColor.rc,
+                fontSize = 36.rsp
+            )
+            RemoteText(
+                text = "Last updated: Just now".rs,
+                color = textColor.copy(alpha = 0.7f).rc,
+                fontSize = 10.rsp,
+                modifier = RemoteModifier.padding(top = 8.rdp)
+            )
         }
     }
 }
