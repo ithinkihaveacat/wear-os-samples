@@ -31,19 +31,18 @@ class WeatherUpdateReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == "com.google.example.wear_widget.UPDATE_WEATHER") {
-            val city = intent.getStringExtra("city") ?: "Unknown"
             val temp = intent.getIntExtra("temp", 72)
             val condition = intent.getStringExtra("condition") ?: "☀️"
 
             val goAsync = goAsync()
             scope.launch {
                 try {
-                    context.setWeatherState(WeatherState(temp, condition, city))
+                    context.setWeatherState(WeatherState(temp, condition))
                     WeatherWidget().triggerUpdate(
                         context.applicationContext,
                         ComponentName(context, WeatherWidgetService::class.java)
                     )
-                    Log.d("WeatherReceiver", "Pushed weather update: $city, $temp, $condition")
+                    Log.d("WeatherReceiver", "Pushed weather update: $temp, $condition")
                 } catch (e: Exception) {
                     Log.e("WeatherReceiver", "Error updating weather", e)
                 } finally {

@@ -78,7 +78,7 @@ fun WeatherContent(state: WeatherState, textColor: Color) {
     ) {
         RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
             RemoteText(
-                text = state.city.rs,
+                text = "London".rs,
                 color = textColor.rc,
                 fontSize = 14.rsp,
                 modifier = RemoteModifier.padding(bottom = 4.rdp)

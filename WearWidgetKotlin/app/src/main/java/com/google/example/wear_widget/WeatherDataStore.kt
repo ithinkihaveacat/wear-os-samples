@@ -32,8 +32,7 @@ suspend fun Context.getWeatherState(): WeatherState {
     return weatherDataStore.data.map { preferences ->
         WeatherState(
             temp = preferences[intPreferencesKey("temp")] ?: 72,
-            condition = preferences[stringPreferencesKey("condition")] ?: "☀️",
-            city = preferences[stringPreferencesKey("city")] ?: "San Francisco"
+            condition = preferences[stringPreferencesKey("condition")] ?: "☀️"
         )
     }.first()
 }
@@ -42,8 +41,7 @@ suspend fun Context.setWeatherState(state: WeatherState) {
     weatherDataStore.edit { preferences ->
         preferences[intPreferencesKey("temp")] = state.temp
         preferences[stringPreferencesKey("condition")] = state.condition
-        preferences[stringPreferencesKey("city")] = state.city
     }
 }
 
-data class WeatherState(val temp: Int, val condition: String, val city: String)
+data class WeatherState(val temp: Int, val condition: String)

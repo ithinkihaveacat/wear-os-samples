@@ -43,9 +43,9 @@ class WeatherActivity : ComponentActivity() {
             val scope = rememberCoroutineScope()
             MaterialTheme {
                 WeatherControlPanel(
-                    onUpdate = { city, temp, cond ->
+                    onUpdate = { temp, cond ->
                         scope.launch {
-                            setWeatherState(WeatherState(temp, cond, city))
+                            setWeatherState(WeatherState(temp, cond))
                             WeatherWidget().triggerUpdate(
                                 this@WeatherActivity,
                                 ComponentName(this@WeatherActivity, WeatherWidgetService::class.java)
@@ -59,7 +59,7 @@ class WeatherActivity : ComponentActivity() {
 }
 
 @Composable
-private fun WeatherControlPanel(onUpdate: (String, Int, String) -> Unit) {
+private fun WeatherControlPanel(onUpdate: (Int, String) -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -77,22 +77,22 @@ private fun WeatherControlPanel(onUpdate: (String, Int, String) -> Unit) {
             textAlign = TextAlign.Center
         )
 
-        WeatherButton("Sunny SF", "San Francisco", 72, "☀️", onUpdate)
-        WeatherButton("Cloudy LDN", "London", 55, "☁️", onUpdate)
-        WeatherButton("Rainy SEA", "Seattle", 48, "🌧️", onUpdate)
+        WeatherButton("Sunny", 72, "☀️", onUpdate)
+        WeatherButton("Cloudy", 55, "☁️", onUpdate)
+        WeatherButton("Rainy", 48, "🌧️", onUpdate)
+        WeatherButton("Snowy", 28, "❄️", onUpdate)
     }
 }
 
 @Composable
 private fun WeatherButton(
     label: String,
-    city: String,
     temp: Int,
     cond: String,
-    onUpdate: (String, Int, String) -> Unit
+    onUpdate: (Int, String) -> Unit
 ) {
     Button(
-        onClick = { onUpdate(city, temp, cond) },
+        onClick = { onUpdate(temp, cond) },
         modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp)
     ) {
         Text(label)
