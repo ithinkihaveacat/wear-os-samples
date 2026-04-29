@@ -874,6 +874,8 @@ ALPHA/SNAPSHOT versions.
 
 ### Library ABI Incompatibility (Remote Material 3) {#library-abi-incompatibility}
 
+b/507687866
+
 **Symptom:** The application crashes at runtime with a
 `java.lang.NoClassDefFoundError` or `java.lang.NoSuchMethodError` when
 attempting to use components from the `remote-material3` library (such as
@@ -881,7 +883,9 @@ attempting to use components from the `remote-material3` library (such as
 
 **Workaround:** Project dependencies must be constrained to use core remote
 compose libraries version `1.0.0-alpha08`. In `build.gradle.kts`, use a
-`constraints` block to strictly enforce this version for all core artifacts.
+`constraints` block to strictly enforce this version for all core artifacts
+(specifically `androidx.compose.remote:remote-creation-compose` and
+`androidx.compose.remote:remote-core`).
 
 **Context:** The latest release of
 `androidx.wear.compose.remote:remote-material3` (`1.0.0-alpha02`) was compiled
@@ -889,6 +893,24 @@ against core libraries version `alpha08`. Core library versions `>= alpha09`
 introduced breaking ABI changes (including relocated classes and changed method
 signatures for the `clickable` modifier) that are incompatible with the
 pre-compiled Material library.
+
+### `wearwidget-provider` XML Parser Rejects Full-Screen Types {#xml-parser-rejects-fullscreen}
+
+b/507693943
+
+**Symptom:** The widget provider fails to load, and logs show an
+`XmlPullParserException` indicating either a failure to parse the container type
+or that `TILE_COMPAT` is not supported for widgets.
+
+**Workaround:** Use `"LARGE"` for both `preferredType` and the `<container>`
+`type` attribute in your XML configuration. The widget will still render
+full-screen if designed to do so, but using semantically accurate labels like
+`FULLSCREEN` or `TILE_COMPAT` will cause the parser to reject the configuration.
+
+**Context:** The XML parser is currently out of sync with internal container
+types. It lacks a mapping for the `"FULLSCREEN"` string alias and explicitly
+blocks `"TILE_COMPAT"` for widgets, even though the internal manager uses that
+type for full-screen rendering.
 
 ### Unsupported Remote Compose Primitives Cause Runtime Crashes {#unsupported-remote-compose-primitives-cause-runtime-crashes}
 
