@@ -1475,12 +1475,14 @@ RemoteBox(
 
 #### Known Issues {#known-issues-13}
 
-- **[ADDED] Library ABI Incompatibility (Remote Material 3):** The latest
-  `remote-material3` (`1.0.0-alpha02`) is currently incompatible with
-  `remote-creation-compose` `>= alpha09` due to internal API refactoring
-  (relocated classes and method signature changes). **Workaround:** Core
-  libraries in this project are strictly constrained to `1.0.0-alpha08` using
-  Gradle `constraints`.
+- **[ADDED] Library ABI Incompatibility (Remote Material 3):** (b/507687866) The
+  latest `remote-material3` (`1.0.0-alpha02`) is currently incompatible with
+  `androidx.compose.remote:remote-creation-compose` `>= alpha09` due to internal
+  API refactoring. **Workaround:** Core libraries in this project are strictly
+  constrained to `1.0.0-alpha08` using Gradle `constraints`.
+- **[ADDED] `wearwidget-provider` XML Parser Rejects Full-Screen Types:**
+  (b/507693943) The XML parser rejects `FULLSCREEN` and `TILE_COMPAT` container
+  types in the provider info file. **Workaround:** Use `LARGE` as a fallback.
 - **[ADDED]**
   [Unsupported Remote Compose Primitives Cause Runtime Crashes](#unsupported-remote-compose-primitives-cause-runtime-crashes):
   Using advanced primitives like `RemoteCollapsibleColumn` or
