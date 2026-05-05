@@ -88,6 +88,7 @@ class WidgetCatalog : GlanceWearWidget() {
                     "GridSample1" -> GridSample1()
                     "CardSample1" -> CardSample1()
                     "CounterSample1" -> CounterSample1()
+                    "ImageSample1" -> ImageSample1()
                     "Material3ThemeSample" -> Material3ThemeSample()
                     "CanvasSample1" -> CanvasReferenceSample1()
                     "CanvasSample2" -> CanvasReferenceSample2()
