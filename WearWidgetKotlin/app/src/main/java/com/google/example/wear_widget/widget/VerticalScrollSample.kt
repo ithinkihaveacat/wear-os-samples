@@ -25,7 +25,6 @@ import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.fillMaxWidth
-import androidx.compose.remote.creation.compose.modifier.rememberRemoteScrollState
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rdp
@@ -35,7 +34,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
-import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
 
 /**
@@ -44,9 +42,9 @@ import com.google.example.wear_widget.WidgetPreview
  * 4' partially visible, indicating scrollable content.
  *
  * **NOT SUPPORTED FOR WEAR WIDGETS:** This sample originally demonstrated the use of
- * `RemoteModifier.verticalScroll`. However, vertical scrolling is **not supported and will never
- * be enabled for Wear Widgets** (it may be available in the underlying Remote Compose player for
- * other surfaces).
+ * `RemoteModifier.verticalScroll`. However, vertical scrolling is **not supported and will never be
+ * enabled for Wear Widgets** (it may be available in the underlying Remote Compose player for other
+ * surfaces).
  *
  * This sample is preserved for reference purposes only, with the crashing scroll modifier removed.
  */
@@ -63,17 +61,17 @@ fun VerticalScrollSample() {
             verticalArrangement = RemoteArrangement.Top,
         ) {
             MaterialRemoteText(
-                "NOT SUPPORTED",
+                "NOT SUPPORTED".rs,
                 color = Color.Red.rc,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
             MaterialRemoteText(
-                "Scrolling unavailable in Wear Widgets",
+                "Scrolling unavailable in Wear Widgets".rs,
                 fontSize = 12.rsp,
-                color = Color.LightGray.rc
+                color = Color.LightGray.rc,
             )
             RemoteBox(RemoteModifier.size(10.rdp))
-            
+
             MaterialRemoteText("Header".rs)
             RemoteBox(RemoteModifier.size(10.rdp))
             for (i in 0 until 10) {

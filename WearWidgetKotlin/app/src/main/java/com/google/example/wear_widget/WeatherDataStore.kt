@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.google.example.wear_widget
 
 import android.content.Context
@@ -26,15 +25,18 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
-private val Context.weatherDataStore: DataStore<Preferences> by preferencesDataStore(name = "weather_prefs")
+private val Context.weatherDataStore: DataStore<Preferences> by
+    preferencesDataStore(name = "weather_prefs")
 
 suspend fun Context.getWeatherState(): WeatherState {
-    return weatherDataStore.data.map { preferences ->
-        WeatherState(
-            temp = preferences[intPreferencesKey("temp")] ?: 72,
-            condition = preferences[stringPreferencesKey("condition")] ?: "☀️"
-        )
-    }.first()
+    return weatherDataStore.data
+        .map { preferences ->
+            WeatherState(
+                temp = preferences[intPreferencesKey("temp")] ?: 72,
+                condition = preferences[stringPreferencesKey("condition")] ?: "☀️",
+            )
+        }
+        .first()
 }
 
 suspend fun Context.setWeatherState(state: WeatherState) {

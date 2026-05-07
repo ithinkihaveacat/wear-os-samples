@@ -70,7 +70,7 @@ fun TaskSample() {
             ) {
                 // Left Side: Circular Progress + Icon stacked
                 RemoteBox(
-                    modifier = RemoteModifier.padding(right = 12.rdp).size(60.rdp),
+                    modifier = RemoteModifier.padding(end = 12.rdp).size(60.rdp),
                     contentAlignment = RemoteAlignment.Center,
                 ) {
                     // Custom Circular Progress Indicator using Canvas

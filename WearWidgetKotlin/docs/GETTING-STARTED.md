@@ -873,27 +873,23 @@ disappearing from the carousel upon update.
 This section tracks technical hurdles and API limitations in the current
 ALPHA/SNAPSHOT versions.
 
-### Library ABI Incompatibility (Remote Material 3) {#library-abi-incompatibility}
+### [FIXED] Library ABI Incompatibility (Remote Material 3) {#library-abi-incompatibility}
 
 b/507687866
+
+_Fixed in `remote-material3:1.0.0-alpha03` and core libraries `1.0.0-alpha10`._
 
 **Symptom:** The application crashes at runtime with a
 `java.lang.NoClassDefFoundError` or `java.lang.NoSuchMethodError` when
 attempting to use components from the `remote-material3` library (such as
 `RemoteButton`).
 
-**Workaround:** Project dependencies must be constrained to use core remote
-compose libraries version `1.0.0-alpha08`. In `build.gradle.kts`, use a
-`constraints` block to strictly enforce this version for all core artifacts
-(specifically `androidx.compose.remote:remote-creation-compose` and
-`androidx.compose.remote:remote-core`).
-
-**Context:** The latest release of
-`androidx.wear.compose.remote:remote-material3` (`1.0.0-alpha02`) was compiled
-against core libraries version `alpha08`. Core library versions `>= alpha09`
-introduced breaking ABI changes (including relocated classes and changed method
-signatures for the `clickable` modifier) that are incompatible with the
-pre-compiled Material library.
+**Context:** The release of `androidx.wear.compose.remote:remote-material3`
+(`1.0.0-alpha02`) was compiled against core libraries version `alpha08`. Core
+library versions `>= alpha09` introduced breaking ABI changes (including
+relocated classes and changed method signatures for the `clickable` modifier)
+that were incompatible with the pre-compiled Material library. This has been
+resolved in newer releases.
 
 ### `wearwidget-provider` XML Parser Rejects Full-Screen Types {#xml-parser-rejects-fullscreen}
 
@@ -1503,11 +1499,10 @@ RemoteBox(
 
 #### Known Issues {#known-issues-13}
 
-- **[ADDED] Library ABI Incompatibility (Remote Material 3):** (b/507687866) The
-  latest `remote-material3` (`1.0.0-alpha02`) is currently incompatible with
-  `androidx.compose.remote:remote-creation-compose` `>= alpha09` due to internal
-  API refactoring. **Workaround:** Core libraries in this project are strictly
-  constrained to `1.0.0-alpha08` using Gradle `constraints`.
+- **[FIXED] Library ABI Incompatibility (Remote Material 3):** (b/507687866)
+  This issue where `remote-material3` was incompatible with core libraries
+  `>= alpha09` has been resolved in `remote-material3:1.0.0-alpha03` and core
+  libraries `1.0.0-alpha10`.
 - **[ADDED] `wearwidget-provider` XML Parser Rejects Full-Screen Types:**
   (b/507693943) The XML parser rejects `FULLSCREEN` and `TILE_COMPAT` container
   types in the provider info file. **Workaround:** Use `LARGE` as a fallback.

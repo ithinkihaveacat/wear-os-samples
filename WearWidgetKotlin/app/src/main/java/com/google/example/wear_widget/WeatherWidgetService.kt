@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 @file:android.annotation.SuppressLint("RestrictedApi")
 
 package com.google.example.wear_widget
@@ -49,17 +48,18 @@ class WeatherWidgetService : GlanceWearWidgetService() {
 class WeatherWidget : GlanceWearWidget() {
     override suspend fun provideWidgetData(
         context: Context,
-        params: WearWidgetParams
+        params: WearWidgetParams,
     ): WearWidgetData {
         val state = context.getWeatherState()
 
-        val bgColor = when (state.condition) {
-            "☀️" -> Color(0xFF2196F3) // Blue
-            "☁️" -> Color(0xFF9E9E9E) // Gray
-            "🌧️" -> Color(0xFF673AB7) // Purple/Dark Blue
-            "❄️" -> Color(0xFFE3F2FD) // Very Light Blue
-            else -> Color.Black
-        }
+        val bgColor =
+            when (state.condition) {
+                "☀️" -> Color(0xFF2196F3) // Blue
+                "☁️" -> Color(0xFF9E9E9E) // Gray
+                "🌧️" -> Color(0xFF673AB7) // Purple/Dark Blue
+                "❄️" -> Color(0xFFE3F2FD) // Very Light Blue
+                else -> Color.Black
+            }
 
         val textColor = if (state.condition == "❄️") Color.Black else Color.White
 
@@ -72,27 +72,24 @@ class WeatherWidget : GlanceWearWidget() {
 @RemoteComposable
 @Composable
 fun WeatherContent(state: WeatherState, textColor: Color) {
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
             RemoteText(
                 text = "London".rs,
                 color = textColor.rc,
                 fontSize = 14.rsp,
-                modifier = RemoteModifier.padding(bottom = 4.rdp)
+                modifier = RemoteModifier.padding(bottom = 4.rdp),
             )
             RemoteText(
                 text = "${state.temp}° ${state.condition}".rs,
                 color = textColor.rc,
-                fontSize = 36.rsp
+                fontSize = 36.rsp,
             )
             RemoteText(
                 text = "Last updated: Just now".rs,
                 color = textColor.copy(alpha = 0.7f).rc,
                 fontSize = 10.rsp,
-                modifier = RemoteModifier.padding(top = 8.rdp)
+                modifier = RemoteModifier.padding(top = 8.rdp),
             )
         }
     }

@@ -129,19 +129,16 @@ samples.
 
 ## Known Issues & Workarounds
 
-### Library ABI Incompatibility (Remote Material 3)
+### [FIXED] Library ABI Incompatibility (Remote Material 3)
 
-The project currently uses a **pinned version of core remote compose libraries
-(`1.0.0-alpha08`)**. This is a workaround for a binary incompatibility (ABI
-break) in newer versions of the core libraries (`>= alpha09`) that causes
+_Fixed in `remote-material3:1.0.0-alpha03` and core libraries `1.0.0-alpha10`._
+
+The project previously used a **pinned version of core remote compose libraries
+(`1.0.0-alpha08`)**. This was a workaround for a binary incompatibility (ABI
+break) in newer versions of the core libraries (`>= alpha09`) that caused
 runtime crashes when using components from `remote-material3:1.0.0-alpha02`.
 
-If you encounter `NoClassDefFoundError` or `NoSuchMethodError` related to
-`ClickableModifier` or `RemoteButton`, ensure that the core library versions are
-constrained to `alpha08` in your `build.gradle.kts` until an updated version of
-`remote-material3` is released.
-
-## Development Tools
+This has been resolved in newer releases.
 
 ### Compose AI Tools Rendering Integration
 

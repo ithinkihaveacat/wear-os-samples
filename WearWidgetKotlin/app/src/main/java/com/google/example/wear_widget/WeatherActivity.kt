@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.google.example.wear_widget
 
 import android.content.ComponentName
@@ -46,10 +45,14 @@ class WeatherActivity : ComponentActivity() {
                     onUpdate = { temp, cond ->
                         scope.launch {
                             setWeatherState(WeatherState(temp, cond))
-                            WeatherWidget().triggerUpdate(
-                                this@WeatherActivity,
-                                ComponentName(this@WeatherActivity, WeatherWidgetService::class.java)
-                            )
+                            WeatherWidget()
+                                .triggerUpdate(
+                                    this@WeatherActivity,
+                                    ComponentName(
+                                        this@WeatherActivity,
+                                        WeatherWidgetService::class.java,
+                                    ),
+                                )
                         }
                     }
                 )
@@ -63,18 +66,14 @@ private fun WeatherControlPanel(onUpdate: (Int, String) -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
-        Text(
-            "Weather Push",
-            style = MaterialTheme.typography.title3,
-            textAlign = TextAlign.Center
-        )
+        Text("Weather Push", style = MaterialTheme.typography.title3, textAlign = TextAlign.Center)
         Text(
             "Simulate weather sync",
             style = MaterialTheme.typography.caption2,
             modifier = Modifier.padding(vertical = 4.dp),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         WeatherButton("Sunny", 72, "☀️", onUpdate)
@@ -85,15 +84,10 @@ private fun WeatherControlPanel(onUpdate: (Int, String) -> Unit) {
 }
 
 @Composable
-private fun WeatherButton(
-    label: String,
-    temp: Int,
-    cond: String,
-    onUpdate: (Int, String) -> Unit
-) {
+private fun WeatherButton(label: String, temp: Int, cond: String, onUpdate: (Int, String) -> Unit) {
     Button(
         onClick = { onUpdate(temp, cond) },
-        modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp)
+        modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp),
     ) {
         Text(label)
     }
