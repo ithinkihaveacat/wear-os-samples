@@ -7,8 +7,9 @@ Tiles will evolve into partial-height Widgets. Widgets are a new glanceable
 surface for Wear OS, designed to complement apps and watch faces. Initially,
 these widgets will be visible on a surface similar to the tile carousel,
 providing users with effortless access to information and key actions.
-Partial-height, vertically scrolling Widgets provide the flexibility to deploy
-content in various sizes and deliver more focused value to the user.
+Partial-height Widgets (displayed in a vertically scrolling surface) provide the
+flexibility to deploy content in various sizes and deliver more focused value to
+the user.
 
 Wear widgets leverage
 [Remote Compose](https://developer.android.com/jetpack/androidx/releases/compose-remote),
@@ -380,10 +381,10 @@ next steps:
 
 ## Implementation Strategies {#implementation-strategies}
 
-Wear OS 7 introduces support for partial-height vertical scrolling on select
-devices. Because the platform supports a wide range of hardware—from legacy Wear
-OS 3 devices to modern Galaxy and Pixel Watches—the system's behavior depends on
-the services your app provides
+Wear OS 7 introduces support for a vertically scrolling surface for
+partial-height widgets on select devices. Because the platform supports a wide
+range of hardware—from legacy Wear OS 3 devices to modern Galaxy and Pixel
+Watches—the system's behavior depends on the services your app provides
 
 ### Dual-Service Implementation (Recommended) {#dual-service-implementation-recommended}
 
@@ -938,6 +939,11 @@ supported operations to preserve battery and maintain performance. The advanced
 primitives listed above are explicitly excluded from this allowlist. Because
 these operations are not flagged at compile-time, the underlying serialization
 buffer rejects them and crashes the process when you attempt to use them.
+
+> [!NOTE] The exclusion of scrolling modifiers like `RemoteModifier.scroll()`
+> and `RemoteModifier.verticalScroll()` is a permanent design decision for the
+> `WEAR_WIDGETS` profile to ensure battery and performance characteristics.
+> Internal scrolling within a widget will never be supported on Wear Widgets.
 
 ### Multiple APIs Trigger `RestrictedApi` Lint Errors {#multiple-apis-are-restricted}
 

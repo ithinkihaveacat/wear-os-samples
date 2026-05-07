@@ -2755,11 +2755,12 @@ fun TypographyScaleSample() {
 A UI displaying an Android logo and 'Widget Catalog' title. Below, a dark grey
 rounded widget shows a vertical list of white text: 'Header', 'Item 0', 'Item
 1', 'Item 2', 'Item 3', with 'Item 4' partially visible, indicating scrollable
-content. **KNOWN ISSUE (b/502649242):** This widget currently crashes at
-runtime. `RemoteModifier.verticalScroll` emits an unsupported operation (226)
-that causes a `RuntimeException` when rendered on a device or in headless
-previews. Do not use this modifier for Wear OS Widgets until this issue is
-resolved.
+content. **NOT SUPPORTED FOR WEAR WIDGETS:** This sample originally demonstrated
+the use of `RemoteModifier.verticalScroll`. However, vertical scrolling is **not
+supported and will never be enabled for Wear Widgets** (it may be available in
+the underlying Remote Compose player for other surfaces). This sample is
+preserved for reference purposes only, with the crashing scroll modifier
+removed.
 
 ![VerticalScrollSample](VerticalScrollSample.png)
 

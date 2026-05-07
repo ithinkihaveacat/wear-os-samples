@@ -27,10 +27,13 @@ import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.fillMaxWidth
 import androidx.compose.remote.creation.compose.modifier.rememberRemoteScrollState
 import androidx.compose.remote.creation.compose.modifier.size
-import androidx.compose.remote.creation.compose.modifier.verticalScroll
+import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rs
+import androidx.compose.remote.creation.compose.state.rsp
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.wear.compose.remote.material3.RemoteText as MaterialRemoteText
 import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.WidgetPreview
@@ -40,24 +43,37 @@ import com.google.example.wear_widget.WidgetPreview
  * shows a vertical list of white text: 'Header', 'Item 0', 'Item 1', 'Item 2', 'Item 3', with 'Item
  * 4' partially visible, indicating scrollable content.
  *
- * **KNOWN ISSUE (b/502649242):** This widget currently crashes at runtime.
- * `RemoteModifier.verticalScroll` emits an unsupported operation (226) that causes a
- * `RuntimeException` when rendered on a device or in headless previews. Do not use this modifier
- * for Wear OS Widgets until this issue is resolved.
+ * **NOT SUPPORTED FOR WEAR WIDGETS:** This sample originally demonstrated the use of
+ * `RemoteModifier.verticalScroll`. However, vertical scrolling is **not supported and will never
+ * be enabled for Wear Widgets** (it may be available in the underlying Remote Compose player for
+ * other surfaces).
+ *
+ * This sample is preserved for reference purposes only, with the crashing scroll modifier removed.
  */
 @RemoteComposable
 @Composable
 fun VerticalScrollSample() {
-    val scrollState = rememberRemoteScrollState()
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
         contentAlignment = RemoteAlignment.TopCenter,
     ) {
         RemoteColumn(
-            modifier = RemoteModifier.fillMaxWidth().verticalScroll(scrollState),
+            modifier = RemoteModifier.fillMaxWidth(),
             horizontalAlignment = RemoteAlignment.CenterHorizontally,
             verticalArrangement = RemoteArrangement.Top,
         ) {
+            MaterialRemoteText(
+                "NOT SUPPORTED",
+                color = Color.Red.rc,
+                fontWeight = FontWeight.Bold
+            )
+            MaterialRemoteText(
+                "Scrolling unavailable in Wear Widgets",
+                fontSize = 12.rsp,
+                color = Color.LightGray.rc
+            )
+            RemoteBox(RemoteModifier.size(10.rdp))
+            
             MaterialRemoteText("Header".rs)
             RemoteBox(RemoteModifier.size(10.rdp))
             for (i in 0 until 10) {
