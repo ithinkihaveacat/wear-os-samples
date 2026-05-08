@@ -29,4 +29,10 @@
     <string name="weather_condition_rainy">Rainy</string>
     <string name="weather_condition_snowy">Snowy</string>
     <string name="hello_world">Hello, World!</string>
+    <string name="watch_face_widget_label">WatchFace Widget</string>
+    <string name="watch_face_widget_description">Replicates the smartwatch watch face</string>
+    <string name="bauhaus_widget_label">Bauhaus Weather</string>
+    <string name="bauhaus_widget_description">Bauhaus style weather widget</string>
+    <string name="art_deco_widget_label">Art Deco Fitness</string>
+    <string name="art_deco_widget_description">Art Deco style fitness dashboard</string>
 </resources>

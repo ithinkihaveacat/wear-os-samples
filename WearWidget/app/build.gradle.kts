@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.roborazzi)
     // alias(libs.plugins.dependency.analysis)
+    id("ee.schimke.composeai.preview") version "0.9.3"
 }
 
 kotlin {
