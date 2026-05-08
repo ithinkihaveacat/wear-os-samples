@@ -29,6 +29,7 @@ import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.remote.creation.compose.state.rsp
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.glance.wear.GlanceWearWidget
 import androidx.glance.wear.GlanceWearWidgetService
 import androidx.glance.wear.WearWidgetBrush
@@ -37,10 +38,8 @@ import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.color
 import androidx.glance.wear.core.WearWidgetParams
 import androidx.wear.compose.material3.ColorScheme
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.remote.material3.RemoteColorScheme
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
-import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import ee.schimke.composeai.preview.WearWidgetPreview
 
 // Suppressed file-level RestrictedApi because Remote Compose APIs are currently restricted to

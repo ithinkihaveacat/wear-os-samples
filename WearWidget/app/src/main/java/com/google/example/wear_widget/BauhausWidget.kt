@@ -23,30 +23,28 @@ import android.graphics.BitmapFactory
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
-import androidx.compose.remote.creation.compose.layout.RemoteRow
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
-import androidx.compose.remote.creation.compose.layout.RemoteText
-import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteImage
+import androidx.compose.remote.creation.compose.layout.RemoteRow
+import androidx.compose.remote.creation.compose.layout.RemoteText
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
+import androidx.compose.remote.creation.compose.modifier.height
 import androidx.compose.remote.creation.compose.modifier.padding
 import androidx.compose.remote.creation.compose.modifier.width
-import androidx.compose.remote.creation.compose.modifier.height
-import androidx.compose.remote.creation.compose.state.RemoteColor
+import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.creation.compose.state.rc
+import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.remote.creation.compose.state.rsp
-import androidx.compose.remote.creation.compose.state.rdp
-import androidx.compose.remote.creation.compose.state.rb
-import androidx.compose.remote.tooling.preview.RemotePreview
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.glance.wear.GlanceWearWidget
 import androidx.glance.wear.GlanceWearWidgetService
 import androidx.glance.wear.WearWidgetBrush
@@ -54,8 +52,6 @@ import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.color
 import androidx.glance.wear.core.WearWidgetParams
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import ee.schimke.composeai.preview.WearWidgetPreview
 
 class BauhausWidgetService : GlanceWearWidgetService() {
@@ -71,10 +67,10 @@ class BauhausWidget : GlanceWearWidget() {
         val location = context.getString(R.string.weather_location_london)
         val bgColor = Color(0xFFEEEEEE) // Off-white fallback
         val brush = WearWidgetBrush.color(bgColor.rc)
-        
+
         val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.bauhaus_bg)
         val imageBitmap = bitmap.asImageBitmap()
-        
+
         return WearWidgetDocument(background = brush) {
             BauhausContent(state.temp.toString(), state.condition.name, location, imageBitmap)
         }
@@ -83,36 +79,38 @@ class BauhausWidget : GlanceWearWidget() {
 
 @RemoteComposable
 @Composable
-fun BauhausContent(temp: String, condition: String, location: String, bgImage: androidx.compose.ui.graphics.ImageBitmap) {
+fun BauhausContent(
+    temp: String,
+    condition: String,
+    location: String,
+    bgImage: androidx.compose.ui.graphics.ImageBitmap,
+) {
     val textColor = Color.Black.rc
-    
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center
-    ) {
+
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         // Background Image (Rounded Rectangle)
         RemoteImage(
             remoteBitmap = bgImage.rb,
             contentDescription = null,
             modifier = RemoteModifier.fillMaxSize(),
-            contentScale = ContentScale.FillBounds
+            contentScale = ContentScale.FillBounds,
         )
-        
+
         RemoteRow(
             modifier = RemoteModifier.fillMaxSize(),
-            verticalAlignment = RemoteAlignment.CenterVertically
+            verticalAlignment = RemoteAlignment.CenterVertically,
         ) {
             // Thick Red Vertical Bar
             RemoteBox(
-                modifier = RemoteModifier
-                    .width(16.rdp)
-                    .fillMaxSize()
-                    .background(Color(0xFFE53935).rc) // Red
+                modifier =
+                    RemoteModifier.width(16.rdp)
+                        .fillMaxSize()
+                        .background(Color(0xFFE53935).rc) // Red
             )
-            
+
             RemoteColumn(
                 modifier = RemoteModifier.padding(start = 32.rdp, top = 16.rdp),
-                horizontalAlignment = RemoteAlignment.Start
+                horizontalAlignment = RemoteAlignment.Start,
             ) {
                 // Location
                 RemoteText(
@@ -120,42 +118,42 @@ fun BauhausContent(temp: String, condition: String, location: String, bgImage: a
                     color = textColor,
                     fontSize = 12.rsp,
                     fontWeight = FontWeight.Bold,
-                    modifier = RemoteModifier.padding(bottom = 2.rdp)
+                    modifier = RemoteModifier.padding(bottom = 2.rdp),
                 )
-                
+
                 // Large Temperature
                 RemoteText(
                     text = temp.rs,
                     color = textColor,
                     fontSize = 64.rsp,
                     fontWeight = FontWeight.Bold,
-                    modifier = RemoteModifier.padding(bottom = 4.rdp)
+                    modifier = RemoteModifier.padding(bottom = 4.rdp),
                 )
-                
+
                 // Yellow Horizontal Bar
                 RemoteBox(
-                    modifier = RemoteModifier
-                        .width(60.rdp)
-                        .height(8.rdp)
-                        .background(Color(0xFFFDD835).rc) // Yellow
+                    modifier =
+                        RemoteModifier.width(60.rdp)
+                            .height(8.rdp)
+                            .background(Color(0xFFFDD835).rc) // Yellow
                 )
-                
+
                 // Condition Text
                 RemoteText(
                     text = condition.uppercase().rs,
                     color = textColor,
                     fontSize = 16.rsp,
                     fontWeight = FontWeight.Bold,
-                    modifier = RemoteModifier.padding(top = 8.rdp)
+                    modifier = RemoteModifier.padding(top = 8.rdp),
                 )
-                
+
                 // Blue Square for balance
                 RemoteBox(
-                    modifier = RemoteModifier
-                        .padding(top = 16.rdp)
-                        .width(24.rdp)
-                        .height(24.rdp)
-                        .background(Color(0xFF1E88E5).rc) // Blue
+                    modifier =
+                        RemoteModifier.padding(top = 16.rdp)
+                            .width(24.rdp)
+                            .height(24.rdp)
+                            .background(Color(0xFF1E88E5).rc) // Blue
                 )
             }
         }
@@ -168,7 +166,7 @@ fun BauhausWidgetNoFramePreview() = WidgetPreview {
     val context = LocalContext.current
     val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.bauhaus_bg)
     val imageBitmap = bitmap?.asImageBitmap() ?: androidx.compose.ui.graphics.ImageBitmap(1, 1)
-    
+
     BauhausContent(temp = "72", condition = "Sunny", location = "London", bgImage = imageBitmap)
 }
 
@@ -178,7 +176,7 @@ fun BauhausWidgetSmallFramePreview() = WidgetPreview {
     val context = LocalContext.current
     val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.bauhaus_bg)
     val imageBitmap = bitmap?.asImageBitmap() ?: androidx.compose.ui.graphics.ImageBitmap(1, 1)
-    
+
     BauhausContent(temp = "72", condition = "Sunny", location = "London", bgImage = imageBitmap)
 }
 
@@ -188,6 +186,6 @@ fun BauhausWidgetLargeFramePreview() = WidgetPreview {
     val context = LocalContext.current
     val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.bauhaus_bg)
     val imageBitmap = bitmap?.asImageBitmap() ?: androidx.compose.ui.graphics.ImageBitmap(1, 1)
-    
+
     BauhausContent(temp = "72", condition = "Sunny", location = "London", bgImage = imageBitmap)
 }
