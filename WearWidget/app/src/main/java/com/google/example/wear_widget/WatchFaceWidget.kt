@@ -19,12 +19,15 @@ package com.google.example.wear_widget
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.BitmapFactory
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.layout.RemoteRow
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.layout.RemoteText
+import androidx.compose.remote.creation.compose.layout.RemoteArrangement
+import androidx.compose.remote.creation.compose.layout.RemoteImage
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
@@ -38,9 +41,13 @@ import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.remote.creation.compose.state.rsp
 import androidx.compose.remote.creation.compose.state.rdp
+import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.tooling.preview.RemotePreview
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.glance.wear.GlanceWearWidget
@@ -50,7 +57,9 @@ import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.color
 import androidx.glance.wear.core.WearWidgetParams
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
+import ee.schimke.composeai.preview.WearWidgetPreview
 
 class WatchFaceWidgetService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = WatchFaceWidget()
@@ -61,34 +70,35 @@ class WatchFaceWidget : GlanceWearWidget() {
         context: Context,
         params: WearWidgetParams,
     ): WearWidgetData {
-        // Solid color fallback for document background
-        val bgColor = Color(0xFF0D47A1) 
+        val bgColor = Color(0xFF0D47A1) // Fallback
         val brush = WearWidgetBrush.color(bgColor.rc)
+        
+        val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.watchface_bg)
+        val imageBitmap = bitmap.asImageBitmap()
+        
         return WearWidgetDocument(background = brush) {
-            WatchFaceContent()
+            WatchFaceContent(imageBitmap)
         }
     }
 }
 
 @RemoteComposable
 @Composable
-fun WatchFaceContent() {
+fun WatchFaceContent(bgImage: androidx.compose.ui.graphics.ImageBitmap) {
     val textColor = Color.White.rc
     
-    // Radial gradient colors
-    val centerColor = Color(0xFF1E88E5) // Lighter blue
-    val edgeColor = Color(0xFF0D47A1)   // Darker blue
-    
     RemoteBox(
-        modifier = RemoteModifier
-            .fillMaxSize()
-            .background(
-                RemoteBrush.radialGradient(
-                    colors = listOf(centerColor.rc, edgeColor.rc)
-                )
-            ),
+        modifier = RemoteModifier.fillMaxSize(),
         contentAlignment = RemoteAlignment.Center
     ) {
+        // Background Image (Rounded Radial Gradient)
+        RemoteImage(
+            remoteBitmap = bgImage.rb,
+            contentDescription = null,
+            modifier = RemoteModifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds
+        )
+        
         RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally) {
             RemoteText(
                 text = "Sat 01".rs,
@@ -154,8 +164,32 @@ fun WatchFaceContent() {
     }
 }
 
-@WearPreviewDevices
+@Preview(device = "id:wearos_large_round")
 @Composable
-fun WatchFaceContentPreview() = RemotePreview {
-    WatchFaceContent()
+fun WatchFaceWidgetNoFramePreview() = WidgetPreview {
+    val context = LocalContext.current
+    val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.watchface_bg)
+    val imageBitmap = bitmap?.asImageBitmap() ?: androidx.compose.ui.graphics.ImageBitmap(1, 1)
+    
+    WatchFaceContent(imageBitmap)
+}
+
+@WearWidgetPreview(frame = "small", title = "WatchFace Widget", icon = "⌚")
+@Composable
+fun WatchFaceWidgetSmallFramePreview() = WidgetPreview {
+    val context = LocalContext.current
+    val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.watchface_bg)
+    val imageBitmap = bitmap?.asImageBitmap() ?: androidx.compose.ui.graphics.ImageBitmap(1, 1)
+    
+    WatchFaceContent(imageBitmap)
+}
+
+@WearWidgetPreview(frame = "large", title = "WatchFace Widget", icon = "⌚")
+@Composable
+fun WatchFaceWidgetLargeFramePreview() = WidgetPreview {
+    val context = LocalContext.current
+    val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.watchface_bg)
+    val imageBitmap = bitmap?.asImageBitmap() ?: androidx.compose.ui.graphics.ImageBitmap(1, 1)
+    
+    WatchFaceContent(imageBitmap)
 }

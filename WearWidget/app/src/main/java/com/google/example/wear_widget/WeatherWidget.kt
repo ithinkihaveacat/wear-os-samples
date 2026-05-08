@@ -43,7 +43,9 @@ import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.color
 import androidx.glance.wear.core.WearWidgetParams
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
+import ee.schimke.composeai.preview.WearWidgetPreview
 
 private val ColorSunny = Color(0xFF2196F3)
 private val ColorCloudy = Color(0xFF9E9E9E)
@@ -101,9 +103,31 @@ fun WeatherContent(weatherText: String, location: String, textColor: RemoteColor
     }
 }
 
-@WearPreviewDevices
+@Preview(device = "id:wearos_large_round")
 @Composable
-fun WeatherContentPreview() = RemotePreview {
+fun WeatherNoFramePreview() = WidgetPreview {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(ColorSunny.rc),
+        contentAlignment = RemoteAlignment.Center,
+    ) {
+        WeatherContent(weatherText = "72° ☀️", location = "London", textColor = Color.White.rc)
+    }
+}
+
+@WearWidgetPreview(frame = "small", title = "Weather Widget", icon = "⛅")
+@Composable
+fun WeatherSmallFramePreview() = WidgetPreview {
+    RemoteBox(
+        modifier = RemoteModifier.fillMaxSize().background(ColorSunny.rc),
+        contentAlignment = RemoteAlignment.Center,
+    ) {
+        WeatherContent(weatherText = "72° ☀️", location = "London", textColor = Color.White.rc)
+    }
+}
+
+@WearWidgetPreview(frame = "large", title = "Weather Widget", icon = "⛅")
+@Composable
+fun WeatherLargeFramePreview() = WidgetPreview {
     RemoteBox(
         modifier = RemoteModifier.fillMaxSize().background(ColorSunny.rc),
         contentAlignment = RemoteAlignment.Center,

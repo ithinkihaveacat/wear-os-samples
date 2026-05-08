@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.roborazzi)
     // alias(libs.plugins.dependency.analysis)
-    id("ee.schimke.composeai.preview") version "0.9.3"
+    id("ee.schimke.composeai.preview") version "0.10.4-SNAPSHOT"
 }
 
 kotlin {
@@ -65,6 +65,8 @@ dependencies {
 
     // Java 8+ API desugaring
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+
+    implementation("ee.schimke.composeai:preview-annotations:0.10.4-SNAPSHOT")
 
     // Remote Compose Dependencies
     implementation(libs.remote.creation.compose)

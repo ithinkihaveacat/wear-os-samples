@@ -41,6 +41,8 @@ import androidx.compose.remote.tooling.preview.RemotePreview
 import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import ee.schimke.composeai.preview.WearWidgetPreview
 import androidx.compose.ui.text.font.FontWeight
 import android.graphics.BitmapFactory
 import androidx.compose.ui.graphics.asImageBitmap
@@ -61,7 +63,7 @@ class ArtDecoWidgetService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = ArtDecoWidget()
 }
 
-// Dummy comment to force re-render
+// Force re-render 2
 class ArtDecoWidget : GlanceWearWidget() {
     override suspend fun provideWidgetData(
         context: Context,
@@ -164,19 +166,34 @@ fun ArtDecoContent(bgImage: androidx.compose.ui.graphics.ImageBitmap) {
     }
 }
 
-@WearPreviewDevices
+@Preview(device = "id:wearos_large_round")
 @Composable
-fun ArtDecoWidgetContentPreview() = RemotePreview {
+fun ArtDecoWidgetNoFramePreview() = WidgetPreview {
     val context = LocalContext.current
     val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.art_deco_bg)
     val imageBitmap = bitmap?.asImageBitmap() ?: androidx.compose.ui.graphics.ImageBitmap(1, 1)
     
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize().background(Color(0xFF1A237E).rc),
-        contentAlignment = RemoteAlignment.Center
-    ) {
-        ArtDecoContent(imageBitmap)
-    }
+    ArtDecoContent(imageBitmap)
+}
+
+@WearWidgetPreview(frame = "small", title = "Fitness Widget", icon = "💪")
+@Composable
+fun ArtDecoWidgetSmallFramePreview() = WidgetPreview {
+    val context = LocalContext.current
+    val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.art_deco_bg)
+    val imageBitmap = bitmap?.asImageBitmap() ?: androidx.compose.ui.graphics.ImageBitmap(1, 1)
+    
+    ArtDecoContent(imageBitmap)
+}
+
+@WearWidgetPreview(frame = "large", title = "Fitness Widget", icon = "💪")
+@Composable
+fun ArtDecoWidgetLargeFramePreview() = WidgetPreview {
+    val context = LocalContext.current
+    val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.art_deco_bg)
+    val imageBitmap = bitmap?.asImageBitmap() ?: androidx.compose.ui.graphics.ImageBitmap(1, 1)
+    
+    ArtDecoContent(imageBitmap)
 }
 
 

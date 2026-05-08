@@ -37,9 +37,11 @@ import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.color
 import androidx.glance.wear.core.WearWidgetParams
 import androidx.wear.compose.material3.ColorScheme
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.remote.material3.RemoteColorScheme
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
+import ee.schimke.composeai.preview.WearWidgetPreview
 
 // Suppressed file-level RestrictedApi because Remote Compose APIs are currently restricted to
 // LIBRARY_GROUP.
@@ -74,9 +76,25 @@ fun HelloWidgetContent(colorScheme: RemoteColorScheme, text: String) {
     }
 }
 
-@WearPreviewDevices
+@Preview(device = "id:wearos_large_round")
 @Composable
-fun HelloWidgetContentPreview() = WidgetPreview {
+fun HelloWidgetNoFramePreview() = WidgetPreview {
+    val localColorScheme = ColorScheme()
+    val remoteColorScheme = RemoteColorScheme(localColorScheme)
+    HelloWidgetContent(remoteColorScheme, "Hello, World!")
+}
+
+@WearWidgetPreview(frame = "small", title = "Hello Widget", icon = "👋")
+@Composable
+fun HelloWidgetSmallFramePreview() = WidgetPreview {
+    val localColorScheme = ColorScheme()
+    val remoteColorScheme = RemoteColorScheme(localColorScheme)
+    HelloWidgetContent(remoteColorScheme, "Hello, World!")
+}
+
+@WearWidgetPreview(frame = "large", title = "Hello Widget", icon = "👋")
+@Composable
+fun HelloWidgetLargeFramePreview() = WidgetPreview {
     val localColorScheme = ColorScheme()
     val remoteColorScheme = RemoteColorScheme(localColorScheme)
     HelloWidgetContent(remoteColorScheme, "Hello, World!")

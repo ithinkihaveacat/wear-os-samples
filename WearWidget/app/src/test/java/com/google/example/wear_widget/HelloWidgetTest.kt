@@ -36,7 +36,7 @@ class HelloWidgetTest {
     @OptIn(ExperimentalRoborazziApi::class)
     @Test
     fun testHelloWidgetPreview() {
-        composeRule.setContent { HelloWidgetContentPreview() }
+        composeRule.setContent { HelloWidgetNoFramePreview() }
         captureScreenRoboImage("src/test/screenshots/HelloWidgetPreview.png")
     }
 }
