@@ -53,7 +53,6 @@ import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.color
 import androidx.glance.wear.core.WearWidgetParams
-import ee.schimke.composeai.preview.WearWidgetPreview
 
 class WatchFaceWidgetService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = WatchFaceWidget()
@@ -161,7 +160,7 @@ fun WatchFaceWidgetNoFramePreview() = WidgetPreview {
     WatchFaceContent(imageBitmap)
 }
 
-@WearWidgetPreview(frame = "small", title = "WatchFace Widget", icon = "⌚")
+@Preview(group = "WearWidget", name = "WatchFace Widget", heightDp = 70)
 @Composable
 fun WatchFaceWidgetSmallFramePreview() = WidgetPreview {
     val context = LocalContext.current
@@ -171,7 +170,7 @@ fun WatchFaceWidgetSmallFramePreview() = WidgetPreview {
     WatchFaceContent(imageBitmap)
 }
 
-@WearWidgetPreview(frame = "large", title = "WatchFace Widget", icon = "⌚")
+@Preview(group = "WearWidget", name = "WatchFace Widget", heightDp = 100)
 @Composable
 fun WatchFaceWidgetLargeFramePreview() = WidgetPreview {
     val context = LocalContext.current

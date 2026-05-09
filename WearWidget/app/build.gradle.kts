@@ -67,6 +67,7 @@ dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     implementation("ee.schimke.composeai:preview-annotations:0.10.4-SNAPSHOT")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
 
     // Remote Compose Dependencies
     implementation(libs.remote.creation.compose)

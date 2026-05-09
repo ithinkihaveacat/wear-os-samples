@@ -43,7 +43,6 @@ import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.color
 import androidx.glance.wear.core.WearWidgetParams
-import ee.schimke.composeai.preview.WearWidgetPreview
 
 private val ColorSunny = Color(0xFF2196F3)
 private val ColorCloudy = Color(0xFF9E9E9E)
@@ -112,7 +111,7 @@ fun WeatherNoFramePreview() = WidgetPreview {
     }
 }
 
-@WearWidgetPreview(frame = "small", title = "Weather Widget", icon = "⛅")
+@Preview(group = "WearWidget", name = "Weather Widget", heightDp = 70)
 @Composable
 fun WeatherSmallFramePreview() = WidgetPreview {
     RemoteBox(
@@ -123,7 +122,7 @@ fun WeatherSmallFramePreview() = WidgetPreview {
     }
 }
 
-@WearWidgetPreview(frame = "large", title = "Weather Widget", icon = "⛅")
+@Preview(group = "WearWidget", name = "Weather Widget", heightDp = 100)
 @Composable
 fun WeatherLargeFramePreview() = WidgetPreview {
     RemoteBox(

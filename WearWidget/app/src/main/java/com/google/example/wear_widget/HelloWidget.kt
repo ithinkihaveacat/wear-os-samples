@@ -40,7 +40,6 @@ import androidx.glance.wear.core.WearWidgetParams
 import androidx.wear.compose.material3.ColorScheme
 import androidx.wear.compose.remote.material3.RemoteColorScheme
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
-import ee.schimke.composeai.preview.WearWidgetPreview
 
 // Suppressed file-level RestrictedApi because Remote Compose APIs are currently restricted to
 // LIBRARY_GROUP.
@@ -83,7 +82,7 @@ fun HelloWidgetNoFramePreview() = WidgetPreview {
     HelloWidgetContent(remoteColorScheme, "Hello, World!")
 }
 
-@WearWidgetPreview(frame = "small", title = "Hello Widget", icon = "👋")
+@Preview(group = "WearWidget", name = "Hello Widget", heightDp = 70)
 @Composable
 fun HelloWidgetSmallFramePreview() = WidgetPreview {
     val localColorScheme = ColorScheme()
@@ -91,7 +90,7 @@ fun HelloWidgetSmallFramePreview() = WidgetPreview {
     HelloWidgetContent(remoteColorScheme, "Hello, World!")
 }
 
-@WearWidgetPreview(frame = "large", title = "Hello Widget", icon = "👋")
+@Preview(group = "WearWidget", name = "Hello Widget", heightDp = 100)
 @Composable
 fun HelloWidgetLargeFramePreview() = WidgetPreview {
     val localColorScheme = ColorScheme()

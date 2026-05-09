@@ -52,7 +52,6 @@ import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.color
 import androidx.glance.wear.core.WearWidgetParams
-import ee.schimke.composeai.preview.WearWidgetPreview
 
 class BauhausWidgetService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = BauhausWidget()
@@ -170,7 +169,7 @@ fun BauhausWidgetNoFramePreview() = WidgetPreview {
     BauhausContent(temp = "72", condition = "Sunny", location = "London", bgImage = imageBitmap)
 }
 
-@WearWidgetPreview(frame = "small", title = "Bauhaus Weather", icon = "☀️")
+@Preview(group = "WearWidget", name = "Bauhaus Weather", heightDp = 70)
 @Composable
 fun BauhausWidgetSmallFramePreview() = WidgetPreview {
     val context = LocalContext.current
@@ -180,7 +179,7 @@ fun BauhausWidgetSmallFramePreview() = WidgetPreview {
     BauhausContent(temp = "72", condition = "Sunny", location = "London", bgImage = imageBitmap)
 }
 
-@WearWidgetPreview(frame = "large", title = "Bauhaus Weather", icon = "☀️")
+@Preview(group = "WearWidget", name = "Bauhaus Weather", heightDp = 100)
 @Composable
 fun BauhausWidgetLargeFramePreview() = WidgetPreview {
     val context = LocalContext.current

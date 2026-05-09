@@ -53,7 +53,6 @@ import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.color
 import androidx.glance.wear.core.WearWidgetParams
-import ee.schimke.composeai.preview.WearWidgetPreview
 
 class ArtDecoWidgetService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = ArtDecoWidget()
@@ -173,7 +172,7 @@ fun ArtDecoWidgetNoFramePreview() = WidgetPreview {
     ArtDecoContent(imageBitmap)
 }
 
-@WearWidgetPreview(frame = "small", title = "Fitness Widget", icon = "💪")
+@Preview(group = "WearWidget", name = "Fitness Widget", heightDp = 70)
 @Composable
 fun ArtDecoWidgetSmallFramePreview() = WidgetPreview {
     val context = LocalContext.current
@@ -183,7 +182,7 @@ fun ArtDecoWidgetSmallFramePreview() = WidgetPreview {
     ArtDecoContent(imageBitmap)
 }
 
-@WearWidgetPreview(frame = "large", title = "Fitness Widget", icon = "💪")
+@Preview(group = "WearWidget", name = "Fitness Widget", heightDp = 100)
 @Composable
 fun ArtDecoWidgetLargeFramePreview() = WidgetPreview {
     val context = LocalContext.current

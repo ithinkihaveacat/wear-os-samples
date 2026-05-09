@@ -18,3 +18,5 @@ local.properties
 app/project.info
 app/build/preview/
 .kotlin/errors/
+.jetskicli
+app/.compose-preview-history
