@@ -5,8 +5,8 @@ libraries (specifically `androidx.compose.remote` and related packages).
 
 ## Documentation
 
-- [Getting Started](docs/GETTING-STARTED.md): Detailed guide on building Wear
-  Widgets.
+- [Supplemental Guide](docs/SUPPLEMENTAL-GUIDE.md): Detailed guide on building
+  Wear Widgets.
 
 ## Available Skills
 
@@ -40,7 +40,7 @@ must have a compatible version of the `protolayout` renderer installed.
    _If your version matches or is higher, you can skip the rest of this section
    and proceed to **2. Build and Install the App**._
 
-2. **Check Device Architecture:**
+1. **Check Device Architecture:**
 
    ```bash
    adb shell getprop ro.product.cpu.abi
@@ -49,7 +49,7 @@ must have a compatible version of the `protolayout` renderer installed.
    _(e.g., `arm64-v8a` for most physical devices/Mac emulators, `x86_64` for
    Intel/AMD emulators)_
 
-3. **Check Build Type:**
+1. **Check Build Type:**
 
    ```bash
    adb shell getprop ro.build.type
@@ -57,7 +57,7 @@ must have a compatible version of the `protolayout` renderer installed.
 
    _(Returns `releasekey` for user builds or `testkey` for userdebug builds)_
 
-4. **Install the Renderer:** Locate the correct APK in the `renderer/` directory
+1. **Install the Renderer:** Locate the correct APK in the `renderer/` directory
    (or provided path) matching your ABI and build type.
 
    ```bash
@@ -65,7 +65,7 @@ must have a compatible version of the `protolayout` renderer installed.
    adb install -g -t -r renderer/renderer_..._arm64-v8a_releasekey_...apk
    ```
 
-5. **Restart System UI:**
+1. **Restart System UI:**
 
    ```bash
    adb shell am force-stop com.google.android.wearable.sysui
@@ -154,9 +154,10 @@ previews is to use the `compose-preview` CLI tool.
    curl -fsSL https://raw.githubusercontent.com/yschimke/compose-ai-tools/main/scripts/install.sh | bash
    ```
 
-2. Run `compose-preview render --filter YourPreviewName --output your_file.png`
+1. Run `compose-preview render --filter YourPreviewName --output your_file.png`
    to render a specific preview.
-3. Run `compose-preview show` to render and inspect all previews.
+
+1. Run `compose-preview show` to render and inspect all previews.
 
 Note: You may need to `unset ANDROID_JAR` on some Linux environments to avoid
 classpath conflicts.
@@ -166,17 +167,17 @@ offline environment, Robolectric may fail to download the required Android SDK
 jar (e.g., for API 35). To identify which file is missing:
 
 1. Run `compose-preview show` with `--verbose`.
-2. Check the error output for a message like:
+1. Check the error output for a message like:
    `java.lang.IllegalArgumentException: Path is not a file: .../android-all-instrumented-15-robolectric-13954326-i7.jar`.
-3. The path indicates the EXACT filename needed.
+1. The path indicates the EXACT filename needed.
 
 To resolve it:
 
 1. Manually download the requested `android-all` (or `android-all-instrumented`)
    JAR file from Maven Central (Group: `org.robolectric`, Artifact:
    `android-all`).
-2. Place it in the project root or a directory of your choice.
-3. Set the system property `robolectric.dependency.dir` (e.g. in
+1. Place it in the project root or a directory of your choice.
+1. Set the system property `robolectric.dependency.dir` (e.g. in
    `gradle.properties` or via CLI `-Drobolectric.dependency.dir=...`) to point
    to that directory.
 
@@ -201,4 +202,4 @@ rapidly:
    adb shell am force-stop com.google.example.wear_widget
    ```
 
-2. Re-add the tile.
+1. Re-add the tile.
