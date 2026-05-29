@@ -36,9 +36,7 @@ import com.google.example.wear_widget.PreviewWearLarge
 import com.google.example.wear_widget.R
 import com.google.example.wear_widget.WidgetPreview
 
-/**
- * A sample that displays a centered image, copied from HelloWidget layout.
- */
+/** A sample that displays a centered image, copied from HelloWidget layout. */
 @RemoteComposable
 @Composable
 fun ImageSample1() {

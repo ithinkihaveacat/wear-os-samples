@@ -18,7 +18,6 @@
 package com.google.example.wear_widget
 
 import android.content.BroadcastReceiver
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -51,7 +50,10 @@ class WidgetCatalogReceiver : BroadcastReceiver() {
                             widget.triggerUpdate(context.applicationContext, handle.instanceId)
                         }
 
-                        Log.d("WidgetCatalogRcvr", "Update triggered for ${activeWidgets.size} active widgets.")
+                        Log.d(
+                            "WidgetCatalogRcvr",
+                            "Update triggered for ${activeWidgets.size} active widgets.",
+                        )
                     } catch (e: Exception) {
                         Log.e("WidgetCatalogRcvr", "Error setting widget", e)
                     } finally {

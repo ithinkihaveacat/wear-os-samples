@@ -48,15 +48,12 @@ fun LegacyWeatherSample(state: LegacyWeatherState) {
 
     val textColor = if (state.condition == "❄️") Color.Black else Color.White
 
-    RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center
-    ) {
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         // Add a manual background color since the catalog will call this composable
         // inside a container.
         RemoteColumn(
             modifier = RemoteModifier.fillMaxSize(),
-            horizontalAlignment = RemoteAlignment.CenterHorizontally
+            horizontalAlignment = RemoteAlignment.CenterHorizontally,
         ) {
             RemoteText(
                 text = "London".rs,
