@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.spotless) apply false
-    id("ee.schimke.composeai.preview") version "0.8.10" apply false
 }
 
 subprojects {
