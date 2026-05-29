@@ -1,0 +1,161 @@
+#!/usr/bin/env bash
+#
+# widget-switch - Reliably switch WidgetCatalog layouts via ADB
+#
+# Usage:
+#   widget-switch LAYOUT
+#
+# Arguments:
+#   LAYOUT         Layout name (e.g., BoxSample1, TextSample1, SystemThemeSample, etc.)
+#
+# Examples:
+#   widget-switch BoxSample1
+#
+# Notes:
+#   - Requires ANDROID_SERIAL to be set or a single device connected
+#   - Total time is fast (uses debug commands to bypass throttle)
+
+set -euo pipefail
+
+PACKAGE="com.google.example.wear_widget"
+SERVICE=".WidgetCatalogService"
+RECEIVER=".WidgetCatalogReceiver"
+COMPONENT="$PACKAGE/$SERVICE"
+
+VALID_LAYOUTS="TaskSample SemanticStyleSample CanvasSample3 SystemThemeComparisonSample SystemThemeSample CustomThemeSample AustralianThemeSample BoxSample1 BoxSample2 BoxSample3 BoxSample4 CircularProgress1 CircularProgress2 CircularProgress3 TouchGesture1 TextSample1 TextSample1WithMargin RowSample1 RowSample2 CollapsibleColumnSample1 ButtonSample1 ButtonSample2 ButtonSample3 ButtonSample4 ButtonSample6 ButtonSample7 ButtonSample8 ButtonSample9 ButtonSample10 ButtonSample11 ButtonSample12 ButtonSample13 IconSample1 GridSample1 CardSample1 CounterSample1 ImageSample1 Material3ThemeSample CanvasSample1 CanvasSample2 CanvasSample4 CanvasSample5 GradientBackgroundSample PendingIntentSample VerticalScrollSample MixedStyleSample ConditionalRadiusSample TypographyScaleSample AnchoredTextSample RotatedTextSample FullBleedImageButtonSample BitmapCanvasSample DebugClickSample BackgroundTreatmentsSample ImageTestSample LegacyWeatherSample"
+
+
+
+
+usage() {
+    cat <<EOF
+Usage: $(basename "$0") LAYOUT
+       $(basename "$0") --list
+       $(basename "$0") --all
+
+Switch WidgetCatalog layouts reliably via ADB.
+
+Arguments:
+  LAYOUT         Layout name to switch to
+
+Options:
+  --list         List available layouts
+  --all          Switch through all available layouts sequentially
+
+Examples:
+  $(basename "$0") BoxSample1      # Switch to BoxSample1
+EOF
+    exit 0
+}
+
+list_layouts() {
+    for layout in $VALID_LAYOUTS; do
+        echo "$layout"
+    done
+    exit 0
+}
+
+switch_all() {
+    for layout in $VALID_LAYOUTS; do
+        echo "------------------------------------------------------------"
+        echo "Switching to: $layout"
+        "$0" "$layout" || echo "Error: Failed to switch to $layout"
+    done
+    exit 0
+}
+
+require() { hash "$@" || exit 127; }
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+    usage
+fi
+
+if [[ "${1:-}" == "--list" ]]; then
+    list_layouts
+fi
+
+if [[ "${1:-}" == "--all" ]]; then
+    require adb
+    switch_all
+fi
+
+if [[ $# -lt 1 ]]; then
+    echo "$(basename "$0"): layout name required" >&2
+    echo "Try '$(basename "$0") --help' for usage" >&2
+    exit 1
+fi
+
+require adb
+
+# Check device availability
+if ! adb get-state >/dev/null 2>&1; then
+  if [[ -n "${ANDROID_SERIAL:-}" ]]; then
+    echo "$(basename "$0"): device '$ANDROID_SERIAL' not available" >&2
+  else
+    echo "$(basename "$0"): no device connected" >&2
+  fi
+  exit 1
+fi
+
+LAYOUT="$1"
+
+# Validate layout name
+if ! echo "$VALID_LAYOUTS" | grep -qw "$LAYOUT"; then
+    echo "$(basename "$0"): unknown layout '$LAYOUT'" >&2
+    echo "Use --list to see available layouts" >&2
+    exit 1
+fi
+
+echo "Switching to layout: $LAYOUT..."
+
+# 1. Start Logcat monitoring
+LOG_FILE=$(mktemp)
+adb logcat -s WidgetCatalogRcvr:D -v time > "$LOG_FILE" &
+LOG_PID=$!
+trap 'kill "$LOG_PID" 2>/dev/null || true; rm -f "$LOG_FILE"' EXIT
+sleep 0.5
+
+# 2. Send SET_WIDGET broadcast
+adb shell am broadcast \
+    -n "$PACKAGE/$RECEIVER" \
+    -a "$PACKAGE.SET_WIDGET" \
+    --es widget "$LAYOUT" > /dev/null
+
+# 3. Wait for "State saved" confirmation
+# We need to ensure the data store is updated before we ask for the tile
+# otherwise we might get the old layout.
+echo "Waiting for state save..."
+TIMEOUT=10
+START_TIME=$(date +%s)
+STATE_SAVED=false
+
+while true; do
+    if grep -q "State saved" "$LOG_FILE"; then
+        STATE_SAVED=true
+        break
+    fi
+    CURRENT_TIME=$(date +%s)
+    if [ $((CURRENT_TIME - START_TIME)) -ge $TIMEOUT ]; then
+        break
+    fi
+    sleep 0.1
+done
+
+if [ "$STATE_SAVED" = false ]; then
+    echo "Error: Timeout waiting for 'State saved' log." >&2
+    exit 1
+fi
+
+# 4. Refresh Tile and Wait for Visibility using adb-tile-add
+if ! hash adb-tile-add 2>/dev/null; then
+    echo "Error: 'adb-tile-add' not found in PATH." >&2
+    echo "Please ensure the adb agent skill is installed and its scripts are in your PATH." >&2
+    exit 1
+fi
+
+if adb-tile-add --wait "$COMPONENT"; then
+    echo "Success: Widget updated to '$LAYOUT'."
+else
+    echo "Error: Failed to refresh and verify tile visibility." >&2
+    exit 1
+fi

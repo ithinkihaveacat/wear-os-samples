@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.roborazzi)
+    id("ee.schimke.composeai.preview")
     // alias(libs.plugins.dependency.analysis)
 }
 
@@ -11,7 +11,9 @@ kotlin {
 
 android {
     namespace = "com.google.example.wear_widget"
-    compileSdk = 37
+    compileSdk {
+        version = release(37)
+    }
 
     defaultConfig {
         applicationId = "com.google.example.wear_widget"
@@ -52,6 +54,7 @@ android {
 }
 
 dependencies {
+
     implementation(libs.play.services.wearable)
     implementation(platform(libs.compose.bom))
     implementation(libs.ui)
@@ -83,10 +86,19 @@ dependencies {
     implementation(libs.remote.creation.core)
     implementation(libs.remote.creation)
 
-
-
+    // Tooling dependencies for previewing tiles in Android Studio.
+    implementation(libs.wear.tiles.tooling)
+    debugImplementation(libs.wear.tiles.renderer)
+    // ui-tooling is already added above via libs.ui.tooling (debugImplementation) and libs.androidx.ui.tooling
+    // debugImplementation("androidx.compose.ui:ui-tooling:1.9.4") 
+    // wear-tooling-preview is already added above via libs.wear.tooling.preview
+    // debugImplementation("androidx.wear:wear-tooling-preview:1.0.0")
+    // Tiles tooling repeated in original file, removing duplicate.
     
-
+    // The tile preview code is in the same file as the tiles themselves, so we need to make the
+    // androidx.wear.tiles:tiles-tooling-preview dependency available to release builds, not
+    // just debug builds.
+    implementation(libs.wear.tiles.tooling.preview)
     implementation(libs.activity.compose)
     implementation(libs.wear.compose.material)
     implementation(libs.wear.compose.material3)
@@ -101,11 +113,6 @@ dependencies {
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.roborazzi.rule)
     testImplementation(libs.compose.ui.test.junit4)
+    testImplementation("ee.schimke.composeai:renderer-android:0.8.10")
     debugImplementation(libs.compose.ui.test.manifest)
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    compilerOptions {
-        freeCompilerArgs.add("-opt-in=androidx.compose.remote.creation.compose.ExperimentalRemoteCreationComposeApi")
-    }
 }

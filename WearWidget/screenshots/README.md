@@ -1,0 +1,141 @@
+# Remote Widget Sample & Screenshot Requirements
+
+## Motivation and Scope
+
+The primary goal of this initiative is to establish a clear, visual mapping
+between `RemoteComposable` source code and its rendered output on Wear OS. This
+serves as a reference catalog for developers to:
+
+- Visualize available UI components.
+- Understand the effect of specific modifiers and style options.
+- Quickly identify the code required to achieve a specific visual result.
+
+The scope is limited to UI elements that can be embedded within a
+`GlanceWearWidget`'s `WearWidgetDocument`. Specifically, this concerns functions
+annotated with `@RemoteComposable`.
+
+## Code Organization
+
+### Location
+
+All sample code is located in individual files within the following directory:
+`app/src/main/java/com/google/example/wear_widget/widget/`
+
+### Structure
+
+- **Container:** The entry point for the widget is the `WidgetCatalog` class in
+  `app/src/main/java/com/google/example/wear_widget/WidgetCatalog.kt`.
+- **Integration:** The `provideWidgetData` method uses a `when` block to
+  dynamically switch between different sample functions based on a stored state.
+- **Sample Functions:** New samples should be added as top-level functions
+  within a relevant file in the `widget/` directory.
+
+## Naming Conventions
+
+- **Function Names:**
+  - Must be descriptive and numbered.
+  - Use PascalCase.
+  - Use underscores to "namespace" related groups if necessary (e.g.,
+    `Text_Style1`, `Text_Wrapping2`).
+  - **Immutability:** Existing function names should generally not be changed to
+    preserve the link with existing screenshots.
+- **Annotations:** All sample functions must be annotated with:
+
+  ```kotlin
+  @RemoteComposable
+  @Composable
+  ```
+
+## Screenshot Capture Process
+
+To generate a screenshot for a sample:
+
+1. **Deploy:** Build and install the application to the target device/emulator.
+2. **Activate & Capture:** Use the included `./widget-switch` script to display
+   and capture the screenshot. This script automates the process of updating the
+   widget state, waiting for the UI to refresh, and saving the image.
+
+   ```bash
+   ./widget-switch BoxSample1
+   ```
+
+3. **Verify:**
+   - Ensure the screenshot filename matches the function name exactly (e.g.,
+     `BoxSample1` -> `screenshots/BoxSample1.png`).
+   - **Visual Check:** **CRITICAL:** Open and visually inspect the generated
+     image file. Verify it displays the _correct_ widget content (check for
+     expected text, colors, and layout). Ensure it is not showing a loading
+     spinner, black screen, or the default watch face. **Do not assume the
+     capture was successful without looking at the image.**
+   - **Retry:** If the capture is invalid (e.g., device was asleep), wake the
+     device and retry the `./widget-switch` command.
+
+## Description Generation Process
+
+After capturing and verifying the screenshot, a descriptive text must be added
+to the source code. This description serves as "alt" text for the image,
+allowing users (and automated agents) to understand the visual output without
+viewing or downloading the image.
+
+**Important Rules for KDoc Descriptions:**
+
+- **Trigger:** These descriptions should _only_ be added or modified when
+  analyzing the **actual screenshot**.
+- **Prohibition:** Do _not_ generate or update the KDoc description when simply
+  writing or changing the code. (Comments inside the function body are
+  permitted).
+- **Obsolescence:** If you make a code change that renders the existing KDoc
+  description inaccurate, **remove the KDoc completely**. Do _not_ attempt to
+  update it based on the code change. It should only be re-added later after a
+  new screenshot is captured and analyzed.
+
+1. **Extract Description:** Use the `screenshot-describe` command-line tool to
+   generated a description from the verified screenshot.
+
+   ```bash
+   $ screenshot-describe BoxSample1.png
+   "Wear Widget" title in white at the top on a black background. A dark gray rectangle occupies the center, containing the white text "Box Sample 1".
+   ```
+
+2. **Verify Consistency:** Ensure the generated description accurately reflects
+   the image and matches the intent of the code. If the screenshot differs
+   significantly from the code (e.g., wrong color), flag it as an error and
+   resolve the discrepancy before proceeding.
+3. **Refine Description (Optional):** It is acceptable to make minor "tweaks" to
+   the generated description to ensure consistency across similar samples (e.g.,
+   ensuring consistent color naming if the tool produces slightly different
+   results for two nearly identical images).
+4. **Update Code:** Add this description as a KDoc comment (`/** ... */`)
+   immediately above the corresponding function in `WidgetCatalog.kt`.
+
+## Artifacts
+
+- **Directory:** All screenshots must be stored in the `screenshots/` directory.
+- **Filename:** `[FunctionName].png` (Case-sensitive match to the code).
+
+## Future Compatibility
+
+This structure is designed to support the future generation of an automated
+Markdown catalog. Adherence to the naming conventions (matching code function to
+image filename) is critical for this automation.
+
+## Standardization Guidelines
+
+- **Background:** Use `Color.Black` as the default background in
+  `provideWidgetData` unless the sample specifically demonstrates background
+  transparency or coloring.
+- **Device Configuration:** Ideally, use a consistent Wear OS emulator
+  configuration (e.g., standard round layout, consistent density) for all
+  captures to ensure images are comparable.
+
+## Implementation Guidelines
+
+- **API Visibility:** It is acceptable to more or less ignore visibility
+  warnings and annotations for now. Use methods that seem like they should be
+  part of the public API (e.g., convenience extension functions).
+- **Restricted APIs:** Use constructions like
+  `@file:SuppressLint("RestrictedApi")` to make the code available and
+  compilable. If various elements are protected by
+  `@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)`, feel free to ignore and
+  suppress the warning if it seems like a method that should be part of the
+  public API.

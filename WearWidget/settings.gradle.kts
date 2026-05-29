@@ -14,7 +14,13 @@ pluginManagement {
 //        }
         gradlePluginPortal()
     }
-
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "ee.schimke.composeai.preview") {
+                useModule("ee.schimke.composeai:compose-preview-plugin:${requested.version}")
+            }
+        }
+    }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
