@@ -34,11 +34,10 @@ installed. However, partners using this guide have access to a special version
 of this renderer that includes additional developer features.
 
 To use the preview tools described in this guide (such as the standalone Widget
-Tray Viewer), you must manually sideload the appropriate renderer binary from
-the
-[EAP Shared Drive](https://drive.google.com/corp/drive/folders/1ZeiNFCQq4WVZJXyGzNsYfbNx5Mih7arZ).
+Tray Viewer), you must verify your installed version and, if necessary, manually
+sideload the appropriate renderer binary from the [REDACTED].
 
-To check what version you have installed, use the following command:
+To check what version you have installed, run the following command:
 
 ```shell
 adb shell dumpsys package com.google.android.wearable.protolayout.renderer | \
@@ -46,11 +45,8 @@ adb shell dumpsys package com.google.android.wearable.protolayout.renderer | \
   awk -F= '{print $2}'
 ```
 
-If you don't have a compatible version installed, you must manually sideload the
-appropriate renderer binary from [REDACTED].
-
-(If you do not have access to the shared Drive, please email your Google contact
-and provide the email addresses of the users who will be accessing the folder.)
+If you do not have access to the shared Drive, please email your Google contact
+and provide the email addresses of the users who require access.
 
 To install the renderer:
 
@@ -104,8 +100,7 @@ While production `SMALL` and `LARGE` widgets use OS-level integration, partners
 can preview these layouts using the standalone widget viewer. This tool provides
 a vertically scrolling list for devices without OS-level carousel support, and
 is a special feature exclusive to the shared internal renderer binary provided
-in the
-[EAP Shared Drive](https://drive.google.com/corp/drive/folders/1ZeiNFCQq4WVZJXyGzNsYfbNx5Mih7arZ).
+in the [REDACTED].
 
 ##### Standalone Renderer (Internal Tool) {#standalone-renderer-internal-tool}
 
@@ -261,14 +256,28 @@ to push new data from your application (e.g., from a background worker or after
 a network response). You can request a widget refresh using the `triggerUpdate`
 method on your `GlanceWearWidget` implementation.
 
+In newer EAP releases, you must use `GlanceWearWidgetManager` to retrieve active
+widget instances and update them via their unique `WidgetInstanceId`:
+
 ```kotlin
 // In an Activity, Worker, or other app component
-val componentName = ComponentName(context, HelloWidgetService::class.java)
-HelloWidget().triggerUpdate(context, componentName)
+val manager = GlanceWearWidgetManager(context)
+val widget = MyWidget()
+val activeWidgets = manager.fetchActiveWidgets(widget::class)
+activeWidgets.forEach { handle ->
+    widget.triggerUpdate(context, handle.instanceId)
+}
 ```
 
 Calling this will cause the system to re-bind to your `GlanceWearWidgetService`
 and call `provideWidgetData` again to fetch the latest UI.
+
+> [!NOTE] **Production Reference:** For a complete, type-safe implementation of
+> state-driven updates (observing Preferences DataStore and triggering updates
+> dynamically), see
+> [WeatherActivity.kt](../app/src/main/java/com/google/example/wear_widget/WeatherActivity.kt)
+> and
+> [WeatherUpdateReceiver.kt](../app/src/main/java/com/google/example/wear_widget/WeatherUpdateReceiver.kt).
 
 ### Understanding Remote Dimensions (`RemoteDp`)
 
