@@ -124,6 +124,7 @@ class MockWeatherWidget(private val temp: Int, private val condition: WeatherCon
     }
 }
 
+/*
 @Preview
 @Composable
 fun WeatherWidgetPreview(
@@ -134,3 +135,4 @@ fun WeatherWidgetPreview(
         params,
         title = "Weather Widget",
     )
+*/

@@ -70,6 +70,8 @@ dependencies {
     implementation(libs.remote.material3)
     implementation(libs.remote.core)
 
+
+
     implementation(libs.wear.core)
     implementation(libs.wear)
 

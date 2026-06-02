@@ -20,6 +20,7 @@ package com.google.example.wear_widget
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
+import androidx.compose.remote.creation.compose.action.Action
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
@@ -39,6 +40,7 @@ import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.color
 import androidx.glance.wear.core.WearWidgetParams
+import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteColorScheme
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 
@@ -69,17 +71,20 @@ fun HelloWidgetContent() {
             modifier = RemoteModifier.fillMaxSize(),
             contentAlignment = RemoteAlignment.Center,
         ) {
-            RemoteText(
-                text = stringResource(R.string.hello_world).rs,
-                color = RemoteMaterialTheme.colorScheme.onPrimary,
-                fontSize = 20.rsp,
-            )
+            RemoteButton(
+                onClick = Action.Empty,
+                modifier = RemoteModifier
+            ) {
+                RemoteText("Repro Button".rs)
+            }
         }
     }
 }
 
+/*
 @Preview
 @Composable
 fun HelloWidgetPreview(
     @PreviewParameter(WearWidgetParamsProviderSnapshot::class) params: WearWidgetParams
 ) = WearWidgetPreviewSnapshot(HelloWidget(), params)
+*/
