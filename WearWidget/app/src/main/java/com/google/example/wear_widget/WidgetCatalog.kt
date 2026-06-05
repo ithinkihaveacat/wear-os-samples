@@ -25,6 +25,7 @@ import androidx.glance.wear.WearWidgetBrush
 import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.color
+import androidx.glance.wear.verticalGradient
 import androidx.glance.wear.core.WearWidgetParams
 import androidx.wear.compose.material3.ColorScheme
 import androidx.wear.compose.remote.material3.RemoteColorScheme
@@ -46,12 +47,15 @@ class WidgetCatalog : GlanceWearWidget() {
         val localColorScheme = ColorScheme()
         val remoteColorScheme = RemoteColorScheme(localColorScheme)
 
-        val backgroundBrush =
-            if (state.layoutName == "SystemThemeSample") {
-                WearWidgetBrush.color(remoteColorScheme.primaryContainer)
-            } else {
-                WearWidgetBrush.color(Color.DarkGray.rc)
+        val backgroundBrush = when (state.layoutName) {
+            "SystemThemeSample" -> WearWidgetBrush.color(remoteColorScheme.primaryContainer)
+            "BackgroundGradientSample" -> {
+                WearWidgetBrush.verticalGradient(
+                    colors = listOf(Color.Red.rc, Color.Blue.rc)
+                )
             }
+            else -> WearWidgetBrush.color(Color.DarkGray.rc)
+        }
 
         return WearWidgetDocument(background = backgroundBrush) {
             RemoteMaterialTheme(colorScheme = remoteColorScheme) {
@@ -112,6 +116,7 @@ class WidgetCatalog : GlanceWearWidget() {
                     "CanvasSample5" -> CanvasReferenceSample5()
                     "ImageTestSample" -> ImageTestSample(context)
                     "LegacyWeatherSample" -> LegacyWeatherSample(LegacyWeatherState(72, "☀️"))
+                    "BackgroundGradientSample" -> BackgroundGradientSample()
                     else -> SemanticStyleSample()
                 }
             }
