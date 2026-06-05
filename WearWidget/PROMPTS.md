@@ -1,4 +1,4 @@
-# Agent Task: Set up Wear OS Remote Demos Standalone App
+# Agent Task: Set up Wear OS Remote Demos Standalone App (Updated)
 
 You are an agent tasked with extracting the Wear OS integration demos from the
 AndroidX monorepo and setting them up as a standalone, buildable Android
@@ -25,69 +25,188 @@ ______________________________________________________________________
 Using the downloaded directory containing the raw Kotlin sources, transform it
 into a fully compilable and runnable Wear OS Android application project by
 generating the standard Gradle build system, Android Manifest, and necessary
-resources:
+resources.
 
-1. **Configure Gradle Settings:** Create a `settings.gradle.kts` file naming the
-   project (e.g., `rootProject.name = "wear-remote-demos"`). Under
-   `dependencyResolutionManagement.repositories`, you **must** register the
-   AndroidX Dev Snapshots repository to retrieve the latest compatible Remote
-   Compose builds:
-   ```kotlin
-   repositories {
-       google()
-       mavenCentral()
-       maven("https://androidx.dev/snapshots/latest/artifacts/repository")
-   }
-   ```
-1. **Create Build Configuration:** Create a `build.gradle.kts` file at the root.
-   Configure it as a Wear OS application (using `com.android.application` and
-   `org.jetbrains.kotlin.plugin.compose` plugins) with `compileSdk = 37` and JVM
-   toolchain version 17.
-1. **Resolve Dependencies:** To prevent runtime binary compatibility (ABI)
-   crashes, depend on the **`1.0.0-SNAPSHOT`** versions of all Remote Compose
-   and Material 3 remote libraries. Use a `resolutionStrategy` to force these
-   exact versions:
-   ```kotlin
-   dependencies {
-       implementation("androidx.wear.compose.remote:remote-material3:1.0.0-SNAPSHOT")
-       implementation("androidx.compose.remote:remote-creation-compose:1.0.0-SNAPSHOT")
-       // ... other core remote compose dependencies ...
-   }
-   configurations.all {
-       resolutionStrategy {
-           force("androidx.wear.compose.remote:remote-material3:1.0.0-SNAPSHOT")
-           force("androidx.compose.remote:remote-creation-compose:1.0.0-SNAPSHOT")
-           // ... force all other compose.remote dependencies to 1.0.0-SNAPSHOT ...
-       }
-   }
-   ```
-1. **API Casing Precaution:** Do not rename the lowercase `valueChange(...)`
-   factory calls in the samples to capitalized `ValueChange(...)`. The official
-   snapshot artifacts expose the lowercase factory signature, and changing them
-   will break compilation.
-1. **Declare Dummy Sampled Annotation:** The monorepo code references a built-in
-   AOSP documentation annotation `@Sampled`. To compile successfully without
-   internal toolchains, declare a dummy annotation
-   `src/main/java/androidx/annotation/Sampled.kt`:
-   ```kotlin
-   package androidx.annotation
-   @Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)
-   @Retention(AnnotationRetention.BINARY)
-   annotation class Sampled
-   ```
-1. **Create Manifest:** Create a standard `src/main/AndroidManifest.xml` file
-   that defines the application and registers `MainActivity` as the launchable
-   entry point.
-1. **Add Missing Resources:** Copy or generate default launcher icon XMLs and
-   check for referenced Android XML vector drawables (like
-   `gs_map_wght500rond100_vd_theme_24.xml`) under `src/main/res/drawable/` so
-   that all resource compilation links cleanly.
+### 1. Configure Gradle Settings (`settings.gradle.kts`)
 
-Verify that the resulting project compiles cleanly using standard Gradle CLI
-tools:
+Create a `settings.gradle.kts` file at the root. You **must** register the
+AndroidX Dev Snapshots repository to retrieve the latest compatible Remote
+Compose builds:
+
+```kotlin
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://androidx.dev/snapshots/latest/artifacts/repository")
+    }
+}
+rootProject.name = "wear-remote-demos"
+```
+
+### 2. Modernized Build Configuration (`build.gradle.kts`)
+
+Create a `build.gradle.kts` file at the root. Configure it as a Wear OS
+application. Note that with **AGP 9.0+**, Kotlin support is built-in. Do **NOT**
+apply the `org.jetbrains.kotlin.android` plugin explicitly. Apply the Compose
+compiler plugin (matching the bundled Kotlin version) and the Compose Preview
+plugin:
+
+```kotlin
+plugins {
+    id("com.android.application") version "9.1.0"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.2.10" // Matches AGP 9.1.0 bundled Kotlin
+    id("ee.schimke.composeai.preview") version "0.13.4"
+}
+
+android {
+    namespace = "androidx.wear.compose.remote.integration.demos"
+    compileSdk = 37 // Required by latest Compose snapshots
+
+    defaultConfig {
+        applicationId = "androidx.wear.compose.remote.integration.demos"
+        minSdk = 29
+        targetSdk = 35
+        versionCode = 1
+        versionName = "1.0"
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlin {
+        jvmToolchain(17)
+    }
+
+    buildFeatures {
+        compose = true
+    }
+}
+```
+
+### 3. Resolve Dependencies
+
+To prevent runtime binary compatibility (ABI) crashes and compile against the
+latest AOSP changes, depend on the **`1.0.0-SNAPSHOT`** versions of all Remote
+Compose and Material 3 remote libraries. Use a `resolutionStrategy` to force
+these exact versions:
+
+```kotlin
+dependencies {
+    // Remote Compose dependencies (forced to 1.0.0-SNAPSHOT)
+    implementation("androidx.compose.remote:remote-core:1.0.0-SNAPSHOT")
+    implementation("androidx.compose.remote:remote-creation:1.0.0-SNAPSHOT")
+    implementation("androidx.compose.remote:remote-creation-compose:1.0.0-SNAPSHOT")
+    implementation("androidx.compose.remote:remote-creation-core:1.0.0-SNAPSHOT")
+    implementation("androidx.compose.remote:remote-player-compose:1.0.0-SNAPSHOT")
+    implementation("androidx.compose.remote:remote-player-view:1.0.0-SNAPSHOT")
+    implementation("androidx.compose.remote:remote-player-core:1.0.0-SNAPSHOT")
+    implementation("androidx.compose.remote:remote-tooling-preview:1.0.0-SNAPSHOT")
+    
+    implementation("androidx.wear.compose.remote:remote-material3:1.0.0-SNAPSHOT")
+    implementation("androidx.wear.compose.remote:remote-material3-samples:1.0.0-SNAPSHOT")
+
+    // Core AndroidX dependencies
+    implementation("androidx.datastore:datastore-preferences:1.2.1")
+    implementation("androidx.activity:activity-compose:1.11.0")
+    
+    // Compose dependencies
+    implementation("androidx.compose.runtime:runtime:1.11.0")
+    implementation("androidx.compose.ui:ui:1.11.0")
+    implementation("androidx.compose.ui:ui-graphics:1.11.0")
+    implementation("androidx.compose.ui:ui-tooling:1.11.0")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.11.0")
+    
+    // Wear Compose dependencies
+    implementation("androidx.wear.compose:compose-foundation:1.5.5")
+    implementation("androidx.wear.compose:compose-material3:1.5.5")
+    implementation("androidx.wear.compose:compose-navigation:1.5.6")
+    implementation("androidx.wear.compose:compose-ui-tooling:1.5.5")
+    implementation("androidx.wear:wear-tooling-preview:1.0.0")
+}
+
+configurations.all {
+    resolutionStrategy {
+        force("androidx.compose.remote:remote-core:1.0.0-SNAPSHOT")
+        force("androidx.compose.remote:remote-creation:1.0.0-SNAPSHOT")
+        force("androidx.compose.remote:remote-creation-compose:1.0.0-SNAPSHOT")
+        force("androidx.compose.remote:remote-creation-core:1.0.0-SNAPSHOT")
+        force("androidx.compose.remote:remote-player-compose:1.0.0-SNAPSHOT")
+        force("androidx.compose.remote:remote-player-view:1.0.0-SNAPSHOT")
+        force("androidx.compose.remote:remote-player-core:1.0.0-SNAPSHOT")
+        force("androidx.compose.remote:remote-tooling-preview:1.0.0-SNAPSHOT")
+        
+        force("androidx.wear.compose.remote:remote-material3:1.0.0-SNAPSHOT")
+        force("androidx.wear.compose.remote:remote-material3-samples:1.0.0-SNAPSHOT")
+    }
+}
+```
+
+### 4. Integrate Missing `testutils` Locally (Critical Workaround)
+
+The required library `androidx.compose.remote:remote-player-compose-testutils`
+is **not published** to Maven (even as a snapshot). You must extract the
+required typeface resolvers from AOSP and integrate them locally:
+
+1. Download the `remote-player-compose-testutils` source from AOSP:
+   ```bash
+   curl -sSL "https://android.googlesource.com/platform/frameworks/support/+archive/refs/heads/androidx-main/compose/remote/remote-player-compose-testutils.tar.gz" | tar -xz -C temp-testutils
+   ```
+1. Copy the following files to your project under
+   `src/main/java/androidx/compose/remote/player/compose/test/utils/`:
+   - `DownloadableTypefaceResolver.kt`
+   - `FallbackCreateTypefaceResolver.kt`
+   - `RemappingTypefaceResolver.kt`
+   - `SimpleFontInstance.kt`
+1. Copy the resource file `default_gms_fonts_certs.xml` to
+   `src/main/res/values/`.
+1. **Important:** Add the following import to `DownloadableTypefaceResolver.kt`
+   so it can resolve the copied resources:
+   ```kotlin
+   import androidx.wear.compose.remote.integration.demos.R
+   ```
+1. Clean up the temporary download: `rm -rf temp-testutils`.
+
+### 5. API Casing Precaution
+
+Do not rename the lowercase `valueChange(...)` factory calls in the samples to
+capitalized `ValueChange(...)`. The official snapshot artifacts expose the
+lowercase factory signature, and changing them will break compilation.
+
+### 6. Declare Dummy Sampled Annotation
+
+The monorepo code references a built-in AOSP documentation annotation
+`@Sampled`. To compile successfully, declare a dummy annotation
+`src/main/java/androidx/annotation/Sampled.kt`:
+
+```kotlin
+package androidx.annotation
+@Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.BINARY)
+annotation class Sampled
+```
+
+### 7. Create Manifest
+
+Ensure `src/main/AndroidManifest.xml` (included in the download) registers
+`MainActivity` as the launchable entry point.
+
+### 8. Verify Build
+
+Verify that the project compiles cleanly using Gradle:
 
 ```bash
-./gradlew assembleDebug
+JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 ./gradlew assembleDebug
 ```
 
 ______________________________________________________________________
