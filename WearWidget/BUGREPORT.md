@@ -72,9 +72,8 @@ decoding by bitwise shifting signed Java bytes directly without applying the
   negative byte in Java's signed 8-bit byte model), the bitwise shift operator
   sign-extends the negative byte, padding the upper bits with `1`s (e.g., `128`
   -> `0x80` -> `0xFFFFFF80`).
-- **The Trigger:** During the subsequent bitwise OR operations to assemble the
-  32-bit pixel integer, this sign-extended `0xFF` bleeds into all other color
-  channels, corrupting the pixel color to washed-out white/gray.
+- **The Trigger:** During the subsequent bitwise OR operations to assemble the 32-bit pixel integer, this sign-extended `0xFF` bleeds into all other color channels, corrupting the pixel color to washed-out white/gray.
+- **Developer Oversight Note:** While AOSP Commit [`8bc22ae4`](https://github.com/androidx/androidx/commit/8bc22ae4fd0e1f0e58b3afe8aacaeb837dfb6733) recently addressed this exact sign-extension issue for the `TYPE_RAW8` case (by applying the `& 0xFF` mask on line 105), the adjacent `TYPE_RAW8888` block on lines 91–95 was overlooked and remains unpatched.
 
 ### Triggering Source Code Link
 
