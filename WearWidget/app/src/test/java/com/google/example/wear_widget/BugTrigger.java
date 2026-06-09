@@ -22,7 +22,7 @@ public class BugTrigger {
     /**
      * This method perfectly replicates the buggy logic found in
      * RemoteBitmapDecoder.java:66:
-     * https://source.corp.google.com/h/googleplex-android/platform/frameworks/support/+/androidx-platform-dev:compose/remote/remote-player-core/src/main/java/androidx/compose/remote/player/core/platform/RemoteBitmapDecoder.java;l=66
+     * https://github.com/androidx/androidx/blob/eb3e9d199a4c5f4ef235ddac9ff66784d667c7be/compose/remote/remote-player-core/src/main/java/androidx/compose/remote/player/core/platform/RemoteBitmapDecoder.java#L66
      * 
      * Because this is compiled as Java, the compiler has no concept of
      * Kotlin's compile-time null safety. It will compile this line directly,
