@@ -94,6 +94,8 @@ dependencies {
     implementation(libs.datastore.preferences)
 
     testImplementation(enforcedPlatform(libs.compose.bom))
+    testImplementation("androidx.compose.remote:remote-player-core:1.0.0-alpha12")
+    testImplementation("androidx.compose.remote:remote-player-compose:1.0.0-alpha12")
     testImplementation(libs.junit)
     testImplementation(libs.ext.junit)
     testImplementation(libs.robolectric)
