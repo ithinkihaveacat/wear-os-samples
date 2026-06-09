@@ -44,7 +44,7 @@ class BugReproductionTest {
      * In alpha12, the Java port in [RemoteBitmapDecoder] bitwise shifts signed bytes directly
      * without applying the 0xFF mask. When a channel value is 128 or higher (negative byte),
      * it sign-extends to 0xFFFFFFXX and bleeds 0xFF into all other color channels during the
-     * bitwise OR, permanently corrupting dark colors to white/light-gray.
+     * bitwise OR, corrupting dark colors to washed-out white/gray.
      */
     @Test
     fun testRaw8888ColorCorruptionBug() {
@@ -52,7 +52,7 @@ class BugReproductionTest {
         // Alpha = 255 (0xFF)
         // Red = 0 (0x00)
         // Green = 0 (0x00)
-        // Blue = 128 (0x80) -> This is the critical sign byte (128 is negative in signed bytes)
+        // Blue = 128 (0x80) -> Critical sign byte (128 is negative in signed bytes)
         val rawData = byteArrayOf(
             255.toByte(), // Alpha
             0.toByte(),   // Red
@@ -94,16 +94,16 @@ class BugReproductionTest {
         // idata[i] = (data[p] << 24) | (data[p + 1] << 16) | (data[p + 2] << 8) | data[p + 3];
         // Blue byte (128 -> -128) sign-extends to 0xFFFFFF80.
         // Bitwise ORing with the rest promotes the entire integer to 0xFFFFFF80 (A=255, R=255, G=255, B=128).
-        // This will bleed 255 into Red and Green, washing it out!
+        // This bleeds 255 into Red and Green, washing out the color.
         
         val expectedColor = 0xFF000080.toInt()
         
-        println("--- COLOR CORRUPTION BUG REPRODUCTION OUTPUT ---")
+        println("Raw8888 Color Decoding Result:")
         println("Decoded Pixel Color (Hex): " + Integer.toHexString(pixelColor).uppercase())
-        println("-------------------------------------------------")
+        println("------------------------------")
         
         assertEquals(
-            "Color was corrupted due to sign-extension bug!",
+            "Decoded color channel mismatched expected hex value due to sign extension.",
             expectedColor,
             pixelColor
         )
@@ -116,7 +116,7 @@ class BugReproductionTest {
      * check. If Layoutlib returned null, it safely evaluated to `true`.
      *
      * In alpha12 (Java), `!image.getConfig().equals(Config.ALPHA_8)` is invoked directly
-     * on the returned configuration. When Layoutlib returns null, it immediately throws a
+     * on the returned configuration. When Layoutlib returns null, it throws a
      * [NullPointerException] and crashes Layoutlib rendering.
      */
     @Test
@@ -128,30 +128,30 @@ class BugReproductionTest {
         val shadow = shadowOf(bitmap)
         
         // Use reflection on the plain Java Shadow class to set the private "config" field to null.
-        // This bypasses Robolectric's bytecode shadowing and successfully nullifies the config!
+        // This simulates Layoutlib's environment behavior.
         val configField = shadow.javaClass.getDeclaredField("config")
         configField.isAccessible = true
         configField.set(shadow, null)
         
         // Assert that getConfig() now returns null
-        assertNull("Bitmap config should now be null (simulating Layoutlib)", bitmap.config)
+        assertNull("Bitmap config should be null (simulating Layoutlib)", bitmap.config)
         
-        // 1. Show that the original Kotlin null-safe comparison is 100% safe
+        // 1. Show that the original Kotlin null-safe comparison is safe
         // (evaluates to true safely, without throwing an exception)
         val kotlinSafeResult = bitmap.config != Bitmap.Config.ALPHA_8
         assertTrue("Kotlin safe comparison should succeed", kotlinSafeResult)
         
-        // 2. Show that the manually ported Java line in alpha12 immediately throws an NPE!
+        // 2. Show that the manually ported Java line in alpha12 throws a NullPointerException.
         // We call BugTrigger (Java) which runs the exact buggy line:
         // !image.getConfig().equals(Bitmap.Config.ALPHA_8)
         //
         // Because the bug is present, this will throw a NullPointerException,
-        // causing this test to FAIL in the console. When the bug is fixed,
+        // causing this test to fail. When the bug is fixed,
         // this call will be safe, allowing the test to reach the sentinel assertion below.
-        println("--- NULL CONFIG NPE BUG REPRODUCTION OUTPUT ---")
-        println("Successfully simulated Layoutlib null config using Robolectric Shadows!")
+        println("Null Config NPE Decoding Result:")
+        println("Successfully simulated Layoutlib null config using Shadow reflection.")
         println("Executing buggy Java line (expecting NullPointerException)...")
-        println("------------------------------------------------")
+        println("--------------------------------")
         
         BugTrigger.isNotAlpha8(bitmap)
         
