@@ -330,6 +330,54 @@ system to reclaim memory):
   models or observers), preventing the app from wasting CPU cycles on a UI that
   is no longer visible.
 
+### Architectural Differences in Execution
+
+The detached, session-driven model introduces key operational differences in how
+state, user input, updates, and layout complexity are processed.
+
+#### State Management and Memory Lifespan
+
+- **Standard Compose:** The runtime maintains layout nodes and state objects
+  (like view models or `mutableStateOf` values) in-memory indefinitely, updating
+  them dynamically across frames.
+- **Remote Compose / Glance:** The composition runs within a transient session.
+  Once the UI document is serialized and the session unbinds, the in-memory
+  composition state is discarded. Any state that needs to survive process death
+  must be serialized outside composition (e.g., to persistent storage) and
+  re-hydrated on the next session wakeup.
+
+#### High-Frequency Updates and Host Delegation
+
+- **Standard Compose:** Supports frame-by-frame recomposition (e.g., for timers
+  or sensor plots) running directly on the main thread.
+- **Remote Compose / Glance:** High-frequency recomposition is bounded by
+  serialization and IPC transaction costs. Instead of rapid recomposition,
+  real-time calculations (such as stopwatches or progress bars) are delegated to
+  the host renderer. This is achieved using host-calculated components (like
+  `AndroidRemoteViews` wrappers around native `Chronometer`) or **Remote
+  Variables** (like `RemoteFloat` bound to system time) that interpolate frames
+  locally without waking the provider.
+
+#### Click Action Routing and Process Resilience
+
+- **Standard Compose:** Clicking a UI element executes synchronous Kotlin
+  lambdas directly inside the active application process.
+- **Remote Compose / Glance:** Clicks are registered with the OS as serializable
+  system `PendingIntent`s. If the provider app process is currently dead or the
+  IPC connection is severed, the OS intercepts the click and launches the
+  provider's entry point (broadcast receiver or service). This action bypasses
+  background exponential back-off reconnection timers to force an immediate
+  wakeup and start a new composition session.
+
+#### IPC Serialization Boundaries
+
+- **Standard Compose:** Renders layout trees locally, meaning layout depth and
+  complexity primarily affect local UI frame rendering.
+- **Remote Compose / Glance:** The entire layout tree is serialized into a
+  single binary document and sent over IPC (AIDL). Layout depth, node count, and
+  embedded binary assets (like raw bitmaps) directly increase the size of the
+  IPC payload, subjecting layout design to IPC transaction buffer limits.
+
 ### Public Code References
 
 To understand how session management and document streaming are orchestrated,
