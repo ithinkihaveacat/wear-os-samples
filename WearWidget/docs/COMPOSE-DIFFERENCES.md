@@ -280,6 +280,75 @@ supported or useful in Remote Compose.
 coroutines launched "in composition" would immediately be cancelled or have no
 lifecycle to attach to on the remote host.
 
+## Recomposition Mechanics and Session Lifecycle
+
+Unlike standard Jetpack Compose, which recomposes dynamically on the main thread
+of an active application process, Remote Compose and Jetpack Glance operate on a
+**decoupled, session-driven lifecycle**.
+
+### Background Session Model
+
+In standard Compose, the composition runtime is long-lived and continuously
+listens for state changes. In Glance, the composition runs within a short-lived
+**Session** (orchestrated in public Jetpack libraries via
+`androidx.glance.session.Session` and background `WorkManager` workers like
+`SessionWorker`):
+
+- **Waking up:** When state changes (e.g., a database or `DataStore` update) or
+  a system event occurs, a session is spun up.
+- **Executing:** Your `@Composable` tree compiles, runs once to evaluate the new
+  UI state, and serializes the result.
+- **Unbinding:** Once the update is pushed and the session becomes idle, the
+  connection is closed (typically after a short timeout) to preserve battery.
+
+### Document Streaming and IPC
+
+For Remote Compose (such as Wear OS widgets and Tiles), recomposition does not
+surgically update individual UI nodes over the wire. Instead:
+
+- Every time recomposition runs, it generates a **complete new UI document**.
+- This serialized document is streamed via an IPC channel (like AIDL) from the
+  app process to the remote host (System UI).
+- The remote host receives the document and executes the updates locally.
+
+### Handling Connection Loss and Severing
+
+Because the renderer and provider run in separate processes, the connection can
+be severed (e.g., if the provider app is updated, crashes, or is killed by the
+system to reclaim memory):
+
+- **Stale Content Fallback:** The renderer does not immediately blank the UI. It
+  keeps displaying the last successfully received document ("stale UI") to
+  ensure a seamless user experience.
+- **Exponential Retry Logic:** The system renderer schedules reconnection
+  retries in the background using an exponential back-off strategy (e.g.,
+  starting at 5 seconds and scaling up to several minutes) until the connection
+  is successfully re-established.
+- **Provider Resource Disposal:** On the provider side, when the renderer
+  unbinds or the connection is lost, the coroutine scope collecting the UI state
+  flow is cancelled. This automatically disposes of active resources (like view
+  models or observers), preventing the app from wasting CPU cycles on a UI that
+  is no longer visible.
+
+### Public Code References
+
+To understand how session management and document streaming are orchestrated,
+you can examine the following public source directories and files in the
+official [Jetpack AndroidX GitHub Mirror](https://github.com/androidx/androidx):
+
+- **[AppWidgetSession.kt](https://github.com/androidx/androidx/blob/androidx-main/glance/glance-appwidget/src/main/java/androidx/glance/appwidget/AppWidgetSession.kt):**
+  Manages the lifecycle of the Compose session for a single app widget instance,
+  handling update requests and resizing events.
+- **[SessionWorker.kt](https://github.com/androidx/androidx/blob/androidx-main/glance/glance/src/main/java/androidx/glance/session/SessionWorker.kt):**
+  The background `CoroutineWorker` that runs the Glance session, executing the
+  composition and enforcing timeouts.
+- **[remote-player-view](https://github.com/androidx/androidx/tree/androidx-main/compose/remote/remote-player-view):**
+  The client-side player module that decodes the binary drawing instructions and
+  plays them back natively on the Android canvas.
+- **[remote-creation](https://github.com/androidx/androidx/tree/androidx-main/compose/remote/remote-creation):**
+  The pure-JVM creation module used by provider hosts or servers to construct
+  and serialize Remote Compose documents.
+
 ## Temporary Limitations (Bugs or Omissions)
 
 These differences are gaps in the current API surface that may be resolved in
