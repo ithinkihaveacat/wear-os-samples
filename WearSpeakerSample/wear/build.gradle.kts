@@ -19,18 +19,19 @@ plugins {
     id("org.jetbrains.kotlin.android")
     alias(libs.plugins.roborazzi)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    compileSdk = 36
+    compileSdk = 37
 
     namespace = "com.example.android.wearable.speaker"
 
     defaultConfig {
         versionCode = 1
         versionName = "1.0"
-        minSdk = 26
-        targetSdk = 34
+        minSdk = 29
+        targetSdk = 37
     }
 
     buildTypes {
@@ -127,9 +128,10 @@ dependencies {
 
     implementation(libs.androidx.media)
 
-    // If you are using Compose Navigation, use the Wear OS version (NOT the
-    // androidx.navigation:navigation-compose version), that is, uncomment the line below.
-    implementation(libs.wear.compose.navigation)
+    implementation(libs.wear.compose.navigation3)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.androidx.ui.test.manifest)
 

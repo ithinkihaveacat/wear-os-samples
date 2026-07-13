@@ -27,7 +27,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
  * A helper class to provide methods to record audio input from the MIC to the internal storage.
  */
 class SoundRecorder(
-    context: Context,
+    private val context: Context,
     outputFileName: String
 ) {
     private val audioFile = File(context.filesDir, outputFileName)
@@ -35,7 +35,8 @@ class SoundRecorder(
     private var state = State.IDLE
 
     private enum class State {
-        IDLE, RECORDING
+        IDLE,
+        RECORDING
     }
 
     /**
@@ -51,29 +52,51 @@ class SoundRecorder(
         }
 
         suspendCancellableCoroutine<Unit> { cont ->
-            @Suppress("DEPRECATION")
-            val mediaRecorder = MediaRecorder().apply {
-                setAudioSource(MediaRecorder.AudioSource.MIC)
-                setOutputFormat(MediaRecorder.OutputFormat.OGG)
-                setAudioEncoder(MediaRecorder.AudioEncoder.OPUS)
-                setOutputFile(audioFile.path)
-                setOnInfoListener { mr, what, extra ->
-                    println("info: $mr $what $extra")
+            val mediaRecorder = if (
+                android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S
+            ) {
+                MediaRecorder(context)
+            } else {
+                @Suppress("DEPRECATION")
+                MediaRecorder()
+            }
+            var isRecording = false
+
+            try {
+                mediaRecorder.apply {
+                    setAudioSource(MediaRecorder.AudioSource.MIC)
+                    setOutputFormat(MediaRecorder.OutputFormat.OGG)
+                    setAudioEncoder(MediaRecorder.AudioEncoder.OPUS)
+                    setOutputFile(audioFile.path)
+                    setOnInfoListener { mr, what, extra ->
+                        println("info: $mr $what $extra")
+                    }
+                    setOnErrorListener { mr, what, extra ->
+                        println("error: $mr $what $extra")
+                    }
                 }
-                setOnErrorListener { mr, what, extra ->
-                    println("error: $mr $what $extra")
-                }
+                mediaRecorder.prepare()
+                mediaRecorder.start()
+                isRecording = true
+                state = State.RECORDING
+            } catch (e: Exception) {
+                mediaRecorder.release()
+                state = State.IDLE
+                throw e
             }
 
             cont.invokeOnCancellation {
-                mediaRecorder.stop()
-                state = State.IDLE
+                try {
+                    if (isRecording) {
+                        mediaRecorder.stop()
+                    }
+                } catch (e: IllegalStateException) {
+                    Log.e(TAG, "Failed to stop media recorder", e)
+                } finally {
+                    mediaRecorder.release()
+                    state = State.IDLE
+                }
             }
-
-            mediaRecorder.prepare()
-            mediaRecorder.start()
-
-            state = State.RECORDING
         }
     }
 

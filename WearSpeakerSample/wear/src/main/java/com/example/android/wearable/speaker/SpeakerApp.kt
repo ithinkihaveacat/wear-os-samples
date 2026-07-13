@@ -32,19 +32,34 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.ConfirmationDialog
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
-import androidx.wear.compose.navigation.SwipeDismissableNavHost
-import androidx.wear.compose.navigation.composable
-import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
+import androidx.wear.compose.navigation3.rememberSwipeDismissableSceneStrategy
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.audio.ui.VolumeViewModel
 import com.google.android.horologist.audio.ui.material3.VolumeScreen
 import com.google.android.horologist.compose.material.AlertContent
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
+
+@Serializable
+sealed interface AppKey : NavKey
+
+@Serializable
+data object SpeakerScreen : AppKey
+
+@Serializable
+data object PlayerScreen : AppKey
+
+@Serializable
+data object VolumeScreenKey : AppKey
 
 /**
  * The logic for the speaker sample.
@@ -63,13 +78,13 @@ fun SpeakerApp() {
 
         val volumeViewModel: VolumeViewModel = viewModel(factory = VolumeViewModel.Factory)
 
-        val navController = rememberSwipeDismissableNavController()
+        val backStack = rememberNavBackStack(SpeakerScreen)
 
         val mainState = remember(activity) {
             MainState(
                 activity = activity,
-                requestPermission = {
-                    requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                requestPermission = { permission ->
+                    requestPermissionLauncher.launch(permission)
                 }
             )
         }
@@ -98,57 +113,81 @@ fun SpeakerApp() {
                     lifecycleOwner.lifecycle.removeObserver(lifecycleObserver)
                 }
             }
-            SwipeDismissableNavHost(navController = navController, startDestination = "speaker") {
-                composable("speaker") {
-                    SpeakerRecordingScreen(
-                        playbackState = mainState.playbackState,
-                        isPermissionDenied = mainState.isPermissionDenied,
-                        recordingProgress = mainState.recordingProgress,
-                        onMicClicked = {
-                            scope.launch {
-                                mainState.onMicClicked()
-                            }
-                        },
-                        onPlayClicked = {
-                            navController.navigate("player")
-                        }
-                    )
 
-                    if (mainState.showPermissionRationale) {
-                        AlertContent(
-                            onOk = {
-                                requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
-                                mainState.showPermissionRationale = false
+            // Request Notification permission for Foreground Service on Android 13+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                val notificationPermissionLauncher = rememberLauncherForActivityResult(
+                    RequestPermission()
+                ) { /* Result not critical for recording itself */ }
+
+                androidx.compose.runtime.LaunchedEffect(Unit) {
+                    notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
+
+            val entryProvider = remember {
+                entryProvider<NavKey> {
+                    entry<SpeakerScreen> {
+                        SpeakerRecordingScreen(
+                            playbackState = mainState.playbackState,
+                            isPermissionDenied = mainState.isPermissionDenied,
+                            recordingProgress = mainState.recordingProgress,
+                            onMicClicked = {
+                                scope.launch {
+                                    mainState.onMicClicked()
+                                }
                             },
-                            onCancel = {
-                                mainState.showPermissionRationale = false
-                            },
-                            title = stringResource(
-                                id = R.string.rationale_for_microphone_permission
+                            onPlayClicked = {
+                                backStack.add(PlayerScreen)
+                            }
+                        )
+
+                        if (mainState.showPermissionRationale) {
+                            AlertContent(
+                                onOk = {
+                                    requestPermissionLauncher.launch(
+                                        Manifest.permission.RECORD_AUDIO
+                                    )
+                                    mainState.showPermissionRationale = false
+                                },
+                                onCancel = {
+                                    mainState.showPermissionRationale = false
+                                },
+                                title = stringResource(
+                                    id = R.string.rationale_for_microphone_permission
+                                )
                             )
+                        }
+
+                        ConfirmationDialog(
+                            visible = mainState.showSpeakerNotSupported,
+                            onDismissRequest = { mainState.showSpeakerNotSupported = false },
+                            curvedText = null
+                        ) {
+                            Text(text = stringResource(id = R.string.no_speaker_supported))
+                        }
+                    }
+                    entry<PlayerScreen> {
+                        SpeakerPlayerScreen(
+                            volumeViewModel = volumeViewModel,
+                            onVolumeClick = { backStack.add(VolumeScreenKey) }
                         )
                     }
-
-                    ConfirmationDialog(
-                        visible = mainState.showSpeakerNotSupported,
-                        onDismissRequest = { mainState.showSpeakerNotSupported = false },
-                        curvedText = null
-                    ) {
-                        Text(text = stringResource(id = R.string.no_speaker_supported))
-                    }
-                }
-                composable("player") {
-                    SpeakerPlayerScreen(
-                        volumeViewModel = volumeViewModel,
-                        onVolumeClick = { navController.navigate("volume") }
-                    )
-                }
-                composable("volume") {
-                    ScreenScaffold {
-                        VolumeScreen(volumeViewModel = volumeViewModel)
+                    entry<VolumeScreenKey> {
+                        ScreenScaffold {
+                            VolumeScreen(volumeViewModel = volumeViewModel)
+                        }
                     }
                 }
             }
+
+            val swipeDismissableSceneStrategy = rememberSwipeDismissableSceneStrategy<NavKey>()
+
+            NavDisplay(
+                backStack = backStack,
+                entryProvider = entryProvider,
+                sceneStrategies = listOf(swipeDismissableSceneStrategy)
+            )
         }
     }
 }
@@ -156,11 +195,10 @@ fun SpeakerApp() {
 /**
  * Find the closest Activity in a given Context.
  */
-tailrec fun Context.findActivity(): Activity =
-    when (this) {
-        is Activity -> this
-        is ContextWrapper -> baseContext.findActivity()
-        else -> throw IllegalStateException(
-            "findActivity should be called in the context of an Activity"
-        )
-    }
+tailrec fun Context.findActivity(): Activity = when (this) {
+    is Activity -> this
+    is ContextWrapper -> baseContext.findActivity()
+    else -> throw IllegalStateException(
+        "findActivity should be called in the context of an Activity"
+    )
+}
