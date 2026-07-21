@@ -117,6 +117,9 @@ class WidgetCatalog : GlanceWearWidget() {
                     "ImageTestSample" -> ImageTestSample(context)
                     "LegacyWeatherSample" -> LegacyWeatherSample(LegacyWeatherState(72, "☀️"))
                     "BackgroundGradientSample" -> BackgroundGradientSample()
+                    "WidgetButtonSample" -> WidgetButtonSample()
+                    "WidgetIconSample" -> WidgetIconSample()
+                    "WidgetTextSample" -> WidgetTextSample()
                     else -> SemanticStyleSample()
                 }
             }
