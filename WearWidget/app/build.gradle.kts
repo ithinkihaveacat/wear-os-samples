@@ -112,5 +112,7 @@ dependencies {
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.roborazzi.rule)
     testImplementation(libs.compose.ui.test.junit4)
+    testImplementation(libs.remote.testing)
+    testImplementation(libs.remote.player.core)
     debugImplementation(libs.compose.ui.test.manifest)
 }
