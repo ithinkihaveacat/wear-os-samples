@@ -54,7 +54,7 @@ class WidgetCatalog : GlanceWearWidget() {
                     colors = listOf(Color.Red.rc, Color.Blue.rc)
                 )
             }
-            else -> WearWidgetBrush.color(Color.DarkGray.rc)
+            else -> WearWidgetBrush.color(remoteColorScheme.surfaceContainer)
         }
 
         return WearWidgetDocument(background = backgroundBrush) {
