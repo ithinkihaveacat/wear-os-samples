@@ -121,6 +121,90 @@
             </intent-filter>
         </receiver>
 
+        <!--
+            Gradual rollout experiment (lucasmo@ runtime experimentation guide).
+            See rollout/Rollout.kt and README-rollout.md.
+        -->
+
+        <!-- Experiment 1 (Dual-Service): legacy Tile, BIND_TILE_PROVIDER only. -->
+        <service
+            android:name=".rollout.DualLegacyTileService"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="Rollout Dual (legacy)"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/hello_widget_fullscreen" />
+        </service>
+
+        <!-- Experiment 1 (Dual-Service): new Widget, BIND_WIDGET_PROVIDER only, shipped disabled. -->
+        <service
+            android:name=".rollout.DualWidgetService"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="Rollout Dual (widget)"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.glance.wear.action.BIND_WIDGET_PROVIDER" />
+            </intent-filter>
+            <meta-data
+                android:name="androidx.glance.wear.widget.provider"
+                android:resource="@xml/rollout_dual_widget_info" />
+        </service>
+
+        <!-- Experiment 2 (Single-Service): legacy Tile, BIND_TILE_PROVIDER only. -->
+        <service
+            android:name=".rollout.SingleLegacyTileService"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="Rollout Single (legacy)"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/hello_widget_fullscreen" />
+        </service>
+
+        <!--
+            Experiment 2 (Single-Service): Temporary Widget service handling both actions,
+            higher priority than the legacy Tile, shipped disabled. Enable ONLY on SDK 37+.
+        -->
+        <service
+            android:name=".rollout.SingleTempWidgetService"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="Rollout Single (temp widget)"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter android:priority="10">
+                <action android:name="androidx.glance.wear.action.BIND_WIDGET_PROVIDER" />
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+            <meta-data
+                android:name="androidx.glance.wear.widget.provider"
+                android:resource="@xml/rollout_single_widget_info" />
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/hello_widget_fullscreen" />
+        </service>
+
+        <!-- Debug-only toggle standing in for an experiment enrollment callback. -->
+        <receiver
+            android:name=".rollout.RolloutReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.example.wear_widget.ROLLOUT" />
+            </intent-filter>
+        </receiver>
+
+
 
     </application>
 

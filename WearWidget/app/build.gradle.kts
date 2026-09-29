@@ -93,6 +93,10 @@ dependencies {
     implementation(libs.wear.compose.foundation)
     implementation(libs.datastore.preferences)
 
+    // Legacy ProtoLayout Tile used as the baseline for the gradual rollout experiment.
+    implementation(libs.wear.tiles)
+    implementation(libs.concurrent.futures)
+
     testImplementation(enforcedPlatform(libs.compose.bom))
     testImplementation(libs.junit)
     testImplementation(libs.ext.junit)
