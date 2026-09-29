@@ -17,6 +17,13 @@
     <string name="hello_widget_description">AX Hello widget sample</string>
     <string name="force_update_description">Sample for forcing widget updates</string>
 
+    <!-- Dynamic Widget Strings -->
+    <string name="dynamic_widget_label">Dynamic Widget</string>
+    <string name="dynamic_widget_description">Layout that adapts to the space available</string>
+    <string name="dynamic_widget_header">Day progress</string>
+    <string name="dynamic_widget_summary">Enjoy your day</string>
+    <string name="dynamic_widget_action">Add task</string>
+
     <!-- Weather Widget Strings -->
     <string name="weather_format">%1$d° %2$s</string>
     <string name="weather_location_london">London</string>
