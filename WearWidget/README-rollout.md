@@ -1,7 +1,7 @@
 # Gradual widget rollout experiment
 
-This branch adds a test harness for lucasmo@'s "Widget launch - Runtime
-Experimentation Guide" (2026-08-19). The guide proposes shipping a widget
+This branch adds a test harness for a runtime experimentation approach to
+migrating from Tiles to Widgets. The approach is shipping a widget
 service disabled, then turning it on at runtime with
 `PackageManager.setComponentEnabledSetting()` for users enrolled in an
 experiment.
@@ -50,7 +50,7 @@ adb logcat -s WidgetRollout
 | ------------------------------- | -------------------------------------- | ------------------------------------------------------------ |
 | Galaxy Watch (SM-L340, Wear 7)  | Wear OS 7, widget-capable              | Dual/Single: widget replaces the Tile, existing instance kept |
 | Pixel Watch 3 / 4 (Wear 7)      | Wear OS 7, no widgets                  | Dual: legacy Tile only. Single: temp service in compat mode   |
-| `wear-api-37` emulator          | Wear OS 7, no widgets (no Essentials Tray) | Same as Pixel                                              |
+| `wear-api-37` emulator          | Wear OS 7, no widgets                      | Same as Pixel                                              |
 | `Wear_36_*` emulators           | Before Wear OS 7                       | Dual: legacy Tile only. Single: never enabled (guard)         |
 
 ## Scenarios to check on each device

@@ -122,7 +122,7 @@
         </receiver>
 
         <!--
-            Gradual rollout experiment (lucasmo@ runtime experimentation guide).
+            Gradual rollout experiment (runtime experimentation harness).
             See rollout/Rollout.kt and README-rollout.md.
         -->
 

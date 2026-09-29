@@ -54,7 +54,7 @@ import androidx.wear.tiles.TileService
 import com.google.common.util.concurrent.ListenableFuture
 
 /*
- * Test harness for the "Widget launch - Runtime Experimentation Guide" (lucasmo@, 2026-08-19).
+ * Test harness for gradually rolling out a Widget by enabling its service at runtime.
  *
  * Two independent experiments, each with its own legacy ProtoLayout Tile so they can be tested
  * side by side without interfering:
