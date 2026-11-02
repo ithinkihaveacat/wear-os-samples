@@ -59,6 +59,7 @@ import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.navigation3.rememberSwipeDismissableSceneStrategy
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
+import androidx.wear.compose.ui.tooling.preview.WearPreviewSquare
 import com.example.android.wearable.composestarter.R
 import com.example.android.wearable.composestarter.presentation.theme.AppCardDefaults
 import com.example.android.wearable.composestarter.presentation.theme.WearAppTheme
@@ -338,8 +339,7 @@ fun SampleDialog(
     )
 }
 
-@WearPreviewDevices
-@WearPreviewFontScales
+@WearPreviewSquare
 @Composable
 fun GreetingScreenPreview() {
     WearAppTheme {
@@ -349,8 +349,7 @@ fun GreetingScreenPreview() {
     }
 }
 
-@WearPreviewDevices
-@WearPreviewFontScales
+@WearPreviewSquare
 @Composable
 fun ListScreenPreview() {
     WearAppTheme {
